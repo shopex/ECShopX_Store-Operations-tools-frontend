@@ -37,20 +37,20 @@ class MAPP {
       return;
     }
 
-    const currentWebview = plus.webview.currentWebview();
-    currentWebview.addEventListener(
-      "show",
-      () => {
-        console.log("sp-mui-app addeventlistener show");
-        this.Taro.getCurrentPages()[0].componentDidShow();
-        // 合并store
-        this.Store.dispatch({
-          type: "merge",
-          payload: JSON.parse(plus.storage.getItem("SAPP_STORE"))
-        });
-      },
-      false
-    );
+    // const currentWebview = plus.webview.currentWebview();
+    // currentWebview.addEventListener(
+    //   "show",
+    //   () => {
+    //     console.log("sp-mui-app addeventlistener show");
+    //     this.Taro.getCurrentPages()[0].componentDidShow();
+    //     // 合并store
+    //     this.Store.dispatch({
+    //       type: "merge",
+    //       payload: JSON.parse(plus.storage.getItem("SAPP_STORE"))
+    //     });
+    //   },
+    //   false
+    // );
 
     const { singleWebview } = this.SAPP_CONFIG;
     if (!singleWebview) {
@@ -59,7 +59,7 @@ class MAPP {
       this.Taro.navigateBack = this._navigateBack.bind(this);
       console.log(this.Store);
       // 预加载底部tabbar页面
-      this._preLoadPage();
+      // this._preLoadPage();
     }
 
     // plus.navigator.setStatusBarStyle("light")
@@ -78,25 +78,25 @@ class MAPP {
       false
     );
 
-    // 订阅store
-    this.Store.subscribe(() => {
-      console.log(this.Store.getState());
-      console.log("store change....");
-      const _sappStore = plus.storage.getItem("SAPP_STORE");
-      const localStore = _sappStore ? JSON.parse(_sappStore) : {};
-      const appStore = this.Store.getState();
-      console.log("localStore", this._mergeJSON(appStore, localStore));
-      plus.storage.setItem(
-        "SAPP_STORE",
-        JSON.stringify(this._mergeJSON(appStore, localStore))
-      );
-    });
+    // // 订阅store
+    // this.Store.subscribe(() => {
+    //   console.log(this.Store.getState());
+    //   console.log("store change....");
+    //   const _sappStore = plus.storage.getItem("SAPP_STORE");
+    //   const localStore = _sappStore ? JSON.parse(_sappStore) : {};
+    //   const appStore = this.Store.getState();
+    //   console.log("localStore", this._mergeJSON(appStore, localStore));
+    //   plus.storage.setItem(
+    //     "SAPP_STORE",
+    //     JSON.stringify(this._mergeJSON(appStore, localStore))
+    //   );
+    // });
 
-    // 合并store
-    this.Store.dispatch({
-      type: "merge",
-      payload: JSON.parse(plus.storage.getItem("SAPP_STORE"))
-    });
+    // // 合并store
+    // this.Store.dispatch({
+    //   type: "merge",
+    //   payload: JSON.parse(plus.storage.getItem("SAPP_STORE"))
+    // });
   }
 
   _mergeJSON(minor, main) {

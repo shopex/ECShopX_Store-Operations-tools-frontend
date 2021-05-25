@@ -1,12 +1,10 @@
 import Taro from "@tarojs/taro";
 import api from "@/api";
-import { getCurrentRoute, log, isGoodsShelves } from "@/utils";
+import { getCurrentRoute, log } from "@/utils";
 
 const globalData = {};
 const TOKEN_IDENTIFIER = "auth_token";
 const TOKEN_TIMESTAMP = "refresh_token_time";
-const QW_SESSION_KEY_TIMESTAMP = "refresh_session_key_time"; //企业微信session_key过期时间
-const QW_SESSION = "qw_session"; //企微用户信息
 function remove(arr, item) {
   const idx = arr.indexOf(item);
   if (idx >= 0) {
@@ -34,28 +32,7 @@ class Spx {
 
     if (this.options.autoRefreshToken) {
       this.startRefreshToken();
-      this.refreshQwUserinfo();
     }
-  }
-  
-
-  refreshQwUserinfo() {
-    if (this._refreshSessionKeyTimer) {
-      clearTimeout(this._refreshSessionKeyTimer);
-    }
-    const checkAndRefresh = async () => {
-      const expired = this.get(QW_SESSION_KEY_TIMESTAMP, true);
-      if (!expired) return false;
-      const delta = Date.now() - expired;
-
-      if (delta > 0) {
-        await this.setQwSession();
-        clearTimeout(this._refreshSessionKeyTimer);
-      }
-    };
-    //  let time= setInterval(checkAndRefresh, 7200*1000)
-    let time = setInterval(checkAndRefresh, 7200 * 1000);
-    this._refreshSessionKeyTimer = time;
   }
 
   getAuthToken() {
@@ -155,60 +132,28 @@ class Spx {
   }
 
   async autoLogin( ctx, next ) {
-    const IS_QW_GOODS_SHELVES = isGoodsShelves()
     try {
       await this.trigger("autoLogin", ctx);
-      if ( IS_QW_GOODS_SHELVES ) {
-        await this.loginQW( ctx )
-        const  guideInfo = this.get("GUIDE_INFO", true);
-        return guideInfo;
-      } else {
-        let userInfo = await this.getUserInfo();
+      let userInfo = await this.getUserInfo();
         if (next) await next(userInfo);
         if (!userInfo) throw new Error("userInfo is empty");
         return userInfo;
-      }
     } catch (e) {
       log.debug( "[auth failed] redirect to login page: ", e );
-      if ( IS_QW_GOODS_SHELVES ) {
-        await this.loginQW( ctx )
-        return true
-      } else {
-        this.login( ctx );
-      }
+      this.login( ctx );
     }
   }
 
   login(ctx, isRedirect = false) {
-    const { path, fullPath } = getCurrentRoute(ctx.$router);
-    const encodedRedirect = encodeURIComponent(fullPath);
+    const { path, fullPath } = getCurrentRoute();
+    const encodedRedirect = encodeURIComponent( fullPath );
     if (path === APP_AUTH_PAGE) {
       return;
     }
     const authUrl = APP_AUTH_PAGE + `?redirect=${encodedRedirect}`;
-    Taro[isRedirect ? "redirectTo" : "navigateTo"]({
+    Taro[isRedirect ? "redirectTo" : "navigateTo"]( {
       url: authUrl
     });
-  }
-
-  async loginQW( ctx ) {
-    let { code } = await this.getQyLoginCode();
-    const QwUserInfo = await api.user.getQwUserInfo({
-      appname: `${APP_NAME}`,
-      code
-    });
-    let { salesperson_id, distributor_id, session3rd } = QwUserInfo;
-    this.setAuthToken( session3rd );
-    //查询当前导购门店信息是否有效
-    const { status } = await api.guide.is_valid({
-      salesperson_id,
-      distributor_id
-    });
-    const _QwUserInfo = {
-      ...QwUserInfo,
-      store_isValid: status
-    };
-    this.set( "GUIDE_INFO", _QwUserInfo, true );
   }
 
   logout() {

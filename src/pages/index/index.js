@@ -1,15 +1,22 @@
-import { Component } from 'react'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View, Text } from '@tarojs/components'
+import { withLogin } from '@/hocs'
 import './index.scss'
 
+// @withLogin()
 export default class Index extends Component {
   state = {
-    text: 111
+    text: 222
+  }
+  componentWillMount() {
+    console.log( 'Index', getCurrentInstance() )
+    console.log('Index componentWillMount')
   }
 
-  componentWillMount () { }
-
-  componentDidMount () { }
+  componentDidMount() {
+    console.log('Index componentDidMount')
+  }
 
   render() {
     const { text } = this.state
