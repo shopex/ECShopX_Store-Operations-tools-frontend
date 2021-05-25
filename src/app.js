@@ -7,13 +7,21 @@ import '@/muiApp/index.scss'
 import './app.scss'
 
 const store = configStore()
-Taro["APP"] = { SAPP, SAPPPay, SAPPShare }
-Taro.APP.SAPP.init( Taro, store )
 
+SAPP.init( Taro, store )
 class App extends Component {
   componentDidMount() {
     console.log( 'App', getCurrentInstance() )
-    console.log('app componentDidMount')
+    console.log( 'app componentDidMount' )
+    SAPP.onReady( () => {
+      console.log( 'INIT_START', SAPP.Plus.storage.getItem( 'INIT_START' ) )
+      if ( !SAPP.Plus.storage.getItem( 'INIT_START' ) ) {
+        SAPP.Plus.storage.setItem( 'INIT_START', "true" )
+        // Taro.redirectTo({
+        //   url: '/pages/auth/agreement'
+        // })
+      }
+    })
   }
 
   componentDidShow() {

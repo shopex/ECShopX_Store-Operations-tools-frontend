@@ -6,9 +6,14 @@ class MAPP {
       this.token = localStorage.getItem("auth_token");
       this._back_first = null;
       this._events = {};
+      this._onReady = Function
       MAPP.instance = this;
     }
     return MAPP.instance;
+  }
+
+  onReady( fn ) {
+    this._onReady = fn
   }
 
   init(taro, store) {
@@ -29,7 +34,8 @@ class MAPP {
   }
 
   _initPlus() {
-    const __SAPP_CONFIG = plus.storage.getItem("SAPP_CONFIG");
+    this.Plus = plus
+    const __SAPP_CONFIG = plus.storage.getItem( "SAPP_CONFIG" );
     try {
       this.SAPP_CONFIG = JSON.parse(__SAPP_CONFIG);
     } catch (e) {
@@ -78,6 +84,8 @@ class MAPP {
       false
     );
 
+    this._onReady()
+
     // // 订阅store
     // this.Store.subscribe(() => {
     //   console.log(this.Store.getState());
@@ -117,33 +125,25 @@ class MAPP {
 
   _navigateTo(redirect, data) {
     const url = data.url;
-    // const params = {} || data.params
     const params = Object.assign({}, data.params);
     let animate = "slide-in-right" || params.animate;
-    // let baseUrl = this._getBaseURL()
     if (this._pathIsTabbar(url)) {
       animate = "none";
     }
-    // if (!/^http|https/.test(baseUrl)) {
-    //   baseUrl = "_www/dist/index.html"
-    // }
 
-    // var view = baseUrl + "#" + url
     let view = this._getPageURL(url);
     log.info("webView: " + view);
 
     // 页面隐藏事件
-    this.Taro.getCurrentPages()[0].componentDidHide()
-
-    var findResult = this._findWebViewById(url.split("?")[0]);
-
+    // this.Taro.getCurrentPages()[0].onHide()
+    const pageid = url.split("?")[0]
+    const findResult = this._findWebViewById( pageid );
     if (findResult) {
       log.info("navigateTo: " + findResult.id);
       if (findResult.id == this.SAPP_CONFIG.homePage) {
         plus.webview.getLaunchWebview().show();
         plus.webview.getWebviewById(this.SAPP_CONFIG.homePage).show()
       } else {
-        // findResult.reload()
         findResult.show(animate);
       }
     } else {
@@ -151,7 +151,7 @@ class MAPP {
       var _openw = plus.webview.create(
         view,
         // 页面id不带参数
-        url.split("?")[0],
+        pageid,
         {
           scrollIndicator: "none",
           scalable: false,
@@ -163,24 +163,24 @@ class MAPP {
     }
 
     // webview 垃圾回收
-    const currentWebview = plus.webview.currentWebview();
-    if (redirect && !this._pathIsTabbar(currentWebview.id)) {
-      currentWebview.close();
-    }
+    // const currentWebview = plus.webview.currentWebview();
+    // if (redirect && !this._pathIsTabbar(currentWebview.id)) {
+    //   currentWebview.close();
+    // }
 
-    if (this._pathIsTabbar(url)) {
-      log.info("this path is in tabbar");
-      let ws = plus.webview.all();
-      ws.forEach(w => {
-        if (
-          !this._pathIsTabbar(w.id) &&
-          w.id != plus.webview.getLaunchWebview().id
-        ) {
-          log.info("webview destroy: " + w.id);
-          w.close();
-        }
-      });
-    }
+    // if (this._pathIsTabbar(url)) {
+    //   log.info("this path is in tabbar");
+    //   let ws = plus.webview.all();
+    //   ws.forEach(w => {
+    //     if (
+    //       !this._pathIsTabbar(w.id) &&
+    //       w.id != plus.webview.getLaunchWebview().id
+    //     ) {
+    //       log.info("webview destroy: " + w.id);
+    //       w.close();
+    //     }
+    //   });
+    // }
   }
 
   _navigateBack() {
@@ -244,23 +244,14 @@ class MAPP {
     }
   }
 
-  _getEnv() {
-    return "SAPP";
-  }
-
-  _getPageURL(url) {
-    let baseUrl = this._getBaseURL();
-    if (!/^http|https/.test(baseUrl)) {
-      baseUrl = "_www/dist/index.html";
-    }
-
-    return baseUrl + "#" + url;
-  }
-
-  // 应用的首页
-  _getBaseURL() {
+  // 获取APP页面路径
+  _getPageURL( url ) {
     const { launch_path } = this.SAPP_CONFIG;
-    return launch_path;
+    if (!/^http|https/.test(launch_path)) {
+      return `_www/${launch_path}l#${url}`;
+    } else {
+      return `${launch_path}#${url}`
+    }
   }
 
   // 是否是底部tabbar页面
@@ -282,13 +273,10 @@ class MAPP {
     return result;
   }
 
-  // webview是否已经创建过
+  // 根据ID查找webview
   _findWebViewById(id) {
-    var all = plus.webview.all();
-    var result = all.find(function(item) {
-      return item.id == id;
-    });
-    return result;
+    const allWb = plus.webview.all();
+    return allWb.find((item) => item.id == id);
   }
 
   // 复制到剪贴板

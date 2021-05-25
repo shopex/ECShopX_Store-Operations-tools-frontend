@@ -30,6 +30,11 @@
     "dev:quickapp": "npm run build:quickapp -- --watch",
     "prepare": "husky install"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "**/*.{js,jsx}": [
       "prettier-eslint --write"

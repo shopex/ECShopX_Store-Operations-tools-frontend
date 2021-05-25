@@ -3,7 +3,8 @@ export default {
     'pages/index/index',
     'pages/message/index',
     'pages/my/index',
-    'pages/auth/login'
+    'pages/auth/login',
+    'pages/auth/agreement'
   ],
   tabBar: {
     list: [{
