@@ -1,6 +1,7 @@
 @import "./style/theme.scss";
 @import "./style/variables.scss";
 @import "./style/yyk-icon.scss";
+@import "./style/zyk-icon.scss";
 
 
 $font-size-base: $font-size;
@@ -10,6 +11,7 @@ $color-brand-light: $color-brand-accent;
 $color-brand-dark: $color-brand-accent-light;
 $color-text-base: $color-primary-text;
 $at-button-border-color-secondary: $color-border-gray;
+
 
 @import "~taro-ui/dist/style/index.scss";
 @import "./style/taro-ui-mod.scss";
