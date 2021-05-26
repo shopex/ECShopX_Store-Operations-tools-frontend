@@ -8,7 +8,7 @@ export default class Login extends Component {
 
   render () {
     return (
-      <View className='page-auth'>
+      <View className='page-auth-login'>
         <Text>login</Text>
       </View>
     )
