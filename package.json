@@ -63,7 +63,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "stylenames": "^1.1.6",
-    "taro-ui": "^2.3.4"
+    "taro-ui": "^3.0.0-alpha.10"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
