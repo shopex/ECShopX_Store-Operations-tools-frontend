@@ -1,7 +1,7 @@
 import req from './req'
 
 export function getProtocol (params) {
-  return req.get('/api/protocol', params)
+  return req.get('/api/operator/protocol', params)
 }
 
 export function sendCode( params ) {
