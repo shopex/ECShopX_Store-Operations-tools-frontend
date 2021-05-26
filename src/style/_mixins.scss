@@ -136,3 +136,9 @@
     -webkit-text-fill-color: transparent;
   }
 }
+
+@mixin flexbox(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

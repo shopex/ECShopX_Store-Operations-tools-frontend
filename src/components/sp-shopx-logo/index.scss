@@ -1,0 +1,14 @@
+
+@import '@/style/mixins';
+
+.sp-shopx-logo{
+    position:fixed;
+    bottom: 46px;
+    width: 100%;
+    @include flexbox();
+
+    .img{
+        width:240px;
+        height:44px;
+    }
+}
