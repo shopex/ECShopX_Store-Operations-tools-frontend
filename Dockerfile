@@ -21,6 +21,6 @@ RUN ls -l /app/dist
 
 FROM steebchen/nginx-spa:stable
 WORKDIR /app
-COPY --from=builder /app/dist/h5 .
+COPY --from=builder /app/dist .
 EXPOSE 80
 CMD ["nginx"]
