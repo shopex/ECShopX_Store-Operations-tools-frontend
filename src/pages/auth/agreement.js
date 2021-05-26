@@ -1,13 +1,22 @@
 import { useState } from 'react';
-import { View, Image,Text } from '@tarojs/components'
-import { SpLinegradientButton,SpShopxLogo } from '@/components' 
+import Taro, { Component } from '@tarojs/taro'
+import { View, Image,Text,ScrollView } from '@tarojs/components'
+import { SpLinegradientButton,SpShopxLogo,SpBackToTop } from '@/components' 
 import Drawer from './components/drawer'
+import { useBackToTop } from '@/hooks'
 import { getThemeStyle } from '@/utils'
 import "./agreement.scss"
 
 const AgreeMent = () => {
  
-  const [visible,setVisible]=useState(true);
+  const [visible,setVisible]=useState(false);
+
+  const {
+    showBackToTop,
+    scrollTop,
+    handleScroll,
+    scrollBackToTop
+  }=useBackToTop(); 
 
   const handleShow=()=>{
     setVisible(true);
@@ -16,9 +25,10 @@ const AgreeMent = () => {
   const handleDrawerClose=()=>{
     setVisible(false)
   }
+ 
 
   return (
-    <View className='page-agreement' style={ getThemeStyle() }>
+    <ScrollView scrollTop={scrollTop} className='page-agreement' scrollY style={getThemeStyle()} onScroll={handleScroll}>
       <View className='page-agreement-header-logo'>
         <Image src={require('@/assets/imgs/logotitle.png')} className='img' />
       </View>
@@ -33,8 +43,8 @@ const AgreeMent = () => {
           title={'开始我的数字化经营'} 
           onClick={handleShow}
         />
-      </View>
-      <SpShopxLogo />
+      </View> 
+      <SpShopxLogo /> 
 
       {/* 用户协议 */}
       <Drawer 
@@ -42,7 +52,12 @@ const AgreeMent = () => {
         onDrawerClose={handleDrawerClose}
       />
 
-    </View>
+      {/* 返回顶部 */}
+      <SpBackToTop
+          show={showBackToTop}
+          onClick={scrollBackToTop}
+      />
+    </ScrollView>
   )
 }
 

@@ -3,8 +3,10 @@
 .page-agreement{
     background-color: #fff;
     min-height:100vh; 
-    padding-top:188px;
-    box-sizing: border-box;
+    height: 500px;
+    padding-top:188px; 
+    padding-bottom:170px; 
+    box-sizing: border-box; 
 
     &-header{
      
@@ -27,7 +29,7 @@
             font-size: 30px;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
-            color: #326CF1;
+            color: var(--color-primary);
             line-height: 42px;
             letter-spacing: 2px;
             margin: 53px auto 0 auto; 

@@ -5,6 +5,7 @@
     position:fixed;
     bottom: 46px;
     width: 100%;
+    pointer-events: none;
     @include flexbox();
 
     .img{
