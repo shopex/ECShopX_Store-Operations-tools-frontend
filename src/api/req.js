@@ -12,7 +12,7 @@ class API {
     if (!/\/$/.test(baseURL)) {
       baseURL = baseURL + "/";
     }
-    options.company_id = APP_COMPANY_ID;
+    // options.company_id = APP_COMPANY_ID;
     if (process.env.TARO_ENV === "weapp") {
       const extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {};
       options.appid = extConfig.appid;
