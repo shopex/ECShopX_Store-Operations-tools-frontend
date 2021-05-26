@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Image,Text } from '@tarojs/components'
 import { SpLinegradientButton,SpShopxLogo } from '@/components' 
 import Drawer from './components/drawer'
+import { getThemeStyle } from '@/utils'
 import "./agreement.scss"
 
 const AgreeMent = () => {
@@ -17,7 +18,7 @@ const AgreeMent = () => {
   }
 
   return (
-    <View className='page-agreement'>
+    <View className='page-agreement' style={ getThemeStyle() }>
       <View className='page-agreement-header-logo'>
         <Image src={require('@/assets/imgs/logotitle.png')} className='img' />
       </View>

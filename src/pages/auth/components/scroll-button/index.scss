@@ -1,0 +1,49 @@
+@import "@/style/mixins.scss";
+
+.sp-confirm-scroll-button {
+  width: auto;
+  height: 80px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.14);
+  border-radius: 40px;
+  border:1px #BBBBBB solid; 
+  padding:0 80px 0 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  color:inherit;
+
+  .text{
+    font-size: 28px;
+    font-weight: 400;
+    color: #666F83;
+    text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.14);
+    width:50%;
+
+    &.active{
+      color:white;
+      position: relative;
+    }
+  }
+
+  .activeTrack{
+    background: currentColor;
+    position: absolute;
+    top: 0;
+    bottom: 0;  
+    border-radius: inherit;
+    transition:width .2s cubic-bezier(0.4, 0, 0.2, 1) 0ms,left .2s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    &.active-0{
+      left:0;
+      width:220px; 
+    }
+
+    &.active-1{
+      left:198px;
+      width:450px; 
+    }
+  }
+
+}
