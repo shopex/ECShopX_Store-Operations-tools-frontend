@@ -9,6 +9,7 @@ const SpBackToTop = (props) => {
     const { show, onClick, bottom } = props;
 
     return (
+        
         <View
             className={classNames('sp-back-to-top', { 'is-show': show })}
             style={`${bottom ? `bottom: ${Taro.pxTransform(bottom)}` : ''}`}
