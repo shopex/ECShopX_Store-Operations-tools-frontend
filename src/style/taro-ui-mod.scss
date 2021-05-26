@@ -29,7 +29,7 @@
     font-size: $font-size;
   }
   &:after {
-    border-color: rgba($color-brand-primary, 0.5);
+    border-color: #E2E4EA;
   }
   input {
     font-size: $font-size;
@@ -39,7 +39,9 @@
 .at-button {
   margin: 0;
   &--primary {
+    background-color: var(--color-primary);
     font-size: $font-size;
+    border-color: var(--color-primary);
   }
 }
 

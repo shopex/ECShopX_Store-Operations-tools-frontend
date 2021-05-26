@@ -7,6 +7,8 @@ import _pickBy from 'lodash/pickBy'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import log from './log'
+import defaultTheme from './theme'
+import validate from './validate'
 
 const isPrimitiveType = (val, type) => Object.prototype.toString.call(val) === type
 
@@ -43,9 +45,33 @@ export function getCurrentRoute() {
   }
 }
 
+export function getThemeStyle() {
+  let systemTheme = S.get( 'SYSTEM_THEME' )
+  console.log(defaultTheme, systemTheme)
+  if (!systemTheme) {
+    systemTheme = {
+      ...defaultTheme
+    }
+  }
+  const { colorPrimary, colorSecondary, colorText } = systemTheme
+  return {
+    '--color-primary': colorPrimary,
+    '--color-senondary': colorSecondary,
+    '--color-text': colorText
+  }
+}
+
+export function showToast(title) {
+  Taro.showToast({
+    title,
+    icon: 'none'
+  })
+}
+
 export {
   classNames,
   log,
   debounce,
-  throttle
+  throttle,
+  validate
 }
