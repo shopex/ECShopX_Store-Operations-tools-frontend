@@ -1,0 +1,63 @@
+$title-color:#111A34;
+
+.agreement-drawer{
+
+    .main{
+
+        position:relative;
+        height:100%;
+        
+
+        .body{
+            height:calc( 100% - 160px ); 
+            box-sizing: border-box;
+
+            &-title{
+                margin-top: 60px;
+
+                .text{
+                    font-size: 36px;
+                    font-family: PingFangSC-Medium, PingFang SC;
+                    font-weight: 500;
+                    color: $title-color; 
+                } 
+
+            }
+
+            &-content{
+
+                padding:0 32px;
+
+                &-title{
+                    margin-top: 37px;
+                    .text{
+                        font-size:28px;
+                        font-weight: 500;
+                        color:  $title-color;
+                    }
+                }
+
+                &-text{
+                    margin-top: 10px;
+                    .text{
+                        font-size:24px;
+                        font-weight: 500;
+                        color:  $title-color;
+                    }
+                }
+            }
+
+        }
+
+        .bottom{
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0;
+            height:160px;
+            background: brown;
+        }
+
+    }
+
+}

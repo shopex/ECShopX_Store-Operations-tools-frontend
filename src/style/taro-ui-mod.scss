@@ -4,9 +4,11 @@
   &__overlay {
     background-color: rgba(#000, 0.8);
   }
+
   &__container {
     width: 86%;
   }
+
   &__header {
     &:after {
       border: none !important;
@@ -17,6 +19,7 @@
 .at-form {
   padding-left: 0;
   background-color: transparent;
+
   &:after {
     border: none !important;
   }
@@ -25,12 +28,15 @@
 .at-input {
   padding: 16px 0;
   margin: 0 0 $edge-size;
+
   &__title {
     font-size: $font-size;
   }
+
   &:after {
     border-color: rgba($color-brand-primary, 0.5);
   }
+
   input {
     font-size: $font-size;
   }
@@ -38,6 +44,7 @@
 
 .at-button {
   margin: 0;
+
   &--primary {
     font-size: $font-size;
   }
@@ -47,6 +54,7 @@
   &__title {
     font-size: $font-size-large;
   }
+
   &__item--active {
     color: $color-brand-primary;
   }
@@ -54,6 +62,7 @@
 
 .at-tab-bar {
   box-sizing: border-box;
+
   &__item {
     padding: 0 12px;
     line-height: 1;
@@ -64,12 +73,14 @@
   background-color: $color-search-cancel-bg;
   color: $color-primary-text;
 }
+
 .at-search-bar::after {
   border: 0;
 }
 
 .taro__toast {
   font-size: $font-size !important;
+
   p {
     font-size: $font-size !important;
   }
@@ -85,6 +96,7 @@
 .at-tab-bar {
   box-shadow: -20px 5px 15px rgba(#000, .1);
   height: $tabbar-height;
+
   &.is-ipx {
     height: $tabbar-height + $ipx-fix-height;
   }
@@ -92,6 +104,7 @@
   .in-icon {
     font-size: $at-tab-bar-icon-font-size;
   }
+
   &__title {
     margin-top: -4px;
   }
@@ -106,16 +119,19 @@
   top: $navigate-height;
   width: 100%;
   z-index: $z-index-toolbar;
-  &__header {
-  }
+
+  &__header {}
+
   .at-tabs__body {
     height: 0;
   }
+
   .at-tabs__item {
     height: $tabs-height;
     line-height: $tabs-height;
     padding: 0;
   }
+
   .at-tabs__item-underline {
     height: 2PX;
     width: 20%;
@@ -126,30 +142,36 @@
 .search-input__bar.at-search-bar {
   padding: 0 30px !important;
   height: 65px;
+
   .at-search-bar__input-cnt {
     border-radius: 0;
     height: 65px;
     line-height: 65px;
     background-color: #eff0f0;
   }
+
   .at-search-bar__placeholder-wrap {
     justify-content: flex-start;
     padding-left: 23px;
     height: 65px;
   }
+
   .at-search-bar__placeholder {
     font-size: 22px;
     color: #bababa;
   }
+
   .at-search-bar__placeholder-wrap .at-icon {
     font-size: 16PX;
     color: #a6a6a7;
     opacity: 0.86;
   }
+
   .at-search-bar__input {
     height: 65px !important;
     padding: 0 30PX;
   }
+
   .at-search-bar__clear {
     height: 65px;
     line-height: 65px;
@@ -164,31 +186,37 @@
   padding: 0 !important;
   z-index: $z-index-level-6;
   background: transparent !important;
+
   .at-search-bar__input-cnt {
     width: 710px;
     height: 54px;
     line-height: 54px;
     border-radius: 27px;
   }
+
   .at-search-bar__placeholder-wrap {
     justify-content: flex-start;
     align-items: center;
     padding-left: 23px;
     height: 54px;
   }
+
   .at-search-bar__placeholder {
     font-size: 22px;
     color: #bababa;
   }
+
   .at-search-bar__placeholder-wrap .at-icon {
     font-size: 16PX;
     color: #a6a6a7;
     opacity: 0.86;
   }
+
   .at-search-bar__input {
     height: 54px !important;
     padding: 0 30PX;
   }
+
   .at-search-bar__clear {
     height: 54px;
     line-height: 54px;
@@ -201,14 +229,17 @@
     color: #fff;
     background: #c1c1c1;
   }
+
   &--small {
     height: 42px;
     line-height: 38px;
     padding: 0 22px;
     font-size: 22px;
+
     .at-button__text {
       font-size: 22px;
     }
+
     &.at-button--circle {
       border-radius: 8px;
     }
@@ -218,5 +249,27 @@
 .at-action-sheet {
   &__item {
     font-size: $font-size;
+  }
+}
+
+.agreement-drawer {
+  .at-float-layout__container {
+    height: calc( 100% - 400px );
+    max-height:calc( 100% - 400px );
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+
+    .layout-body{
+      height: 100%;
+      max-height:100%;
+      padding: 0;
+      
+      .layout-body__content {
+        height: 100%;
+        max-height:100%;
+      }
+    }
+
+    
   }
 }

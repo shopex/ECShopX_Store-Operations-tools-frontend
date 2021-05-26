@@ -2,14 +2,18 @@
 
 .page-agreement{
     background-color: #fff;
-    min-height:100vh;
+    min-height:100vh; 
     padding-top:188px;
+    box-sizing: border-box;
 
     &-header{
+     
         &-logo{
+          
             width:280px;
             height:64px;
             margin:0 auto;
+           
     
             .img{
                 width:100%;

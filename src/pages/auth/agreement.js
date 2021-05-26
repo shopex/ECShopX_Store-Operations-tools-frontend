@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { View, Image,Text } from '@tarojs/components'
-import { SpLinegradientButton } from '@/components'
-import { SpShopxLogo } from '@/components'
+import { SpLinegradientButton,SpShopxLogo } from '@/components' 
 import Drawer from './components/drawer'
 import "./agreement.scss"
 
 const AgreeMent = () => {
  
-  const [visible,setVisible]=useState(false);
+  const [visible,setVisible]=useState(true);
 
   const handleShow=()=>{
     setVisible(true);
+  }
+
+  const handleDrawerClose=()=>{
+    setVisible(false)
   }
 
   return (
@@ -35,6 +38,7 @@ const AgreeMent = () => {
       {/* 用户协议 */}
       <Drawer 
         visible={visible}
+        onDrawerClose={handleDrawerClose}
       />
 
     </View>
