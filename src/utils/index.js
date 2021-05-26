@@ -45,6 +45,7 @@ export function getCurrentRoute() {
   }
 }
 
+
 export function getThemeStyle() {
   let systemTheme = S.get( 'SYSTEM_THEME' )
   console.log(defaultTheme, systemTheme)
@@ -59,6 +60,10 @@ export function getThemeStyle() {
     '--color-senondary': colorSecondary,
     '--color-text': colorText
   }
+}
+// 格式化金钱
+export function formatNum(number){
+  return number.toLocaleString();
 }
 
 export function showToast(title) {
