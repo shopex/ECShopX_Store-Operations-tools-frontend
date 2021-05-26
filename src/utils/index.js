@@ -7,6 +7,7 @@ import _pickBy from 'lodash/pickBy'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import log from './log'
+import defaultTheme from './theme'
 
 const isPrimitiveType = (val, type) => Object.prototype.toString.call(val) === type
 
@@ -40,6 +41,22 @@ export function getCurrentRoute() {
     path,
     fullPath,
     params
+  }
+}
+
+export function getThemeStyle() {
+  let systemTheme = S.get( 'SYSTEM_THEME' )
+  console.log(defaultTheme, systemTheme)
+  if (!systemTheme) {
+    systemTheme = {
+      ...defaultTheme
+    }
+  }
+  const { colorPrimary, colorSecondary, colorText } = systemTheme
+  return {
+    '--color-primary': colorPrimary,
+    '--color-senondary': colorSecondary,
+    '--color-text': colorText
   }
 }
 

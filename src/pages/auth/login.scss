@@ -18,7 +18,23 @@
     }
   }
   .auth-bd {
-    
+    margin-top: 100px;
+    .form-title {
+      font-size: 32px;
+      color: #111A34;
+      border-bottom: 1PX solid #E2E4EA;
+    }
+    .form-field {
+      display: flex;
+      align-items: center;
+      .input-field {
+        flex: 1;
+      }
+      .btn-field {
+        width: 180px;
+        text-align: center;
+      }
+    }
   }
   .auth-ft {
     position: absolute;
