@@ -43,9 +43,14 @@ export function getCurrentRoute() {
   }
 }
 
+// 格式化金钱
+export function formatNum(number){
+  return number.toLocaleString();
+}
+
 export {
   classNames,
   log,
   debounce,
-  throttle
+  throttle,
 }
