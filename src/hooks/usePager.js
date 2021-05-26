@@ -6,28 +6,28 @@ import useStateCallback from './useStateCallback';
 
 export default function usePaper(props) {
 
-    const { pageSize = 10, pageNo = 0, pageTotal = 0, fetch } = props;
-
-    const [loading, setLoading] = useState(false);
-
-    const [hasNext, setHasNext] = useState(true);
+    const { pageSize = 10, pageNo = 0, pageTotal = 0, fetch } = props; 
 
     const [page, setPage] = useStateCallback({
         total: pageTotal,
         page_no: pageNo,
-        page_size: pageSize
+        page_size: pageSize,
+        isLoading: false,
+        hasNext: true,
     });
 
     const nextPage = async () => {
 
-        if (!hasNext || loading) return;
+        if (!page.hasNext || page.loading) return;
 
         //上拉触底
         if (page.page_no > 0) {
 
         }
+        
+        page.isLoading=true;
 
-        setLoading(true);
+        setPage(page)
 
         const { page_no, page_size } = page;
         const curPage = page_no + 1;
@@ -35,18 +35,17 @@ export default function usePaper(props) {
         const { total: fetchTotal } = await fetch({
             page_no: curPage,
             page_size
-        })
-
-        setLoading(false);
+        }) 
 
         if (!fetchTotal || curPage >= Math.ceil(+fetchTotal / page_size)) {
-            setHasNext(false);
+            page.hasNext=false;
         }
 
         setPage({
             ...page,
             total: fetchTotal,
             page_no: curPage,
+            isLoading:false
         })
 
     }
@@ -58,14 +57,12 @@ export default function usePaper(props) {
             total: 0,
             isLoading: false,
             hasNext: true
-        }
-        setLoading(false);
-        setHasNext(true);
-        setPage(page,)
-        this.setState(resetPageParams, cb)
+        } 
+        setPage(resetPageParams, cb) 
     }
 
     return {
-        
+        nextPage,
+        resetPage
     } 
 }

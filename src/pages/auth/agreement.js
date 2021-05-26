@@ -1,15 +1,16 @@
-import { useState } from 'react'; 
+import { useEffect, useState } from 'react'; 
 import { View, Image,Text,ScrollView } from '@tarojs/components'
 import { SpShopxLogo,SpBackToTop } from '@/components' 
 import Drawer from './components/drawer'
 import LinegradientButton from './components/linegradient-button'
 import { useBackToTop } from '@/hooks'
 import { getThemeStyle } from '@/utils'
+import api from '@/api'
 import "./agreement.scss"
 
 const AgreeMent = () => {
  
-  const [visible,setVisible]=useState(false);
+  const [visible,setVisible]=useState(false); 
 
   const {
     showBackToTop,
@@ -25,6 +26,10 @@ const AgreeMent = () => {
   const handleDrawerClose=()=>{
     setVisible(false)
   } 
+
+  useEffect(()=>{
+    api.operator.getProtocol()
+  },[]);
 
   return (
     <ScrollView scrollTop={scrollTop} className='page-agreement' scrollY style={getThemeStyle()} onScroll={handleScroll}>
