@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import Taro, { Component } from '@tarojs/taro'
+import { useState } from 'react'; 
 import { View, Image,Text,ScrollView } from '@tarojs/components'
-import { SpLinegradientButton,SpShopxLogo,SpBackToTop } from '@/components' 
+import { SpShopxLogo,SpBackToTop } from '@/components' 
 import Drawer from './components/drawer'
+import LinegradientButton from './components/linegradient-button'
 import { useBackToTop } from '@/hooks'
 import { getThemeStyle } from '@/utils'
 import "./agreement.scss"
@@ -24,8 +24,7 @@ const AgreeMent = () => {
 
   const handleDrawerClose=()=>{
     setVisible(false)
-  }
- 
+  } 
 
   return (
     <ScrollView scrollTop={scrollTop} className='page-agreement' scrollY style={getThemeStyle()} onScroll={handleScroll}>
@@ -39,11 +38,12 @@ const AgreeMent = () => {
         <Image src={require('@/assets/imgs/logo1.png')} className='img' />
       </View>
       <View className='page-agreement-body-button'>
-        <SpLinegradientButton 
+        <LinegradientButton 
           title={'开始我的数字化经营'} 
           onClick={handleShow}
         />
       </View> 
+      
       <SpShopxLogo /> 
 
       {/* 用户协议 */}
