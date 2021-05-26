@@ -46,7 +46,9 @@
   margin: 0;
 
   &--primary {
+    background-color: var(--color-primary);
     font-size: $font-size;
+    border-color: var(--color-primary);
   }
 }
 

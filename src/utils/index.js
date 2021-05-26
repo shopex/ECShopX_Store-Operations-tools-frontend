@@ -8,6 +8,7 @@ import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import log from './log'
 import defaultTheme from './theme'
+import validate from './validate'
 
 const isPrimitiveType = (val, type) => Object.prototype.toString.call(val) === type
 
@@ -60,9 +61,17 @@ export function getThemeStyle() {
   }
 }
 
+export function showToast(title) {
+  Taro.showToast({
+    title,
+    icon: 'none'
+  })
+}
+
 export {
   classNames,
   log,
   debounce,
-  throttle
+  throttle,
+  validate
 }
