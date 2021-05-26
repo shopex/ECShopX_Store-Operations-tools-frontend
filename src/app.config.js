@@ -7,16 +7,28 @@ export default {
     'pages/auth/agreement'
   ],
   tabBar: {
-    list: [{
-      pagePath: 'pages/index/index',
-      text: '店铺'
-    }, {
-      pagePath: 'pages/message/index',
-      text: '消息'
-    }, {
-      pagePath: 'pages/my/index',
-      text: '我的'
-    }]
+    list: [
+      {
+        pagePath: 'pages/index/index',
+        iconPath: './assets/imgs/index/index.svg',
+        selectedIconPath: './assets/imgs/index/indexHover.svg',
+        text: '店铺'
+      },
+      {
+        pagePath: 'pages/message/index',
+        iconPath: './assets/imgs/index/message.svg',
+        selectedIconPath: './assets/imgs/index/messageHover.svg',
+        text: '消息',
+      },
+      {
+        pagePath: 'pages/my/index',
+        iconPath: './assets/imgs/index/myinfo.svg',
+        selectedIconPath: './assets/imgs/index/myinfoHover.svg',
+        text: '我的',
+      }
+    ],
+    selectedColor: '#4980FF',
+    backgroundColor:'#F5F5F5'
   },
   window: {
     backgroundTextStyle: 'light',
