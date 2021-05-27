@@ -1,10 +1,12 @@
 export default {
   pages: [
-    'pages/index/index',
+    'pages/index',
     'pages/message/index',
     'pages/my/index',
     'pages/auth/login',
-    'pages/auth/agreement'
+    'pages/auth/agreement',
+    'pages/auth/welcome',
+    'pages/auth/bindPhone'
   ],
   tabBar: {
     list: [
@@ -18,17 +20,17 @@ export default {
         pagePath: 'pages/message/index',
         iconPath: './assets/imgs/index/message.svg',
         selectedIconPath: './assets/imgs/index/messageHover.svg',
-        text: '消息',
+        text: '消息'
       },
       {
         pagePath: 'pages/my/index',
         iconPath: './assets/imgs/index/myinfo.svg',
         selectedIconPath: './assets/imgs/index/myinfoHover.svg',
-        text: '我的',
+        text: '我的'
       }
     ],
     selectedColor: '#4980FF',
-    backgroundColor:'#F5F5F5'
+    backgroundColor: '#F5F5F5'
   },
   window: {
     backgroundTextStyle: 'light',
