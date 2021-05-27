@@ -1,7 +1,13 @@
+$searchInputHeight:70px;
+
+$tabbarHeight:100px;
+
+$filterHeight:100px;
+ 
 .page-order-list{
     
-    //background: #F9FAFB;
-    background: #fff;
+    background: #F9FAFB;
+    //background: #fff;
     min-height: 100vh;
 
     *{
@@ -9,8 +15,11 @@
     }
 
     &-input{
-        padding: 10px 20px;
-       
+        padding: 10px 20px; 
+    }
+
+    &-orderList{ 
+        @include page-scroll($searchInputHeight+$tabbarHeight+$filterHeight,0);
     }
 
 }

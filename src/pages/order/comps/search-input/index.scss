@@ -1,7 +1,9 @@
+@import "../../list.scss";
+
 .comp-order-list-searhInput{
     background: #F5F6F9;
     border-radius: 35px;
-    height:70px; 
+    height:$searchInputHeight; 
     display: flex;
     align-items: center;
 

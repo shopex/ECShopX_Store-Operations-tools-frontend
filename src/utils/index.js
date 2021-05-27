@@ -24,7 +24,7 @@ export function isObject(val) {
   return isPrimitiveType(val, '[object Object]')
 }
 
-export function navigateTo (url, isRedirect) {
+export function navigateTo(url, isRedirect) {
   if (isObject(isRedirect)) {
     isRedirect = false
   }
@@ -45,9 +45,8 @@ export function getCurrentRoute() {
   }
 }
 
-
 export function getThemeStyle() {
-  let systemTheme = S.get( 'SYSTEM_THEME' )
+  let systemTheme = S.get('SYSTEM_THEME')
   console.log(defaultTheme, systemTheme)
   if (!systemTheme) {
     systemTheme = {
@@ -62,8 +61,8 @@ export function getThemeStyle() {
   }
 }
 // 格式化金钱
-export function formatNum(number){
-  return number.toLocaleString();
+export function formatNum(number) {
+  return number.toLocaleString()
 }
 
 export function showToast(title) {
@@ -73,10 +72,18 @@ export function showToast(title) {
   })
 }
 
-export {
-  classNames,
-  log,
-  debounce,
-  throttle,
-  validate
+// 复制到粘贴板
+export function copyContent(content) {
+  Taro.setClipboardData({
+    data: content,
+    success: () => {
+      Taro.showToast({
+        title: '复制成功',
+        icon: 'success',
+        duration: 1500
+      })
+    }
+  })
 }
+
+export { classNames, log, debounce, throttle, validate }
