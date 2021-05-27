@@ -1,0 +1,16 @@
+.page-order-list{
+    
+    //background: #F9FAFB;
+    background: #fff;
+    min-height: 100vh;
+
+    *{
+        box-sizing: border-box;
+    }
+
+    &-input{
+        padding: 10px 20px;
+       
+    }
+
+}

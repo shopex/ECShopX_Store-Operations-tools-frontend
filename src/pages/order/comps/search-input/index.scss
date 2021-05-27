@@ -1,0 +1,57 @@
+.comp-order-list-searhInput{
+    background: #F5F6F9;
+    border-radius: 35px;
+    height:70px; 
+    display: flex;
+    align-items: center;
+
+    .title{
+
+        padding-left:32px;
+        padding-right:31px;
+        flex:7;
+        font-size: 28px;
+        font-weight: 400;
+        color: #666F83;
+        position:relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &::after{
+            display: block;
+            content:'';
+            position:absolute;
+            height: 40px;
+            width:1px;
+            right:0;
+            top:50%;
+            transform: translateY(-50%);
+            background: #E2E4EA;
+        }
+
+        .iconfont{
+            font-size: 14px;
+        }
+
+    }
+
+    .input{
+
+        flex:18;
+        padding:0 18px 0 17px;
+
+        .at-input{
+            margin:0;
+            padding:0;
+            background: #F5F6F9;
+        }
+
+        input{
+            &::-webkit-input-placeholder{
+                font-size: 24px;
+                color: #C5CAD5;
+            }
+        }
+    }
+}
