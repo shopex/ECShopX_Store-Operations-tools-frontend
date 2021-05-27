@@ -25,24 +25,20 @@ const AgreeMent = () => {
     api.operator.getProtocol()
   }, [])
 
+  console.log('scrollTop', scrollTop)
+
   return (
-    <ScrollView
-      scrollTop={scrollTop}
-      className='page-agreement'
-      scrollY
-      style={getThemeStyle()}
-      onScroll={handleScroll}
-    >
-      <View className='page-agreement-header-logo'>
+    <View className='page-auth-agreement' style={getThemeStyle()}>
+      <View className='page-auth-agreement-header-logo'>
         <Image src={require('@/assets/imgs/logotitle.png')} className='img' />
       </View>
-      <View className='page-agreement-header-title'>
+      <View className='page-auth-agreement-header-title'>
         <Text className='text'>数据透视·智慧赋能·全渠道管理</Text>
       </View>
-      <View className='page-agreement-body-logo'>
+      <View className='page-auth-agreement-body-logo'>
         <Image src={require('@/assets/imgs/logo1.png')} className='img' />
       </View>
-      <View className='page-agreement-body-button'>
+      <View className='page-auth-agreement-body-button'>
         <LinegradientButton title='开始我的数字化经营' onClick={handleShow} />
       </View>
 
@@ -53,7 +49,7 @@ const AgreeMent = () => {
 
       {/* 返回顶部 */}
       <SpBackToTop show={showBackToTop} onClick={scrollBackToTop} />
-    </ScrollView>
+    </View>
   )
 }
 

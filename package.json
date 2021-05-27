@@ -28,12 +28,8 @@
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
+    "precommit": "lint-staged",
     "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "**/*.{js,jsx}": [
@@ -81,7 +77,8 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^6.0.0",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.3.0",
     "prettier-eslint-cli": "^5.0.1",
     "stylelint": "9.3.0"
   }
