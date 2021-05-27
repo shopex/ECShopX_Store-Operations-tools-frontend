@@ -8,17 +8,16 @@ import './index.scss'
 const funcList = [
   {
     title: '订单',
-    icon: require('../../assets/imgs/index/dingdan.svg')
+    icon: require('@/assets/imgs/index/dingdan.svg')
   },
   {
     title: '售后',
-    icon: require('../../assets/imgs/index/shouhou.svg')
-
+    icon: require('@/assets/imgs/index/shouhou.svg')
   },
   {
     title: '扫一扫',
-    icon: require('../../assets/imgs/index/shaoyishao.svg')
-  },
+    icon: require('@/assets/imgs/index/shaoyishao.svg')
+  }
   // {
   //   title: '扫一扫',
   //   icon: require('../../assets/imgs/index/shaoyishao.svg')
@@ -45,7 +44,7 @@ class Index extends PureComponent {
         <View className='top'>
           <View className='shop-title'>
             <View className='avatar'>
-              <Image className='photo' src={require('../../assets/imgs/1.jpg')}></Image>
+              <Image className='photo' src={require('@/assets/imgs/1.jpg')}></Image>
             </View>
             <View>
               <Text className='title'>我是当前店铺的名称</Text>
@@ -118,8 +117,8 @@ class Index extends PureComponent {
             {funcList.map((item) => {
               return (
                 <View className='item' key={item.title}>
-                  <View >
-                    <Image className="img" src={item.icon}></Image>
+                  <View>
+                    <Image className='img' src={item.icon}></Image>
                   </View>
                   <View className='subtitle'>{item.title}</View>
                 </View>
