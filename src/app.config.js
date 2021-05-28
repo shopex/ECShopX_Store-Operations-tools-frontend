@@ -1,11 +1,13 @@
 export default {
   pages: [
-    'pages/index/index',
+    'pages/index',
     'pages/message/index',
     'pages/my/index',
     'pages/auth/login',
     'pages/auth/agreement',
-    'pages/order/list'
+    'pages/order/list',
+    'pages/auth/welcome',
+    'pages/auth/bindPhone'
   ],
   tabBar: {
     list: [
