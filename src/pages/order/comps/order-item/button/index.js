@@ -10,13 +10,14 @@ export default class Button extends PureComponent {
   }
 
   render() {
-    const { type = 'default', children } = this.props
+    const { type = 'default', children, onClick = () => {} } = this.props
 
     return (
       <View
         className={classNames('order-item-button', {
           [`type-${type}`]: type
         })}
+        onClick={onClick}
       >
         {children}
       </View>

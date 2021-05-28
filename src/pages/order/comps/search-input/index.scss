@@ -34,6 +34,10 @@
 
         .iconfont{
             font-size: 14px;
+
+            &.isModalShow{
+                
+            }
         }
 
     }
@@ -49,7 +53,7 @@
             background: #F5F6F9;
         }
 
-        input{
+        .at-input{
             &::-webkit-input-placeholder{
                 font-size: 24px;
                 color: #C5CAD5;

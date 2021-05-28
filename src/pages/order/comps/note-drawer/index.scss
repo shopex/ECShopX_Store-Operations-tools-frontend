@@ -1,0 +1,53 @@
+.note-drawer{
+    .at-float-layout__container{
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        overflow:hidden;
+    }
+    .layout-body{
+        padding:0;
+    }
+    .header{
+        height: 120px;
+        background: #F9FAFB;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+
+        .left,.right{
+            font-size: 36px;
+            font-weight: 500;
+            
+        }
+        .left{
+            color: #666F83;
+        }
+        .right{
+            color:#4980FF;
+        }
+        .center{
+            font-size: 40px;
+            font-weight: 400;
+            color: #111A34;
+        }
+    }
+    .content{
+        .at-textarea{
+            border:none;
+            height:500px
+ 
+        }
+        .at-textarea__textarea{
+            height:70%;       
+        }
+        .taro-textarea{
+            resize:none;
+           
+        }
+        .taro-textarea::-webkit-input-placeholder{
+            font-size: 24px;
+            color: #C5CAD5;
+        }
+    }
+}

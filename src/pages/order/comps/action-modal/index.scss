@@ -1,0 +1,138 @@
+.comp-action-modal{
+    .at-modal__container{
+        top:40%;
+        border-radius: 8px;
+
+        .content{
+            height: 160px;
+            @include hairline(rgba(0, 0, 0, 0.1), bottom);
+
+            &.cancelOrder,&.confirmContent{
+                height:205px;
+            }
+
+            &.verification{
+                height:400px;
+            }
+
+            .phoneContent{
+
+                @include flexbox;
+                height: 100%;
+
+                .item{
+                    font-size: 40px; 
+                }
+
+                .item1{
+                    color:#111A34;
+                }
+
+                .item2{
+                    color:var(--color-primary);
+                    margin-left: 10px;
+                }
+                
+            }
+
+            .cancelContent,.confirmContent{
+                height:100%;
+                padding-top: 60px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .item1{
+                    font-size: 40px;
+                    font-weight: 400;
+                    color: #111A34;
+                }
+                .item2{
+                    font-size: 28px;
+                    font-weight: 400;
+                    color: #858B9C;
+                } 
+            } 
+
+            .verificationContent{ 
+                padding-top: 60px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .item1{
+                    font-size: 40px;
+                    font-weight: 400;
+                    color: #111A34;
+                }
+                .item2{
+                    font-size: 28px;
+                    font-weight: 400;
+                    color: #858B9C;
+                } 
+                .inputwrapper{
+                    margin-top: 60px;
+                    padding:0 60px;
+                    display: flex;
+                    justify-content: space-between;
+                    width:100%;
+
+                    .input{
+                        .at-input__input{
+                            padding-right:0;    
+                        }
+                        
+                        &.at-input:after{
+                            border:none;
+                        }
+                        .weui-input{
+                            color:#111A34;
+                            font-size: 50px;
+                            letter-spacing:60px;
+                        }
+                    }
+
+                    // .inputitem{
+                    //     &:not(&:nth-last-child(1)){
+                    //         margin-right: 18px;
+                    //     }
+                    //     .at-input__input{
+                    //         padding-right: 0;
+                    //     }
+                    //     .weui-input{
+                    //         color:#111A34;
+                    //         font-size: 50px;
+                    //     }
+                    // }
+
+                }
+            }
+
+        }
+
+        .action{
+            height: 100px;
+
+            .actionContent{
+                display: flex;
+                height: 100%;
+
+                .item{
+                    flex:1;
+                    @include flexbox;
+                    font-size: 36px;
+                }
+                .item1,.cancelitem1,.confirmitem1{
+                    @include hairline(rgba(0, 0, 0, 0.1), right);
+                    color:#666F83;
+                } 
+                .item2,.confirmitem2{
+                    color:var(--color-primary);
+                } 
+                .cancelitem2{
+                    color:#FF5257;
+                }
+            }
+        }
+    }
+}

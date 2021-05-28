@@ -16,7 +16,14 @@ export default class OrderItem extends PureComponent {
   }
 
   render() {
-    const { info } = this.props
+    const {
+      info,
+      onClickNote,
+      onClickContact,
+      onClickCancel,
+      onClickConfirmGetOrder,
+      onClickVerification
+    } = this.props
 
     return (
       <View className='comp-order-item'>
@@ -33,9 +40,19 @@ export default class OrderItem extends PureComponent {
           <View className='desc'>{this.renderDesc(info.total_num, info.fee_total)}</View>
         </View>
         <View className='comp-order-item-footer'>
-          <OrderButton type='primary'>备注</OrderButton>
-          <OrderButton>联系客户</OrderButton>
-          <OrderButton type='danger'>取消订单</OrderButton>
+          <OrderButton type='primary' onClick={onClickNote}>
+            备注
+          </OrderButton>
+          <OrderButton onClick={onClickContact}>联系客户</OrderButton>
+          <OrderButton type='danger' onClick={onClickCancel}>
+            取消订单
+          </OrderButton>
+          <OrderButton type='primary' onClick={onClickConfirmGetOrder}>
+            接单
+          </OrderButton>
+          <OrderButton type='primary' onClick={onClickVerification}>
+            核销
+          </OrderButton>
         </View>
       </View>
     )

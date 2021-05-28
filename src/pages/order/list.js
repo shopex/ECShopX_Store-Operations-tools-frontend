@@ -1,11 +1,13 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Provider } from 'react'
 import { View, ScrollView } from '@tarojs/components'
 import { getThemeStyle } from '@/utils'
 import SearchInput from './comps/search-input'
 import Tabbar from './comps/tabbar'
 import FilterBlock from './comps/filterblock'
 import OrderItem from './comps/order-item'
-import api from '@/api'
+import FilterModal from './comps/filter-modal'
+import NoteDrawer from './comps/note-drawer'
+import ActionModal from './comps/action-modal'
 import './list.scss'
 
 const orderList = [
@@ -30,19 +32,23 @@ const orderList = [
     fee_total: '19.50'
   }
 ]
-
+const OrderContext = React.createContext()
 export default class List extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      orderStatus: 0
+      orderStatus: 0,
+      modalShow: false,
+      noteVisible: false,
+      actionVisible: false,
+      actionType: ''
     }
   }
 
   componentDidMount() {
-    api.order.getOrders().then((res) => {
-      console.log('Res', res)
-    })
+    // api.order.getOrders().then((res) => {
+    //   console.log('Res', res)
+    // })
   }
 
   handleTabClick = (activeIndex) => {
@@ -51,23 +57,104 @@ export default class List extends PureComponent {
     })
   }
 
+  handleClickSearch = () => {
+    console.log('handleClickSearch')
+    this.setState({
+      modalShow: !this.state.modalShow
+    })
+  }
+
+  //点击备注按钮
+  handleClickNoteButton = () => {
+    this.setState({
+      noteVisible: true
+    })
+  }
+
+  //关闭备注
+  handleNoteClose = () => {
+    this.setState({
+      noteVisible: false
+    })
+  }
+
+  //点击联系客户按钮
+  handleClickContactButton = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'phone'
+    })
+  }
+
+  handleClickCancelOrderButton = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'cancelOrder'
+    })
+  }
+
+  handleCloseActionModal = () => {
+    this.setState({
+      actionVisible: false
+    })
+  }
+
+  //点击确认发货
+  handleClickConfirmGetOrderButton = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'confirmGetOrder'
+    })
+  }
+
+  //点击核销
+  handleClickVerification = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'verification'
+    })
+  }
+
   render() {
-    const { orderStatus } = this.state
+    const { orderStatus, modalShow, noteVisible, actionVisible, actionType } = this.state
 
     return (
       <View className='page-order-list' style={getThemeStyle()}>
         <View className='page-order-list-input'>
-          <SearchInput />
+          <SearchInput modalShow={modalShow} clickSearch={this.handleClickSearch} />
         </View>
+
         <View className='page-order-list-tabbar'>
           <Tabbar activeStatus={orderStatus} onTabClick={this.handleTabClick} />
         </View>
+
         <FilterBlock />
+
         <ScrollView scrollY className='page-order-list-orderList'>
           {orderList.map((orderItem) => {
-            return <OrderItem key={orderItem.no} info={orderItem} />
+            return (
+              <OrderItem
+                key={orderItem.no}
+                info={orderItem}
+                onClickNote={this.handleClickNoteButton}
+                onClickContact={this.handleClickContactButton}
+                onClickCancel={this.handleClickCancelOrderButton}
+                onClickConfirmGetOrder={this.handleClickConfirmGetOrderButton}
+                onClickVerification={this.handleClickVerification}
+              />
+            )
           })}
         </ScrollView>
+
+        <FilterModal visible={modalShow} />
+
+        <NoteDrawer visible={noteVisible} onClose={this.handleNoteClose} />
+
+        <ActionModal
+          visible={actionVisible}
+          type={actionType}
+          onClose={this.handleCloseActionModal}
+        />
       </View>
     )
   }
