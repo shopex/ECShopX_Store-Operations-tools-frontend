@@ -11,7 +11,7 @@ export default {
   tabBar: {
     list: [
       {
-        pagePath: 'pages/index/index',
+        pagePath: 'pages/index',
         iconPath: './assets/imgs/index/index.svg',
         selectedIconPath: './assets/imgs/index/indexHover.svg',
         text: '店铺'
