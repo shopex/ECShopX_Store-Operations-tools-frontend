@@ -2,6 +2,7 @@
 
     margin-bottom: 16px;
     display: flex;
+    justify-content: space-between;
 
     &-image{
         width: 160px;
@@ -9,6 +10,7 @@
         box-shadow: 0px 2px 4px 0px #E2E4EA;
         border-radius: 8px;
         border: 1px solid #E2E4EA;
+        flex-shrink: 0;
 
         .img{
             width: 100%;
@@ -17,11 +19,43 @@
     }
 
     &-content{
+
+        width:336px;
+        flex-shrink: 0;
+        margin-left:24px;
+
         &_name{
-            text-shadow: 0px 2px 4px #E2E4EA;
+            // text-shadow: 0px 2px 4px #E2E4EA;
             font-weight: 500;
             color: #111A34;
             font-size: 28px;
+            @include multi-ellipsis(1);
+        }
+
+        &_spec{
+            font-size: 24px;
+            font-weight: 400;
+            color: #858B9C;
+            // text-shadow: 0px 2px 4px #E2E4EA;
+            margin-top: 6px;
+        }
+
+        &_number{
+            font-weight: 400;
+            color: #858B9C; 
+            font-size: 24px;
+            margin-top: 28px;
+            // text-shadow: 0px 2px 4px #E2E4EA;
+        }
+
+    }
+
+    &-rightextra{
+        text-align: right;
+        &-goodnumber{
+            font-size: 20px;
+            color:#111A34;
+            margin-top: 28px;
         }
     }
 }

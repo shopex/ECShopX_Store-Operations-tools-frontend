@@ -1,0 +1,13 @@
+.sp-good-item-price{
+    color:#111A34;
+    font-size:22px;
+    font-weight: 400;
+    
+    &.discount{
+        font-size: 24px;
+        font-weight: 400;
+        color: #858B9C;
+        // text-shadow: 0px 2px 4px #E2E4EA;
+        text-decoration: line-through;
+    }
+}

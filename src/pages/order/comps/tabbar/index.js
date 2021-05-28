@@ -1,30 +1,31 @@
 import React, { PureComponent } from 'react'
 import { ScrollView, View, Text } from '@tarojs/components'
 import { ORDER_STATUS } from '@/consts'
-import { classNames } from '@/utils'
+import { AtTabs, AtTabsPane } from 'taro-ui'
 import './index.scss'
 
-export default class SearchInput extends PureComponent {
+export default class Tabbar extends PureComponent {
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { activeStatus } = this.props
+    const { activeStatus, onTabClick = () => {} } = this.props
 
     return (
-      <ScrollView scrollX className='comp-order-list-tabbar'>
-        {Object.keys(ORDER_STATUS).map((statusValue) => (
-          <View
-            key={statusValue}
-            className={classNames('comp-order-list-tabbar-item', {
-              ['active']: activeStatus == statusValue
-            })}
-          >
-            <Text>{ORDER_STATUS[statusValue]}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <AtTabs
+        current={activeStatus}
+        scroll
+        tabList={[
+          { title: '标签页1' },
+          { title: '标签页2' },
+          { title: '标签页3' },
+          { title: '标签页4' },
+          { title: '标签页5' },
+          { title: '标签页6' }
+        ]}
+        onClick={onTabClick}
+      ></AtTabs>
     )
   }
 }

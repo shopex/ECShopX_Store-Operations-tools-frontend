@@ -29,4 +29,33 @@
             }
         } 
     }
+
+    &-body{
+        .goodItem{
+            margin-bottom: 16px;
+        }
+    }
+
+    &-extra{
+        margin-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        
+        .distribution{
+            font-weight: 400;
+            color: #858B9C;
+            font-size: 24px;
+        }
+
+        .desc{
+            font-weight: 500;
+            color: #111A34;
+            font-size: 28px;
+        }
+    }
+
+    &-footer{
+        margin-top:32px;
+    }
+
 }

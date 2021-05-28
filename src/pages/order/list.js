@@ -5,6 +5,7 @@ import SearchInput from './comps/search-input'
 import Tabbar from './comps/tabbar'
 import FilterBlock from './comps/filterblock'
 import OrderItem from './comps/order-item'
+import api from '@/api'
 import './list.scss'
 
 const orderList = [
@@ -18,13 +19,14 @@ const orderList = [
           'http://mmbiz.qpic.cn/mmbiz_png/Hw4SsicubkrdnwoLMY38PLNULch2rPgsGb4NCVCC4EGa8EFs2MPCSbzJolznV64F0L5VetQvyE2ZrCcIb1ZALEA/0?wx_fmt=png?imageView2/2/w/300',
         name: '我商品名最多只显示一行…',
         spec: '规格：12件套',
-        no: '货号：765323456789',
-        price: '¥ 9999.99',
-        extraPrice: '¥ 9999.99',
+        no: '765323456789',
+        price: '9999.99',
+        extraPrice: '9999.99',
         num: 1
       }
     ],
     type: '商家快递配送',
+    total_num: 5,
     fee_total: '19.50'
   }
 ]
@@ -37,6 +39,18 @@ export default class List extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    api.order.getOrders().then((res) => {
+      console.log('Res', res)
+    })
+  }
+
+  handleTabClick = (activeIndex) => {
+    this.setState({
+      orderStatus: activeIndex
+    })
+  }
+
   render() {
     const { orderStatus } = this.state
 
@@ -45,7 +59,9 @@ export default class List extends PureComponent {
         <View className='page-order-list-input'>
           <SearchInput />
         </View>
-        <Tabbar activeStatus={orderStatus} />
+        <View className='page-order-list-tabbar'>
+          <Tabbar activeStatus={orderStatus} onTabClick={this.handleTabClick} />
+        </View>
         <FilterBlock />
         <ScrollView scrollY className='page-order-list-orderList'>
           {orderList.map((orderItem) => {
