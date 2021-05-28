@@ -13,16 +13,11 @@ const funcList = [
   {
     title: '售后',
     icon: require('../../assets/imgs/index/shouhou.svg')
-
   },
   {
     title: '扫一扫',
     icon: require('../../assets/imgs/index/shaoyishao.svg')
-  },
-  // {
-  //   title: '扫一扫',
-  //   icon: require('../../assets/imgs/index/shaoyishao.svg')
-  // }
+  }
 ]
 class Index extends PureComponent {
   constructor() {
@@ -118,8 +113,8 @@ class Index extends PureComponent {
             {funcList.map((item) => {
               return (
                 <View className='item' key={item.title}>
-                  <View >
-                    <Image className="img" src={item.icon}></Image>
+                  <View>
+                    <Image className='img' src={item.icon}></Image>
                   </View>
                   <View className='subtitle'>{item.title}</View>
                 </View>

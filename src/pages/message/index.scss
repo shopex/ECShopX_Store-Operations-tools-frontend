@@ -1,0 +1,13 @@
+.page-message{
+
+  
+    .message-list{
+
+        @include page-scroll(0px,0px,0);
+        padding-left: 40px;
+        padding-right: 40px;
+        box-sizing: border-box;
+        background: #fff;
+
+    }
+}
