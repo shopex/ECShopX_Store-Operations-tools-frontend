@@ -10,15 +10,20 @@ const renderNumber = 6
 export default class ActionModal extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      veriCode: ''
+    }
   }
 
-  renderInputCode = () => {
-    return (
-      <View className='inputwrapper'>
-        <AtInput className='input' type='number' />
-      </View>
-    )
+  handleChangeInputVericode = (value) => {
+    console.log('handleChangeInputVericode', value)
+    if (value.length > 6) {
+      this.setState({})
+    } else {
+      this.setState({
+        veriCode: value
+      })
+    }
   }
 
   renderContent = () => {
@@ -52,7 +57,15 @@ export default class ActionModal extends PureComponent {
         <View className='verificationContent'>
           <View className='item item1'>自提订单核销</View>
           <View className='item item2'>请输入6位数的核销码</View>
-          {this.renderInputCode()}
+          <View className='inputwrapper'>
+            <AtInput
+              className='input'
+              type='text'
+              maxLength='6'
+              value={this.state.veriCode}
+              onChange={this.handleChangeInputVericode}
+            />
+          </View>
         </View>
       )
     }
