@@ -18,10 +18,6 @@ const funcList = [
     title: '扫一扫',
     icon: require('@/assets/imgs/index/shaoyishao.svg')
   }
-  // {
-  //   title: '扫一扫',
-  //   icon: require('../../assets/imgs/index/shaoyishao.svg')
-  // }
 ]
 class Index extends PureComponent {
   constructor() {
@@ -132,34 +128,3 @@ class Index extends PureComponent {
 }
 
 export default Index
-
-// @withLogin()
-// export default class Index extends Component {
-//   state = {
-//     text: 222
-//   }
-//   componentWillMount() {
-//     console.log( 'Index', getCurrentInstance() )
-//     console.log('Index componentWillMount')
-//   }
-
-//   componentDidMount() {
-//     console.log('Index componentDidMount')
-//   }
-
-//   componentDidHide() {
-//     console.log('Index componentDidHide')
-//   }
-
-//   navigateTo =  navigateTo
-
-//   render() {
-//     const { text } = this.state
-//     return (
-//       <View className='page-index'>
-//         <Text>首页: {text}</Text>
-//         <View onClick={ this.navigateTo.bind(this, '/pages/auth/agreement') }>协议</View>
-//       </View>
-//     )
-//   }
-// }
