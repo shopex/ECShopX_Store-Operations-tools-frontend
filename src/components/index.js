@@ -6,5 +6,6 @@ export { default as SpScollButton } from './sp-scroll-button'
 export { default as SpGoodItem } from './sp-good-item'
 export { default as SptitleBar } from './sp-title-bar'
 export { default as SpMessage } from './sp-message'
+export { default as SpClickAwayListener } from './sp-click-away-listener'
 
 export default {}

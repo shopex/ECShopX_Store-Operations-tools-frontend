@@ -1,4 +1,5 @@
 import React, { PureComponent, Provider } from 'react'
+import Taro from '@tarojs/taro'
 import { View, ScrollView } from '@tarojs/components'
 import { getThemeStyle } from '@/utils'
 import SearchInput from './comps/search-input'
@@ -58,7 +59,6 @@ export default class List extends PureComponent {
   }
 
   handleClickSearch = () => {
-    console.log('handleClickSearch')
     this.setState({
       modalShow: !this.state.modalShow
     })
@@ -115,6 +115,20 @@ export default class List extends PureComponent {
     })
   }
 
+  //点击筛选modal框其他地方
+  handleFilterModalClickAway = (e) => {
+    if (
+      e.target.id === 'custom_input' ||
+      e.target.id === 'custom_input_arrow' ||
+      e.target.id === 'custom_input_text'
+    ) {
+      return
+    }
+    this.setState({
+      modalShow: false
+    })
+  }
+
   render() {
     const { orderStatus, modalShow, noteVisible, actionVisible, actionType } = this.state
 
@@ -148,7 +162,7 @@ export default class List extends PureComponent {
           })}
         </ScrollView>
 
-        {/* <FilterModal visible={modalShow} /> */}
+        <FilterModal visible={modalShow} onClickAway={this.handleFilterModalClickAway} />
 
         <NoteDrawer visible={noteVisible} onClose={this.handleNoteClose} />
 

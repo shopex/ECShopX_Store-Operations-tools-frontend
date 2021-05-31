@@ -23,22 +23,11 @@
     align-items: center;
     font-size: 28px;
     font-weight: 400;
-    color: #666F83;
+    color: #666F83; 
+   
+    @include hairline()
 
    
-
-    &:not(&:nth-last-child(1)) {
-      &::after {
-        display: block;
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 1px;
-        background-color: #E2E4EA;
-      }
-    }  
   }
 
 }

@@ -15,12 +15,13 @@ export default class SearchInput extends PureComponent {
 
     return (
       <View className='comp-order-list-searhInput'>
-        <View className='title' onClick={clickSearch}>
-          <Text>订单号</Text>
+        <View className='title' id='custom_input' onClick={clickSearch}>
+          <Text id='custom_input_text'>订单号</Text>
           <Text
             className={classNames('iconfont', 'icon-xiala-01', {
               ['isModalShow']: modalShow
             })}
+            id='custom_input_arrow'
           ></Text>
         </View>
         <View className='input'>
