@@ -125,7 +125,9 @@ export default class List extends PureComponent {
         </View>
 
         <View className='page-order-list-tabbar'>
+          <View className='left'></View>
           <Tabbar activeStatus={orderStatus} onTabClick={this.handleTabClick} />
+          <View className='right'></View>
         </View>
 
         <FilterBlock />
@@ -146,7 +148,7 @@ export default class List extends PureComponent {
           })}
         </ScrollView>
 
-        <FilterModal visible={modalShow} />
+        {/* <FilterModal visible={modalShow} /> */}
 
         <NoteDrawer visible={noteVisible} onClose={this.handleNoteClose} />
 

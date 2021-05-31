@@ -1,29 +1,38 @@
 import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
-import { View } from '@tarojs/components'
+import { Text, View, Input } from '@tarojs/components'
 import { classNames } from '@/utils'
 import { AtModal, AtInput } from 'taro-ui'
 import './index.scss'
-
-const renderNumber = 6
 
 export default class ActionModal extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      veriCode: ''
+      veriCode: ['', '', '', '', '', '']
     }
   }
 
-  handleChangeInputVericode = (value) => {
-    console.log('handleChangeInputVericode', value)
-    if (value.length > 6) {
-      this.setState({})
-    } else {
-      this.setState({
-        veriCode: value
+  handleChangeInputVericode = (e) => {
+    const value = e.detail.value
+    this.setState({
+      veriCode: this.fillSix(value)
+    })
+  }
+
+  fillSix = (value = '') => {
+    let newArray = value.split('')
+    let max = 6
+    if (newArray.length < max) {
+      new Array(max - newArray.length).fill('').forEach((item) => {
+        newArray.push('')
       })
     }
+    return newArray
+  }
+
+  computedRealLength = () => {
+    return this.state.veriCode.join('').trim().length
   }
 
   renderContent = () => {
@@ -58,13 +67,30 @@ export default class ActionModal extends PureComponent {
           <View className='item item1'>自提订单核销</View>
           <View className='item item2'>请输入6位数的核销码</View>
           <View className='inputwrapper'>
-            <AtInput
+            <Input
               className='input'
-              type='text'
-              maxLength='6'
-              value={this.state.veriCode}
-              onChange={this.handleChangeInputVericode}
+              type='number'
+              maxlength={6}
+              onInput={this.handleChangeInputVericode}
             />
+            <View className='bottom_line——wrapper'>
+              {this.state.veriCode.map((code, index) => (
+                <View
+                  className={classNames('bottom_line', {
+                    [`active`]: index + 1 <= this.computedRealLength()
+                  })}
+                  key={`${index}${code}`}
+                >
+                  <Text className='number'>{code}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+          <View className='bottom'>
+            <View className='wrapper-bottom'>
+              <Text className='iconfont icon-saoma'></Text>
+              <Text className='text'>扫一扫</Text>
+            </View>
           </View>
         </View>
       )
