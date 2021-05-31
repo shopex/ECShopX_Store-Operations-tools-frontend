@@ -41,9 +41,7 @@ const config = {
     resource: path.resolve(__dirname, '..', 'src/style/imports.scss')
   },
   copy: {
-    patterns: [
-      { from: 'WW_verify_ByCEXyjuAbctXWGW.txt', to: `dist/WW_verify_ByCEXyjuAbctXWGW.txt` }
-    ],
+    patterns: [{ from: 'src/files/', to: `dist/` }],
     options: {}
   },
   framework: 'react',
@@ -71,6 +69,9 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    router: {
+      mode: 'browser'
+    },
     postcss: {
       autoprefixer: {
         enable: true,
