@@ -41,7 +41,9 @@ const config = {
     resource: path.resolve(__dirname, '..', 'src/style/imports.scss')
   },
   copy: {
-    patterns: [],
+    patterns: [
+      { from: 'WW_verify_ByCEXyjuAbctXWGW.txt', to: `dist/WW_verify_ByCEXyjuAbctXWGW.txt` }
+    ],
     options: {}
   },
   framework: 'react',
