@@ -5,6 +5,8 @@ import { View, Text, ScrollView } from '@tarojs/components'
 import { SptitleBar, SpMessage } from '@/components'
 import './index.scss'
 
+import api from '@/api'
+
 const SpTitleBarData = {
   title: '消息中心'
 }
@@ -53,7 +55,9 @@ export default class Message extends PureComponent {
   constructor() {
     super()
   }
-  componentDidMount() {}
+  componentDidMount() {
+    // console.log(api.message.getMessageList());
+  }
 
   render() {
     return (
