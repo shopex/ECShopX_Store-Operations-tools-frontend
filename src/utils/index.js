@@ -47,7 +47,6 @@ export function getCurrentRoute() {
 
 export function getThemeStyle() {
   let systemTheme = S.get('SYSTEM_THEME')
-  console.log(defaultTheme, systemTheme)
   if (!systemTheme) {
     systemTheme = {
       ...defaultTheme
@@ -86,4 +85,22 @@ export function copyContent(content) {
   })
 }
 
-export { classNames, log, debounce, throttle, validate }
+async function requestCallback(func, successText, successCallback) {
+  let result = 1
+
+  try {
+    const res = await func()
+    if (res) {
+      S.toast(successText)
+    }
+  } catch (e) {
+    console.log('请求错误', e)
+    result = 0
+  }
+
+  if (result !== 0) {
+    successCallback()
+  }
+}
+
+export { classNames, log, debounce, throttle, validate, requestCallback }

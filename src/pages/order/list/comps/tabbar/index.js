@@ -10,11 +10,7 @@ export default class Index extends PureComponent {
   render() {
     const { activeStatus, onTabClick = () => {} } = this.props
 
-    console.log(this.props)
-
-    const tabList = Object.keys(ORDER_STATUS).map((status) => ({ title: status }))
-
-    console.log('activeStatus', activeStatus)
+    const tabList = Object.values(ORDER_STATUS).map((status) => ({ title: status }))
 
     return <AtTabs current={activeStatus} scroll tabList={tabList} onClick={onTabClick}></AtTabs>
   }

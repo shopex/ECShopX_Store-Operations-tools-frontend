@@ -15,6 +15,27 @@ export default class OrderItem extends PureComponent {
     return `共${number}件商品 应收（含运费）：¥ ${totalFee}`
   }
 
+  renderReceiptType = (info) => {
+    return info.app_info.delivery_type_msg
+    let result
+    switch (info.receipt_type) {
+      case 'normal':
+        result = '普通订单'
+        break
+      case 'ziti':
+        result = '门店自提'
+        break
+      case 'dada':
+        result = '商家快递配送'
+        break
+      default:
+        result = '普通订单'
+        break
+    }
+
+    return result
+  }
+
   render() {
     const {
       info,
@@ -31,23 +52,23 @@ export default class OrderItem extends PureComponent {
           <HeaderInfo info={info} />
         </View>
         <View className='comp-order-item-body'>
-          {info.items.map((goodItem) => (
-            <SpGoodItem info={goodItem} className='goodItem' />
+          {info.items.map((goodItem, index) => (
+            <SpGoodItem info={goodItem} className='goodItem' key={index} />
           ))}
         </View>
         <View className='comp-order-item-extra'>
-          <View className='distribution'>{`${info.type}`}</View>
+          <View className='distribution'>{this.renderReceiptType(info)}</View>
           <View className='desc'>{this.renderDesc(info.items.length, info.total_fee)}</View>
         </View>
         <View className='comp-order-item-footer'>
-          <OrderButton type='primary' onClick={onClickNote}>
+          <OrderButton type='primary' onClick={() => onClickNote(info)}>
             备注
           </OrderButton>
           <OrderButton onClick={onClickContact}>联系客户</OrderButton>
-          <OrderButton type='danger' onClick={onClickCancel}>
+          <OrderButton type='danger' onClick={() => onClickCancel(info)}>
             取消订单
           </OrderButton>
-          <OrderButton type='primary' onClick={onClickConfirmGetOrder}>
+          <OrderButton type='primary' onClick={() => onClickConfirmGetOrder(info)}>
             接单
           </OrderButton>
           <OrderButton type='primary' onClick={onClickVerification}>

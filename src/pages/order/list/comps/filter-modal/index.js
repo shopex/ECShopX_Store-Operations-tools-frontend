@@ -23,7 +23,9 @@ export default class OrderItem extends PureComponent {
           })}
         >
           {modalLabels.map((label) => (
-            <View className={classNames('comp-filter-modal_item')}>{label}</View>
+            <View key={label} className={classNames('comp-filter-modal_item')}>
+              {label}
+            </View>
           ))}
         </View>
       </SpClickAwayListener>

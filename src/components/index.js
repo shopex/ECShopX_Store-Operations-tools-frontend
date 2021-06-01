@@ -9,5 +9,7 @@ export { default as SpMessage } from './sp-message'
 export { default as SpClickAwayListener } from './sp-click-away-listener'
 export { default as SpLoading } from './sp-loading'
 export { default as SpNote } from './sp-note'
+export { default as SpToast } from './sp-toast'
+export { default as SpMessageCard } from './sp-message-card'
 
 export default {}

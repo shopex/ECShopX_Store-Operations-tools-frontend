@@ -1,8 +1,10 @@
 import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import { Text, View, Input } from '@tarojs/components'
-import { classNames } from '@/utils'
+import { classNames , requestCallback } from '@/utils'
 import { AtModal, AtInput } from 'taro-ui'
+
+import api from '@/api'
 import './index.scss'
 
 export default class ActionModal extends PureComponent {
@@ -124,7 +126,19 @@ export default class ActionModal extends PureComponent {
 
   //取消订单
   handleCancelOrder = () => {
-    this.handleClose()
+    const { currentOrder } = this.props
+    requestCallback(
+      async () => {
+        const data = await api.order.cancel({
+          order_id: currentOrder.order_id
+        })
+        return data
+      },
+      '取消订单成功',
+      () => {
+        this.handleClose()
+      }
+    )
   }
 
   renderAction = () => {

@@ -8,14 +8,15 @@ import OrderItem from './comps/order-item'
 import FilterModal from './comps/filter-modal'
 import NoteDrawer from './comps/note-drawer'
 import ActionModal from './comps/action-modal'
-import { withPager } from '@/hocs'
-import { ORDER_STATUS } from '@/consts'
+import { withPager, withBackToTop } from '@/hocs'
 import { SpLoading, SpNote } from '@/components'
+import { SpToast } from '@/components'
 
 import api from '@/api'
-import './list.scss'
+import './index.scss'
 
 @withPager
+@withBackToTop
 export default class List extends PureComponent {
   constructor(props) {
     super(props)
@@ -25,17 +26,18 @@ export default class List extends PureComponent {
       noteVisible: false,
       actionVisible: false,
       actionType: '',
-      orderList: []
+      orderList: [],
+      currentOrder: {}
     }
   }
 
-  componentDidShow() {
+  async componentDidMount() {
+    console.log('componentDidMount')
     this.setState(
       {
         orderList: []
       },
       () => {
-        this.resetPage()
         this.nextPage()
       }
     )
@@ -54,16 +56,18 @@ export default class List extends PureComponent {
   }
 
   //点击备注按钮
-  handleClickNoteButton = () => {
+  handleClickNoteButton = (orderInfo) => {
     this.setState({
-      noteVisible: true
+      noteVisible: true,
+      currentOrder: orderInfo
     })
   }
 
   //关闭备注
   handleNoteClose = () => {
     this.setState({
-      noteVisible: false
+      noteVisible: false,
+      currentOrder: {}
     })
   }
 
@@ -75,16 +79,19 @@ export default class List extends PureComponent {
     })
   }
 
-  handleClickCancelOrderButton = () => {
+  //点击取消订单按钮
+  handleClickCancelOrderButton = (orderInfo) => {
     this.setState({
       actionVisible: true,
+      currentOrder: orderInfo,
       actionType: 'cancelOrder'
     })
   }
 
   handleCloseActionModal = () => {
     this.setState({
-      actionVisible: false
+      actionVisible: false,
+      currentOrder: {}
     })
   }
 
@@ -118,27 +125,52 @@ export default class List extends PureComponent {
     })
   }
 
-  async fetch(params) {
+  getOrderParams = () => {
+    let params = {
+      order_type: 'normal',
+      order_class_exclude: 'drug,pointsmall'
+    }
+
+    return params
+  }
+
+  //获取订单列表
+  getOrdersList = async (params) => {
     const {
       list,
       pager: { count: total }
     } = await api.order.list({
       page: params.page_no,
       pageSize: params.page_size,
-      order_type: 'normal',
-      order_class_exclude: 'drug,pointsmall'
+      ...this.getOrderParams()
     })
 
     this.setState({
       orderList: [...list]
     })
 
+    return {
+      total
+    }
+  }
+
+  async fetch(params) {
+    const { total } = await this.getOrdersList(params)
+
     return { total }
   }
 
   render() {
-    const { orderStatus, modalShow, noteVisible, actionVisible, actionType, orderList, page } =
-      this.state
+    const {
+      orderStatus,
+      modalShow,
+      noteVisible,
+      actionVisible,
+      actionType,
+      orderList,
+      page,
+      currentOrder
+    } = this.state
 
     console.log('page', page.isLoading)
 
@@ -156,11 +188,13 @@ export default class List extends PureComponent {
 
         <FilterBlock />
 
+        {page.isLoading && <SpLoading>正在加载...</SpLoading>}
+
         <ScrollView scrollY className='page-order-list-orderList'>
           {orderList.map((orderItem) => {
             return (
               <OrderItem
-                key={orderItem.no}
+                key={orderItem.order_id}
                 info={orderItem}
                 onClickNote={this.handleClickNoteButton}
                 onClickContact={this.handleClickContactButton}
@@ -170,7 +204,7 @@ export default class List extends PureComponent {
               />
             )
           })}
-          {page.isLoading && <SpLoading>正在加载...</SpLoading>}
+
           {!page.isLoading && !page.hasNext && !orderList.length && (
             <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
           )}
@@ -178,13 +212,20 @@ export default class List extends PureComponent {
 
         <FilterModal visible={modalShow} onClickAway={this.handleFilterModalClickAway} />
 
-        <NoteDrawer visible={noteVisible} onClose={this.handleNoteClose} />
+        <NoteDrawer
+          visible={noteVisible}
+          onClose={this.handleNoteClose}
+          currentOrder={currentOrder}
+        />
 
         <ActionModal
           visible={actionVisible}
           type={actionType}
           onClose={this.handleCloseActionModal}
+          currentOrder={currentOrder}
         />
+
+        <SpToast />
       </View>
     )
   }

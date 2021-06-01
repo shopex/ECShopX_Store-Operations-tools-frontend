@@ -9,6 +9,18 @@ export default class No extends PureComponent {
     this.state = {}
   }
 
+  renderStatus = (info) => {
+    const orderStatus = info.order_status.toLowerCase()
+    let label = ORDER_STATUS[orderStatus]
+
+    return (
+      <View className='order-status'>
+        <Text className='order-status-text'>{label}</Text>
+        <Text className='order-status-background'></Text>
+      </View>
+    )
+  }
+
   render() {
     const { info } = this.props
 
@@ -22,10 +34,7 @@ export default class No extends PureComponent {
         </View>
         <View className='order-time'>{info.create_date}</View>
 
-        <View className='order-status'>
-          <Text className='order-status-text'>{ORDER_STATUS[info.order_status.toLowerCase()]}</Text>
-          <Text className='order-status-background'></Text>
-        </View>
+        {this.renderStatus(info)}
       </View>
     )
   }

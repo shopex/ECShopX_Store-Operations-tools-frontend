@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react'
 import './index.scss'
 import { View } from '@tarojs/components'
 import { AtFloatLayout, AtTextarea } from 'taro-ui'
+import { requestCallback } from '@/utils'
+import api from '@/api'
 
 export default class NoteDrawer extends PureComponent {
   constructor(props) {
@@ -26,12 +28,27 @@ export default class NoteDrawer extends PureComponent {
     onClose && onClose()
   }
 
-  handleConfirm = (e) => {
-    const { onClose } = this.props
-    this.setState({
-      noteContent: ''
-    })
-    onClose && onClose()
+  async handleConfirm(e) {
+    const { onClose, currentOrder } = this.props
+    const { noteContent } = this.state
+
+    requestCallback(
+      async () => {
+        const data = await api.order.remarks({
+          orderId: currentOrder.order_id,
+          remark: noteContent,
+          is_distribution: '1'
+        })
+        return data
+      },
+      '修改备注成功',
+      () => {
+        this.setState({
+          noteContent: ''
+        })
+        onClose && onClose()
+      }
+    )
   }
 
   render() {
@@ -46,7 +63,7 @@ export default class NoteDrawer extends PureComponent {
             取消
           </View>
           <View className='center'>订单备注</View>
-          <View className='right' onClick={this.handleConfirm}>
+          <View className='right' onClick={this.handleConfirm.bind(this)}>
             确定
           </View>
         </View>

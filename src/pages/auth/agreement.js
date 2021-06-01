@@ -25,8 +25,6 @@ const AgreeMent = () => {
     api.operator.getProtocol()
   }, [])
 
-  console.log('scrollTop', scrollTop)
-
   return (
     <View className='page-auth-agreement' style={getThemeStyle()}>
       <View className='page-auth-agreement-header-logo'>

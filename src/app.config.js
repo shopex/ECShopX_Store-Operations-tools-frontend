@@ -6,6 +6,8 @@ export default {
     'pages/auth/login',
     'pages/auth/agreement',
     'pages/order/list',
+    'pages/order/detail',
+    'pages/order/delivery',
     'pages/auth/welcome',
     'pages/auth/bindPhone'
   ],
