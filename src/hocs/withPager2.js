@@ -28,26 +28,39 @@ export default function withPager(Component) {
       }
       page.isLoading = true
       this.setState({
-        page
+        page: {
+          ...page
+        }
       })
-      const { page_no, page_size } = page
-      const curPage = page_no + 1
-      const { total } = await this.fetch({
-        page_no: curPage,
-        page_size
+      const { total } = await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ total: 2000 })
+        }, 5000)
       })
-      if (!total || curPage >= Math.ceil(+total / page_size)) {
-        page.hasNext = false
-      }
-
       this.setState({
         page: {
           ...page,
-          total,
-          page_no: curPage,
           isLoading: false
         }
       })
+      //   const { page_no, page_size } = page
+      //   const curPage = page_no + 1
+      //   const { total } = await this.fetch({
+      //     page_no: curPage,
+      //     page_size
+      //   })
+      //   if (!total || curPage >= Math.ceil(+total / page_size)) {
+      //     page.hasNext = false
+      //   }
+
+      //   this.setState({
+      //     page: {
+      //       ...page,
+      //       total,
+      //       page_no: curPage,
+      //       isLoading: false,
+      //     }
+      //   })
     }
 
     resetPage(cb = () => {}) {

@@ -7,5 +7,7 @@ export { default as SpGoodItem } from './sp-good-item'
 export { default as SptitleBar } from './sp-title-bar'
 export { default as SpMessage } from './sp-message'
 export { default as SpClickAwayListener } from './sp-click-away-listener'
+export { default as SpLoading } from './sp-loading'
+export { default as SpNote } from './sp-note'
 
 export default {}

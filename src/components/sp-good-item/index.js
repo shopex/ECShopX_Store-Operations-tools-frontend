@@ -15,12 +15,12 @@ class SpGoodItem extends PureComponent {
     return (
       <View className={classNames('sp-good-item', className)}>
         <View className='sp-good-item-image'>
-          <Image className='img' src={info.image} />
+          <Image className='img' src={info.pic} />
         </View>
         <View className='sp-good-item-content'>
-          <View className='sp-good-item-content_name'>{info.name}</View>
-          <View className='sp-good-item-content_spec'>{info.spec}</View>
-          <View className='sp-good-item-content_number'>货号：{info.no}</View>
+          <View className='sp-good-item-content_name'>{info.item_name}</View>
+          <View className='sp-good-item-content_spec'>{info.item_spec_desc}</View>
+          <View className='sp-good-item-content_number'>货号：{info.item_bn}</View>
         </View>
         <View className='sp-good-item-rightextra'>
           <View className='sp-good-item-rightextra-price'>

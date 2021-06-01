@@ -1,5 +1,4 @@
-import React, { PureComponent, Provider } from 'react'
-import Taro from '@tarojs/taro'
+import React, { PureComponent } from 'react'
 import { View, ScrollView } from '@tarojs/components'
 import { getThemeStyle } from '@/utils'
 import SearchInput from './comps/search-input'
@@ -9,31 +8,14 @@ import OrderItem from './comps/order-item'
 import FilterModal from './comps/filter-modal'
 import NoteDrawer from './comps/note-drawer'
 import ActionModal from './comps/action-modal'
+import { withPager } from '@/hocs'
+import { ORDER_STATUS } from '@/consts'
+import { SpLoading, SpNote } from '@/components'
+
+import api from '@/api'
 import './list.scss'
 
-const orderList = [
-  {
-    no: 'DD20210413214985479',
-    time: '2021.04.12 16:14:19',
-    status: '已取消',
-    goodList: [
-      {
-        image:
-          'http://mmbiz.qpic.cn/mmbiz_png/Hw4SsicubkrdnwoLMY38PLNULch2rPgsGb4NCVCC4EGa8EFs2MPCSbzJolznV64F0L5VetQvyE2ZrCcIb1ZALEA/0?wx_fmt=png?imageView2/2/w/300',
-        name: '我商品名最多只显示一行…',
-        spec: '规格：12件套',
-        no: '765323456789',
-        price: '9999.99',
-        extraPrice: '9999.99',
-        num: 1
-      }
-    ],
-    type: '商家快递配送',
-    total_num: 5,
-    fee_total: '19.50'
-  }
-]
-const OrderContext = React.createContext()
+@withPager
 export default class List extends PureComponent {
   constructor(props) {
     super(props)
@@ -42,14 +24,21 @@ export default class List extends PureComponent {
       modalShow: false,
       noteVisible: false,
       actionVisible: false,
-      actionType: ''
+      actionType: '',
+      orderList: []
     }
   }
 
-  componentDidMount() {
-    // api.order.getOrders().then((res) => {
-    //   console.log('Res', res)
-    // })
+  componentDidShow() {
+    this.setState(
+      {
+        orderList: []
+      },
+      () => {
+        this.resetPage()
+        this.nextPage()
+      }
+    )
   }
 
   handleTabClick = (activeIndex) => {
@@ -129,8 +118,29 @@ export default class List extends PureComponent {
     })
   }
 
+  async fetch(params) {
+    const {
+      list,
+      pager: { count: total }
+    } = await api.order.list({
+      page: params.page_no,
+      pageSize: params.page_size,
+      order_type: 'normal',
+      order_class_exclude: 'drug,pointsmall'
+    })
+
+    this.setState({
+      orderList: [...list]
+    })
+
+    return { total }
+  }
+
   render() {
-    const { orderStatus, modalShow, noteVisible, actionVisible, actionType } = this.state
+    const { orderStatus, modalShow, noteVisible, actionVisible, actionType, orderList, page } =
+      this.state
+
+    console.log('page', page.isLoading)
 
     return (
       <View className='page-order-list' style={getThemeStyle()}>
@@ -160,6 +170,10 @@ export default class List extends PureComponent {
               />
             )
           })}
+          {page.isLoading && <SpLoading>正在加载...</SpLoading>}
+          {!page.isLoading && !page.hasNext && !orderList.length && (
+            <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
+          )}
         </ScrollView>
 
         <FilterModal visible={modalShow} onClickAway={this.handleFilterModalClickAway} />

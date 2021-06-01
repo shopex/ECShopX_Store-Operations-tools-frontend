@@ -9,12 +9,10 @@
     color:#666F83;
     font-size: 28px;
     padding: 10px 28px;
+    flex-shrink:0;
     @include inline-flexbox();
+    margin-left: 20px;
 
-    &.type-primary{
-        color: var(--color-primary);
-        border-color: var(--color-primary);
-    }
 
     &.type-danger{
         color: #FF5257;

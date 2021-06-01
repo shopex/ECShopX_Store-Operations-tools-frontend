@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
-import { SpGoodItem } from '@/components'
+import { SpGoodItem, SpLoading } from '@/components'
 import HeaderInfo from './header'
 import OrderButton from './button'
 import './index.scss'
@@ -31,13 +31,13 @@ export default class OrderItem extends PureComponent {
           <HeaderInfo info={info} />
         </View>
         <View className='comp-order-item-body'>
-          {info.goodList.map((goodItem) => (
+          {info.items.map((goodItem) => (
             <SpGoodItem info={goodItem} className='goodItem' />
           ))}
         </View>
         <View className='comp-order-item-extra'>
           <View className='distribution'>{`${info.type}`}</View>
-          <View className='desc'>{this.renderDesc(info.total_num, info.fee_total)}</View>
+          <View className='desc'>{this.renderDesc(info.items.length, info.total_fee)}</View>
         </View>
         <View className='comp-order-item-footer'>
           <OrderButton type='primary' onClick={onClickNote}>
