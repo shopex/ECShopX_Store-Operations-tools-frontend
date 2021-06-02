@@ -6,7 +6,8 @@ export default {
     'pages/auth/login',
     'pages/auth/agreement',
     'pages/auth/welcome',
-    'pages/auth/bindPhone'
+    'pages/auth/bindPhone',
+    'pages/planSelection/index'
   ],
   tabBar: {
     list: [
