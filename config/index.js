@@ -72,6 +72,10 @@ const config = {
     router: {
       mode: 'browser'
     },
+    devServer: {
+      overlay: false
+      // port: 80
+    },
     postcss: {
       autoprefixer: {
         enable: true,

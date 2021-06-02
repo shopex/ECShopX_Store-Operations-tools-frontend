@@ -23,6 +23,8 @@ const funcList = [
   //   icon: require('../../assets/imgs/index/shaoyishao.svg')
   // }
 ]
+
+@withLogin()
 class Index extends PureComponent {
   constructor() {
     super()

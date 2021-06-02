@@ -24,7 +24,7 @@ export function isObject(val) {
   return isPrimitiveType(val, '[object Object]')
 }
 
-export function navigateTo (url, isRedirect) {
+export function navigateTo(url, isRedirect) {
   if (isObject(isRedirect)) {
     isRedirect = false
   }
@@ -45,10 +45,8 @@ export function getCurrentRoute() {
   }
 }
 
-
 export function getThemeStyle() {
-  let systemTheme = S.get( 'SYSTEM_THEME' )
-  console.log(defaultTheme, systemTheme)
+  let systemTheme = S.get('SYSTEM_THEME')
   if (!systemTheme) {
     systemTheme = {
       ...defaultTheme
@@ -62,8 +60,8 @@ export function getThemeStyle() {
   }
 }
 // 格式化金钱
-export function formatNum(number){
-  return number.toLocaleString();
+export function formatNum(number) {
+  return number.toLocaleString()
 }
 
 export function showToast(title) {
@@ -73,10 +71,4 @@ export function showToast(title) {
   })
 }
 
-export {
-  classNames,
-  log,
-  debounce,
-  throttle,
-  validate
-}
+export { classNames, log, debounce, throttle, validate }

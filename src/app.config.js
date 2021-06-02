@@ -3,9 +3,9 @@ export default {
     'pages/index',
     'pages/message/index',
     'pages/my/index',
-    'pages/auth/login',
-    'pages/auth/agreement',
-    'pages/auth/welcome',
+    // 'pages/auth/login',
+    // 'pages/auth/agreement',
+    'pages/auth/index',
     'pages/auth/bindPhone'
   ],
   tabBar: {
