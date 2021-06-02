@@ -17,14 +17,14 @@
         width: 30px;
         height: 30px;
         background: #E2E4EA;
-        border-radius: 50%;
-        line-height: 30px;
+        border-radius: 50%; 
+        @include flexbox();
 
         .iconfont {
           color: #858B9C;
-          position: relative;
-          top: 2px;
-
+          position: relative;  
+          font-size: 18px;
+          top:1px;
         }
       }
 
@@ -57,111 +57,5 @@
 
   }
 
-  .filterDrawer{
-
-    .at-drawer__content{
-        border-top-left-radius: 40px;
-        border-bottom-left-radius: 40px;
-    }
-      
-    .content{
-        padding:0 50px;
-        height: 100%;
-        padding-top: 50px;
-
-        .filterTitle{
-          
-
-          .text{
-            font-size: 36px;
-            font-weight: 400;
-            color: #111A34;
-          }
-        }
-        .main{
-
-          height: calc( 100% - 200px );
-          overflow-y: auto;
-          overflow-x: hidden;
-
-          .filterItem{
-            .title{
-              font-weight: 400;
-              color: #666F83;
-              font-size: 30px;
-              margin-bottom:32px;
-              margin-top:20px;
-            }
-            .blocks{
-              .block{
-                margin-bottom: 20px;
-                padding:15px 0;
-                font-size: 28px;
-                font-weight: 400;
-                background: #F5F6F9;
-                border-radius: 8px;
-                color: #111A34;
-                width: calc( (100% - 40px)/3 );
-                display: inline-block;
-                text-align: center;
-                position: relative;
-
-                .iconfont{
-                  position: absolute;
-                  top: -2px;
-                  right: -3px;
-                  color:var(--color-primary);
-                  opacity: 0;
-                }
-
-                &.active{
-                  border-radius: 8px;
-                  border: 2px solid var(--color-primary);
-                  color:var(--color-primary);
-                  .iconfont{
-                    opacity: 1;
-                  }
-                }
-
-                &.col-1{
-                  width: calc( (100% - 40px)/3*1 );
-                }
-
-                &.col-2{
-                  width: calc( 100% - (100% - 40px)/3*1 - 20px ); 
-                }
-
-                &.col-3{
-                  width:100%;
-                }
-
-                &:nth-child(3n-1),&:nth-child(3n-2){
-                  margin-right: 20px;
-
-                  &.col-3{
-                    margin-right: 0px;
-                  }
-                  &.col-2{
-                    margin-right: 0px;
-                  }
-                }
-
-                .text{
-                  white-space: nowrap;
-                  
-                }
-              }
-            }
-          }
-        }
-
-        .footer{
-          position: absolute;
-          bottom:60px;
-          left:50px;
-          right:50px;
-          color: var(--color-primary);
-        }
-    }
-  }
+  
 }

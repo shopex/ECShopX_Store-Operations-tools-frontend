@@ -4,6 +4,7 @@ import './index.scss'
 import { View } from '@tarojs/components'
 import { AtFloatLayout, AtTextarea } from 'taro-ui'
 import { requestCallback } from '@/utils'
+import { SpActionSheet } from '@/components'
 import api from '@/api'
 
 export default class NoteDrawer extends PureComponent {
@@ -57,16 +58,14 @@ export default class NoteDrawer extends PureComponent {
     const { noteContent } = this.state
 
     return (
-      <AtFloatLayout isOpened={visible} onClose={onClose} className='note-drawer'>
-        <View className='header'>
-          <View className='left' onClick={this.handleClose}>
-            取消
-          </View>
-          <View className='center'>订单备注</View>
-          <View className='right' onClick={this.handleConfirm.bind(this)}>
-            确定
-          </View>
-        </View>
+      <SpActionSheet
+        visible={visible}
+        onClose={onClose}
+        onCancel={this.handleClose}
+        onConfirm={this.handleConfirm.bind(this)}
+        className='note-drawer'
+        title='订单备注'
+      >
         <View className='content'>
           <AtTextarea
             count
@@ -76,7 +75,7 @@ export default class NoteDrawer extends PureComponent {
             placeholder='请输入你的备注...'
           />
         </View>
-      </AtFloatLayout>
+      </SpActionSheet>
     )
   }
 }

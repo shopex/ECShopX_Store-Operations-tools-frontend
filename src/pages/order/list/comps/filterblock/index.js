@@ -1,25 +1,32 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
-import { SpScollButton } from '@/components'
-import Block from './block'
-import { AtDrawer } from 'taro-ui'
+import { SpFilterDrawer } from '@/components'
+import { ORDER_FILTER_TIME, ORDER_TYPE, ORDER_RECEIPT_TYPE, ORDER_LIST_FILTER_ITEM } from '@/consts'
 import './index.scss'
 
-const filterItem = {
-  '下单时间': ['全部', '今天', '昨天', '近7天', '近30天'],
-  '订单类型': [
-    '全部订单',
-    '团购订单',
-    '秒杀订单',
-    '社区订单',
-    '导购订单',
-    '跨境订单',
-    '助力订单',
-    '5个字的名称',
-    '我是超过十个字的名称'
-  ],
-  '配送类型': ['普通快递', '同城配', '自提']
-}
+const filterData = Object.keys(ORDER_LIST_FILTER_ITEM).map((filterItem) => {
+  let itemLabel = filterItem
+  let itemValue = ORDER_LIST_FILTER_ITEM[filterItem]
+  let dataSource = []
+  if (itemValue === 'order_time') {
+    dataSource = Object.keys(ORDER_FILTER_TIME).map((item) => ({
+      label: item,
+      value: ORDER_FILTER_TIME[item]
+    }))
+  } else if (itemValue === 'order_class') {
+    dataSource = Object.keys(ORDER_TYPE).map((item) => ({ label: item, value: ORDER_TYPE[item] }))
+  } else {
+    dataSource = Object.keys(ORDER_RECEIPT_TYPE).map((item) => ({
+      label: item,
+      value: ORDER_RECEIPT_TYPE[item]
+    }))
+  }
+  return {
+    itemLabel,
+    itemValue,
+    dataSource
+  }
+})
 
 export default class FilterBlock extends PureComponent {
   constructor(props) {
@@ -42,7 +49,7 @@ export default class FilterBlock extends PureComponent {
   }
 
   render() {
-    const { showFilter } = this.state
+    const { showFilter, order_time, order_class, receipt_type } = this.state
 
     return (
       <View className='filterContent'>
@@ -58,37 +65,13 @@ export default class FilterBlock extends PureComponent {
             <View className='text'>筛选</View>
           </View>
         </View>
-        <AtDrawer
-          show={showFilter}
-          mask
-          onClose={this.handleCloseDrawer}
-          right
-          width='85%'
-          className='filterDrawer'
-        >
-          <View className='content'>
-            <View className='filterTitle'>
-              <Text className='text'>订单筛选</Text>
-            </View>
-            <View className='main'>
-              {Object.keys(filterItem).map((item) => {
-                return (
-                  <View className='filterItem' key={item}>
-                    <View className='title'>{item}</View>
-                    <View className='blocks'>
-                      {filterItem[item].map((name) => {
-                        return <Block active text={name} key={name} />
-                      })}
-                    </View>
-                  </View>
-                )
-              })}
-            </View>
-            <View className='footer'>
-              <SpScollButton refuseText='重置' confirmText='确定并筛选' />
-            </View>
-          </View>
-        </AtDrawer>
+
+        <SpFilterDrawer
+          filterTitle='订单筛选'
+          filterData={filterData}
+          visible={showFilter}
+          onCloseDrawer={this.handleCloseDrawer}
+        />
       </View>
     )
   }

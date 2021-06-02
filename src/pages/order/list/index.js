@@ -4,12 +4,12 @@ import { getThemeStyle } from '@/utils'
 import SearchInput from './comps/search-input'
 import Tabbar from './comps/tabbar'
 import FilterBlock from './comps/filterblock'
-import OrderItem from './comps/order-item'
 import FilterModal from './comps/filter-modal'
 import NoteDrawer from './comps/note-drawer'
 import ActionModal from './comps/action-modal'
+import CancelAction from './comps/cancel-action'
 import { withPager, withBackToTop } from '@/hocs'
-import { SpLoading, SpNote } from '@/components'
+import { SpLoading, SpNote, SpOrderItem } from '@/components'
 import { SpToast } from '@/components'
 
 import api from '@/api'
@@ -32,7 +32,6 @@ export default class List extends PureComponent {
   }
 
   async componentDidMount() {
-    console.log('componentDidMount')
     this.setState(
       {
         orderList: []
@@ -144,9 +143,8 @@ export default class List extends PureComponent {
       pageSize: params.page_size,
       ...this.getOrderParams()
     })
-
     this.setState({
-      orderList: [...list]
+      orderList: [...this.state.orderList, ...list]
     })
 
     return {
@@ -172,8 +170,6 @@ export default class List extends PureComponent {
       currentOrder
     } = this.state
 
-    console.log('page', page.isLoading)
-
     return (
       <View className='page-order-list' style={getThemeStyle()}>
         <View className='page-order-list-input'>
@@ -190,11 +186,17 @@ export default class List extends PureComponent {
 
         {page.isLoading && <SpLoading>正在加载...</SpLoading>}
 
-        <ScrollView scrollY className='page-order-list-orderList'>
+        <ScrollView
+          scrollY
+          className='page-order-list-orderList'
+          scrollWithAnimation
+          onScrollToLower={this.nextPage}
+        >
           {orderList.map((orderItem) => {
             return (
-              <OrderItem
+              <SpOrderItem
                 key={orderItem.order_id}
+                type={'normal'}
                 info={orderItem}
                 onClickNote={this.handleClickNoteButton}
                 onClickContact={this.handleClickContactButton}

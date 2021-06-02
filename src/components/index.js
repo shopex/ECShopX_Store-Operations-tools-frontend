@@ -11,5 +11,13 @@ export { default as SpLoading } from './sp-loading'
 export { default as SpNote } from './sp-note'
 export { default as SpToast } from './sp-toast'
 export { default as SpMessageCard } from './sp-message-card'
+export { default as SpFilterButton } from './sp-filter-button'
+export { default as SpFilterDrawer } from './sp-filter-drawer'
+export { default as SpOrderItem } from './sp-order-item'
+export { default as SpGoodPrice } from './sp-good-price'
+export { default as SpActionSheet } from './sp-action-sheet'
+export { default as SpFixedAction } from './sp-fixed-action'
+export { default as SpCommonButton } from './sp-common-button'
+export { default as SpCheckoutSquare } from './sp-checkbox-square'
 
 export default {}

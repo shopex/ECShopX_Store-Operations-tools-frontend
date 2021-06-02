@@ -1,33 +1,63 @@
 import React, { PureComponent } from 'react'
-
-import { View, Image } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
+import { classNames } from '@/utils'
 import './index.scss'
 
-class Index extends PureComponent {
+class SpMessageCard extends PureComponent {
   constructor(props) {
     super(props)
-    console.log(props)
+    this.state = {
+      active: 0
+    }
   }
+
+  handleChange = (active) => (e) => {
+    this.setState({
+      active
+    })
+  }
+
   render() {
-    const { imgurl, bgColor, title, subtitle, date, messageNum, onclickHander } =
-      this.props.SpMessageData
+    const { className } = this.props
+
+    const { active } = this.state
+
     return (
-      <View className='com-message' onClick={onclickHander}>
-        <View className='left'>
-          <View className='imgBox' style={bgColor}>
-            <Image className='img' src={imgurl}></Image>
+      <View className={classNames('sp-message-card', className)}>
+        <View className='header'>
+          <View className='item left' onClick={this.handleChange(0)}>
+            <Text>收货人信息</Text>
           </View>
-          <View className='info'>
-            <View className='title'>{title}</View>
-            <View className='subtitle'>{subtitle}</View>
+          <View className='item right' onClick={this.handleChange(1)}>
+            <Text>买家信息</Text>
+          </View>
+          <View
+            className={classNames('underline', {
+              activeLeft: active === 0,
+              activeRight: active === 1
+            })}
+          ></View>
+        </View>
+        <View className='content'>
+          <View className='content-item'>
+            <View className='title'>收货人</View>
+            <View className='value'>收货人</View>
+          </View>
+          <View className='content-item'>
+            <View className='title'>收货地址</View>
+            <View className='value'>
+              我是收货人姓名 1388888888上海市上海徐汇区田林街道宜山路700号普天信息产业园区C1幢12楼
+            </View>
           </View>
         </View>
-        <View className='right'>
-          <View className='date'>{date}</View>
-          <View className='messageNum'>{messageNum > 99 ? '99+' : messageNum}</View>
+        <View className='footer'>
+          <View className='content'>
+            <Text className='iconfont icon-shoujihao'></Text>
+            <Text className='text'>拨打电话</Text>
+          </View>
         </View>
       </View>
     )
   }
 }
-export default Index
+export default SpMessageCard

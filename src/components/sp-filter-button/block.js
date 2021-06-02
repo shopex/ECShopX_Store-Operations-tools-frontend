@@ -24,7 +24,7 @@ export default class Block extends PureComponent {
   }
 
   render() {
-    const { text, active } = this.props
+    const { text, active, onClick = () => {} } = this.props
 
     return (
       <View
@@ -32,6 +32,7 @@ export default class Block extends PureComponent {
           [`col-${this.computedRow()}`]: this.computedRow(),
           [`active`]: active
         })}
+        onClick={onClick}
       >
         <Text className='text'>{text}</Text>
         <Text className='iconfont icon-xuanzhongbiaoqian-01'></Text>

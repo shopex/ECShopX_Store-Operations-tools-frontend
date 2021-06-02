@@ -9,12 +9,19 @@ const ScrollButton = (props) => {
     className,
     refuseText = '不同意',
     confirmText = '同意并开始使用',
+    onReset = () => {},
+    onConfirm = () => {},
     ...restProps
   } = props
 
   const [activeIndex, setActiveIndex] = useState(0)
 
   const handleChange = (index) => (e) => {
+    if (index === 0) {
+      onReset()
+    } else {
+      onConfirm()
+    }
     setActiveIndex(index)
   }
 

@@ -275,3 +275,19 @@
     
   }
 }
+
+.weui-picker{
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  overflow: hidden;
+
+  .weui-picker__hd{
+    height: 120px;
+    background: #F9FAFB;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+  }
+  
+}
