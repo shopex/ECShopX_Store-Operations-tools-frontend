@@ -30,18 +30,10 @@ export default class BindPhone extends Component {
       check_token,
       mobile
     })
-    // const res = await api.authsw
-    debugger
-
-    // if (!validate.isRequired(mobile)) {
-    //   showToast('请输入验证码')
-    //   return
-    // }
-    // await api.operator.smsLogin({
-    //   mobile,
-    //   code,
-    //   logintype: 'smsstaff'
-    // })
+    S.setAuthToken(token)
+    const userInfo = await api.operator.getUserInfo()
+    S.set('user_info', userInfo, true)
+    Taro.redirectTo({ url: `/pages/index` })
   }
 
   async handleTimerStart() {
