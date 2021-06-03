@@ -71,4 +71,36 @@ export function showToast(title) {
   })
 }
 
-export { classNames, log, debounce, throttle, validate }
+// 复制到粘贴板
+export function copyContent(content) {
+  Taro.setClipboardData({
+    data: content,
+    success: () => {
+      Taro.showToast({
+        title: '复制成功',
+        icon: 'success',
+        duration: 1500
+      })
+    }
+  })
+}
+
+async function requestCallback(func, successText, successCallback) {
+  let result = 1
+
+  try {
+    const res = await func()
+    if (res) {
+      S.toast(successText)
+    }
+  } catch (e) {
+    console.log('请求错误', e)
+    result = 0
+  }
+
+  if (result !== 0) {
+    successCallback()
+  }
+}
+
+export { classNames, log, debounce, throttle, validate, requestCallback }

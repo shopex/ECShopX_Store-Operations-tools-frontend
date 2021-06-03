@@ -1,0 +1,48 @@
+.sp-filter-drawer{
+
+    .at-drawer__content{
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+    }
+      
+    .content{
+        padding:0 50px;
+        height: 100%;
+        padding-top: 50px;
+
+        .filterTitle{
+          
+
+          .text{
+            font-size: 36px;
+            font-weight: 400;
+            color: #111A34;
+          }
+        }
+        .main{
+
+          height: calc( 100% - 200px );
+          overflow-y: auto;
+          overflow-x: hidden;
+
+          .filterItem{
+            .title{
+              font-weight: 400;
+              color: #666F83;
+              font-size: 30px;
+              margin-bottom:32px;
+              margin-top:20px;
+            }
+          
+          }
+        }
+
+        .footer{
+          position: absolute;
+          bottom:60px;
+          left:50px;
+          right:50px;
+          color: var(--color-primary);
+        }
+    }
+  }

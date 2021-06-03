@@ -1,0 +1,20 @@
+import req from './req'
+
+//订单列表
+export function list(params) {
+  return req.get('/orders', params)
+}
+
+//订单备注
+export function remarks({ orderId, ...params }) {
+  return req.put(`/remarks/${orderId}`, params)
+}
+
+//订单取消
+export function cancel(params) {
+  return req.post(`/order/cancel`, params)
+}
+
+export function businessreceipt({ orderId, ...params }) {
+  return req.post(`/businessreceipt/${orderId}`)
+}
