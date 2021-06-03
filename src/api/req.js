@@ -1,6 +1,7 @@
-import Taro from '@tarojs/taro'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 import S from '@/spx'
 import qs from 'qs'
+import { showToast } from '@/utils'
 
 function addQuery(url, query) {
   return url + (url.indexOf('?') >= 0 ? '&' : '?') + query
@@ -12,14 +13,21 @@ class API {
     if (!/\/$/.test(baseURL)) {
       baseURL = baseURL + '/'
     }
+
+    // const { company_id } = getCurrentInstance().router
+    // console.log(company_id)
+    // if ( company_id ) {
+    //   options.company_id = company_id
+    // }
+    // debugger
     // options.company_id = APP_COMPANY_ID;
-    if (process.env.TARO_ENV === 'weapp') {
-      const extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {}
-      options.appid = extConfig.appid
-      if (extConfig.company_id) {
-        options.company_id = extConfig.company_id
-      }
-    }
+    // if (process.env.TARO_ENV === "weapp") {
+    //   const extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {};
+    //   options.appid = extConfig.appid;
+    //   if (extConfig.company_id) {
+    //     options.company_id = extConfig.company_id;
+    //   }
+    // }
 
     this.options = options
     this.baseURL = baseURL
@@ -66,19 +74,13 @@ class API {
       header['content-type'] = header['content-type'] || 'application/x-www-form-urlencoded'
     }
 
-    // const token = S.getAuthToken();
-    // if (token) {
-    header[
-      'Authorization'
-    ] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9lY3Nob3B4Mi5zaG9wZXgxMjMuY29tXC9hcGlcL3Rva2VuXC9yZWZyZXNoIiwiaWF0IjoxNjIyNTk5NzkyLCJleHAiOjE2MjI2MzY0ODksIm5iZiI6MTYyMjYxODQ4OSwianRpIjoiVFpRS2lUclJxYzRteVRZayIsInN1YiI6IkEyWlRNMTB6QURaU0xsQjNCR2hXTmxjOVVDZ0ZPQUZxQ1g0QmJna3RBR3NHTXdCZ1Z5a0FQVk4yQUc5U2R3SnFWak5RTUFkeERuVUlNbEZ1VldjRk9nTWxVekpkY2dBMlVtWlFOZ1JvVmlaWE1GQnZCV01CUFFrK0FXRUpQUUEwQm1FQVBsY3lBRDFUTlFCa1VtVUNhRll6VURvSFl3NWlDRzlSWTFWZ0JXSURNbE02WFRVQVBWSmtVRDBFWVZablZ5VlFNUVVzIiwicHJ2IjoiOTE1ZWYzYjE0NTc5N2Q5NjM2ZTY2Nzg2NjA4OWM2YmIxZmUzMmUxYyIsImlkIjoiQTJaVE0xMHpBRFpTTGxCM0JHaFdObGM5VUNnRk9BRnFDWDRCYmdrdEFHc0dNd0JnVnlrQVBWTjJBRzlTZHdKcVZqTlFNQWR4RG5VSU1sRnVWV2NGT2dNbFV6SmRjZ0EyVW1aUU5nUm9WaVpYTUZCdkJXTUJQUWsrQVdFSlBRQTBCbUVBUGxjeUFEMVROUUJrVW1VQ2FGWXpVRG9IWXc1aUNHOVJZMVZnQldJRE1sTTZYVFVBUFZKa1VEMEVZVlpuVnlWUU1RVXMiLCJjb21wYW55X2lkIjoiNDMiLCJtb2JpbGUiOiIxMzkxODA4NzQzMCIsIm9wZXJhdG9yX3R5cGUiOiJhZG1pbiIsImlzX2F1dGhvcml6ZXIiOmZhbHNlLCJsb2dpbnR5cGUiOiJhZG1pbiIsImxpY2Vuc2VfYXV0aG9yaXplIjoiZXlKMllXeHBaQ0k2SW5SeWRXVWlMQ0psZUhCcGNtVmtRWFFpT2lJeU9EYzRNell5TnpjeUlpd2laR1Z6WXlJNklseDFPR0prTlZ4MU56VXlPQ0o5In0.R3ftyibDCceohQewYRDvv8wnVGYVniSwXiTVf4N03Hs`
-    // }
-
-    const { company_id, appid } = this.options
-    if (process.env.TARO_ENV === 'weapp') {
-      if (appid) {
-        header['authorizer-appid'] = appid
-      }
+    const token = S.getAuthToken()
+    if (token) {
+      header['Authorization'] = `Bearer ${token}`
     }
+
+    // const { company_id, appid } = this.options;
+    const company_id = Taro.getStorageSync('company_id')
 
     const options = {
       ...config,
@@ -109,101 +111,103 @@ class API {
       // nest data
       options.data = qs.stringify(options.data)
     }
-    const workEnv = S.get('workEnv', true)
-    let ba_params = S.get('ba_params', true)
 
-    if (workEnv && workEnv.environment === 'wxwork') {
-      //企业微信
-
-      let guide_code = options.data.guide_code
-        ? options.data.guide_code
-        : ba_params
-        ? ba_params.guide_code
-        : null
-      options.data.guide = true
-      options.data.guide_code = guide_code
-      console.log('======导购端请求参数====')
-
-      console.log(ba_params)
-    }
-    let resData = {}
     return Taro.request(options)
       .then((res) => {
-        resData = res
+        return res.data
       })
-      .catch((err) => {
-        resData.statusCode = err.status
-
-        resData.header = {}
-
-        err.headers.forEach((val, key) => {
-          resData.header[key] = val
-        })
-
-        if (config.responseType === 'arraybuffer') {
-          return err.arrayBuffer()
-        }
-
-        if (config.dataType === 'json' || typeof config.dataType === 'undefined') {
-          return err.json()
-        }
-
-        if (config.responseType === 'text') {
-          return err.text()
-        }
-
-        return Promise.resolve(null)
+      .catch((error) => {
+        return error.json()
       })
       .then((res) => {
-        // 如果有错误则为错误信息
-        if (res) {
-          resData.data = res
-        }
-        // eslint-disable-next-line
-        const { data, statusCode, header } = resData
-        if (showLoading) {
-          Taro.hideLoading()
-        }
-
-        if (statusCode >= 200 && statusCode < 300) {
-          if (data.data !== undefined) {
-            if (options.url.indexOf('token/refresh') >= 0) {
-              data.data.token = resData.header.Authorization.replace('Bearer ', '')
-            }
-            return data.data
-          } else {
-            if (showError) {
-              this.errorToast(data)
-            }
-            return Promise.reject(this.reqError(resData))
+        const { data, error } = res
+        if (data) {
+          return data
+        } else {
+          const { message, status_code } = error
+          if (status_code == 401) {
+            debugger
+            S.logout()
+            S.login()
+            return Promise.reject()
           }
-        }
-
-        if (statusCode === 401) {
-          if (data.error && data.error.code === 401002) {
-            this.errorToast({
-              msg: '帐号已被禁用'
-            })
-            return Promise.reject(this.reqError(resData, '帐号已被禁用'))
+          if (showError) {
+            showToast(message)
           }
-          S.logout()
-          S.login(this, true)
-          return Promise.reject(this.reqError(resData))
+          return Promise.reject()
         }
-
-        if (statusCode >= 400) {
-          if (showError && data.error.message !== '当前余额不足以支付本次订单费用，请充值！') {
-            this.errorToast(data)
-          }
-          return Promise.reject(this.reqError(resData))
-        }
-
-        return Promise.reject(this.reqError(resData, `API error: ${statusCode}`))
       })
+    // .catch(err => {
+    //   if (
+    //     config.dataType === "json" ||
+    //     typeof config.dataType === "undefined"
+    //   ) {
+    //     // console.log(err.json())
+    //     return err.json();
+    //   }
+    //   return Promise.resolve(null);
+    // })
+    // .then(res => {
+    //   // 如果有错误则为错误信息
+    //   const { message, status_code } = res
+    //   if ( status_code == 400 ) {
+    //     // if(showError)
+    //     showToast( message )
+    //     return Promise.reject(this.reqError(resData));
+    //   }
+    //   // eslint-disable-next-line
+    //   // const { data, statusCode, header } = resData;
+    //   if (showLoading) {
+    //     Taro.hideLoading();
+    //   }
+
+    //   // if (statusCode >= 200 && statusCode < 300) {
+    //   //   if (data.data !== undefined) {
+    //   //     if (options.url.indexOf("token/refresh") >= 0) {
+    //   //       data.data.token = resData.header.Authorization.replace(
+    //   //         "Bearer ",
+    //   //         ""
+    //   //       );
+    //   //     }
+    //   //     return data.data;
+    //   //   } else {
+    //   //     if (showError) {
+    //   //       this.errorToast(data);
+    //   //     }
+    //   //     return Promise.reject(this.reqError(resData));
+    //   //   }
+    //   // }
+
+    //   // if (statusCode === 401) {
+    //   //   if (data.error && data.error.code === 401002) {
+    //   //     this.errorToast({
+    //   //       msg: "帐号已被禁用"
+    //   //     });
+    //   //     return Promise.reject(this.reqError(resData, "帐号已被禁用"));
+    //   //   }
+    //   //   S.logout();
+    //   //   S.login(this, true);
+    //   //   return Promise.reject(this.reqError(resData));
+    //   // }
+
+    //   // if (statusCode >= 400) {
+    //   //   if (
+    //   //     showError &&
+    //   //     data.error.message !== "当前余额不足以支付本次订单费用，请充值！"
+    //   //   ) {
+    //   //     this.errorToast(data);
+    //   //   }
+    //   //   return Promise.reject(this.reqError(resData));
+    //   // }
+
+    //   return Promise.reject(
+    //     this.reqError(resData, `API error: ${statusCode}`)
+    //   );
+    // });
   }
 
   reqError(res, msg = '') {
-    const data = res.data.error || res.data
+    const data = res.message || res.data
     const errMsg = data.message || data.err_msg || msg
     const err = new Error(errMsg)
     err.res = res

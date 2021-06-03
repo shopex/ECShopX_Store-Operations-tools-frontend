@@ -68,11 +68,11 @@ class Spx {
   }
 
   async getUserInfo() {
-    let userInfo = this.get('userInfo')
+    let userInfo = this.get('user_info', true)
     const token = this.getAuthToken()
     if (!userInfo && token) {
-      userInfo = await api.user.info()
-      this.set('userInfo', userInfo)
+      userInfo = await api.operator.getUserInfo()
+      this.set('user_info', userInfo, true)
     }
 
     return userInfo
@@ -139,7 +139,7 @@ class Spx {
       if (!userInfo) throw new Error('userInfo is empty')
       return userInfo
     } catch (e) {
-      log.debug('[auth failed] redirect to login page: ', e)
+      log.debug('[auth failed] redirect to oauth page: ', e)
       this.login(ctx)
     }
   }
@@ -150,7 +150,7 @@ class Spx {
     if (path === APP_AUTH_PAGE) {
       return
     }
-    const authUrl = APP_AUTH_PAGE + `?redirect=${encodedRedirect}`
+    const authUrl = APP_AUTH_PAGE
     Taro[isRedirect ? 'redirectTo' : 'navigateTo']({
       url: authUrl
     })
@@ -167,28 +167,6 @@ class Spx {
       return null
     } else {
       return globalData
-    }
-  }
-  //获取企业微信code
-  getQyLoginCode() {
-    return new Promise((reslove, reject) => {
-      wx.qy.login({
-        success: (res) => {
-          reslove(res)
-        },
-        fail: (err) => {
-          reject(err)
-        }
-      })
-    })
-  }
-  setUvTimeStamp() {
-    let uvstamp = Taro.getStorageSync('userVisitTime')
-    let today = formatDataTime(new Date())
-    if (!uvstamp || (uvstamp && new Date(today).getTime() > uvstamp)) {
-      api.user.getuservisit()
-      uvstamp = new Date(today).getTime() + 5 * 60 * 1000
-      Taro.setStorageSync('userVisitTime', uvstamp)
     }
   }
   toast(...args) {

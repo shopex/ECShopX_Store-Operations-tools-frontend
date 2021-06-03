@@ -9,6 +9,9 @@ export default {
     'pages/order/detail',
     'pages/order/delivery',
     'pages/auth/welcome',
+    // 'pages/auth/login',
+    // 'pages/auth/agreement',
+    'pages/auth/index',
     'pages/auth/bindPhone'
   ],
   tabBar: {
