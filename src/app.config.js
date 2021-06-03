@@ -5,7 +5,6 @@ export default {
     'pages/my/index',
     'pages/auth/login',
     'pages/auth/agreement',
-    'pages/auth/welcome',
     'pages/auth/bindPhone',
     'pages/planSelection/index'
   ],
@@ -27,7 +26,7 @@ export default {
         pagePath: 'pages/my/index',
         iconPath: './assets/imgs/index/myinfo.svg',
         selectedIconPath: './assets/imgs/index/myinfoHover.svg',
-        text: '我的'
+        text: '我的信息'
       }
     ],
     selectedColor: '#4980FF',
