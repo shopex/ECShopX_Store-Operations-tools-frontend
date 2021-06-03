@@ -3,10 +3,10 @@ export default {
     'pages/index',
     'pages/message/index',
     'pages/my/index',
-    // 'pages/auth/login',
-    // 'pages/auth/agreement',
-    'pages/auth/index',
-    'pages/auth/bindPhone'
+    'pages/auth/login',
+    'pages/auth/agreement',
+    'pages/auth/bindPhone',
+    'pages/planSelection/index'
   ],
   tabBar: {
     list: [
@@ -26,7 +26,7 @@ export default {
         pagePath: 'pages/my/index',
         iconPath: './assets/imgs/index/myinfo.svg',
         selectedIconPath: './assets/imgs/index/myinfoHover.svg',
-        text: '我的'
+        text: '我的信息'
       }
     ],
     selectedColor: '#4980FF',
