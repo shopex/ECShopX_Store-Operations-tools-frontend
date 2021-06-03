@@ -4,6 +4,7 @@ import { AtForm, AtInput, AtButton } from 'taro-ui'
 import { SpTimer } from '@/components'
 import { getThemeStyle, validate, showToast, getCurrentRoute } from '@/utils'
 import api from '@/api'
+import S from '@/spx'
 import FtLogo from './comps/ft-logo'
 import './bindPhone.scss'
 
