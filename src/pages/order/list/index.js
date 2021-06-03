@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react'
 import { View, ScrollView } from '@tarojs/components'
 import { getThemeStyle } from '@/utils'
-import SearchInput from './comps/search-input'
 import Tabbar from './comps/tabbar'
 import FilterBlock from './comps/filterblock'
 import NoteDrawer from './comps/note-drawer'
 import ActionModal from './comps/action-modal'
-import CancelAction from './comps/cancel-action'
 import { withPager, withBackToTop } from '@/hocs'
-import { SpLoading, SpNote, SpOrderItem } from '@/components'
-import { FieldSelect } from '@/components/sp-page-components'
-import { SpToast } from '@/components'
+import { SpLoading, SpNote, SpOrderItem, SpToast, SpPicker } from '@/components'
+import { SelectInput } from '@/components/sp-page-components'
 
 import api from '@/api'
 import './index.scss'
@@ -22,13 +19,16 @@ export default class List extends PureComponent {
     super(props)
     this.state = {
       orderStatus: 0,
-      modalShow: false,
       noteVisible: false,
       actionVisible: false,
       actionType: '',
       orderList: [],
       currentOrder: {},
-      loading: false
+      loading: false,
+      //搜索框选择的参数
+      inputParams: '',
+      //搜索框输入的值
+      inputValue: ''
     }
   }
 
@@ -46,12 +46,6 @@ export default class List extends PureComponent {
   handleTabClick = (activeIndex) => {
     this.setState({
       orderStatus: activeIndex
-    })
-  }
-
-  handleClickSearch = () => {
-    this.setState({
-      modalShow: !this.state.modalShow
     })
   }
 
@@ -113,24 +107,9 @@ export default class List extends PureComponent {
     })
   }
 
-  //点击筛选modal框其他地方
-  handleFilterModalClickAway = (e) => {
-    if (
-      e.target.id === 'custom_input' ||
-      e.target.id === 'custom_input_arrow' ||
-      e.target.id === 'custom_input_text'
-    ) {
-      return
-    }
-    this.setState({
-      modalShow: false
-    })
-  }
-
   getOrderParams = () => {
     let params = {
-      order_type: 'normal',
-      order_class_exclude: 'drug,pointsmall'
+      order_type: 'normal'
     }
 
     return params
@@ -172,20 +151,21 @@ export default class List extends PureComponent {
   render() {
     const {
       orderStatus,
-      modalShow,
       noteVisible,
       actionVisible,
       actionType,
       orderList,
       page,
       currentOrder,
-      loading
+      loading,
+      inputParams,
+      inputValue
     } = this.state
 
     return (
       <View className='page-order-list' style={getThemeStyle()}>
         <View className='page-order-list-input'>
-          <SearchInput modalShow={modalShow} clickSearch={this.handleClickSearch} />
+          <SelectInput inputParams={inputParams} inputValue={inputValue} pageType='orderList' />
         </View>
 
         <View className='page-order-list-tabbar'>
@@ -223,8 +203,6 @@ export default class List extends PureComponent {
           )}
         </ScrollView>
 
-        <FieldSelect visible={modalShow} onClickAway={this.handleFilterModalClickAway} />
-
         <NoteDrawer
           visible={noteVisible}
           onClose={this.handleNoteClose}
@@ -237,6 +215,8 @@ export default class List extends PureComponent {
           onClose={this.handleCloseActionModal}
           currentOrder={currentOrder}
         />
+
+        <SpPicker visible={true} />
 
         <SpToast />
       </View>

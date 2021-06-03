@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import { classNames } from '@/utils'
+import Taro from '@tarojs/taro'
 import './index.scss'
 
 /**
@@ -15,16 +16,56 @@ class SpGoodPrice extends PureComponent {
     super(props)
   }
 
+  renderPrice = () => {
+    const { price, symbol = '¥' } = this.props
+
+    const priceArr = (Number(price) / 100).toFixed(2).split('.')
+
+    return (
+      <View className='price'>
+        <View className='symbol'>{symbol}</View>
+        <View className='integer'>{`${priceArr[0]}.`}</View>
+        <View className='decimal'>{`${priceArr[1]}`}</View>
+      </View>
+    )
+  }
+
+  renderPoint = () => {
+    const { point, pointText = '积分' } = this.props
+
+    return (
+      <View className='point'>
+        <View className='number'>{point}</View>
+        <View className='symbol'>{pointText}</View>
+      </View>
+    )
+  }
+
+  renderPricePoint = () => {
+    return (
+      <View className='pointandprice'>
+        {this.renderPoint()}
+        {' + '}
+        {this.renderPrice()}
+      </View>
+    )
+  }
+
   render() {
-    const { type = 'normal', price, point, pointText = '积分', symbol = '¥' } = this.props
+    const { type = 'normal', price, size = '28', point } = this.props
 
     return (
       <View
         className={classNames('sp-good-item-price', {
           [`discount`]: type === 'discount'
         })}
+        style={{
+          fontSize: Taro.pxTransform(size)
+        }}
       >
-        {`${symbol} ${price}`}
+        {price && !point && this.renderPrice()}
+        {point && !price && this.renderPoint()}
+        {point && price && this.renderPricePoint()}
       </View>
     )
   }

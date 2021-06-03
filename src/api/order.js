@@ -15,6 +15,7 @@ export function cancel(params) {
   return req.post(`/order/cancel`, params)
 }
 
-export function businessreceipt({ orderId, ...params }) {
+//订单接单
+export function businessreceipt({ orderId }) {
   return req.post(`/businessreceipt/${orderId}`)
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { View, Image, Text, ScrollView } from '@tarojs/components'
-import { SpShopxLogo, SpBackToTop } from '@/components'
+import { SpBackToTop } from '@/components'
+import { ShopxLogo } from '@/components/sp-page-components'
 import Drawer from './comps/drawer'
 import LinegradientButton from './comps/linegradient-button'
 import { useBackToTop } from '@/hooks'
@@ -40,7 +41,7 @@ const AgreeMent = () => {
         <LinegradientButton title='开始我的数字化经营' onClick={handleShow} />
       </View>
 
-      <SpShopxLogo />
+      <ShopxLogo />
 
       {/* 用户协议 */}
       <Drawer visible={visible} onDrawerClose={handleDrawerClose} />

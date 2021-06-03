@@ -9,13 +9,13 @@ export default class No extends PureComponent {
     this.state = {}
   }
 
-  renderStatus = (info) => {
-    const orderStatus = info.order_status.toLowerCase()
-    let label = ORDER_STATUS[orderStatus]
-
+  renderStatus = (orderInfo) => {
+    const {
+      app_info: { list_status_mag }
+    } = orderInfo
     return (
       <View className='order-status'>
-        <Text className='order-status-text'>{label}</Text>
+        <Text className='order-status-text'>{list_status_mag}</Text>
         <Text className='order-status-background'></Text>
       </View>
     )

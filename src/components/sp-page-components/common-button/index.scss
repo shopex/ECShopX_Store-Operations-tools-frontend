@@ -21,6 +21,17 @@
             border:2px solid var(--color-primary); 
         }
     }
+    &.type-danger{
+        background-color: #FFB5B8;
+        color:white;
+
+        &.plain{  
+            background-color: transparent;
+            box-shadow: none; 
+            color:#FFB5B8;
+            border:2px solid #FFB5B8; 
+        }
+    }
     &.size-normal{
         font-size: 28px;
         font-weight: 400; 

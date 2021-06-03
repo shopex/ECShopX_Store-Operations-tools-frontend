@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import { View, Image, ScrollView } from '@tarojs/components'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
-import { SpTimer } from '@/components'
 import { getThemeStyle, validate, showToast, getCurrentRoute } from '@/utils'
 import api from '@/api'
 import FtLogo from './comps/ft-logo'
+import S from '@/spx'
 import './bindPhone.scss'
 
 export default class BindPhone extends Component {

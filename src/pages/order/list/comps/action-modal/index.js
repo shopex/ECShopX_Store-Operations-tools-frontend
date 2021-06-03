@@ -143,14 +143,15 @@ export default class ActionModal extends PureComponent {
 
   //点击确认取单
   handleGetOrder = () => {
+    const { currentOrder } = this.props
     requestCallback(
       async () => {
-        const data = await api.order.cancel({
-          order_id: currentOrder.order_id
+        const data = await api.order.businessreceipt({
+          orderId: currentOrder.order_id
         })
         return data
       },
-      '取消订单成功',
+      '接单成功',
       () => {
         this.handleClose()
       }

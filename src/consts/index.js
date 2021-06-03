@@ -23,7 +23,7 @@ export const ORDER_FILTER_TIME = {
   '全部': 'all',
   '今天': 'today',
   '昨天': 'yesterday',
-  '近七天': 'recently7',
+  // '近七天': 'recently7',
   '近30天': 'recently30'
 }
 
@@ -50,4 +50,11 @@ export const ORDER_LIST_FILTER_ITEM = {
   '下单时间': 'order_time',
   '订单类型': 'order_class',
   '配送类型': 'receipt_type'
+}
+
+export const ORDER_LIST_FIELDS = {
+  'order_id': '订单号',
+  '': '商品名称',
+  'mobile': '手机号码',
+  '': '收货人姓名'
 }

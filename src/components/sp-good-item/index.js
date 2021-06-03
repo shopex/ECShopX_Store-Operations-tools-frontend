@@ -9,9 +9,31 @@ class SpGoodItem extends PureComponent {
     super(props)
   }
 
-  renderSalePrice = (goodInfo) => {}
+  renderSalePrice = () => {
+    const {
+      orderInfo: { order_class },
+      goodInfo
+    } = this.props
+    //如果是积分订单
+    if (order_class === 'pointsmall') {
+      return <SpGoodPrice type='normal' point={goodInfo.point} />
+    } else {
+      return <SpGoodPrice price={goodInfo.item_fee} />
+    }
+  }
 
-  renderOriginPrice = (goodInfo) => {}
+  renderOriginPrice = () => {
+    const {
+      orderInfo: { order_class },
+      goodInfo
+    } = this.props
+    //如果是积分订单
+    if (order_class === 'pointsmall') {
+      return <SpGoodPrice type='discount' point={goodInfo.point} />
+    } else {
+      return <SpGoodPrice type='discount' size={22} price={goodInfo.market_price} />
+    }
+  }
 
   render() {
     const { goodInfo, className } = this.props
@@ -27,10 +49,8 @@ class SpGoodItem extends PureComponent {
           <View className='sp-good-item-content_number'>货号：{goodInfo.item_bn}</View>
         </View>
         <View className='sp-good-item-rightextra'>
-          <View className='sp-good-item-rightextra-price'>{this.renderSalePrice(goodInfo)}</View>
-          <View className='sp-good-item-rightextra-originprice'>
-            {this.renderOriginPrice(goodInfo)}
-          </View>
+          <View className='sp-good-item-rightextra-price'>{this.renderSalePrice()}</View>
+          <View className='sp-good-item-rightextra-originprice'>{this.renderOriginPrice()}</View>
           <View className='sp-good-item-rightextra-goodnumber'>X {goodInfo.num}</View>
         </View>
       </View>
