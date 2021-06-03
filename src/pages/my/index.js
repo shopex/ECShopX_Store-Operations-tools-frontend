@@ -32,10 +32,11 @@ export default class My extends Component {
     let input = document.createElement('input')
     input.setAttribute('type', 'file')
     console.log(input)
-    input.onclick = function () {
-      console.log(123)
-    }
-    input.remove()
+    input.click()
+    input.addEventListener('change', function () {
+      console.log(input.files[0])
+      input.remove()
+    })
   }
 
   render() {
