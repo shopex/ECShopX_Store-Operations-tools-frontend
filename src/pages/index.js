@@ -2,6 +2,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component, PureComponent } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { withLogin } from '@/hocs'
+import api from '@/api'
 import { navigateTo, formatNum } from '@/utils'
 import './index.scss'
 
@@ -28,6 +29,13 @@ class Index extends PureComponent {
       moneyShow: true,
       spendMoney: 999998.77
     }
+  }
+  async getConfig() {
+    const result = await api.home.getStatistics()
+    console.log(result)
+  }
+  componentDidMount() {
+    this.getConfig()
   }
 
   switchHandle() {
