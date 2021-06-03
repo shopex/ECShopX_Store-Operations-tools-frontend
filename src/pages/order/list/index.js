@@ -4,12 +4,12 @@ import { getThemeStyle } from '@/utils'
 import SearchInput from './comps/search-input'
 import Tabbar from './comps/tabbar'
 import FilterBlock from './comps/filterblock'
-import FilterModal from './comps/filter-modal'
 import NoteDrawer from './comps/note-drawer'
 import ActionModal from './comps/action-modal'
 import CancelAction from './comps/cancel-action'
 import { withPager, withBackToTop } from '@/hocs'
 import { SpLoading, SpNote, SpOrderItem } from '@/components'
+import { FieldSelect } from '@/components/sp-page-components'
 import { SpToast } from '@/components'
 
 import api from '@/api'
@@ -27,7 +27,8 @@ export default class List extends PureComponent {
       actionVisible: false,
       actionType: '',
       orderList: [],
-      currentOrder: {}
+      currentOrder: {},
+      loading: false
     }
   }
 
@@ -71,10 +72,11 @@ export default class List extends PureComponent {
   }
 
   //点击联系客户按钮
-  handleClickContactButton = () => {
+  handleClickContactButton = (orderInfo) => {
     this.setState({
       actionVisible: true,
-      actionType: 'phone'
+      actionType: 'phone',
+      currentOrder: orderInfo
     })
   }
 
@@ -94,10 +96,11 @@ export default class List extends PureComponent {
     })
   }
 
-  //点击确认发货
-  handleClickConfirmGetOrderButton = () => {
+  //点击接单
+  handleClickConfirmGetOrderButton = (orderInfo) => {
     this.setState({
       actionVisible: true,
+      currentOrder: orderInfo,
       actionType: 'confirmGetOrder'
     })
   }
@@ -153,7 +156,15 @@ export default class List extends PureComponent {
   }
 
   async fetch(params) {
+    this.setState({
+      loading: true
+    })
+
     const { total } = await this.getOrdersList(params)
+
+    this.setState({
+      loading: false
+    })
 
     return { total }
   }
@@ -167,7 +178,8 @@ export default class List extends PureComponent {
       actionType,
       orderList,
       page,
-      currentOrder
+      currentOrder,
+      loading
     } = this.state
 
     return (
@@ -184,8 +196,6 @@ export default class List extends PureComponent {
 
         <FilterBlock />
 
-        {page.isLoading && <SpLoading>正在加载...</SpLoading>}
-
         <ScrollView
           scrollY
           className='page-order-list-orderList'
@@ -196,7 +206,7 @@ export default class List extends PureComponent {
             return (
               <SpOrderItem
                 key={orderItem.order_id}
-                type={'normal'}
+                pageType={'list'}
                 info={orderItem}
                 onClickNote={this.handleClickNoteButton}
                 onClickContact={this.handleClickContactButton}
@@ -206,13 +216,14 @@ export default class List extends PureComponent {
               />
             )
           })}
+          {loading && <SpLoading>正在加载...</SpLoading>}
 
           {!page.isLoading && !page.hasNext && !orderList.length && (
             <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
           )}
         </ScrollView>
 
-        <FilterModal visible={modalShow} onClickAway={this.handleFilterModalClickAway} />
+        <FieldSelect visible={modalShow} onClickAway={this.handleFilterModalClickAway} />
 
         <NoteDrawer
           visible={noteVisible}

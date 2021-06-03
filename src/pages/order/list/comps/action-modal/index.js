@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import { Text, View, Input } from '@tarojs/components'
-import { classNames , requestCallback } from '@/utils'
+import { classNames, requestCallback } from '@/utils'
 import { AtModal, AtInput } from 'taro-ui'
 
 import api from '@/api'
@@ -40,13 +40,13 @@ export default class ActionModal extends PureComponent {
   renderContent = () => {
     let childrenNode = null
 
-    const { type } = this.props
+    const { type, currentOrder } = this.props
 
     if (type === 'phone') {
       childrenNode = (
         <View className='phoneContent'>
           <View className='item item1'>拨打电话</View>
-          <View className='item item2'>13754886488</View>
+          <View className='item item2'>{currentOrder.receiver_mobile}</View>
         </View>
       )
     } else if (type === 'cancelOrder') {
@@ -141,6 +141,22 @@ export default class ActionModal extends PureComponent {
     )
   }
 
+  //点击确认取单
+  handleGetOrder = () => {
+    requestCallback(
+      async () => {
+        const data = await api.order.cancel({
+          order_id: currentOrder.order_id
+        })
+        return data
+      },
+      '取消订单成功',
+      () => {
+        this.handleClose()
+      }
+    )
+  }
+
   renderAction = () => {
     let childrenNode = null
 
@@ -174,7 +190,7 @@ export default class ActionModal extends PureComponent {
           <View className='item confirmitem1' onClick={this.handleClose}>
             取消
           </View>
-          <View className='item confirmitem2' onClick={this.handleCancelOrder}>
+          <View className='item confirmitem2' onClick={this.handleGetOrder}>
             接单
           </View>
         </View>

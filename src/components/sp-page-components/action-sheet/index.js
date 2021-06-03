@@ -42,7 +42,7 @@ class SpActionSheet extends PureComponent {
       <AtFloatLayout
         isOpened={visible}
         onClose={onClose}
-        className={classNames('sp-action-sheet', className)}
+        className={classNames('sp-page-action-sheet', className)}
       >
         <View className='header'>
           <View className='left' onClick={onCancel}>
@@ -53,16 +53,7 @@ class SpActionSheet extends PureComponent {
             {onConfirmText}
           </View>
         </View>
-        <View className='content'>
-          {/* {children} */}
-          <PickerView>
-            <PickerViewColumn>
-              {selector.map((s) => (
-                <Text>{s}</Text>
-              ))}
-            </PickerViewColumn>
-          </PickerView>
-        </View>
+        <View className='content'>{children}</View>
       </AtFloatLayout>
     )
   }

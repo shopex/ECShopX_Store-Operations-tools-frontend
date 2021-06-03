@@ -3,7 +3,7 @@ import { View, Text } from '@tarojs/components'
 import { classNames } from '@/utils'
 import './index.scss'
 
-class SpMessageCard extends PureComponent {
+class MessageCard extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -23,7 +23,7 @@ class SpMessageCard extends PureComponent {
     const { active } = this.state
 
     return (
-      <View className={classNames('sp-message-card', className)}>
+      <View className={classNames('sp-page-message-card', className)}>
         <View className='header'>
           <View className='item left' onClick={this.handleChange(0)}>
             <Text>收货人信息</Text>
@@ -60,4 +60,4 @@ class SpMessageCard extends PureComponent {
     )
   }
 }
-export default SpMessageCard
+export default MessageCard

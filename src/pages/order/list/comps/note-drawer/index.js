@@ -4,7 +4,7 @@ import './index.scss'
 import { View } from '@tarojs/components'
 import { AtFloatLayout, AtTextarea } from 'taro-ui'
 import { requestCallback } from '@/utils'
-import { SpActionSheet } from '@/components'
+import { ActionSheet } from '@/components/sp-page-components'
 import api from '@/api'
 
 export default class NoteDrawer extends PureComponent {
@@ -58,7 +58,7 @@ export default class NoteDrawer extends PureComponent {
     const { noteContent } = this.state
 
     return (
-      <SpActionSheet
+      <ActionSheet
         visible={visible}
         onClose={onClose}
         onCancel={this.handleClose}
@@ -75,7 +75,7 @@ export default class NoteDrawer extends PureComponent {
             placeholder='请输入你的备注...'
           />
         </View>
-      </SpActionSheet>
+      </ActionSheet>
     )
   }
 }

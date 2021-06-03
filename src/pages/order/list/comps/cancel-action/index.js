@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import { classNames } from '@/utils'
-import { SpActionSheet } from '@/components'
+import { ActionSheet } from '@/components/sp-page-components'
 import './index.scss'
 
 export default class CancelAction extends PureComponent {
@@ -14,7 +14,7 @@ export default class CancelAction extends PureComponent {
   render() {
     return (
       <View className={classNames('comp-cancel-action')}>
-        <SpActionSheet type='picker'>a</SpActionSheet>
+        <ActionSheet type='picker'>a</ActionSheet>
       </View>
     )
   }

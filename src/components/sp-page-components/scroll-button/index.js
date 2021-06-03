@@ -26,7 +26,7 @@ const ScrollButton = (props) => {
   }
 
   return (
-    <View className={classNames('sp-confirm-scroll-button', className)} {...restProps}>
+    <View className={classNames('sp-page-confirm-scroll-button', className)} {...restProps}>
       <View
         className={classNames('activeTrack', className, {
           [`active-${activeIndex}`]: activeIndex === 0 || activeIndex === 1

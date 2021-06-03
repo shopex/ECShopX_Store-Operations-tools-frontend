@@ -4,21 +4,31 @@ import React, { PureComponent } from 'react'
 import { classNames } from '@/utils'
 import './index.scss'
 
-class SpCommonButton extends PureComponent {
+class CommonButton extends PureComponent {
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { className, size = 'normal', height = 80, type = 'primary', text = '' } = this.props
+    const {
+      onClick = () => {},
+      className,
+      size = 'normal',
+      height = 80,
+      type = 'default',
+      text = '',
+      plain = false
+    } = this.props
 
     return (
       <View
-        className={classNames('sp-common-button', className, {
+        className={classNames('sp-page-common-button', className, {
           [`type-${type}`]: type,
-          [`size-${size}`]: size
+          [`size-${size}`]: size,
+          [`plain`]: plain
         })}
         style={{ height: Taro.pxTransform(height) }}
+        onClick={onClick}
       >
         {text}
       </View>
@@ -26,4 +36,4 @@ class SpCommonButton extends PureComponent {
   }
 }
 
-export default SpCommonButton
+export default CommonButton

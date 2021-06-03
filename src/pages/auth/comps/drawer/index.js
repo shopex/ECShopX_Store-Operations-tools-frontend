@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, ScrollView, Text } from '@tarojs/components'
-import { SpScollButton } from '@/components'
+import { ScrollButton } from '@/components/sp-page-components'
 import { AtFloatLayout } from 'taro-ui'
 import './index.scss'
 
@@ -40,7 +40,7 @@ const Drawer = (props) => {
           </ScrollView>
         </View>
         <View className='bottom'>
-          <SpScollButton />
+          <ScrollButton />
         </View>
       </View>
     </AtFloatLayout>

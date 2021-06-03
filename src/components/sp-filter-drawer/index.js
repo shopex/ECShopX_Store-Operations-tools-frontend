@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
-import { SpScollButton, SpFilterButton } from '@/components'
+import { SpFilterButton } from '@/components'
+import { ScrollButton } from '@/components/sp-page-components'
 import { AtDrawer } from 'taro-ui'
 import './index.scss'
 
@@ -65,7 +66,7 @@ class SpFilterDrawer extends PureComponent {
             })}
           </View>
           <View className='footer'>
-            <SpScollButton
+            <ScrollButton
               refuseText='重置'
               confirmText='确定并筛选'
               onReset={this.handleReset}

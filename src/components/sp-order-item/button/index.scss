@@ -12,8 +12,7 @@
     flex-shrink:0;
     @include inline-flexbox();
     margin-left: 20px;
-
-
+ 
     &.type-danger{
         color: #FF5257;
         border-color: #FFB5B8;

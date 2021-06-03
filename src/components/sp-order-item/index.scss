@@ -8,6 +8,10 @@
   margin-bottom: 24px;
   @include cardShadow;
 
+  .margin-left-20{
+    margin-left: 20px;
+  }
+
   &-header {
     .order-header {
       position: relative;
