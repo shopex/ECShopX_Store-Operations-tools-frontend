@@ -1,0 +1,33 @@
+.comp-filter-modal {
+  width: 245px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 24px 0px #C5CAD5;
+  border-radius: 8px;
+  padding: 0 32px;
+  position: absolute;
+  left: 20px;
+  top: 80px;
+  z-index: 1000;
+  max-height:0;
+  overflow-y: hidden;
+  transition: all 0.3s;
+
+  &.show{
+    max-height:400px;
+  }
+
+  &_item {
+    min-height: 100px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 400;
+    color: #666F83; 
+   
+    @include hairline()
+
+   
+  }
+
+}

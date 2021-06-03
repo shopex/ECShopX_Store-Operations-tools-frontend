@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 2566823 */
+  font-family: 'iconfont';  /* Project id 2566823 */
   src: url('//at.alicdn.com/t/font_2566823_d9nzg29miy6.woff2?t=1622621600529') format('woff2'),
        url('//at.alicdn.com/t/font_2566823_d9nzg29miy6.woff?t=1622621600529') format('woff'),
        url('//at.alicdn.com/t/font_2566823_d9nzg29miy6.ttf?t=1622621600529') format('truetype');
@@ -135,4 +135,28 @@
 
 .icon-gaikuang:before {
   content: "\e61d";
+}
+
+.icon-xiala-01:before {
+  content: "\e81d";
+}
+
+.icon-shouqi-01:before {
+  content: "\e81e";
+}
+
+.icon-shaixuan1:before {
+  content: "\e664";
+}
+
+.icon-shaixuan2:before {
+  content: "\e600";
+}
+
+.icon-xuanzhongbiaoqian-01:before {
+  content: "\e820";
+}
+
+.icon-shoujihao:before {
+  content: "\e7a3";
 }
