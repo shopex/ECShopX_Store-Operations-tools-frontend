@@ -1,0 +1,28 @@
+.page-planSelection{
+  padding: 30px 32px;
+  background: #fff;
+  height: 100%;
+  .title{
+    color: #111A34;
+    font-size: 52px;
+  }
+  .tips{
+    margin-top: 20px;
+    font-size: 28px;
+    color: #858B9C;
+  }
+  .box{
+    margin-top: 80px;
+  }
+  .logoBox{
+    margin-top: 200px;
+    taro-image-core{
+      position: relative;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 238px;
+      height: 44px;
+    }
+  }
+}
