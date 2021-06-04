@@ -4,6 +4,7 @@ import { View, Text, Image } from '@tarojs/components'
 import { withLogin } from '@/hocs'
 import api from '@/api'
 import { navigateTo, formatNum } from '@/utils'
+import { connect } from 'react-redux'
 import './index.scss'
 
 const funcList = [
@@ -21,10 +22,14 @@ const funcList = [
   }
 ]
 
+@connect((store) => ({
+  store
+}))
 @withLogin()
 class Index extends PureComponent {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    console.log(props)
     this.state = {
       moneyShow: true,
       spendMoney: 999998.77
