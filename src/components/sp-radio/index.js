@@ -11,38 +11,43 @@ export default class index extends PureComponent {
   }
   render() {
     const { SpRadioData, isActive, activeHandle } = this.props
-    console.log(SpRadioData)
     return (
-      <View>
-        {SpRadioData.map((item, index) => {
-          return (
-            <View key={item.title} className='cpn-radio' onClick={(e) => activeHandle(index + 1)}>
-              <View className='radio'>
-                <View className='part1'>
-                  <View className='logo'>
-                    <Image src={item.photo}></Image>
+      SpRadioData && (
+        <View>
+          {SpRadioData.map((item, index) => {
+            return (
+              <View
+                key={item.distributor_id}
+                className='cpn-radio'
+                onClick={(e) => activeHandle(index + 1)}
+              >
+                <View className='radio'>
+                  <View className='part1'>
+                    <View className='logo'>
+                      <Image src={item.logo}></Image>
+                    </View>
+                    <View className='content'>
+                      <View className='title'>{item.name}</View>
+                      {item.is_center && (
+                        <View className='tag'>
+                          <AtTag size='small' type='primary'>
+                            总部
+                          </AtTag>
+                        </View>
+                      )}
+                    </View>
                   </View>
-                  <View className='content'>
-                    <View className='title'>{item.title}</View>
-                    {item.isCenter && (
-                      <View className='tag'>
-                        <AtTag size='small' type='primary'>
-                          总部
-                        </AtTag>
-                      </View>
-                    )}
-                  </View>
+                  {index + 1 === isActive && (
+                    <View className='active'>
+                      <Image src={duigou}></Image>
+                    </View>
+                  )}
                 </View>
-                {index + 1 === isActive && (
-                  <View className='active'>
-                    <Image src={duigou}></Image>
-                  </View>
-                )}
               </View>
-            </View>
-          )
-        })}
-      </View>
+            )
+          })}
+        </View>
+      )
     )
   }
 }
