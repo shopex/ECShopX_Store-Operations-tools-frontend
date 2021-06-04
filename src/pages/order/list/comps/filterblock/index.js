@@ -49,7 +49,7 @@ export default class FilterBlock extends PureComponent {
   }
 
   render() {
-    const { showFilter, order_time, order_class, receipt_type } = this.state
+    const { showFilter } = this.state
 
     return (
       <View className='filterContent'>

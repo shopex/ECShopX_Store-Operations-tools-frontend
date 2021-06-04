@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import { View, Text } from '@tarojs/components'
-import { AtInput } from 'taro-ui'
+import { View, Text, Input, Form } from '@tarojs/components'
+import { AtForm, AtInput } from 'taro-ui'
 import { classNames } from '@/utils'
 import { FieldSelect } from '@/components/sp-page-components'
 import './index.scss'
@@ -21,38 +21,82 @@ class SearchInput extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      modalShow: false
+      modalShow: false,
+      dataSource: []
+    }
+  }
+
+  componentDidMount() {
+    const { paramChange, pageType, inputParam } = this.props
+    const dataSource = getListAboutPage(pageType)
+    if (!inputParam) {
+      paramChange(dataSource[0])
+    }
+    this.setState({
+      dataSource
+    })
+    //h5:没有回车事件 故监听keyup keydown也无效
+    window.addEventListener('keyup', this.handleSubmit)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleSubmit)
+  }
+
+  handleSubmit = (e) => {
+    if (e.code === 'Enter' && this.props.onInputConfirm) {
+      this.props.onInputConfirm({ isResetList: true })
     }
   }
 
   //点击筛选modal框其他地方
   handleFilterModalClickAway = (e) => {
-    if (
-      e.target.id === 'custom_input' ||
-      e.target.id === 'custom_input_arrow' ||
-      e.target.id === 'custom_input_text'
-    ) {
-      return
-    }
+    // console.log("handleFilterModalClickAway",e.target.id)
+    // if (
+    //   e.target.id === 'custom_input' ||
+    //   e.target.id === 'custom_input_arrow' ||
+    //   e.target.id === 'custom_input_text'
+    // ) {
+    //   return
+    // }
     this.setState({
       modalShow: false
     })
   }
 
   //点击search事件
-  clickSearch = () => {}
+  clickSearch = () => {
+    this.setState({
+      modalShow: true
+    })
+  }
+
+  handleClickField = (selectField) => {
+    const { paramChange } = this.props
+    if (paramChange) {
+      paramChange(selectField)
+    }
+    this.setState({
+      modalShow: false
+    })
+  }
+
+  handleChangeInput = (e) => {
+    const { valueChange } = this.props
+    if (valueChange) {
+      valueChange(e)
+    }
+  }
 
   render() {
-    const { modalShow } = this.state
+    const { modalShow, dataSource } = this.state
 
-    const { inputParams, inputValue, pageType } = this.props
-
-    const dataSource = getListAboutPage(pageType)
+    const { inputParam, inputValue } = this.props
 
     return (
       <View className='sp-page-search-input'>
         <View className='title' id='custom_input' onClick={this.clickSearch}>
-          <Text id='custom_input_text'>订单号</Text>
+          <Text id='custom_input_text'>{inputParam ? inputParam.label : ''}</Text>
           <Text
             className={classNames('iconfont', 'icon-xiala-01', {
               ['isModalShow']: modalShow
@@ -61,13 +105,23 @@ class SearchInput extends PureComponent {
           ></Text>
         </View>
         <View className='input'>
-          <AtInput className='at-input' placeholder='请输入想要搜索的内容' border={false} />
+          {/* <AtForm action="" onSubmit={this.handleInputConfirm}> */}
+          <AtInput
+            className='at-input'
+            placeholder='请输入想要搜索的内容'
+            border={false}
+            name='a'
+            value={inputValue}
+            onChange={this.handleChangeInput}
+          />
+          {/* </AtForm> */}
         </View>
 
         <FieldSelect
           dataSource={dataSource}
           visible={modalShow}
           onClickAway={this.handleFilterModalClickAway}
+          onClickField={this.handleClickField}
         />
       </View>
     )

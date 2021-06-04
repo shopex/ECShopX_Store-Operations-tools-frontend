@@ -11,7 +11,7 @@ export default class FieldSelect extends PureComponent {
   }
 
   render() {
-    const { visible, onClickAway = () => {}, dataSource = [] } = this.props
+    const { visible, onClickAway = () => {}, dataSource = [], onClickField = () => {} } = this.props
 
     return (
       <SpClickAwayListener onClickAway={onClickAway}>
@@ -21,7 +21,11 @@ export default class FieldSelect extends PureComponent {
           })}
         >
           {dataSource.map(({ value, label }) => (
-            <View key={value} className={classNames('sp-page-field-select_item')}>
+            <View
+              key={value}
+              className={classNames('sp-page-field-select_item')}
+              onClick={() => onClickField({ value, label })}
+            >
               {label}
             </View>
           ))}

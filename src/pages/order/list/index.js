@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react'
 import { View, ScrollView } from '@tarojs/components'
 import { getThemeStyle } from '@/utils'
-import Tabbar from './comps/tabbar'
 import FilterBlock from './comps/filterblock'
 import NoteDrawer from './comps/note-drawer'
 import ActionModal from './comps/action-modal'
 import { withPager, withBackToTop } from '@/hocs'
 import { SpLoading, SpNote, SpOrderItem, SpToast, SpPicker } from '@/components'
-import { SelectInput } from '@/components/sp-page-components'
+import { SelectInput, Tabbar } from '@/components/sp-page-components'
 
 import api from '@/api'
 import './index.scss'
@@ -25,22 +24,67 @@ export default class List extends PureComponent {
       orderList: [],
       currentOrder: {},
       loading: false,
-      //搜索框选择的参数
-      inputParams: '',
+      //搜索框选择的参数  类型为对象
+      inputParams: null,
       //搜索框输入的值
-      inputValue: ''
+      inputValue: '',
+      //状态筛选值
+      mainStatus: null,
+      //筛选参数
+      filterParams: {
+        orderTime: ''
+      }
     }
   }
 
+  //获取订单筛选参数
+  getOrderParams = () => {
+    const { inputParams, inputValue, mainStatus } = this.state
+
+    let params = {
+      order_type: 'normal'
+    }
+
+    if (inputParams && inputValue) {
+      params[inputParams.value] = inputValue
+    }
+
+    if (mainStatus) {
+      params['main_status'] = mainStatus.value
+    }
+
+    return params
+  }
+
+  searchFilter = async ({ isCMD, isResetList }) => {
+    let query = {}
+
+    if (isCMD) {
+      //如果是初始化
+      query.orderList = []
+      query.inputValue = ''
+    }
+
+    if (isResetList) {
+      //筛选时需要置空
+      query.orderList = []
+    }
+
+    this.resetPage(() => {
+      this.setState(
+        {
+          ...this.state,
+          ...query
+        },
+        () => {
+          this.nextPage()
+        }
+      )
+    })
+  }
+
   async componentDidMount() {
-    this.setState(
-      {
-        orderList: []
-      },
-      () => {
-        this.nextPage()
-      }
-    )
+    await this.searchFilter({ isCMD: true })
   }
 
   handleTabClick = (activeIndex) => {
@@ -107,14 +151,6 @@ export default class List extends PureComponent {
     })
   }
 
-  getOrderParams = () => {
-    let params = {
-      order_type: 'normal'
-    }
-
-    return params
-  }
-
   //获取订单列表
   getOrdersList = async (params) => {
     const {
@@ -134,7 +170,8 @@ export default class List extends PureComponent {
     }
   }
 
-  async fetch(params) {
+  //请求
+  fetch = async (params) => {
     this.setState({
       loading: true
     })
@@ -148,9 +185,32 @@ export default class List extends PureComponent {
     return { total }
   }
 
+  //搜索参数变化回调
+  handleParamChange = (inputParams) => {
+    console.log('handleParamChange', inputParams)
+    this.setState({
+      inputParams: { ...inputParams }
+    })
+  }
+
+  //值变化回调
+  handleValueChange = (inputValue) => {
+    console.log('valueChange', inputValue)
+    this.setState({
+      inputValue
+    })
+  }
+
+  //状态变化的回调
+  handleStatusChange = (status) => {
+    this.setState({
+      mainStatus: status
+    })
+    this.searchFilter({ isResetList: true })
+  }
+
   render() {
     const {
-      orderStatus,
       noteVisible,
       actionVisible,
       actionType,
@@ -159,20 +219,28 @@ export default class List extends PureComponent {
       currentOrder,
       loading,
       inputParams,
-      inputValue
+      inputValue,
+      mainStatus
     } = this.state
 
     return (
       <View className='page-order-list' style={getThemeStyle()}>
         <View className='page-order-list-input'>
-          <SelectInput inputParams={inputParams} inputValue={inputValue} pageType='orderList' />
+          <SelectInput
+            inputParam={inputParams}
+            inputValue={inputValue}
+            pageType='orderList'
+            paramChange={this.handleParamChange}
+            valueChange={this.handleValueChange}
+            onInputConfirm={this.searchFilter}
+          />
         </View>
 
-        <View className='page-order-list-tabbar'>
-          <View className='left'></View>
-          <Tabbar activeStatus={orderStatus} onTabClick={this.handleTabClick} />
-          <View className='right'></View>
-        </View>
+        <Tabbar
+          pageType='orderList'
+          mainStatus={mainStatus}
+          statusChange={this.handleStatusChange}
+        />
 
         <FilterBlock />
 
@@ -216,7 +284,7 @@ export default class List extends PureComponent {
           currentOrder={currentOrder}
         />
 
-        <SpPicker visible={true} />
+        {/* <SpPicker visible={true} /> */}
 
         <SpToast />
       </View>

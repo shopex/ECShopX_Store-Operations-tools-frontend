@@ -28,7 +28,7 @@ export default class No extends PureComponent {
       <View className='order-header'>
         <View className='order-no'>
           <Text className='no'>{info.order_id}</Text>
-          <Text className='copy' onClick={() => copyContent(info.no)}>
+          <Text className='copy' onClick={() => copyContent(info.order_id)}>
             复制
           </Text>
         </View>

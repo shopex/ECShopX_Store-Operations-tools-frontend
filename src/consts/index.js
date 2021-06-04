@@ -1,60 +1,43 @@
-// export const ORDER_STATUS = {
-//   '全部': 'all',
-//   '待发货': 'notship',
-//   '待退款': 'cancelapply',
-//   '待收货': 'shipping',
-//   '待自提': 'ziti',
-//   '未支付': 'notpay',
-//   '已取消': 'cancel',
-//   '已完成': 'done'
-// }
-
-//订单主状态
-export const ORDER_STATUS = {
-  'ALL': '全部',
-  'CANCEL': '已取消',
-  'NOTPAY': '待付款',
-  'PAYED': '待发货',
-  'WAIT_BUYER_CONFIRM': '已发货',
-  'DONE': '已完成'
+//订单列表主状态
+export const ORDER_LIST_STATUS = {
+  'all': '全部',
+  'cancel': '已取消',
+  'notpay': '待支付',
+  'notship': '待发货',
+  'shipping': '已发货',
+  'finish': '已完成'
 }
-//订单筛选时间
-export const ORDER_FILTER_TIME = {
-  '全部': 'all',
-  '今天': 'today',
-  '昨天': 'yesterday',
-  // '近七天': 'recently7',
-  '近30天': 'recently30'
-}
-
-//订单筛选类型
-export const ORDER_TYPE = {
-  '全部订单': 'all',
-  '团购订单': 'groups',
-  '秒杀订单': 'seckill',
-  '导购订单': 'shopguide',
-  '跨境订单': 'crossborder',
-  '助力订单': 'bargain',
-  '社区订单': 'community',
-  '普通订单': 'normal'
-}
-
-//订单筛选类型
-export const ORDER_RECEIPT_TYPE = {
-  '普通快递': 'logistics',
-  '同城配': 'dada',
-  '自提': 'ziti'
-}
-
-export const ORDER_LIST_FILTER_ITEM = {
-  '下单时间': 'order_time',
-  '订单类型': 'order_class',
-  '配送类型': 'receipt_type'
-}
-
+//订单列表搜索字段
 export const ORDER_LIST_FIELDS = {
   'order_id': '订单号',
-  '': '商品名称',
+  'order_name': '商品名称',
   'mobile': '手机号码',
-  '': '收货人姓名'
+  'receive_name': '收货人姓名'
+}
+//订单筛选时间
+export const ORDER_LIST_FILTER_TIME = {
+  'all': '全部',
+  'today': '今天',
+  'yestoday': '昨天',
+  'recently7': '近七天',
+  'recently30': '近30天'
+}
+
+//订单筛选类型
+export const ORDER_LIST_FILTER_TYPE = {
+  'all': '全部订单',
+  'groups': '团购订单',
+  'seckill': '秒杀订单',
+  'shopguide': '导购订单',
+  'crossborder': '跨境订单',
+  'bargain': '助力订单',
+  'community': '社区订单',
+  'normal': '普通订单'
+}
+
+//订单筛选类型
+export const ORDER_LIST_RECEIPT_TYPE = {
+  'logistics': '普通快递',
+  'dada': '同城配',
+  'ziti': '自提'
 }

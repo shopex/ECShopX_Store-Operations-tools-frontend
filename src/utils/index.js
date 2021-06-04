@@ -103,4 +103,8 @@ async function requestCallback(func, successText, successCallback) {
   }
 }
 
-export { classNames, log, debounce, throttle, validate, requestCallback }
+function range(num, min, max) {
+  return Math.min(Math.max(num, min), max)
+}
+
+export { classNames, log, debounce, throttle, validate, requestCallback, range }
