@@ -61,7 +61,7 @@ export function getThemeStyle() {
 }
 // 格式化金钱
 export function formatNum(number) {
-  return number.toLocaleString()
+  return number.toFixed(2).toLocaleString()
 }
 
 export function showToast(title) {

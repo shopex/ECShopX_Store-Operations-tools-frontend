@@ -1,5 +1,5 @@
 import req from './req'
 
-export function getStatistics() {
-  return req.get('/getStatistics')
+export function getStatistics(params) {
+  return req.get('/getStatistics', params)
 }
