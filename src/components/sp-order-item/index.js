@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
-import { SpGoodItem , SpGoodPrice } from '@/components'
-
+import { SpGoodItem, SpGoodPrice } from '@/components'
 import { CommonButton } from '@/components/sp-page-components'
 import HeaderInfo from './header'
 import './index.scss'
@@ -71,7 +70,8 @@ export default class SpOrderItem extends PureComponent {
       info: orderInfo,
       onClickNote = () => {},
       onClickContact = () => {},
-      onClickConfirmGetOrder = () => {}
+      onClickConfirmGetOrder = () => {},
+      onClickCancel = () => {}
     } = this.props
     console.log('buttonType', buttonType)
     if (buttonType === 'mark') {
@@ -80,6 +80,8 @@ export default class SpOrderItem extends PureComponent {
       onClickContact(orderInfo)
     } else if (buttonType === 'accept') {
       onClickConfirmGetOrder(orderInfo)
+    } else if (buttonType === 'cancel') {
+      onClickCancel(orderInfo)
     }
   }
 
@@ -113,7 +115,7 @@ export default class SpOrderItem extends PureComponent {
   }
 
   render() {
-    const { info } = this.props
+    const { info, onGoodItemClick = () => {} } = this.props
 
     return (
       <View className='sp-order-item'>
@@ -122,7 +124,13 @@ export default class SpOrderItem extends PureComponent {
         </View>
         <View className='sp-order-item-body'>
           {info.items.map((goodItem, index) => (
-            <SpGoodItem goodInfo={goodItem} orderInfo={info} className='goodItem' key={index} />
+            <SpGoodItem
+              onClick={onGoodItemClick}
+              goodInfo={goodItem}
+              orderInfo={info}
+              className='goodItem'
+              key={index}
+            />
           ))}
         </View>
 

@@ -99,8 +99,9 @@
   &-footer {
     margin-top: 32px;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex-wrap: wrap;
+    justify-content: flex-end;
 
     .order-item-button {
       &:nth-child(1) {

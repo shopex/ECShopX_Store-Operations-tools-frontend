@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react'
 import { AtTabs } from 'taro-ui'
 import { View } from '@tarojs/components'
-import { ORDER_STATUS } from '@/consts'
+import { ORDER_LIST_STATUS } from '@/consts'
 import './index.scss'
 
 const getListAboutPage = (pageType) => {
   let returnArr = []
   if (pageType === 'orderList') {
-    returnArr = Object.keys(ORDER_STATUS).map((key) => ({
+    returnArr = Object.keys(ORDER_LIST_STATUS).map((key) => ({
       value: key,
-      label: ORDER_STATUS[key]
+      label: ORDER_LIST_STATUS[key]
     }))
   }
   return returnArr

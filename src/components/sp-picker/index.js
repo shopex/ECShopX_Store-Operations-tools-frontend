@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { AtFloatLayout } from 'taro-ui'
 import Taro from '@tarojs/taro'
-import { classNames , range } from '@/utils'
+import { classNames, range } from '@/utils'
 import { useTouch } from '@/hooks'
 import { preventDefault } from '@/utils/dom'
 
@@ -47,7 +47,10 @@ const SpPicker = (props) => {
     className,
     visible,
     swipeDuration = 1000,
-    type = 'normal'
+    type = 'normal',
+    //确定按钮的类型
+    confirmType,
+    onChange = () => {}
   } = props
 
   const { move, start, isVertical, deltaY } = useTouch()
@@ -198,8 +201,8 @@ const SpPicker = (props) => {
   }
 
   useEffect(() => {
-    console.log('currentIndex', currentIndex)
-  }, [currentIndex])
+    onChange(currentIndex, columns[currentIndex])
+  }, [currentIndex, columns])
 
   return (
     <AtFloatLayout
@@ -212,7 +215,12 @@ const SpPicker = (props) => {
           {onCancelText}
         </View>
         <View className='center'>{title}</View>
-        <View className='right' onClick={onConfirm}>
+        <View
+          className={classNames('right', {
+            ['danger']: confirmType === 'danger'
+          })}
+          onClick={(e) => onConfirm(currentIndex, columns[currentIndex])}
+        >
           {onConfirmText}
         </View>
       </View>
@@ -231,8 +239,15 @@ const SpPicker = (props) => {
               ref={wrapper}
               onTransitionend={stopMomentum}
             >
-              {columns.map((c) => (
-                <View className={classNames('columns_item')}>{c}</View>
+              {columns.map((c, index) => (
+                <View
+                  className={classNames('columns_item', {
+                    ['selected']: index === currentIndex
+                  })}
+                >
+                  <Text className='text'>{c}</Text>
+                  {/* <Text className=''></Text> */}
+                </View>
               ))}
             </View>
           </View>

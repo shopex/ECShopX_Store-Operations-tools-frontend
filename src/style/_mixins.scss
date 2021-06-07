@@ -148,3 +148,23 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin detail-card(){
+  margin:0 24px;
+  border-radius: 16px;
+  box-shadow: 0px 3px 5px 0px #E2E4EA;
+  background: #FFFFFF;
+  padding:34px 32px;
+}
+
+@mixin detail-card2(){
+  padding:24px 32px;
+  background-color: #fff;
+  width:100%;
+
+  .item{
+    font-size: 24px;
+    font-weight: 400;
+    color: #111A34;
+  }
+}

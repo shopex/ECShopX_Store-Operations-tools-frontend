@@ -1,3 +1,5 @@
+$danger-color:#FF5257;
+
 .sp-component-picker {
   
   .at-float-layout__container {
@@ -36,6 +38,10 @@
 
     .right {
       color: #4980FF;
+
+      &.danger{
+        color:$danger-color;
+      }
     }
 
     .center {
@@ -66,6 +72,10 @@
           .columns_item {
             height: 100px;
             @include flexbox;
+
+            &.selected{
+              color:var(--color-primary);
+            }
           }
 
         }

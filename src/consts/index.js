@@ -10,21 +10,21 @@ export const ORDER_LIST_STATUS = {
 //订单列表搜索字段
 export const ORDER_LIST_FIELDS = {
   'order_id': '订单号',
-  'order_name': '商品名称',
+  'item_name': '商品名称',
   'mobile': '手机号码',
-  'receive_name': '收货人姓名'
+  'receiver_name': '收货人姓名'
 }
 //订单筛选时间
 export const ORDER_LIST_FILTER_TIME = {
   'all': '全部',
   'today': '今天',
-  'yestoday': '昨天',
-  'recently7': '近七天',
+  'yesterday': '昨天',
+  // 'recently7': '近七天',
   'recently30': '近30天'
 }
 
 //订单筛选类型
-export const ORDER_LIST_FILTER_TYPE = {
+export const ORDER_LIST_FILTER_CLASS = {
   'all': '全部订单',
   'groups': '团购订单',
   'seckill': '秒杀订单',
@@ -35,9 +35,30 @@ export const ORDER_LIST_FILTER_TYPE = {
   'normal': '普通订单'
 }
 
-//订单筛选类型
+//订单筛选配送方式
 export const ORDER_LIST_RECEIPT_TYPE = {
   'logistics': '普通快递',
   'dada': '同城配',
   'ziti': '自提'
+}
+
+export const ORDER_LIST_FILTER_ITEM = {
+  'orderTime': '下单时间',
+  'orderClass': '订单类型',
+  'receiptType': '配送类型'
+}
+
+export const ORDER_LIST_CANCEL_REASON = {
+  1: '客户现在不想购买',
+  2: '客户商品价格较贵',
+  3: '客户价格波动',
+  4: '客户商品缺货',
+  5: '客户重复下单',
+  6: '客户订单商品选择有误',
+  7: '客户支付方式选择有误',
+  8: '客户收货信息填写有误',
+  9: '客户发票信息填写有误',
+  10: '客户无法支付订单',
+  11: '客户长时间未付款',
+  12: '客户其他原因'
 }

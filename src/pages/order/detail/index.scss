@@ -1,3 +1,56 @@
-.page-order-list{
-    
+
+$detail-card-height:200px;
+
+.page-order-detail{
+
+    overflow-x: hidden;
+    padding-bottom:220px;
+
+    .card-center{
+        @include detail-card();
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        top:-34px;
+
+        .title{
+            font-size: 32px;
+            font-weight: 500;
+            color: #666F83;
+        }
+
+        .desc{
+            font-size: 28px;
+            font-weight: 400;
+            color: #111A34;
+        }
+        .right{
+            font-size: 28px;
+            font-weight: 400;
+            color:var(--color-primary); 
+
+            .iconfont{
+                font-size: 30px;
+                color:var(--color-primary);
+            }
+        }
+    }
+
+    .render-bottom{
+
+        display: flex;
+        justify-content: flex-end;
+
+        .commonbutton{
+            display: inline-flex; 
+            border-radius:45px;
+            margin-left:20px;
+            flex-shrink: 0;
+        }
+    }
+
+    .card-bottom{
+        margin-top:20px;
+        @include detail-card2();
+    }
 }

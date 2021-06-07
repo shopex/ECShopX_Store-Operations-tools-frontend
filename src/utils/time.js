@@ -1,6 +1,6 @@
 //计算不同时间区间的起始时间戳
 export function calculateTimestamp(type) {
-  const { nowTime, todayStartTime, yesterdayStartTime, prevMonthStartTime } = new useDate()
+  const { nowTime, todayStartTime, yesterdayStartTime, prevMonthStartTime } = useDate()
   let timeArr = []
   switch (type) {
     case 'today':
@@ -32,7 +32,7 @@ function complete(number) {
 
 //上一天
 const getLastDay = (date) => {
-  const { year, month, day } = useDate(date)
+  const { year, month, day } = useDate(date, false)
 
   //如果是元旦
   if (day === '01' && month === '01') {
@@ -49,7 +49,7 @@ const getLastDay = (date) => {
 
 //上个月
 const getPrevMonth = (date) => {
-  const { year, month, day } = useDate(date)
+  const { year, month, day } = useDate(date, false)
 
   if (month > 1 && month <= 12) {
     return `${year}-${complete(Number(month) - 1)}-${day}`
@@ -62,7 +62,7 @@ const getPrevMonth = (date) => {
  * 传进来一个date对象或者一个时间字符串
  * @param {}} date
  */
-function useDate(date) {
+function useDate(date, need = true) {
   //如果date是字符串 如果date是日期对象
   const newDate =
     date && typeof date === 'string'
@@ -83,9 +83,16 @@ function useDate(date) {
   let completeDay = `${year}-${month}-${day}`
 
   let nowTime = newDate.getTime()
+
+  let yesterdayStartTime
+  let prevMonthStartTime
+
   let todayStartTime = new Date(`${completeDay} 00:00:00`).getTime()
-  let yesterdayStartTime = new Date(`${getLastDay(newDate)} 00:00:00`).getTime()
-  let prevMonthStartTime = new Date(`${getPrevMonth(newDate)} 00:00:00`).getTime()
+
+  if (need) {
+    yesterdayStartTime = new Date(`${getLastDay(newDate)} 00:00:00`).getTime()
+    prevMonthStartTime = new Date(`${getPrevMonth(newDate)} 00:00:00`).getTime()
+  }
 
   return {
     date: newDate,

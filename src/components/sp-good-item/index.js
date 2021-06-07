@@ -35,11 +35,16 @@ class SpGoodItem extends PureComponent {
     }
   }
 
+  handleGoodClick = () => {
+    const { onClick = () => {}, goodInfo } = this.props
+    onClick(goodInfo)
+  }
+
   render() {
     const { goodInfo, className } = this.props
 
     return (
-      <View className={classNames('sp-good-item', className)}>
+      <View className={classNames('sp-good-item', className)} onClick={this.handleGoodClick}>
         <View className='sp-good-item-image'>
           <Image className='img' src={goodInfo.pic} />
         </View>
