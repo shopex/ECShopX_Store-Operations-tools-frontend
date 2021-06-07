@@ -1,6 +1,7 @@
 import { Component, createElement } from 'react'
 import { View, Image, Form, Input, Button } from '@tarojs/components'
 import { showToast } from '@/utils'
+import api from '@/api'
 import './index.scss'
 
 const logo = require('../../assets/imgs/1.jpg')
@@ -9,10 +10,18 @@ export default class My extends Component {
   constructor() {
     super()
     this.state = {
-      username: '法外狂徒张三'
+      username: '法外狂徒张三',
+      shopList: null
     }
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.getMyInfoHandle()
+  }
+  async getMyInfoHandle() {
+    const result = await api.my.getMyinfo()
+
+    console.log(result)
+  }
   formSubmit() {}
   handleChange(event) {
     console.log(event.target.value)
