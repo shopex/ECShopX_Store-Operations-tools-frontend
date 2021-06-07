@@ -1,0 +1,10 @@
+.sp-checkbox-square{
+
+    display: flex;
+
+    .item{
+        width:136px;
+        height:56px;
+        @include flexbox;
+    }
+}

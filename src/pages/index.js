@@ -2,7 +2,8 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component, PureComponent } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { withLogin } from '@/hocs'
-import { navigateTo, formatNum } from '@/utils'
+import { connect } from 'react-redux'
+import { formatNum } from '@/utils'
 import './index.scss'
 
 const funcList = [
@@ -19,9 +20,15 @@ const funcList = [
     icon: require('@/assets/imgs/index/shaoyishao.svg')
   }
 ]
+
+@connect((store) => ({
+  store
+}))
+@withLogin()
 class Index extends PureComponent {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    console.log(props)
     this.state = {
       moneyShow: true,
       spendMoney: 999998.77

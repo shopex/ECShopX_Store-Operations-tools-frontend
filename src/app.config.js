@@ -1,12 +1,15 @@
 export default {
   pages: [
     'pages/index',
-    'pages/message/index',
-    'pages/my/index',
+    'pages/message/index', // zyk 消息
+    'pages/my/index', // zyk 我的信息
     'pages/auth/login',
+    'pages/auth/index',
+
     'pages/auth/agreement',
-    'pages/auth/welcome',
-    'pages/auth/bindPhone'
+    'pages/auth/bindPhone',
+    'pages/planSelection/index', // zyk 解决方案选择
+    'pages/afterSaleTreatment/index' // zyk 售后处理
   ],
   tabBar: {
     list: [
@@ -26,7 +29,7 @@ export default {
         pagePath: 'pages/my/index',
         iconPath: './assets/imgs/index/myinfo.svg',
         selectedIconPath: './assets/imgs/index/myinfoHover.svg',
-        text: '我的'
+        text: '我的信息'
       }
     ],
     selectedColor: '#4980FF',
