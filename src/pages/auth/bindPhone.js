@@ -3,6 +3,7 @@ import { View, Image, ScrollView } from '@tarojs/components'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
 import { getThemeStyle, validate, showToast, getCurrentRoute } from '@/utils'
 import api from '@/api'
+import S from '@/spx'
 import FtLogo from './comps/ft-logo'
 import S from '@/spx'
 import './bindPhone.scss'
@@ -33,7 +34,7 @@ export default class BindPhone extends Component {
     S.setAuthToken(token)
     const userInfo = await api.operator.getUserInfo()
     S.set('user_info', userInfo, true)
-    Taro.redirectTo({ url: `/pages/index` })
+    Taro.redirectTo({ url: `/pages/planSelection/index` })
   }
 
   async handleTimerStart() {

@@ -41,7 +41,7 @@ const AgreeMent = () => {
         <LinegradientButton title='开始我的数字化经营' onClick={handleShow} />
       </View>
 
-      <ShopxLogo />
+      {/* <SpShopxLogo /> */}
 
       {/* 用户协议 */}
       <Drawer visible={visible} onDrawerClose={handleDrawerClose} />
