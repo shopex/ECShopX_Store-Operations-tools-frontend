@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { getThemeStyle, calcTimer } from '@/utils'
+import { getThemeStyle, timestampToTime, calcTimer } from '@/utils'
+import { SpGoodItem, SpGoodPrice } from '@/components'
 import {
   DetailCard,
   MessageCard,
@@ -21,32 +22,16 @@ class OrderDetail extends Component {
       orderInfo: {},
       pageType: 'orderDetail',
       timer: {
-        hh: 10,
-        mm: 10,
-        ss: 10
+        mm: 0,
+        ss: 0
       },
-      leftContent: [
-        {
-          label: '收货人',
-          value: '我是买家姓名   13888888888'
-        },
-        {
-          label: '收货地址',
-          value:
-            '我是买家姓名    13888888888 上海市上海徐汇区田林街道宜山路700号普天信息 产业园区C1幢12楼'
-        }
-      ],
-      rightContent: [
-        {
-          label: '收货人',
-          value: '我是买家姓名   13888888888'
-        },
-        {
-          label: '收货地址',
-          value:
-            '我是买家姓名    13888888888 上海市上海徐汇区田林街道宜山路700号普天信息 产业园区C1幢12楼'
-        }
-      ]
+      tradeInfo: {},
+      userInfo: {},
+      leftContent: [],
+      rightContent: [],
+      logisticsList: [],
+      leftPhone: '',
+      rightPhone: ''
     }
   }
 
@@ -56,9 +41,96 @@ class OrderDetail extends Component {
         params: { order_id }
       }
     } = getCurrentInstance()
-    const { orderInfo } = await api.order.detail({ orderId: order_id })
+    const { orderInfo, tradeInfo } = await api.order.detail({ orderId: order_id })
     this.setState({
-      orderInfo
+      orderInfo,
+      tradeInfo
+    })
+    this.calcTimer()
+    this.renderLeftContent()
+    this.renderRightContent()
+    this.getLogistics()
+  }
+
+  //得出发货时间
+  getLogistics = async () => {
+    const { orderInfo } = this.state
+    const list = await api.logistics.list({ orderId: orderInfo.order_id })
+    this.setState({
+      logisticsList: list
+    })
+  }
+
+  //计算倒计时
+  calcTimer = async () => {
+    const {
+      orderInfo: { auto_cancel_seconds }
+    } = this.state
+    this.setState({
+      timer: calcTimer(auto_cancel_seconds)
+    })
+  }
+
+  //渲染左内容
+  renderLeftContent = () => {
+    const {
+      orderInfo: {
+        receipt_type,
+        receiver_name,
+        receiver_mobile,
+        receiver_state,
+        receiver_city,
+        receiver_district,
+        receiver_address
+      }
+    } = this.state
+    let leftContent
+    if (receipt_type === 'ziti') {
+      leftContent = [
+        {
+          label: '提货人',
+          value: receiver_name
+        },
+        {
+          label: '手机号',
+          value: receiver_mobile
+        }
+      ]
+    } else {
+      leftContent = [
+        {
+          label: '收货人',
+          value: `${receiver_name} ${receiver_mobile}`
+        },
+        {
+          label: '收货地址',
+          value: `${receiver_state} ${receiver_city} ${receiver_district} ${receiver_address}`
+        }
+      ]
+    }
+    this.setState({
+      leftContent,
+      leftPhone: receiver_mobile
+    })
+  }
+
+  //渲染右内容
+  renderRightContent = async () => {
+    const {
+      orderInfo: { user_id }
+    } = this.state
+    let rightContent
+    const userInfo = await api.order.member({ userId: user_id })
+    rightContent = [
+      {
+        label: '买家信息',
+        value: `${userInfo.username || ''} ${userInfo.mobile || ''}`
+      }
+    ]
+    this.setState({
+      userInfo,
+      rightContent,
+      rightPhone: userInfo.mobile
     })
   }
 
@@ -79,13 +151,13 @@ class OrderDetail extends Component {
       return description
     } else if (type === 'cancel') {
       return <View>商家取消订单，查看退款状态</View>
-    } else if (type === 'notpay') {
+    } else if (type === 'not_pay') {
       return (
         <View className='notpay_desc'>
           <View>买家尚未支付，剩余</View>
           <AtCountdown
             className='countdown__time'
-            format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
+            format={{ hours: '小时', minutes: '分钟', seconds: '秒' }}
             hours={timer.hh}
             minutes={timer.mm}
             seconds={timer.ss}
@@ -106,15 +178,24 @@ class OrderDetail extends Component {
   renderIcon = () => {}
 
   //渲染物流标题
-  renderLogiticsTitle = () => {
+  renderLogiticsTitle = (desc) => {
     const {
       orderInfo: { receipt_type }
     } = this.state
     if (receipt_type === 'dada') {
+      if (desc) {
+        return '同城配送'
+      }
       return '同城配信息'
     } else if (receipt_type === 'ziti') {
+      if (desc) {
+        return '自提'
+      }
       return '自提信息'
     } else {
+      if (desc) {
+        return '普通快递'
+      }
       return '物流信息'
     }
   }
@@ -127,7 +208,7 @@ class OrderDetail extends Component {
 
     let deliveryLog = deliveryLogs[deliveryLogs.length - 1] || {}
 
-    return `${deliveryLog.msg}`
+    return `${deliveryLog.msg} ${timestampToTime(deliveryLog.time)}`
   }
 
   //判断是收件人还是取件人
@@ -142,8 +223,33 @@ class OrderDetail extends Component {
     }
   }
 
+  //渲染价格
+  renderTotalFee = () => {
+    const {
+      orderInfo: { point, total_fee }
+    } = this.state
+    //金额订单
+    if (point == 0) {
+      return <SpGoodPrice price={total_fee} />
+      //积分订单
+    } else if (total_fee == 0) {
+      return <SpGoodPrice point={point} />
+    } else {
+      return <SpGoodPrice price={total_fee} point={point} />
+    }
+  }
+
   render() {
-    const { orderInfo, pageType, leftContent, rightContent } = this.state
+    const {
+      orderInfo,
+      tradeInfo,
+      pageType,
+      leftContent,
+      rightContent,
+      leftPhone,
+      rightPhone,
+      logisticsList
+    } = this.state
 
     return (
       <View className='page-order-detail' style={getThemeStyle()}>
@@ -165,16 +271,74 @@ class OrderDetail extends Component {
           </View>
         </View>
 
-        <MessageCard leftTitle={this.renderCardLeftTitle()} leftContent={leftContent} />
+        <MessageCard
+          leftTitle={this.renderCardLeftTitle()}
+          leftContent={leftContent}
+          rightContent={rightContent}
+          leftPhone={leftPhone}
+          rightPhone={rightPhone}
+        />
+
+        <View className='order-detail'>
+          <View className='order-detail-title'>
+            <View className='text'>自提订单</View>
+            <View className='status'></View>
+          </View>
+
+          <View className='order-detail-content'>
+            {orderInfo?.items?.map((goodItem, index) => (
+              <SpGoodItem
+                // onClick={onGoodItemClick}
+                goodInfo={goodItem}
+                orderInfo={orderInfo}
+                className='goodItem'
+                pageType='orderDetail'
+                key={index}
+              />
+            ))}
+          </View>
+
+          <View className='order-detail-footer'>
+            <View className='item'>
+              <View className='field'>配送方式</View>
+              <View className='value'>{this.renderLogiticsTitle(true)}</View>
+            </View>
+            <View className='item'>
+              <View className='field'>商品总价</View>
+              <View className='value'>{this.renderTotalFee()}</View>
+            </View>
+            <View className='item'>
+              <View className='field'>配送方式</View>
+              <View className='value'>同城配送</View>
+            </View>
+            <View className='item'>
+              <View className='field'>配送方式</View>
+              <View className='value'>同城配送</View>
+            </View>
+            <View className='item'>
+              <View className='field'>配送方式</View>
+              <View className='value'>同城配送</View>
+            </View>
+            <View className='item'>
+              <View className='field'>配送方式</View>
+              <View className='value'>同城配送</View>
+            </View>
+          </View>
+        </View>
 
         <View className='card-bottom'>
-          <View className='item'>下单时间：2021.05.28 12:0</View>
-          <View className='item'>下单时间：2021.05.28 12:0</View>
-          <View className='item'>下单时间：2021.05.28 12:0</View>
-          <View className='item'>下单时间：2021.05.28 12:0</View>
-          <View className='item'>下单时间：2021.05.28 12:0</View>
-          <View className='item'>下单时间：2021.05.28 12:0</View>
-          <View className='item'>下单时间：2021.05.28 12:0</View>
+          <View className='item'>下单时间：{timestampToTime(orderInfo.create_time)}</View>
+          {tradeInfo.timeExpire && (
+            <View className='item'>交易时间：{timestampToTime(tradeInfo.timeExpire)}</View>
+          )}
+          {!!logisticsList.length && (
+            <View className='item'>
+              发货时间：{timestampToTime(logisticsList[logisticsList.length - 1].created)}
+            </View>
+          )}
+          <View className='item'>订单编号：{orderInfo.order_id}</View>
+          <View className='item'>交易单号：{tradeInfo.tradeId}</View>
+          <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
         </View>
 
         <FixedAction>

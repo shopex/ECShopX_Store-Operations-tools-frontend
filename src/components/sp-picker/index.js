@@ -248,6 +248,7 @@ const SpPicker = (props) => {
                   className={classNames('columns_item', {
                     ['selected']: index === currentIndex
                   })}
+                  key={c}
                 >
                   <Text className='text'>{c}</Text>
                   {/* <Text className=''></Text> */}

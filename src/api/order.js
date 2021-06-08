@@ -24,3 +24,8 @@ export function businessreceipt({ orderId }) {
 export function detail({ orderId }) {
   return req.get(`/order/${orderId}`)
 }
+
+//订单会员信息
+export function member({ userId }) {
+  return req.get(`/member`, { user_id: userId })
+}

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import { classNames } from '@/utils'
 import './index.scss'
 
@@ -14,6 +15,13 @@ class MessageCard extends PureComponent {
   handleChange = (active) => (e) => {
     this.setState({
       active
+    })
+  }
+
+  handleCallPhone = () => {
+    const { leftPhone, rightPhone } = this.props
+    Taro.makePhoneCall({
+      phoneNumber: this.state.active === 0 ? leftPhone : rightPhone
     })
   }
 
@@ -47,7 +55,7 @@ class MessageCard extends PureComponent {
         {active === 0 && (
           <View className='content'>
             {leftContent.map((left) => (
-              <View className='content-item'>
+              <View className='content-item' key={left.label}>
                 <View className='title'>{left.label}</View>
                 <View className='value'>{left.value}</View>
               </View>
@@ -57,7 +65,7 @@ class MessageCard extends PureComponent {
         {active === 1 && (
           <View className='content'>
             {rightContent.map((left) => (
-              <View className='content-item'>
+              <View className='content-item' key={left.label}>
                 <View className='title'>{left.label}</View>
                 <View className='value'>{left.value}</View>
               </View>
@@ -65,7 +73,7 @@ class MessageCard extends PureComponent {
           </View>
         )}
         <View className='footer'>
-          <View className='content'>
+          <View className='content' onClick={this.handleCallPhone}>
             <Text className='iconfont icon-shoujihao'></Text>
             <Text className='text'>拨打电话</Text>
           </View>

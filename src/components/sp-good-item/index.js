@@ -40,8 +40,17 @@ class SpGoodItem extends PureComponent {
     onClick(goodInfo)
   }
 
+  renderNumberExtra = () => {
+    const { pageType = 'orderList' } = this.props
+    if (pageType === 'orderList') {
+      return `X`
+    } else if (pageType === 'orderDetail') {
+      return '数量'
+    }
+  }
+
   render() {
-    const { goodInfo, className } = this.props
+    const { goodInfo, className, pageType } = this.props
 
     return (
       <View className={classNames('sp-good-item', className)} onClick={this.handleGoodClick}>
@@ -56,7 +65,9 @@ class SpGoodItem extends PureComponent {
         <View className='sp-good-item-rightextra'>
           <View className='sp-good-item-rightextra-price'>{this.renderSalePrice()}</View>
           <View className='sp-good-item-rightextra-originprice'>{this.renderOriginPrice()}</View>
-          <View className='sp-good-item-rightextra-goodnumber'>X {goodInfo.num}</View>
+          <View className='sp-good-item-rightextra-goodnumber'>
+            {this.renderNumberExtra()} {goodInfo.num}
+          </View>
         </View>
       </View>
     )
