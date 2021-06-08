@@ -15,5 +15,6 @@ export { default as SpGoodPrice } from './sp-good-price'
 export { default as SpCheckoutSquare } from './sp-checkbox-square'
 export { default as SpRadio } from './sp-radio'
 export { default as SpafterSaleMessage } from './sp-afterSaleMessage'
+export { default as SpChangeWL } from './sp-changeWL'
 
 export default {}
