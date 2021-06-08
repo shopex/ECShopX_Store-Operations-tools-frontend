@@ -12,7 +12,7 @@ export function remarks({ orderId, ...params }) {
 
 //订单取消
 export function cancel(params) {
-  return req.post(`/order/cancel`, params)
+  return req.post(`/order/${params.order_id}/cancel`, params)
 }
 
 //订单接单

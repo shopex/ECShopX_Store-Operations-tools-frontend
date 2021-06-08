@@ -5,7 +5,6 @@ import { getThemeStyle, validate, showToast, getCurrentRoute } from '@/utils'
 import api from '@/api'
 import S from '@/spx'
 import FtLogo from './comps/ft-logo'
-import S from '@/spx'
 import './bindPhone.scss'
 
 export default class BindPhone extends Component {

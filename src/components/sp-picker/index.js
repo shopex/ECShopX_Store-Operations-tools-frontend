@@ -204,6 +204,10 @@ const SpPicker = (props) => {
     onChange(currentIndex, columns[currentIndex])
   }, [currentIndex, columns])
 
+  const handleCancel = () => {
+    onCancel()
+  }
+
   return (
     <AtFloatLayout
       isOpened={visible}
@@ -211,7 +215,7 @@ const SpPicker = (props) => {
       className={classNames('sp-component-picker', className)}
     >
       <View className='header'>
-        <View className='left' onClick={onCancel}>
+        <View className='left' onClick={handleCancel}>
           {onCancelText}
         </View>
         <View className='center'>{title}</View>

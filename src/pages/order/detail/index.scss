@@ -53,4 +53,18 @@ $detail-card-height:200px;
         margin-top:20px;
         @include detail-card2();
     }
+
+    .notpay_desc{
+        display: flex;
+
+        .at-countdown__time-box{
+            font-family: -apple-system-font,Helvetica Neue,sans-serif;
+            color:white;
+            font-weight: 300;
+        }
+    }
+
+    .dada_cancel_desc{
+        display: flex;
+    }
 }

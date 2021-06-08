@@ -18,7 +18,7 @@ class MessageCard extends PureComponent {
   }
 
   render() {
-    const { className } = this.props
+    const { className, leftTitle, rightTitle = '买家信息' } = this.props
 
     const { active } = this.state
 
