@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { getThemeStyle , calcTimer } from '@/utils'
+import { getThemeStyle, calcTimer } from '@/utils'
 import {
   DetailCard,
   MessageCard,
@@ -24,7 +24,29 @@ class OrderDetail extends Component {
         hh: 10,
         mm: 10,
         ss: 10
-      }
+      },
+      leftContent: [
+        {
+          label: '收货人',
+          value: '我是买家姓名   13888888888'
+        },
+        {
+          label: '收货地址',
+          value:
+            '我是买家姓名    13888888888 上海市上海徐汇区田林街道宜山路700号普天信息 产业园区C1幢12楼'
+        }
+      ],
+      rightContent: [
+        {
+          label: '收货人',
+          value: '我是买家姓名   13888888888'
+        },
+        {
+          label: '收货地址',
+          value:
+            '我是买家姓名    13888888888 上海市上海徐汇区田林街道宜山路700号普天信息 产业园区C1幢12楼'
+        }
+      ]
     }
   }
 
@@ -121,7 +143,7 @@ class OrderDetail extends Component {
   }
 
   render() {
-    const { orderInfo, pageType } = this.state
+    const { orderInfo, pageType, leftContent, rightContent } = this.state
 
     return (
       <View className='page-order-detail' style={getThemeStyle()}>
@@ -143,7 +165,7 @@ class OrderDetail extends Component {
           </View>
         </View>
 
-        <MessageCard leftTitle={this.renderCardLeftTitle()} />
+        <MessageCard leftTitle={this.renderCardLeftTitle()} leftContent={leftContent} />
 
         <View className='card-bottom'>
           <View className='item'>下单时间：2021.05.28 12:0</View>

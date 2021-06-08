@@ -18,7 +18,13 @@ class MessageCard extends PureComponent {
   }
 
   render() {
-    const { className, leftTitle, rightTitle = '买家信息' } = this.props
+    const {
+      className,
+      leftTitle,
+      rightTitle = '买家信息',
+      leftContent = [],
+      rightContent = []
+    } = this.props
 
     const { active } = this.state
 
@@ -26,10 +32,10 @@ class MessageCard extends PureComponent {
       <View className={classNames('sp-page-message-card', className)}>
         <View className='header'>
           <View className='item left' onClick={this.handleChange(0)}>
-            <Text>收货人信息</Text>
+            <Text>{leftTitle}</Text>
           </View>
           <View className='item right' onClick={this.handleChange(1)}>
-            <Text>买家信息</Text>
+            <Text>{rightTitle}</Text>
           </View>
           <View
             className={classNames('underline', {
@@ -38,18 +44,26 @@ class MessageCard extends PureComponent {
             })}
           ></View>
         </View>
-        <View className='content'>
-          <View className='content-item'>
-            <View className='title'>收货人</View>
-            <View className='value'>收货人</View>
+        {active === 0 && (
+          <View className='content'>
+            {leftContent.map((left) => (
+              <View className='content-item'>
+                <View className='title'>{left.label}</View>
+                <View className='value'>{left.value}</View>
+              </View>
+            ))}
           </View>
-          <View className='content-item'>
-            <View className='title'>收货地址</View>
-            <View className='value'>
-              我是收货人姓名 1388888888上海市上海徐汇区田林街道宜山路700号普天信息产业园区C1幢12楼
-            </View>
+        )}
+        {active === 1 && (
+          <View className='content'>
+            {rightContent.map((left) => (
+              <View className='content-item'>
+                <View className='title'>{left.label}</View>
+                <View className='value'>{left.value}</View>
+              </View>
+            ))}
           </View>
-        </View>
+        )}
         <View className='footer'>
           <View className='content'>
             <Text className='iconfont icon-shoujihao'></Text>
