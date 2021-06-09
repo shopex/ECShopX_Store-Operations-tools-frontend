@@ -19,7 +19,7 @@ export default class index extends PureComponent {
               <View
                 key={item.distributor_id}
                 className='cpn-radio'
-                onClick={(e) => activeHandle(index + 1)}
+                onClick={(e) => activeHandle(item)}
               >
                 <View className='radio'>
                   <View className='part1'>
@@ -37,7 +37,7 @@ export default class index extends PureComponent {
                       )}
                     </View>
                   </View>
-                  {index + 1 === isActive && (
+                  {item.distributor_id === isActive && (
                     <View className='active'>
                       <Image src={duigou}></Image>
                     </View>

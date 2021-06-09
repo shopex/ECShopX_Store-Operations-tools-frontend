@@ -2,8 +2,9 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component, PureComponent } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { withLogin } from '@/hocs'
+import api from '@/api'
+import { navigateTo, formatNum } from '@/utils'
 import { connect } from 'react-redux'
-import { formatNum } from '@/utils'
 import './index.scss'
 
 const funcList = [
@@ -31,8 +32,26 @@ class Index extends PureComponent {
     console.log(props)
     this.state = {
       moneyShow: true,
-      spendMoney: 999998.77
+      realTimeData: {
+        real_payed_fee: 1, //  实付金额
+        real_payed_orders: 2, // 支付订单数
+        real_payed_members: 3, // 实付会员数
+        real_atv: 4, // 客单价
+        real_refunded_fee: 5, //退款金额
+        real_aftersale_count: 6, //售后订单数
+        real_deposit: 7 // 新增储蓄
+      }
     }
+  }
+  async getConfig() {
+    const shop_id = this.props.store.planSelection.activeShop.distributor_id
+    const result = await api.home.getStatistics({ shop_id })
+    this.setState({
+      realTimeData: result.today_data
+    })
+  }
+  componentDidMount() {
+    this.getConfig()
   }
 
   switchHandle() {
@@ -41,16 +60,17 @@ class Index extends PureComponent {
     })
   }
   render() {
-    const { moneyShow, spendMoney } = this.state
+    const { moneyShow, realTimeData } = this.state
+    const { store_name, logo } = this.props.store.planSelection.activeShop
     return (
       <View className='page-index'>
         <View className='top'>
           <View className='shop-title'>
             <View className='avatar'>
-              <Image className='photo' src={require('@/assets/imgs/1.jpg')}></Image>
+              <Image className='photo' src={logo}></Image>
             </View>
             <View>
-              <Text className='title'>我是当前店铺的名称</Text>
+              <Text className='title'>{store_name}</Text>
             </View>
           </View>
         </View>
@@ -79,38 +99,42 @@ class Index extends PureComponent {
               )}
             </View>
             <View className='money'>
-              {moneyShow ? <Text>{formatNum(spendMoney)}</Text> : <Text>****</Text>}
+              {moneyShow ? (
+                <Text>{formatNum(realTimeData.real_payed_fee)}</Text>
+              ) : (
+                <Text>****</Text>
+              )}
             </View>
           </View>
           <View className='list'>
             <View className='pay-order'>
               <View className='title'>支付订单（笔）</View>
-              <View className='color-white'>{formatNum(spendMoney)}</View>
+              <View className='color-white'>{realTimeData.real_payed_orders}</View>
             </View>
             <View className='pay-order'>
               <View className='title'>售后订单（笔）</View>
-              <View className='color-white'>{formatNum(spendMoney)}</View>
+              <View className='color-white'>{realTimeData.real_aftersale_count}</View>
             </View>
           </View>
 
           <View className='list list-2'>
             <View className='pay-order'>
               <View className='title'>退款（元）</View>
-              <View className='color-gray'>{formatNum(spendMoney)}</View>
+              <View className='color-gray'>{formatNum(realTimeData.real_refunded_fee)}</View>
             </View>
             <View className='pay-order'>
               <View className='title'>实付会员（人）</View>
-              <View className='color-gray'>{formatNum(spendMoney)}</View>
+              <View className='color-gray'>{realTimeData.real_payed_members}</View>
             </View>
           </View>
           <View className='list list-2'>
             <View className='pay-order'>
               <View className='title'>客单价（元）</View>
-              <View>{formatNum(spendMoney)}</View>
+              <View>{formatNum(realTimeData.real_atv)}</View>
             </View>
             <View className='pay-order'>
               <View className='title'>新增储值（人）</View>
-              <View>{formatNum(spendMoney)}</View>
+              <View>{realTimeData.real_deposit}</View>
             </View>
           </View>
         </View>
