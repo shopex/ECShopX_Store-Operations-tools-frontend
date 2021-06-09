@@ -114,4 +114,26 @@ async function requestCallback(func, successText, successCallback) {
   }
 }
 
-export { classNames, log, debounce, throttle, validate, requestCallback }
+function range(num, min, max) {
+  return Math.min(Math.max(num, min), max)
+}
+
+function calcTimer(totalSec) {
+  let remainingSec = totalSec
+  const dd = Math.floor(totalSec / 24 / 3600)
+  remainingSec -= dd * 3600 * 24
+  const hh = Math.floor(remainingSec / 3600)
+  remainingSec -= hh * 3600
+  const mm = Math.floor(remainingSec / 60)
+  remainingSec -= mm * 60
+  const ss = Math.floor(remainingSec)
+
+  return {
+    dd,
+    hh,
+    mm,
+    ss
+  }
+}
+
+export { classNames, log, debounce, throttle, validate, requestCallback, range, calcTimer }

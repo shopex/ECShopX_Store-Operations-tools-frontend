@@ -5,6 +5,9 @@ export default {
     'pages/my/index',
     'pages/auth/login',
     'pages/auth/index',
+    'pages/order/list', //订单列表
+    'pages/order/detail', //订单详情
+    'pages/order/delivery', //订单发货
     'pages/auth/agreement',
     'pages/auth/bindPhone',
     'pages/planSelection/index',
