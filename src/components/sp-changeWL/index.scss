@@ -39,6 +39,17 @@
       .edit{
         color: #4980FF;
       }
+      .picker{
+        display: inline-block;
+      }
     }
   }
+}
+
+.weui-picker__action{
+  font-size: 36px;
+  color: #4980ff;
+}
+.weui-picker__item{
+  font-size: 32px;
 }
