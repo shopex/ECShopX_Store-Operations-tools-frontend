@@ -1,0 +1,28 @@
+.sp-component-form-item{
+
+    height:96px;
+    background-color: #fff;
+    padding:0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .label{
+        font-weight: 400;
+        color: #666F83;
+        font-size: 28px;
+    }
+
+    .placeholder{
+        font-weight: 400;
+        color:var(--color-primary);
+        font-size: 28px;
+
+        &.has-value{
+            color:#111A34;
+        }
+    }
+
+    
+
+}
