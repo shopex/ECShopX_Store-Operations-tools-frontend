@@ -251,7 +251,6 @@ const SpPicker = (props) => {
                   key={c}
                 >
                   <Text className='text'>{c}</Text>
-                  {/* <Text className=''></Text> */}
                 </View>
               ))}
             </View>

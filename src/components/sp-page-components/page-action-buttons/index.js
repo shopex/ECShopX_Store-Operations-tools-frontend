@@ -148,12 +148,12 @@ class PageActionButtons extends PureComponent {
   }
 
   render() {
-    const { className, orderInfo } = this.props
+    const { className, orderInfo, onClick = () => {} } = this.props
     const { cancelVisible, cancelReasonVisible, actionVisible, actionType, noteVisible } =
       this.state
 
     return (
-      <View className={classNames('sp-page-action-buttons', className)}>
+      <View className={classNames('sp-page-action-buttons', className)} onClick={onClick}>
         {this.renderButtons()}
 
         {/* 取消订单组件 */}

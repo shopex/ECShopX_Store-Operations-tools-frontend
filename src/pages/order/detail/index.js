@@ -226,17 +226,41 @@ class OrderDetail extends Component {
   //渲染价格
   renderTotalFee = () => {
     const {
-      orderInfo: { point, total_fee }
+      orderInfo: { point, item_fee }
     } = this.state
     //金额订单
     if (point == 0) {
-      return <SpGoodPrice price={total_fee} />
+      return <SpGoodPrice price={item_fee} isSame />
       //积分订单
-    } else if (total_fee == 0) {
+    } else if (item_fee == 0) {
       return <SpGoodPrice point={point} />
     } else {
-      return <SpGoodPrice price={total_fee} point={point} />
+      return <SpGoodPrice price={item_fee} point={point} />
     }
+  }
+
+  //渲染优惠金额
+  renderDiscountFee = () => {
+    const {
+      orderInfo: { discount_fee }
+    } = this.state
+    return <SpGoodPrice height={24} prefix='-' price={discount_fee} isSame />
+  }
+
+  //渲染运费
+  renderFreightFee = () => {
+    const {
+      orderInfo: { freight_fee }
+    } = this.state
+    return <SpGoodPrice height={24} prefix='+' price={freight_fee} isSame />
+  }
+
+  //渲染实价
+  renderRealFee = () => {
+    const {
+      tradeInfo: { totalFee }
+    } = this.state
+    return <SpGoodPrice height={24} price={totalFee} isSame color='red' />
   }
 
   render() {
@@ -250,6 +274,8 @@ class OrderDetail extends Component {
       rightPhone,
       logisticsList
     } = this.state
+
+    let terminal_info = orderInfo?.app_info?.terminal_info
 
     return (
       <View className='page-order-detail' style={getThemeStyle()}>
@@ -308,20 +334,16 @@ class OrderDetail extends Component {
               <View className='value'>{this.renderTotalFee()}</View>
             </View>
             <View className='item'>
-              <View className='field'>配送方式</View>
-              <View className='value'>同城配送</View>
+              <View className='field'>优惠金额</View>
+              <View className='value'>{this.renderDiscountFee()}</View>
             </View>
             <View className='item'>
-              <View className='field'>配送方式</View>
-              <View className='value'>同城配送</View>
+              <View className='field'>运费</View>
+              <View className='value'>{this.renderFreightFee()}</View>
             </View>
             <View className='item'>
-              <View className='field'>配送方式</View>
-              <View className='value'>同城配送</View>
-            </View>
-            <View className='item'>
-              <View className='field'>配送方式</View>
-              <View className='value'>同城配送</View>
+              <View className='field'>实收金额</View>
+              <View className='value'>{this.renderRealFee()}</View>
             </View>
           </View>
         </View>
@@ -336,9 +358,16 @@ class OrderDetail extends Component {
               发货时间：{timestampToTime(logisticsList[logisticsList.length - 1].created)}
             </View>
           )}
+          {terminal_info && (
+            <View className='item'>
+              {terminal_info?.msg}: {timestampToTime(terminal_info?.time)}
+            </View>
+          )}
           <View className='item'>订单编号：{orderInfo.order_id}</View>
           <View className='item'>交易单号：{tradeInfo.tradeId}</View>
-          <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
+          {!!tradeInfo.transactionId && (
+            <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
+          )}
         </View>
 
         <FixedAction>

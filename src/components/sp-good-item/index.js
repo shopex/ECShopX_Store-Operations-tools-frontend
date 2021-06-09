@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View, Image } from '@tarojs/components'
+import { View, Image, Input } from '@tarojs/components'
 import { classNames } from '@/utils'
 import { SpGoodPrice } from '@/components'
 import './index.scss'
@@ -45,12 +45,25 @@ class SpGoodItem extends PureComponent {
     if (pageType === 'orderList') {
       return `X`
     } else if (pageType === 'orderDetail') {
-      return '数量'
+      return '数量：'
+    }
+  }
+
+  //渲染价格描述
+  renderNumberDesc = () => {
+    const { inputnumber, goodInfo } = this.props
+    //如果是
+    if (inputnumber === 0) {
+      return <View className='no-number'>请写发货数量</View>
+    } else if (inputnumber !== 0 && goodInfo.num >= inputnumber) {
+      return <View className='has-number'>{`部分发货：${inputnumber}`}</View>
+    } else {
+      return <View className='error-number'>{`部分发货：${inputnumber}`}</View>
     }
   }
 
   render() {
-    const { goodInfo, className, pageType } = this.props
+    const { goodInfo, className, renderInputNumber, onClickInputNumber = () => {} } = this.props
 
     return (
       <View className={classNames('sp-good-item', className)} onClick={this.handleGoodClick}>
@@ -62,9 +75,27 @@ class SpGoodItem extends PureComponent {
           <View className='sp-good-item-content_spec'>{goodInfo.item_spec_desc}</View>
           <View className='sp-good-item-content_number'>货号：{goodInfo.item_bn}</View>
         </View>
-        <View className='sp-good-item-rightextra'>
-          <View className='sp-good-item-rightextra-price'>{this.renderSalePrice()}</View>
-          <View className='sp-good-item-rightextra-originprice'>{this.renderOriginPrice()}</View>
+        <View
+          className={classNames('sp-good-item-rightextra', {
+            ['renderInputNumber']: renderInputNumber
+          })}
+        >
+          {!renderInputNumber && (
+            <View className='sp-good-item-rightextra-top'>
+              <View className='sp-good-item-rightextra-price'>{this.renderSalePrice()}</View>
+              <View className='sp-good-item-rightextra-originprice'>
+                {this.renderOriginPrice()}
+              </View>
+            </View>
+          )}
+          {renderInputNumber && (
+            <View
+              className='sp-good-item-rightextra-inputnumber'
+              onClick={() => onClickInputNumber(goodInfo.num)}
+            >
+              {this.renderNumberDesc()}
+            </View>
+          )}
           <View className='sp-good-item-rightextra-goodnumber'>
             {this.renderNumberExtra()} {goodInfo.num}
           </View>

@@ -8,7 +8,7 @@ import ActionModal from './comps/action-modal'
 import { ORDER_LIST_CANCEL_REASON } from '@/consts'
 import { withPager, withBackToTop } from '@/hocs'
 import { SpLoading, SpNote, SpOrderItem, SpToast, SpPicker } from '@/components'
-import { SelectInput, Tabbar } from '@/components/sp-page-components'
+import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-components'
 import { calculateTimestamp } from '@/utils/time'
 import api from '@/api'
 import './index.scss'
@@ -317,6 +317,10 @@ export default class List extends PureComponent {
     Taro.redirectTo({ url: `/pages/order/detail?order_id=${goodInfo.order_id}` })
   }
 
+  handleClickDelivery = (orderInfo) => {
+    Taro.redirectTo({ url: `/pages/order/delivery?order_id=${orderInfo.order_id}` })
+  }
+
   render() {
     const {
       noteVisible,
@@ -379,6 +383,7 @@ export default class List extends PureComponent {
                 onClickCancel={this.handleClickCancelOrderButton}
                 onClickConfirmGetOrder={this.handleClickConfirmGetOrderButton}
                 onClickVerification={this.handleClickVerification}
+                onClickDelivery={this.handleClickDelivery}
               />
             )
           })}

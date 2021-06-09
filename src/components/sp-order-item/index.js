@@ -71,7 +71,8 @@ export default class SpOrderItem extends PureComponent {
       onClickNote = () => {},
       onClickContact = () => {},
       onClickConfirmGetOrder = () => {},
-      onClickCancel = () => {}
+      onClickCancel = () => {},
+      onClickDelivery = () => {}
     } = this.props
     console.log('buttonType', buttonType)
     if (buttonType === 'mark') {
@@ -82,6 +83,8 @@ export default class SpOrderItem extends PureComponent {
       onClickConfirmGetOrder(orderInfo)
     } else if (buttonType === 'cancel') {
       onClickCancel(orderInfo)
+    } else if (buttonType === 'delivery') {
+      onClickDelivery(orderInfo)
     }
   }
 

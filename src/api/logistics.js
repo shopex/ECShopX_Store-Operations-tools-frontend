@@ -7,6 +7,6 @@ export function getLogistics(params) {
 }
 
 //物流列表
-export function list(params) {
-  return req.get('/delivery/lists', { order_id: params.orderId })
+export function list() {
+  return req.get('/trade/logistics/list')
 }

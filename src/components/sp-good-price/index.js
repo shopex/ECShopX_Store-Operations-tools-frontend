@@ -10,22 +10,33 @@ import './index.scss'
  * 3.point 表示显示积分 如果值不为空则此时为积分商品
  * 4.pointText 接受pointText表示积分的别名
  * 5.symbol 表示价格的单位
+ * 6.isSame 表示分子分母大小写是否保持一致
+ * 7.prefix 是否需要加前缀 如 + -
  */
 class SpGoodPrice extends PureComponent {
   constructor(props) {
     super(props)
   }
 
-  renderPrice = () => {
-    const { price, symbol = '¥' } = this.props
+  renderNoPricePoint = () => {
+    return this.renderPrice(true)
+  }
+
+  renderPrice = (isNone) => {
+    const { price, symbol = '¥', isSame, color } = this.props
 
     const priceArr = (Number(price) / 100).toFixed(2).split('.')
 
     return (
-      <View className='price'>
+      <View
+        className={classNames('price', {
+          ['is-same']: isSame,
+          ['color-red']: color
+        })}
+      >
         <View className='symbol'>{symbol}</View>
-        <View className='integer'>{`${priceArr[0]}.`}</View>
-        <View className='decimal'>{`${priceArr[1]}`}</View>
+        <View className='integer'>{isNone ? '0.' : `${priceArr[0]}.`}</View>
+        <View className='decimal'>{isNone ? '00' : `${priceArr[1]}`}</View>
       </View>
     )
   }
@@ -52,7 +63,7 @@ class SpGoodPrice extends PureComponent {
   }
 
   render() {
-    const { type = 'normal', price, size = '28', point } = this.props
+    const { type = 'normal', price, size = '28', point, prefix } = this.props
 
     return (
       <View
@@ -63,9 +74,11 @@ class SpGoodPrice extends PureComponent {
           fontSize: Taro.pxTransform(size)
         }}
       >
-        {price && !point && this.renderPrice()}
-        {point && !price && this.renderPoint()}
-        {point && price && this.renderPricePoint()}
+        {prefix && <View className='prefix'>{prefix}</View>}
+        {!!price && !point && this.renderPrice()}
+        {!!point && !price && this.renderPoint()}
+        {!!point && !!price && this.renderPricePoint()}
+        {!point && !price && this.renderNoPricePoint()}
       </View>
     )
   }
