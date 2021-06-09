@@ -1,0 +1,25 @@
+.sp-page-detail-card{
+    width:100%;
+    height:200px;
+    background-color: var(--color-primary); 
+    padding:32px;
+    padding-right: 85px;
+    display: flex;
+    position: relative;
+    z-index:0;
+
+    .status{
+        color: white;
+
+        .main{
+            font-size: 52px;
+            font-weight: 400;
+        }
+
+        .sub{
+            font-size: 28px;
+            font-weight: 300;
+            margin-top: 28px;
+        }
+    }
+}

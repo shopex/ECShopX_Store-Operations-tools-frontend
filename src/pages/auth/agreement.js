@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { View, Image, Text, ScrollView } from '@tarojs/components'
 import { SpBackToTop } from '@/components'
+import { ShopxLogo } from '@/components/sp-page-components'
 import Drawer from './comps/drawer'
 import LinegradientButton from './comps/linegradient-button'
 import { useBackToTop } from '@/hooks'

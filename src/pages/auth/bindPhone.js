@@ -1,7 +1,6 @@
 import { Component } from 'react'
 import { View, Image, ScrollView } from '@tarojs/components'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
-import { SpTimer } from '@/components'
 import { getThemeStyle, validate, showToast, getCurrentRoute } from '@/utils'
 import api from '@/api'
 import S from '@/spx'

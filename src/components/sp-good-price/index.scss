@@ -1,13 +1,54 @@
-.sp-good-price{
-    color:#111A34;
-    font-size:22px;
+.sp-good-item-price{
+    color:#111A34; 
     font-weight: 400;
+    display: flex;
+    align-items: center;
+
+    .prefix{
+        margin-right: 10px;
+        line-height: 1;
+    }
     
-    &.discount{
-        font-size: 24px;
+    &.discount{ 
         font-weight: 400;
-        color: #858B9C;
-        // text-shadow: 0px 2px 4px #E2E4EA;
+        color: #858B9C; 
         text-decoration: line-through;
+    }
+
+    .price{
+        display: flex;
+        align-items: flex-end;
+        line-height: 1;
+
+        &.color-red{
+            color:#FF5257;
+        }
+
+        &.is-same{
+            .symbol,.decimal{
+                font-size: 1em;
+            }
+        }
+
+        .symbol{
+            margin-right: 2px;
+        }
+
+        .symbol,.decimal{
+            font-size:0.78em;
+        }
+    }
+
+    .point{
+        display: flex;
+        align-items: center;
+        .symbol{
+            margin-left: 2px;
+        }
+    }
+
+    .pointandprice{
+        display: flex;
+        align-items: center;
     }
 }

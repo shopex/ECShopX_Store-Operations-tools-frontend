@@ -1,15 +1,17 @@
 export default {
   pages: [
     'pages/index',
-    'pages/message/index', // zyk 消息
-    'pages/my/index', // zyk 我的信息
+    'pages/message/index',
+    'pages/my/index',
     'pages/auth/login',
     'pages/auth/index',
-
+    'pages/order/list', //订单列表
+    'pages/order/detail', //订单详情
+    'pages/order/delivery', //订单发货
     'pages/auth/agreement',
     'pages/auth/bindPhone',
-    'pages/planSelection/index', // zyk 解决方案选择
-    'pages/afterSaleTreatment/index' // zyk 售后处理
+    'pages/planSelection/index',
+    'pages/logisticsInfo/index'
   ],
   tabBar: {
     list: [

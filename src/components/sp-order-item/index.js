@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
-import { SpGoodItem } from '@/components'
+import { SpGoodItem, SpGoodPrice } from '@/components'
 import { CommonButton } from '@/components/sp-page-components'
 import HeaderInfo from './header'
 import './index.scss'
@@ -11,6 +11,39 @@ export default class SpOrderItem extends PureComponent {
     this.state = {}
   }
 
+  //列表orderitem显示描述
+  renderListDescTitle = () => {
+    const {
+      info: {
+        app_info: {
+          status_info: { main_status }
+        },
+        items
+      }
+    } = this.props
+    if (main_status === 'shipping') {
+      return `实收款：`
+    } else {
+      return `共${items.length}件商品 应收（含运费）：`
+    }
+  }
+
+  //列表orderitem显示价格
+  renderListDescPrice = () => {
+    const {
+      info: { point, total_fee }
+    } = this.props
+    //金额订单
+    if (point == 0) {
+      return <SpGoodPrice price={total_fee} />
+      //积分订单
+    } else if (total_fee == 0) {
+      return <SpGoodPrice point={point} />
+    } else {
+      return <SpGoodPrice price={total_fee} point={point} />
+    }
+  }
+
   /**渲染list页面时的extra */
   renderListExtra = () => {
     const { info: orderInfo, pageType = 'list' } = this.props
@@ -19,11 +52,11 @@ export default class SpOrderItem extends PureComponent {
 
     if (pageType === 'list') {
       returnNode = (
-        <View className='sp-order-item-extra'>
+        <View className='sp-order-item-extra-list'>
           <View className='distribution'>{orderInfo.app_info.delivery_type_msg}</View>
           <View className='desc'>
-            <View className='desc-title'></View>
-            <View className='desc-content'></View>
+            <View className='desc-title'>{this.renderListDescTitle()}</View>
+            <View className='desc-price'>{this.renderListDescPrice()}</View>
           </View>
         </View>
       )
@@ -37,7 +70,9 @@ export default class SpOrderItem extends PureComponent {
       info: orderInfo,
       onClickNote = () => {},
       onClickContact = () => {},
-      onClickConfirmGetOrder = () => {}
+      onClickConfirmGetOrder = () => {},
+      onClickCancel = () => {},
+      onClickDelivery = () => {}
     } = this.props
     console.log('buttonType', buttonType)
     if (buttonType === 'mark') {
@@ -46,6 +81,10 @@ export default class SpOrderItem extends PureComponent {
       onClickContact(orderInfo)
     } else if (buttonType === 'accept') {
       onClickConfirmGetOrder(orderInfo)
+    } else if (buttonType === 'cancel') {
+      onClickCancel(orderInfo)
+    } else if (buttonType === 'delivery') {
+      onClickDelivery(orderInfo)
     }
   }
 
@@ -68,13 +107,10 @@ export default class SpOrderItem extends PureComponent {
                 onClick={this.handleFooterButtonClick.bind(this, buttonType)}
                 size='small'
                 height={60}
-                type={index === 0 && 'primary'}
+                type={buttonName === '取消订单' ? 'danger' : index === 0 && 'primary'}
               />
             )
           })}
-          {/* <CommonButton onClick={onClickContact}  text='取消订单' plain size="small" height={60} />
-          <CommonButton onClick={() => onClickConfirmGetOrder(info)}  text='接单' plain size="small" height={60} />
-          <CommonButton onClick={onClickVerification}  text='核销' plain size="small" height={60} /> */}
         </View>
       )
     }
@@ -82,7 +118,7 @@ export default class SpOrderItem extends PureComponent {
   }
 
   render() {
-    const { info } = this.props
+    const { info, onGoodItemClick = () => {} } = this.props
 
     return (
       <View className='sp-order-item'>
@@ -91,7 +127,13 @@ export default class SpOrderItem extends PureComponent {
         </View>
         <View className='sp-order-item-body'>
           {info.items.map((goodItem, index) => (
-            <SpGoodItem goodInfo={goodItem} className='goodItem' key={index} />
+            <SpGoodItem
+              onClick={onGoodItemClick}
+              goodInfo={goodItem}
+              orderInfo={info}
+              className='goodItem'
+              key={index}
+            />
           ))}
         </View>
 

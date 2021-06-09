@@ -10,11 +10,11 @@ export default class NoteIndex extends PureComponent {
   }
 
   resolveUrl(img) {
-    return `/assets/imgs/${img}`
+    return require(`@/assets/imgs/${img}`)
   }
 
   render() {
-    const { img, imgStyle, styles, className } = this.props
+    const { img, imgStyle, styles, className, imageType } = this.props
 
     return (
       <View
