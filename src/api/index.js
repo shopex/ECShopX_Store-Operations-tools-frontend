@@ -10,5 +10,6 @@ export default {
   operator,
   order,
   home,
-  planSelection
+  planSelection,
+  logistics
 }
