@@ -19,5 +19,6 @@ export { default as SpafterSaleMessage } from './sp-afterSaleMessage'
 export { default as SpChangeWL } from './sp-changeWL'
 export { default as SpDrawer } from './sp-drawer'
 export { default as SpFormItem } from './sp-form-item'
+export { default as SpDialogBox } from './sp-form-item'
 
 export default {}
