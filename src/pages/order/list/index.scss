@@ -17,56 +17,7 @@ $filterHeight:100px;
   &-input {
     padding: 10px 20px;
   }
-
-  &-tabbar {
-    height: $tabbarHeight;
-    position: relative; 
-
-    .left{
-      position: absolute;
-      left: 0;
-      width: 40px;
-      top: 0;
-      bottom: 0; 
-    }
-
-    .right{
-      position: absolute;
-      right: 0;
-      width: 40px;
-      top: 0;
-      bottom: 0; 
-      box-shadow: 0px 3px 5px 0px #E2E4EA;
-    }
-
-    .at-tabs {
-      position: absolute;
-      background: #FFFFFF;
-      box-shadow: 0px 3px 5px 0px #E2E4EA;
-      height: $tabbarHeight;
-      padding-left: 37px;
-      padding-right: 37px;
-    }
-
-    .at-tabs .at-tabs__item {
-      height: $tabbarHeight;
-      line-height: $tabbarHeight;
-      font-weight:400;  
-      color: #666F83;
-      font-size: 28px;
-      margin:0 20px;
-
-      &--active{
-          color:var(--color-primary);
-      }
-
-      .at-tabs__item-underline{
-        background-color:var(--color-primary);
-        width:100%;
-        left:0%;
-      }
-    }
-  }
+ 
 
   &-orderList {
     @include page-scroll($searchInputHeight+$tabbarHeight+$filterHeight+20, 0);

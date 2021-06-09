@@ -69,7 +69,7 @@
     }
   }
 
-  &-extra {
+  &-extra-list {
     margin-top: 16px;
     display: flex;
     justify-content: space-between;
@@ -86,14 +86,22 @@
       font-weight: 500;
       color: #111A34;
       font-size: 22px;
+      display: flex;
+      align-items: center;
+
+      &-title{
+        
+      }
+
     }
   }
 
   &-footer {
     margin-top: 32px;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex-wrap: wrap;
+    justify-content: flex-end;
 
     .order-item-button {
       &:nth-child(1) {

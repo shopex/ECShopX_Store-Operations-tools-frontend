@@ -1,6 +1,6 @@
-@import "../../index.scss";
+$searchInputHeight:70px;
 
-.comp-order-list-searhInput{
+.sp-page-search-input{
     background: #F5F6F9;
     border-radius: 35px;
     height:$searchInputHeight; 
@@ -25,7 +25,7 @@
             content:'';
             position:absolute;
             height: 40px;
-            width:1px;
+            width:2px;
             right:0;
             top:50%;
             transform: translateY(-50%);
@@ -34,9 +34,10 @@
 
         .iconfont{
             font-size: 14px;
+            transition: transform all .3s;
 
             &.isModalShow{
-                
+                transform: rotate(180deg);
             }
         }
 
@@ -51,6 +52,10 @@
             margin:0;
             padding:0;
             background: #F5F6F9;
+
+            &::after{
+                display: none;
+            }
         }
 
         .at-input{

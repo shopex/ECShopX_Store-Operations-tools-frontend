@@ -9,7 +9,8 @@ class SpFilterDrawer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      query: {}
+      query: {},
+      isSubmit: false
     }
   }
 
@@ -23,20 +24,30 @@ class SpFilterDrawer extends PureComponent {
   }
 
   handleReset = () => {
-    this.setState({
-      query: {}
-    })
+    const { onConfirm = () => {} } = this.props
+    onConfirm({})
   }
 
-  handleConfirm = () => {
-    const { onConfirm } = this.props
-    onConfirm(this.state.query)
+  handleConfirm = (isSubmit) => {
+    const { onConfirm = () => {} } = this.props
+    if (isSubmit) {
+      this.setState({
+        isSubmit: true
+      })
+      onConfirm(this.state.query)
+    } else {
+      this.setState({
+        isSubmit: false,
+        query: {}
+      })
+      onConfirm({})
+    }
   }
 
   render() {
     const { visible, onCloseDrawer = () => {}, filterData = [], filterTitle } = this.props
 
-    const { query } = this.state
+    const { query, isSubmit } = this.state
 
     return (
       <AtDrawer
@@ -69,8 +80,8 @@ class SpFilterDrawer extends PureComponent {
             <ScrollButton
               refuseText='重置'
               confirmText='确定并筛选'
-              onReset={this.handleReset}
-              onConfirm={this.handleConfirm}
+              onTransitionEnd={this.handleConfirm}
+              isSubmit={isSubmit}
             />
           </View>
         </View>
