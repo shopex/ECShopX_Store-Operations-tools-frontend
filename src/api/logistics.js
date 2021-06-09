@@ -5,3 +5,8 @@ export function getLogistics(params) {
   console.log(params)
   return req.get('/delivery/process/list', params)
 }
+
+// 获取快递公司
+export function getCourierCompanyList() {
+  return req.get('/trade/logistics/list')
+}
