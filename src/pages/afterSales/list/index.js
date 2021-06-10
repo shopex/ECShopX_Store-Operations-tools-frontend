@@ -3,7 +3,7 @@ import { View, ScrollView } from '@tarojs/components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle } from '@/utils'
 import FilterBlock from './comps/filterblock'
-import { ORDER_LIST_CANCEL_REASON, ORDER_LIST_STATUS } from '@/consts'
+import { ORDER_LIST_STATUS } from '@/consts'
 import { withPager, withBackToTop } from '@/hocs'
 import { SpLoading, SpNote, SpOrderItem, SpToast } from '@/components'
 import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-components'
@@ -278,7 +278,7 @@ export default class List extends PureComponent {
           statusChange={this.handleStatusChange}
         />
 
-        <FilterBlock
+        {/* <FilterBlock
           pageType={pageType}
           orderBy={orderBy}
           onSubmitParams={this.handleSubmitParams}
@@ -319,7 +319,7 @@ export default class List extends PureComponent {
           {!page.isLoading && !page.hasNext && !orderList.length && (
             <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
           )}
-        </ScrollView>
+        </ScrollView> */}
 
         <SpToast />
       </View>
