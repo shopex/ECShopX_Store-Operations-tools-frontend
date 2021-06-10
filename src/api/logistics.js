@@ -10,3 +10,8 @@ export function getLogistics(params) {
 export function getCourierCompanyList() {
   return req.get('/trade/logistics/list')
 }
+
+// 修改物流信息
+export function uodateLogistics(orders_delivery_id, data) {
+  return req.put(`/delivery/${orders_delivery_id}`, data)
+}

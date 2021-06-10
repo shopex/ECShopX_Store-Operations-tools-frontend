@@ -15,24 +15,10 @@ export default class Logistics extends PureComponent {
       logs: null,
       delivery_list: null,
       updateOddNumbers: {
-        title: '物流单号',
-        isShow: false
+        title: '物流单号'
       },
-      ChangeWL: [
-        {
-          title: '快递公司',
-          value: '',
-          zancun: ''
-        },
-        {
-          title: '物流单号',
-          value: '',
-          zancun: ''
-        }
-      ],
       // 快递公司列表
-      CourierCompany: null,
-      selectorChecked: null
+      CourierCompany: null
     }
   }
   componentDidMount() {
@@ -42,12 +28,21 @@ export default class Logistics extends PureComponent {
   // 获取物流信息
   async getConfig() {
     const query = {
-      order_id: 3431449000310318
+      // order_id: 3431449000310318
+      order_id: 3448428000160330
     }
     const result = await api.logistics.getLogistics(query)
+    const data = result.delivery_list.map((item) => {
+      item['zanCun'] = ''
+      item['CourierCompany_zanCun'] = ''
+      item['CourierCompany_zanCun_code'] = ''
+      item['isShow'] = false
+      return item
+    })
+    console.log(data)
     this.setState({
       logs: result.logs,
-      delivery_list: result.delivery_list
+      delivery_list: data
       // isOpened:true
     })
     console.log(result)
@@ -68,85 +63,132 @@ export default class Logistics extends PureComponent {
     return arr.reverse()
   }
   // 点击取消
-  handleClose() {
-    const data = this.state.ChangeWL.map((item, index) => {
-      item.zancun = ''
+  handleClose(id) {
+    const data = this.state.delivery_list.map((item, index) => {
+      item.zanCun = ''
       return item
     })
     this.setState({
-      ChangeWL: data
+      delivery_list: data
     })
-    console.log(this.state.ChangeWL)
-    this.updateOddNumbersIsShowHandle()
+    console.log(this.state.delivery_list)
+    this.updateOddNumbersIsShowHandle(id)
   }
   // 点击确定
-  rightClickHandle() {
-    const data = this.state.ChangeWL.map((item, index) => {
-      if (item.title === '物流单号') {
-        item.value = item.zancun
-        item.zancun = ''
+  rightClickHandle(id) {
+    const data = this.state.delivery_list.map((item, index) => {
+      if (item.orders_delivery_id == id) {
+        if (item.zanCun) {
+          item.delivery_code = item.zanCun
+          item.zancun = ''
+        }
       }
       return item
     })
-    this.updateOddNumbersIsShowHandle()
+    this.updateOddNumbersIsShowHandle(id)
     this.setState({
-      ChangeWL: data
+      delivery_list: data
     })
   }
   // 更改修改物流单号是否显示
-  updateOddNumbersIsShowHandle() {
-    let data = Object.assign({}, this.state.updateOddNumbers, {
-      isShow: !this.state.updateOddNumbers.isShow
-    })
-    this.setState({
-      updateOddNumbers: data
-    })
-  }
-  editItemHandle() {
-    this.updateOddNumbersIsShowHandle()
-  }
+  updateOddNumbersIsShowHandle(id) {
+    console.log(id)
 
-  OddNumbersInputChange(e) {
-    // 暂存value;
-    console.log(e)
-    const data = this.state.ChangeWL.map((item, index) => {
-      if (item.title === '物流单号') item.zancun = e
+    const data = this.state.delivery_list.map((item) => {
+      if (item.orders_delivery_id == id) {
+        item.isShow = !item.isShow
+      }
       return item
     })
+
     this.setState({
-      ChangeWL: data
+      delivery_list: data
+    })
+  }
+  editItemHandle(id) {
+    console.log(id)
+    this.updateOddNumbersIsShowHandle(id)
+  }
+
+  OddNumbersInputChange(e, id) {
+    // 暂存value;
+    console.log(e, id)
+    const value = e ? e : ' '
+    const data = this.state.delivery_list.map((item) => {
+      if (item.orders_delivery_id == id) {
+        item.zanCun = value
+      }
+      return item
+    })
+    console.log(data)
+    this.setState({
+      delivery_list: data
     })
   }
   // 选择快递公司
-  ChooseCourierCompanyHandle(e) {
-    console.log(e.detail.value)
+  ChooseCourierCompanyHandle(e, id) {
+    console.log(e.detail.value, id)
+    // console.log(this.state.CourierCompany)
+    const data = this.state.delivery_list.map((item) => {
+      if (item.orders_delivery_id == id) {
+        item.CourierCompany_zanCun = this.state.CourierCompany[e.detail.value].name
+        item.CourierCompany_zanCun_code = this.state.CourierCompany[e.detail.value].value
+      }
+      return item
+    })
+    this.setState({
+      delivery_list: data
+    })
+    console.log(this.state.CourierCompany)
+    console.log(data)
+
+    // this.setState({
+    //   CourierCompany_zanCun: this.state.CourierCompany[e.detail.value].name
+    // })
+
+    // console.log(e.detail.value)
   }
 
   render() {
-    const { updateOddNumbers, ChangeWL, CourierCompany, delivery_list } = this.state
+    const { updateOddNumbers, CourierCompany, delivery_list, CourierCompany_zanCun } = this.state
     return (
       <View className='page-logisticsInfo'>
-        {updateOddNumbers.isShow && (
-          <SpDialogBox
-            title={updateOddNumbers.title}
-            handleClose={this.handleClose.bind(this)}
-            rightClickHandle={this.rightClickHandle.bind(this)}
-            changeHandle={(e) => {
-              this.OddNumbersInputChange(e)
-            }}
-            value={ChangeWL[1].value}
-          ></SpDialogBox>
-        )}
+        {delivery_list &&
+          delivery_list.map((item) => {
+            return (
+              item.isShow && (
+                <SpDialogBox
+                  key={item.orders_delivery_id}
+                  title={updateOddNumbers.title}
+                  handleClose={(e) => this.handleClose(item.orders_delivery_id)}
+                  rightClickHandle={(e) => this.rightClickHandle(item.orders_delivery_id)}
+                  changeHandle={(e) => {
+                    this.OddNumbersInputChange(e, item.orders_delivery_id)
+                  }}
+                  delivery_list_item={item}
+                ></SpDialogBox>
+              )
+            )
+          })}
         {/* 页面box */}
-        <View className='box'>
-          <SpChangeWL
-            editItemHandle={this.editItemHandle.bind(this)}
-            barList={ChangeWL}
-            delivery_list={delivery_list}
-            CourierCompany={CourierCompany}
-            changeHandle={this.ChooseCourierCompanyHandle.bind(this)}
-          ></SpChangeWL>
-        </View>
+        {delivery_list &&
+          delivery_list.map((item) => {
+            return (
+              <View className='box'>
+                <SpChangeWL
+                  key={item}
+                  editItemHandle={(e) => this.editItemHandle(item.orders_delivery_id)}
+                  delivery_list_item={item}
+                  CourierCompany={CourierCompany}
+                  changeCompanyHandle={(e) =>
+                    this.ChooseCourierCompanyHandle(e, item.orders_delivery_id)
+                  }
+                  CourierCompany_zanCun={CourierCompany_zanCun}
+                ></SpChangeWL>
+              </View>
+            )
+          })}
+
         {/* 页面时间线 */}
         <View className='timeline'>
           {this.state.logs && <AtTimeline items={this.formatLogs(this.state.logs)}></AtTimeline>}
