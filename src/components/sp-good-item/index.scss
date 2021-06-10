@@ -1,3 +1,4 @@
+
 .sp-good-item{
 
     margin-bottom: 16px;
@@ -36,6 +37,7 @@
             font-size: 24px;
             font-weight: 400;
             color: #858B9C;
+            min-height: 36px;
             // text-shadow: 0px 2px 4px #E2E4EA;
             margin-top: 6px;
         }
@@ -50,12 +52,43 @@
 
     }
 
-    &-rightextra{
-        text-align: right;
+    &-rightextra{ 
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding-bottom:16px;
+
+        &.renderInputNumber{
+            justify-content: flex-end;
+        }
+
         &-goodnumber{
-            font-size: 20px;
-            color:#111A34;
-            margin-top: 28px;
+            font-size: 24px;
+            color:#111A34; 
+        }
+
+        &-inputnumber{
+            max-width: 150px;
+            min-height: 56px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            .no-number,.has-number{
+                color:var(--color-primary);
+            }
+
+            .error-number{
+                color:$danger-color;
+            }
+
+            .no-number,.has-number,.error-number{ 
+                font-size: 24px;
+                font-weight: 400;
+            }
+            
         }
     }
 }

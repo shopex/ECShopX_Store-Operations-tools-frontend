@@ -13,10 +13,10 @@ const logo = require('@/assets/imgs/shopex-logo.png')
     planSelection
   }),
   (dispatch) => ({
-    add(index) {
+    add(activeShop) {
       dispatch({
-        type: 'planSelection/GET_DISTRIBUTOR_ID',
-        payload: index
+        type: 'planSelection/activeShop',
+        payload: activeShop
       })
     }
   })
@@ -30,10 +30,10 @@ export default class PlanSelection extends PureComponent {
     }
   }
 
-  activeHandle = (index) => {
-    this.props.add(index)
+  activeHandle = (activeShop) => {
+    this.props.add(activeShop)
     this.setState({
-      isActive: index
+      isActive: activeShop.distributor_id
     })
     Taro.redirectTo({ url: `/pages/index` })
   }
@@ -57,7 +57,6 @@ export default class PlanSelection extends PureComponent {
     return (
       <View className='page-planSelection'>
         <View className='title'>选择您的店铺工作台</View>
-        {/* <View>{888 && this.props.PlanSelection.distributor_id}</View> */}
         <View className='tips'>没有找到？请联系您的超级管理员</View>
         <View className='box'>
           <SpRadio
@@ -65,11 +64,6 @@ export default class PlanSelection extends PureComponent {
             SpRadioData={shopList}
             activeHandle={this.activeHandle}
           ></SpRadio>
-          {/* <SpRadio
-            isActive={isActive}
-            SpRadioData={SpRadioData}
-            activeHandle={this.activeHandle}
-          ></SpRadio> */}
         </View>
         <View className='logoBox'>
           <Image src={logo}></Image>
