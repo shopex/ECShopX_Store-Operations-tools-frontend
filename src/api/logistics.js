@@ -6,7 +6,7 @@ export function getLogistics(params) {
   return req.get('/delivery/process/list', params)
 }
 
-//物流列表
-export function list() {
+// 获取快递公司
+export function getCourierCompanyList() {
   return req.get('/trade/logistics/list')
 }
