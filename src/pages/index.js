@@ -44,8 +44,9 @@ class Index extends PureComponent {
     }
   }
   async getConfig() {
-    const shop_id = this.props.store.planSelection.activeShop.distributor_id
-    const result = await api.home.getStatistics({ shop_id })
+    const { distributor_id } = this.getStore()
+    console.log(distributor_id)
+    const result = await api.home.getStatistics({ shop_id: distributor_id })
     this.setState({
       realTimeData: result.today_data
     })
@@ -59,9 +60,19 @@ class Index extends PureComponent {
       moneyShow: !this.state.moneyShow
     })
   }
+
+  getStore() {
+    let obj = this.props.store.planSelection?.activeShop
+    if (!obj) {
+      return {}
+    }
+    return obj
+  }
+
   render() {
     const { moneyShow, realTimeData } = this.state
-    const { store_name, logo } = this.props.store.planSelection.activeShop
+    const { store_name, logo } = this.getStore()
+
     return (
       <View className='page-index'>
         <View className='top'>
@@ -130,7 +141,7 @@ class Index extends PureComponent {
           <View className='list list-2'>
             <View className='pay-order'>
               <View className='title'>客单价（元）</View>
-              <View>{formatNum(realTimeData.real_atv)}</View>
+              <View>{formatNum(realTimeData.real_atv)} </View>
             </View>
             <View className='pay-order'>
               <View className='title'>新增储值（人）</View>
