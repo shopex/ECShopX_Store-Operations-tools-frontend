@@ -37,6 +37,7 @@
   }
 
   .action-modal {
+    z-index: 500;
     .at-modal__container {
       top: 40%;
       border-radius: 8px;

@@ -21,6 +21,10 @@
         &.has-value{
             color:#111A34;
         }
+
+        &.error{
+            color:$danger-color;
+        }
     }
 
     

@@ -46,11 +46,11 @@ export default class SpOrderItem extends PureComponent {
 
   /**渲染list页面时的extra */
   renderListExtra = () => {
-    const { info: orderInfo, pageType = 'list' } = this.props
+    const { info: orderInfo, pageType = 'orderList' } = this.props
 
     let returnNode
 
-    if (pageType === 'list') {
+    if (pageType === 'orderList') {
       returnNode = (
         <View className='sp-order-item-extra-list'>
           <View className='distribution'>{orderInfo.app_info.delivery_type_msg}</View>
@@ -89,30 +89,12 @@ export default class SpOrderItem extends PureComponent {
   }
 
   renderListFooter = () => {
-    const { info: orderInfo, pageType = 'list' } = this.props
+    const { renderFooter, pageType = 'orderList' } = this.props
 
     let returnNode
 
-    if (pageType === 'list') {
-      returnNode = (
-        <View className='sp-order-item-footer'>
-          {orderInfo.app_info.buttons.map((button, index) => {
-            const buttonType = button.type
-            const buttonName = button.name
-            return (
-              <CommonButton
-                className='margin-left-20'
-                plain
-                text={buttonName}
-                onClick={this.handleFooterButtonClick.bind(this, buttonType)}
-                size='small'
-                height={60}
-                type={buttonName === '取消订单' ? 'danger' : index === 0 && 'primary'}
-              />
-            )
-          })}
-        </View>
-      )
+    if (pageType === 'orderList') {
+      returnNode = <View className='sp-order-item-footer'>{renderFooter}</View>
     }
     return returnNode
   }

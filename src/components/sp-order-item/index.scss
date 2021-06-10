@@ -36,30 +36,7 @@
         font-size: 24px;
         color: #858B9C;
       }
-
-      .order-status {
-        font-size: 28px;
-        color: #666F83;
-        text-shadow: 0px 2px 4px #E2E4EA;
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        &-text {
-          position: relative;
-          z-index: 1;
-        }
-
-        &-background {
-          background: #FFE3CB;
-          box-shadow: 0px 2px 4px 0px #E2E4EA;
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 16px;
-        }
-      }
+      
     }
   }
 

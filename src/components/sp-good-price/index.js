@@ -34,9 +34,9 @@ class SpGoodPrice extends PureComponent {
           ['color-red']: color
         })}
       >
-        <View className='symbol'>{symbol}</View>
+        {symbol}
         <View className='integer'>{isNone ? '0.' : `${priceArr[0]}.`}</View>
-        <View className='decimal'>{isNone ? '00' : `${priceArr[1]}`}</View>
+        {isNone ? '00' : `${priceArr[1]}`}
       </View>
     )
   }

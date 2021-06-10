@@ -18,25 +18,24 @@
     .price{
         display: flex;
         align-items: flex-end;
-        line-height: 1;
+        line-height: 1; 
 
         &.color-red{
             color:#FF5257;
         }
 
+        .integer{
+            font-size:1.28em;
+            margin-left:6px;
+        }
+
         &.is-same{
-            .symbol,.decimal{
+            .integer{
                 font-size: 1em;
             }
         }
 
-        .symbol{
-            margin-right: 2px;
-        }
-
-        .symbol,.decimal{
-            font-size:0.78em;
-        }
+         
     }
 
     .point{

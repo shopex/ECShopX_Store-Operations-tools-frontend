@@ -4,6 +4,7 @@ import * as order from './order'
 import * as home from './home'
 import * as planSelection from './planSelection'
 import * as logistics from './logistics'
+import * as afterSales from './afterSales'
 
 export default {
   auth,
@@ -11,5 +12,6 @@ export default {
   order,
   home,
   planSelection,
-  logistics
+  logistics,
+  afterSales
 }

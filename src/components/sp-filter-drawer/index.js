@@ -28,6 +28,11 @@ class SpFilterDrawer extends PureComponent {
     onConfirm({})
   }
 
+  handleClickConfirm = () => {
+    const { onConfirm = () => {} } = this.props
+    onConfirm(this.state.query)
+  }
+
   handleConfirm = (isSubmit) => {
     const { onConfirm = () => {} } = this.props
     if (isSubmit) {
@@ -81,6 +86,7 @@ class SpFilterDrawer extends PureComponent {
               refuseText='重置'
               confirmText='确定并筛选'
               onTransitionEnd={this.handleConfirm}
+              onClickConfirm={this.handleClickConfirm}
               isSubmit={isSubmit}
             />
           </View>

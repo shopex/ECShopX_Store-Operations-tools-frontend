@@ -1,24 +1,12 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
 import { copyContent } from '@/utils'
-import { ORDER_STATUS } from '@/consts'
+import { OrderStatus } from '@/components/sp-page-components'
 
 export default class No extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {}
-  }
-
-  renderStatus = (orderInfo) => {
-    const {
-      app_info: { list_status_mag }
-    } = orderInfo
-    return (
-      <View className='order-status'>
-        <Text className='order-status-text'>{list_status_mag}</Text>
-        <Text className='order-status-background'></Text>
-      </View>
-    )
   }
 
   render() {
@@ -34,7 +22,7 @@ export default class No extends PureComponent {
         </View>
         <View className='order-time'>{info.create_date}</View>
 
-        {this.renderStatus(info)}
+        <OrderStatus msg={info?.app_info?.list_status_mag} />
       </View>
     )
   }

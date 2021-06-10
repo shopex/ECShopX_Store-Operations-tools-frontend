@@ -23,7 +23,6 @@ export default class List extends PureComponent {
       actionVisible: false,
       actionType: '',
       orderList: [],
-      currentOrder: {},
       loading: false,
       //搜索框选择的参数  类型为对象
       inputParams: null,
@@ -37,14 +36,8 @@ export default class List extends PureComponent {
       pickerVisible: false,
       //默认订单由近及远
       orderBy: 'desc',
-      //picker的标题
-      pickerTitle: '操作弹框',
-      //取消订单的数据列
-      cancelData: ORDER_LIST_CANCEL_REASON,
-      //取消订单的选择原因
-      cancelReason: '',
       //页面类型
-      pageType: 'orderList',
+      pageType: 'afterSalesList',
       //按钮操作弹框显示隐藏
       buttonsActionVisible: false
     }
@@ -150,10 +143,7 @@ export default class List extends PureComponent {
 
   //获取订单列表
   getOrdersList = async (params) => {
-    const {
-      list,
-      pager: { count: total }
-    } = await api.order.list({
+    const { list, total_count: total } = await api.afterSales.list({
       page: params.page_no,
       pageSize: params.page_size,
       ...this.getOrderParams()
