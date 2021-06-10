@@ -14,7 +14,7 @@ export default class ChangeWL extends PureComponent {
   }
 
   render() {
-    const { rightClickHandle, handleClose, title, changeHandle, value } = this.props
+    const { rightClickHandle, handleClose, title, changeHandle, delivery_list_item } = this.props
     return (
       <View className='cpn-dialogBox'>
         <View className='cover'>
@@ -31,7 +31,7 @@ export default class ChangeWL extends PureComponent {
             <AtTextarea
               count={false}
               height={550}
-              value={value}
+              value={delivery_list_item.zanCun || delivery_list_item.delivery_code}
               onChange={changeHandle}
               placeholder='请填写有效的物流单号'
             />
