@@ -1,7 +1,7 @@
 import { createReducer } from 'redux-create-reducer'
 
 const initState = {
-  activeShop: null
+  activeShop: {}
 }
 
 const planSelection = createReducer(initState, {

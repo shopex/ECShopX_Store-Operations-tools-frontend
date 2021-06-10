@@ -3,24 +3,67 @@ import { View, Image, Form, Input, Button } from '@tarojs/components'
 import { showToast } from '@/utils'
 import api from '@/api'
 import './index.scss'
-
+import Taro from '@tarojs/taro'
+import { connect } from 'react-redux'
 const logo = require('../../assets/imgs/1.jpg')
-
+@connect(({ planSelection }) => ({
+  planSelection
+}))
 export default class My extends Component {
   constructor() {
     super()
     this.state = {
       username: '法外狂徒张三',
-      shopList: null
+      mobile: '', // 手机
+      head_portrait: '', // 个人头像
+      work_userid: '', // 企业微信id
+      distributors: null
     }
   }
   componentDidMount() {
     this.getMyInfoHandle()
   }
   async getMyInfoHandle() {
-    const result = await api.my.getMyinfo()
+    const obj = {
+      is_app: 1
+    }
+    const result = await api.my.getMyinfo(obj)
+    const { username, mobile, head_portrait, work_userid, distributors } = result
+    this.setState({
+      username,
+      mobile,
+      head_portrait,
+      work_userid,
+      distributors
+    })
 
-    console.log(result)
+    this.state.distributors && this.format_distributors(this.state.distributors)
+  }
+  format_distributors(data) {
+    const { activeShop } = this.props.planSelection
+    if (activeShop) {
+      let { distributor_id } = activeShop
+      distributor_id = distributor_id || '102'
+      console.log(distributor_id)
+      const result = data.filter((item) => {
+        return item.distributor_id == distributor_id
+      })
+      this.setState(
+        {
+          distributors: result[0]
+        },
+        () => {
+          console.log(this.state.distributors)
+        }
+      )
+    }
+  }
+  getStore() {
+    let obj = this.props.store.planSelection?.activeShop
+    if (!obj) {
+      return {}
+    }
+    return obj
   }
   formSubmit() {}
   handleChange(event) {
@@ -47,21 +90,29 @@ export default class My extends Component {
       input.remove()
     })
   }
+  switchShopHandle() {
+    Taro.redirectTo({
+      url: '/pages/planSelection/index'
+    })
+  }
 
   render() {
-    const { username } = this.state
+    const { username, work_userid, mobile, head_portrait, distributors } = this.state
     return (
       <View className='page-my'>
         <View className='top'>
           <View className='info'>
             <View className='photo'>
-              <Image src={logo}></Image>
+              <Image src={distributors && distributors.logo}></Image>
             </View>
             <View className='content'>
-              <View className='title'>徐家汇汇港恒隆旗舰店</View>
-              <View className='tag'>总部</View>
+              <View className='title'>{distributors && distributors.name}</View>
+              {distributors && distributors.is_center && <View className='tag'>总部</View>}
             </View>
-            <View className='iconfont icon-qiehuan1 switch-shop'> 切换店铺</View>
+            <View className='iconfont icon-qiehuan1 switch-shop' onClick={this.switchShopHandle}>
+              {' '}
+              切换店铺
+            </View>
           </View>
         </View>
         <View className='formBox'>
@@ -69,19 +120,19 @@ export default class My extends Component {
             <View className='photoBox'>
               <View className='iconfont icon-zu1684 title'> 我的头像</View>
               <View className='photo' onClick={(e) => this.photoUpdate()}>
-                <Image src={logo}></Image>
+                <Image src={logo || head_portrait}></Image>
               </View>
             </View>
             <View className='common'>
               <View className='iconfont icon-shoujihao title'> 手机号</View>
               <View className='value' onClick={(e) => this.notUpdate('手机号')}>
-                12345678912
+                {mobile}
               </View>
             </View>
             <View className='common'>
               <View className='iconfont icon-id title'> 企业微信ID</View>
               <View className='value' onClick={(e) => this.notUpdate('企业微信ID')}>
-                zyk121212121
+                {work_userid || 123}
               </View>
             </View>
             <View className='common borderNone'>
@@ -97,8 +148,8 @@ export default class My extends Component {
             </View>
           </Form>
         </View>
-        <Button className='btn'>修改密码</Button>
-        <Button className='btn'>退出登录</Button>
+        {/* <Button className='btn'>修改密码</Button>
+        <Button className='btn'>退出登录</Button> */}
       </View>
     )
   }
