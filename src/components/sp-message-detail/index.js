@@ -14,31 +14,31 @@ export default class MessageDetail extends PureComponent {
 
   render() {
     console.log(this.props)
-    const { date, productCoding, productName, productNum, progress, type } =
-      this.props.SpMessageDetailData
+    const { goodsName, total_fee, number, orderId } = this.props.SpMessageDetailData
+    const { date, msgType, titleList } = this.props
     return (
       <View className='cpn-messageDetail'>
         <View className='date'>{date}</View>
         <View className='box'>
           <View className='top'>
-            <View className='title'>{type}</View>
+            <View className='title'>{goodsName}</View>
             <View className='iconfont icon-jiantou'></View>
           </View>
           <View className='list'>
             <View className='item'>
-              <View className='title'>处理进度</View>
-              <View className='content'>{progress}</View>
+              <View className='title'>{titleList[0]}</View>
+              <View className='content'>{date}</View>
             </View>
             <View className='item'>
-              <View className='title'>商品名称</View>
+              <View className='title'>{titleList[1]}</View>
               <View className='content order'>
-                <View className='subtitle'>{productName}</View>
-                <View className='info'>{productNum}</View>
+                <View className='subtitle'>{total_fee}</View>
+                {titleList[1] === '商品名称' && <View className='info'>{date}</View>}
               </View>
             </View>
             <View className='item'>
-              <View className='title'>售后单号</View>
-              <View className='content'>{productCoding}</View>
+              <View className='title'>{titleList[2]}</View>
+              <View className='content'>{orderId}</View>
             </View>
           </View>
         </View>
