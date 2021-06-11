@@ -4,8 +4,6 @@ import { classNames } from '@/utils'
 import { SpClickAwayListener } from '@/components'
 import './index.scss'
 
-const modalLabels = ['订单号', '商品名称', '手机号码', '收货人姓名']
-
 export default class FieldSelect extends PureComponent {
   constructor(props) {
     super(props)
@@ -13,7 +11,7 @@ export default class FieldSelect extends PureComponent {
   }
 
   render() {
-    const { visible, onClickAway = () => {} } = this.props
+    const { visible, onClickAway = () => {}, dataSource = [], onClickField = () => {} } = this.props
 
     return (
       <SpClickAwayListener onClickAway={onClickAway}>
@@ -22,8 +20,12 @@ export default class FieldSelect extends PureComponent {
             ['show']: visible
           })}
         >
-          {modalLabels.map((label) => (
-            <View key={label} className={classNames('sp-page-field-select_item')}>
+          {dataSource.map(({ value, label }) => (
+            <View
+              key={value}
+              className={classNames('sp-page-field-select_item')}
+              onClick={() => onClickField({ value, label })}
+            >
               {label}
             </View>
           ))}
