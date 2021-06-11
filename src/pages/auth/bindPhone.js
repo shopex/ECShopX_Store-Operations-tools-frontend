@@ -1,9 +1,9 @@
 import { Component } from 'react'
 import { View, Image, ScrollView } from '@tarojs/components'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
-import { SpTimer } from '@/components'
-import { getThemeStyle, validate, showToast } from '@/utils'
+import { getThemeStyle, validate, showToast, getCurrentRoute } from '@/utils'
 import api from '@/api'
+import S from '@/spx'
 import FtLogo from './comps/ft-logo'
 import './bindPhone.scss'
 
@@ -20,19 +20,20 @@ export default class BindPhone extends Component {
 
   async handleSubmit() {
     const { mobile, code } = this.state.info
+    const { work_userid, check_token } = getCurrentRoute().params
     if (!validate.isMobileNum(mobile)) {
       showToast('请输入正确的手机号')
       return
     }
-    if (!validate.isRequired(mobile)) {
-      showToast('请输入验证码')
-      return
-    }
-    await api.operator.smsLogin({
-      mobile,
-      code,
-      logintype: 'smsstaff'
+    const { status, token } = await api.auth.bindMobile({
+      work_userid,
+      check_token,
+      mobile
     })
+    S.setAuthToken(token)
+    const userInfo = await api.operator.getUserInfo()
+    S.set('user_info', userInfo, true)
+    Taro.redirectTo({ url: `/pages/planSelection/index` })
   }
 
   async handleTimerStart() {

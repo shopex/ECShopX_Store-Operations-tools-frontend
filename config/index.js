@@ -41,7 +41,7 @@ const config = {
     resource: path.resolve(__dirname, '..', 'src/style/imports.scss')
   },
   copy: {
-    patterns: [],
+    patterns: [{ from: 'src/files/', to: `dist/` }],
     options: {}
   },
   framework: 'react',
@@ -69,6 +69,13 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    router: {
+      mode: 'browser'
+    },
+    devServer: {
+      overlay: false
+      // port: 80
+    },
     postcss: {
       autoprefixer: {
         enable: true,

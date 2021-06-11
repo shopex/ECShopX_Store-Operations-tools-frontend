@@ -1,0 +1,44 @@
+@import "../../list.scss";
+
+.comp-order-list-tabbar{
+    
+    
+    background: #FFFFFF;
+    box-shadow: 0px 3px 5px 0px #E2E4EA;
+    display: flex; 
+    // padding-left: 39px; 
+    flex-wrap: nowrap;
+
+    &-item{
+        font-size: 28px;
+        line-height:$tabbarHeight;
+        font-weight:500;  
+        color: #666F83;
+        text-shadow: 0px 3px 5px #E2E4EA;
+        flex-shrink: 0;
+        flex-grow: 1;
+        white-space: nowrap;
+        &:not(&:nth-child(1)){
+            margin-left: 52px;
+        }
+        &:last-child(0){
+            margin-right: 39px; 
+        } 
+
+        &.active{
+
+            color: var(--color-primary);
+
+            &::after{
+                display: block;
+                content: '';
+                left:0;
+                right:0;
+                bottom:0;
+                height:4px;
+                background: currentColor;
+            }
+        }
+    }
+     
+}
