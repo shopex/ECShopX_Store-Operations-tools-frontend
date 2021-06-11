@@ -58,13 +58,7 @@ export default class My extends Component {
       )
     }
   }
-  getStore() {
-    let obj = this.props.store.planSelection?.activeShop
-    if (!obj) {
-      return {}
-    }
-    return obj
-  }
+
   formSubmit() {}
   usernameChange(event) {
     console.log(event.target.value)
@@ -94,7 +88,7 @@ export default class My extends Component {
     console.log(input)
     input.click()
     input.addEventListener('change', async function () {
-      const result = await api.my.updateInfo({
+      const result = await api.my.updatePhoto({
         head_portrait: input.files[0]
       })
       console.log(result)

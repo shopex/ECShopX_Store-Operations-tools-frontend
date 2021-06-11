@@ -5,7 +5,11 @@ export function getMyinfo(params) {
   return req.get('/operator/getinfo', params)
 }
 
-// 更改用户名和头像
+// 更改用户名
 export function updateInfo(params) {
   return req.put('/operator/updatedata', params)
+}
+
+export function updatePhoto(params) {
+  return req.post('/espier/oss_upload_token', params)
 }
