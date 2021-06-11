@@ -66,6 +66,8 @@ class SpFilterDrawer extends PureComponent {
         <View className='content'>
           <View className='filterTitle'>
             <Text className='text'>{filterTitle}</Text>
+
+            <Text className='iconfont icon-fanhui' onClick={onCloseDrawer}></Text>
           </View>
           <View className='main'>
             {filterData.map((item, index) => {

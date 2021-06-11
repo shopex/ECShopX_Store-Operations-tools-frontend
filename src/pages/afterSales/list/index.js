@@ -18,7 +18,7 @@ export default class List extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      orderStatus: 0,
+      orderStatus: '-1',
       noteVisible: false,
       actionVisible: false,
       actionType: '',
@@ -259,6 +259,8 @@ export default class List extends PureComponent {
       buttonsActionVisible
     } = this.state
 
+    console.log('orderList', orderList)
+
     return (
       <View className='page-order-list' style={getThemeStyle()}>
         <View className='page-order-list-input'>
@@ -278,7 +280,7 @@ export default class List extends PureComponent {
           statusChange={this.handleStatusChange}
         />
 
-        {/* <FilterBlock
+        <FilterBlock
           pageType={pageType}
           orderBy={orderBy}
           onSubmitParams={this.handleSubmitParams}
@@ -300,16 +302,16 @@ export default class List extends PureComponent {
                 pageType={pageType}
                 info={orderItem}
                 onGoodItemClick={this.handleClickGoodItem}
-                renderFooter={
-                  <PageActionButtons
-                    buttons={orderItem?.app_info?.buttons}
-                    pageType={pageType}
-                    onClick={this.handleClickActionButtons}
-                    onClose={this.handleCloseActionButtons}
-                    orderInfo={orderItem}
-                    mainStatus={mainStatus}
-                  />
-                }
+                // renderFooter={
+                //   <PageActionButtons
+                //     buttons={orderItem?.app_info?.buttons}
+                //     pageType={pageType}
+                //     onClick={this.handleClickActionButtons}
+                //     onClose={this.handleCloseActionButtons}
+                //     orderInfo={orderItem}
+                //     mainStatus={mainStatus}
+                //   />
+                // }
               />
             )
           })}
@@ -319,7 +321,7 @@ export default class List extends PureComponent {
           {!page.isLoading && !page.hasNext && !orderList.length && (
             <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
           )}
-        </ScrollView> */}
+        </ScrollView>
 
         <SpToast />
       </View>

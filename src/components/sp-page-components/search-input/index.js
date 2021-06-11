@@ -13,7 +13,11 @@ const getListAboutPage = (pageType) => {
       value: key,
       label: ORDER_LIST_FIELDS[key]
     }))
-  } else if (pageType === '') {
+  } else if (pageType === 'afterSalesList') {
+    returnArr = Object.keys(afterSales.LIST_FIELDS).map((key) => ({
+      value: key,
+      label: afterSales.LIST_FIELDS[key]
+    }))
   }
   return returnArr
 }

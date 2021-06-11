@@ -99,6 +99,16 @@ export default class SpOrderItem extends PureComponent {
     return returnNode
   }
 
+  renderGoodAlias = () => {
+    const { pageType = 'orderList' } = this.props
+
+    if (pageType === 'orderList') {
+      return 'items'
+    } else if (pageType === 'afterSalesList') {
+      return 'detail'
+    }
+  }
+
   render() {
     const { info, onGoodItemClick = () => {} } = this.props
 
@@ -108,7 +118,7 @@ export default class SpOrderItem extends PureComponent {
           <HeaderInfo info={info} />
         </View>
         <View className='sp-order-item-body'>
-          {info.items.map((goodItem, index) => (
+          {info[this.renderGoodAlias()].map((goodItem, index) => (
             <SpGoodItem
               onClick={onGoodItemClick}
               goodInfo={goodItem}

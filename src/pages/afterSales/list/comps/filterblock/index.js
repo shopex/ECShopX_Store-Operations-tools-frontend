@@ -1,31 +1,21 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
 import { SpFilterDrawer } from '@/components'
-import {
-  ORDER_LIST_FILTER_TIME,
-  ORDER_LIST_FILTER_CLASS,
-  ORDER_LIST_RECEIPT_TYPE,
-  ORDER_LIST_FILTER_ITEM
-} from '@/consts'
+import { afterSales } from '@/consts'
 import './index.scss'
 
-const filterListData = Object.keys(ORDER_LIST_FILTER_ITEM).map((filterItem) => {
-  let itemLabel = ORDER_LIST_FILTER_ITEM[filterItem]
+const filterListData = Object.keys(afterSales.FILTER_ITEM).map((filterItem) => {
+  let itemLabel = afterSales.FILTER_ITEM[filterItem]
   let itemValue = filterItem
   let dataSource = []
-  if (itemValue === 'orderTime') {
-    dataSource = Object.keys(ORDER_LIST_FILTER_TIME).map((item) => ({
-      label: ORDER_LIST_FILTER_TIME[item],
+  if (itemValue === 'createTime') {
+    dataSource = Object.keys(afterSales.FILTER_TIME).map((item) => ({
+      label: afterSales.FILTER_TIME[item],
       value: item
     }))
-  } else if (itemValue === 'orderClass') {
-    dataSource = Object.keys(ORDER_LIST_FILTER_CLASS).map((item) => ({
-      label: ORDER_LIST_FILTER_CLASS[item],
-      value: item
-    }))
-  } else {
-    dataSource = Object.keys(ORDER_LIST_RECEIPT_TYPE).map((item) => ({
-      label: ORDER_LIST_RECEIPT_TYPE[item],
+  } else if (itemValue === 'aftersalesType') {
+    dataSource = Object.keys(afterSales.AFTERSALES_TYPE).map((item) => ({
+      label: afterSales.AFTERSALES_TYPE[item],
       value: item
     }))
   }
@@ -58,10 +48,7 @@ export default class FilterBlock extends PureComponent {
   }
 
   filterData = () => {
-    const { pageType } = this.props
-    if (pageType === 'orderList') {
-      return filterListData
-    }
+    return filterListData
   }
 
   //点击确认筛选
@@ -75,7 +62,13 @@ export default class FilterBlock extends PureComponent {
 
   //筛选由近及远
   renderOrderDesc = () => {
+    const { pageType } = this.props
+
     let result = '订单时间'
+
+    if (pageType === 'afterSalesList') {
+      result = '售后时间'
+    }
 
     const { orderBy } = this.props
 
@@ -86,6 +79,16 @@ export default class FilterBlock extends PureComponent {
     }
 
     return result
+  }
+
+  renderFilterTitle = () => {
+    const { pageType } = this.props
+
+    if (pageType === 'orderList') {
+      return '订单筛选'
+    } else if (pageType === 'afterSalesList') {
+      return '售后筛选'
+    }
   }
 
   render() {
@@ -110,7 +113,7 @@ export default class FilterBlock extends PureComponent {
 
         <SpFilterDrawer
           pageType={pageType}
-          filterTitle='订单筛选'
+          filterTitle={this.renderFilterTitle()}
           filterData={this.filterData()}
           visible={showFilter}
           onCloseDrawer={this.handleCloseDrawer}
