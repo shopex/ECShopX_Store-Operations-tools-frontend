@@ -1,6 +1,6 @@
 import { Component, createElement } from 'react'
 import { View, Image, Form, Input, Button } from '@tarojs/components'
-import { showToast } from '@/utils'
+import { showToast, strLength } from '@/utils'
 import api from '@/api'
 import './index.scss'
 import Taro from '@tarojs/taro'
@@ -66,15 +66,23 @@ export default class My extends Component {
     return obj
   }
   formSubmit() {}
-  handleChange(event) {
+  usernameChange(event) {
     console.log(event.target.value)
-    if (event.target.value.length >= 10) {
+    let str = strLength(event.target.value)
+    if (str > 20) {
       showToast('最多输入10个字符喔')
       return
     }
+
     this.setState({
       username: event.target.value
     })
+  }
+  async usernameBlur() {
+    const result = await api.my.updateInfo({
+      username: this.state.username
+    })
+    console.log(result)
   }
 
   notUpdate(message) {
@@ -85,7 +93,12 @@ export default class My extends Component {
     input.setAttribute('type', 'file')
     console.log(input)
     input.click()
-    input.addEventListener('change', function () {
+    input.addEventListener('change', async function () {
+      const result = await api.my.updateInfo({
+        head_portrait: input.files[0]
+      })
+      console.log(result)
+
       console.log(input.files[0])
       input.remove()
     })
@@ -142,7 +155,8 @@ export default class My extends Component {
                   type='text'
                   maxLength={10}
                   value={username}
-                  onChange={(e) => this.handleChange(e)}
+                  onChange={(e) => this.usernameChange(e)}
+                  onBlur={(e) => this.usernameBlur(e)}
                 ></input>
               </View>
             </View>

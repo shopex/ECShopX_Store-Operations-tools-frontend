@@ -75,6 +75,20 @@ export function timestampToTime(timestamp) {
   return Y + M + D + h + m + s
 }
 
+// 计算字符长度 一个中文算两个字符
+export function strLength(val) {
+  var len = 0
+  for (var i = 0; i < val.length; i++) {
+    var a = val.charAt(i)
+    if (a.match(/[^\x00-\xff]/gi) != null) {
+      len += 2
+    } else {
+      len += 1
+    }
+  }
+  return len
+}
+
 export function showToast(title) {
   Taro.showToast({
     title,
