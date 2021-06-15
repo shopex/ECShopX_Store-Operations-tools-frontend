@@ -13,12 +13,7 @@ const logo = require('@/assets/imgs/shopex-logo.png')
     planSelection
   }),
   (dispatch) => ({
-    add(activeShop) {
-      dispatch({
-        type: 'planSelection/activeShop',
-        payload: activeShop
-      })
-    }
+    add: (activeShop) => dispatch({ type: 'planSelection/activeShop', payload: activeShop })
   })
 )
 export default class PlanSelection extends PureComponent {

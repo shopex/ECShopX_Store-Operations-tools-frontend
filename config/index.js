@@ -74,7 +74,6 @@ const config = {
     },
     devServer: {
       overlay: false
-      // port: 80
     },
     postcss: {
       autoprefixer: {

@@ -1,13 +1,13 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
 import { Provider } from 'react-redux'
-import { getCurrentRoute, log } from '@/utils'
+import { getCurrentRoute, log, qwsdk } from '@/utils'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
 import '@/muiApp/index.scss'
 import './app.scss'
 
-const store = configStore()
+const { store } = configStore()
 
 SAPP.init(Taro, store)
 class App extends Component {
@@ -23,6 +23,7 @@ class App extends Component {
         // })
       }
     })
+    // qwsdk.init()
   }
 
   componentDidShow(options) {
