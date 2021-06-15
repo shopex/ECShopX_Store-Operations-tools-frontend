@@ -38,11 +38,13 @@ class Index extends PureComponent {
     }
   }
   componentDidMount() {
-    this.getConfig()
     const { href } = window.location
     qwsdk.init({
       url: href
     })
+  }
+  componentDidShow() {
+    this.getConfig()
   }
 
   switchHandle() {
