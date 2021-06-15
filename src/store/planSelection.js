@@ -1,15 +1,18 @@
 import { createReducer } from 'redux-create-reducer'
 
 const initState = {
-  activeShop: {}
+  activeShop: {
+    test: 100
+  },
+  status: 200
 }
 
 const planSelection = createReducer(initState, {
-  ['planSelection/activeShop'](state, action) {
-    console.log(state, action)
-    state.activeShop = action.payload
+  ['planSelection/activeShop'](state, { payload }) {
+    console.log(state, payload)
     return {
-      ...state
+      ...state,
+      activeShop: payload
     }
   }
 })

@@ -9,6 +9,7 @@ import throttle from 'lodash/throttle'
 import log from './log'
 import defaultTheme from './theme'
 import validate from './validate'
+import qwsdk from './qwsdk'
 
 const isPrimitiveType = (val, type) => Object.prototype.toString.call(val) === type
 
@@ -150,4 +151,4 @@ function calcTimer(totalSec) {
   }
 }
 
-export { classNames, log, debounce, throttle, validate, requestCallback, range, calcTimer }
+export { classNames, log, debounce, throttle, validate, requestCallback, range, calcTimer, qwsdk }
