@@ -3,24 +3,9 @@ import React, { Component, PureComponent } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { withLogin } from '@/hocs'
 import api from '@/api'
-import { navigateTo, formatNum } from '@/utils'
+import { navigateTo, formatNum, qwsdk } from '@/utils'
 import { connect } from 'react-redux'
 import './index.scss'
-
-const funcList = [
-  {
-    title: '订单',
-    icon: require('@/assets/imgs/index/dingdan.svg')
-  },
-  {
-    title: '售后',
-    icon: require('@/assets/imgs/index/shouhou.svg')
-  },
-  {
-    title: '扫一扫',
-    icon: require('@/assets/imgs/index/shaoyishao.svg')
-  }
-]
 
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
@@ -54,12 +39,22 @@ class Index extends PureComponent {
   }
   componentDidMount() {
     this.getConfig()
+    const { href } = window.location
+    qwsdk.init({
+      url: href
+    })
   }
 
   switchHandle() {
     this.setState({
       moneyShow: !this.state.moneyShow
     })
+  }
+
+  async handleOnScanQRCode() {
+    const res = await qwsdk.scanQRCode()
+    debugger
+    console.log(res)
   }
 
   render() {
@@ -146,6 +141,28 @@ class Index extends PureComponent {
           <View className='func-list'>
             <View className='title'>常用功能</View>
             <View className='list'>
+              <View className='item'>
+                <View>
+                  <Image className='img' src={require('@/assets/imgs/index/dingdan.svg')}></Image>
+                </View>
+                <View className='subtitle'>订单</View>
+              </View>
+              <View className='item'>
+                <View>
+                  <Image className='img' src={require('@/assets/imgs/index/shouhou.svg')}></Image>
+                </View>
+                <View className='subtitle'>售后</View>
+              </View>
+              <View className='item' onClick={this.handleOnScanQRCode.bind(this)}>
+                <View>
+                  <Image
+                    className='img'
+                    src={require('@/assets/imgs/index/shaoyishao.svg')}
+                  ></Image>
+                </View>
+                <View className='subtitle'>扫一扫</View>
+              </View>
+              {/* 
               {funcList.map((item) => {
                 return (
                   <View className='item' key={item.title}>
@@ -155,7 +172,7 @@ class Index extends PureComponent {
                     <View className='subtitle'>{item.title}</View>
                   </View>
                 )
-              })}
+              })} */}
             </View>
           </View>
         </>
