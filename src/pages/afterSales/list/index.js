@@ -302,16 +302,16 @@ export default class List extends PureComponent {
                 pageType={pageType}
                 info={orderItem}
                 onGoodItemClick={this.handleClickGoodItem}
-                // renderFooter={
-                //   <PageActionButtons
-                //     buttons={orderItem?.app_info?.buttons}
-                //     pageType={pageType}
-                //     onClick={this.handleClickActionButtons}
-                //     onClose={this.handleCloseActionButtons}
-                //     orderInfo={orderItem}
-                //     mainStatus={mainStatus}
-                //   />
-                // }
+                renderFooter={
+                  <PageActionButtons
+                    buttons={orderItem?.app_info?.buttons}
+                    pageType={pageType}
+                    onClick={this.handleClickActionButtons}
+                    onClose={this.handleCloseActionButtons}
+                    orderInfo={orderItem}
+                    mainStatus={mainStatus}
+                  />
+                }
               />
             )
           })}

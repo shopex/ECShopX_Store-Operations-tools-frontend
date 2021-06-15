@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import { SpGoodItem, SpGoodPrice } from '@/components'
-import { CommonButton } from '@/components/sp-page-components'
 import HeaderInfo from './header'
 import './index.scss'
 
@@ -60,32 +59,26 @@ export default class SpOrderItem extends PureComponent {
           </View>
         </View>
       )
+    } else if (pageType === 'afterSalesList') {
+      returnNode = (
+        <View className='sp-order-item-extra-sales-list'>
+          <View className='item'>
+            <View className='start'>{`进度：${orderInfo?.app_info?.progress_msg}`}</View>
+            <View className='end'>
+              <SpGoodPrice size={24} price={orderInfo?.refund_fee} isSame prefix='应退总金额：' />
+            </View>
+          </View>
+          <View className='item'>
+            <View className='start grey'>{`订单号：${orderInfo?.order_id}`}</View>
+            <View className='end'>
+              <SpGoodPrice size={24} point={orderInfo?.refund_point} isSame prefix='应退总积分：' />
+            </View>
+          </View>
+        </View>
+      )
     }
 
     return returnNode
-  }
-
-  handleFooterButtonClick = (buttonType) => {
-    const {
-      info: orderInfo,
-      onClickNote = () => {},
-      onClickContact = () => {},
-      onClickConfirmGetOrder = () => {},
-      onClickCancel = () => {},
-      onClickDelivery = () => {}
-    } = this.props
-    console.log('buttonType', buttonType)
-    if (buttonType === 'mark') {
-      onClickNote(orderInfo)
-    } else if (buttonType === 'contact') {
-      onClickContact(orderInfo)
-    } else if (buttonType === 'accept') {
-      onClickConfirmGetOrder(orderInfo)
-    } else if (buttonType === 'cancel') {
-      onClickCancel(orderInfo)
-    } else if (buttonType === 'delivery') {
-      onClickDelivery(orderInfo)
-    }
   }
 
   renderListFooter = () => {
@@ -93,7 +86,7 @@ export default class SpOrderItem extends PureComponent {
 
     let returnNode
 
-    if (pageType === 'orderList') {
+    if (pageType === 'orderList' || pageType === 'afterSalesList') {
       returnNode = <View className='sp-order-item-footer'>{renderFooter}</View>
     }
     return returnNode
@@ -110,12 +103,12 @@ export default class SpOrderItem extends PureComponent {
   }
 
   render() {
-    const { info, onGoodItemClick = () => {} } = this.props
+    const { info, onGoodItemClick = () => {}, pageType } = this.props
 
     return (
       <View className='sp-order-item'>
         <View className='sp-order-item-header'>
-          <HeaderInfo info={info} />
+          <HeaderInfo info={info} pageType={pageType} />
         </View>
         <View className='sp-order-item-body'>
           {info[this.renderGoodAlias()].map((goodItem, index) => (
@@ -125,6 +118,7 @@ export default class SpOrderItem extends PureComponent {
               orderInfo={info}
               className='goodItem'
               key={index}
+              pageType={pageType}
             />
           ))}
         </View>

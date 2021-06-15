@@ -64,12 +64,29 @@
       color: #111A34;
       font-size: 22px;
       display: flex;
-      align-items: center;
+      align-items: center; 
+    }
+  }
 
-      &-title{
-        
+  &-extra-sales-list{
+    margin-top: 16px;
+
+    .item{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom:12px;
+
+      .start{
+        font-size: 24px;
+        font-weight: 500;
+        color: #111A34;
       }
 
+      .grey{
+        font-weight: 400;
+        color: #858B9C;
+      }
     }
   }
 

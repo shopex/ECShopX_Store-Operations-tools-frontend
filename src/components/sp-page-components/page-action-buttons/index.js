@@ -179,7 +179,7 @@ class PageActionButtons extends PureComponent {
   //关闭操作回调
   handleCloseButtonActions = () => {
     const { onClose = () => {}, pageType } = this.props
-    if (pageType === 'orderList') {
+    if (pageType === 'orderList' || pageType === 'afterSalesList') {
       setTimeout(() => {
         onClose()
       }, 500)

@@ -12,7 +12,8 @@ class SpGoodItem extends PureComponent {
   renderSalePrice = () => {
     const {
       orderInfo: { order_class },
-      goodInfo
+      goodInfo,
+      pageType
     } = this.props
     //如果是积分订单
     if (order_class === 'pointsmall') {
@@ -42,7 +43,7 @@ class SpGoodItem extends PureComponent {
 
   renderNumberExtra = () => {
     const { pageType = 'orderList' } = this.props
-    if (pageType === 'orderList') {
+    if (pageType === 'orderList' || pageType === 'afterSalesList') {
       return `X`
     } else {
       return '数量：'
@@ -68,6 +69,15 @@ class SpGoodItem extends PureComponent {
     }
   }
 
+  renderPic = () => {
+    const { goodInfo, pageType } = this.props
+    if (pageType === 'orderList') {
+      return goodInfo?.pic
+    } else if (pageType === 'afterSalesList') {
+      return goodInfo?.item_pic
+    }
+  }
+
   render() {
     const {
       goodInfo,
@@ -80,7 +90,7 @@ class SpGoodItem extends PureComponent {
     return (
       <View className={classNames('sp-good-item', className)} onClick={this.handleGoodClick}>
         <View className='sp-good-item-image'>
-          <Image className='img' src={goodInfo.pic} />
+          <Image className='img' src={this.renderPic()} />
         </View>
         <View className='sp-good-item-content'>
           <View className='sp-good-item-content_name'>{goodInfo.item_name}</View>
