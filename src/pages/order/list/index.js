@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react'
 import { View, ScrollView } from '@tarojs/components'
-import Taro from '@tarojs/taro'
-import { getThemeStyle, requestCallback } from '@/utils'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
+import { getThemeStyle } from '@/utils'
 import FilterBlock from './comps/filterblock'
-import NoteDrawer from './comps/note-drawer'
-import ActionModal from './comps/action-modal'
-import { ORDER_LIST_CANCEL_REASON } from '@/consts'
+import { ORDER_LIST_CANCEL_REASON, ORDER_LIST_STATUS } from '@/consts'
 import { withPager, withBackToTop } from '@/hocs'
-import { SpLoading, SpNote, SpOrderItem, SpToast, SpPicker } from '@/components'
+import { SpLoading, SpNote, SpOrderItem, SpToast } from '@/components'
 import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-components'
 import { calculateTimestamp } from '@/utils/time'
+import { classNames } from '@/utils'
 import api from '@/api'
 import './index.scss'
 
@@ -43,7 +42,11 @@ export default class List extends PureComponent {
       //取消订单的数据列
       cancelData: ORDER_LIST_CANCEL_REASON,
       //取消订单的选择原因
-      cancelReason: ''
+      cancelReason: '',
+      //页面类型
+      pageType: 'orderList',
+      //按钮操作弹框显示隐藏
+      buttonsActionVisible: false
     }
   }
 
@@ -68,11 +71,9 @@ export default class List extends PureComponent {
     }
 
     if (filterParams.orderClass) {
-      params['order_class'] = filterParams.orderClass
-    }
-
-    if (filterParams.orderClass) {
-      params['order_class'] = filterParams.orderClass
+      if (filterParams.orderClass !== 'all') {
+        params['order_class'] = filterParams.orderClass
+      }
     }
 
     if (filterParams.receiptType) {
@@ -81,7 +82,7 @@ export default class List extends PureComponent {
 
     if (filterParams.orderTime) {
       let timeArr = calculateTimestamp(filterParams.orderTime)
-      console.log('filterParams.orderTime')
+      console.log('filterParams.orderTime', timeArr)
       if (timeArr.length) {
         params['time_start_begin'] = timeArr[0]
         params['time_start_end'] = timeArr[1]
@@ -119,70 +120,31 @@ export default class List extends PureComponent {
   }
 
   async componentDidMount() {
+    const {
+      router: {
+        params: { listStatus }
+      }
+    } = getCurrentInstance()
+
+    let findStatus = Object.keys(ORDER_LIST_STATUS)
+      .map((key) => ({
+        value: key,
+        label: ORDER_LIST_STATUS[key]
+      }))
+      .find((item) => item.value === listStatus)
+
+    if (listStatus) {
+      this.setState({
+        mainStatus: findStatus
+      })
+    }
+
     await this.searchFilter({ isCMD: true })
   }
 
   handleTabClick = (activeIndex) => {
     this.setState({
       orderStatus: activeIndex
-    })
-  }
-
-  //点击备注按钮
-  handleClickNoteButton = (orderInfo) => {
-    this.setState({
-      noteVisible: true,
-      currentOrder: orderInfo
-    })
-  }
-
-  //关闭备注
-  handleNoteClose = () => {
-    this.setState({
-      noteVisible: false,
-      currentOrder: {}
-    })
-  }
-
-  //点击联系客户按钮
-  handleClickContactButton = (orderInfo) => {
-    this.setState({
-      actionVisible: true,
-      actionType: 'phone',
-      currentOrder: orderInfo
-    })
-  }
-
-  //点击取消订单按钮
-  handleClickCancelOrderButton = (orderInfo) => {
-    this.setState({
-      pickerVisible: true,
-      currentOrder: orderInfo,
-      pickerTitle: '取消订单'
-    })
-  }
-
-  handleCloseActionModal = () => {
-    this.setState({
-      actionVisible: false,
-      currentOrder: {}
-    })
-  }
-
-  //点击接单
-  handleClickConfirmGetOrderButton = (orderInfo) => {
-    this.setState({
-      actionVisible: true,
-      currentOrder: orderInfo,
-      actionType: 'confirmGetOrder'
-    })
-  }
-
-  //点击核销
-  handleClickVerification = () => {
-    this.setState({
-      actionVisible: true,
-      actionType: 'verification'
     })
   }
 
@@ -222,7 +184,6 @@ export default class List extends PureComponent {
 
   //搜索参数变化回调
   handleParamChange = (inputParams) => {
-    console.log('handleParamChange', inputParams)
     this.setState({
       inputParams: { ...inputParams }
     })
@@ -230,7 +191,6 @@ export default class List extends PureComponent {
 
   //值变化回调
   handleValueChange = (inputValue) => {
-    console.log('valueChange', inputValue)
     this.setState({
       inputValue
     })
@@ -246,6 +206,7 @@ export default class List extends PureComponent {
 
   //提交筛选状态
   handleSubmitParams = (params) => {
+    console.log('handleSubmitParams')
     this.setState({
       filterParams: params
     })
@@ -276,67 +237,36 @@ export default class List extends PureComponent {
     }
   }
 
-  //picker选择
-  handlePickerChange = (index, label) => {
-    const { pickerTitle } = this.props
-    if (pickerTitle === '取消订单') {
-      this.setState({
-        cancelReason: label
-      })
-    }
-  }
-
-  //确认订单的回调
-  handlePickerConfirm = (index, label) => {
-    const { currentOrder } = this.state
-    requestCallback(
-      async () => {
-        const data = await api.order.cancel({
-          order_id: currentOrder.order_id
-        })
-        return data
-      },
-      '取消订单成功',
-      () => {
-        this.setState({
-          pickerVisible: false
-        })
-      }
-    )
-  }
-
-  //取消订单的回调
-  handlePickerCancel = () => {
-    this.setState({
-      pickerVisible: false
-    })
-  }
-
   //点击商品列表
   handleClickGoodItem = (goodInfo) => {
     Taro.redirectTo({ url: `/pages/order/detail?order_id=${goodInfo.order_id}` })
   }
 
-  handleClickDelivery = (orderInfo) => {
-    Taro.redirectTo({ url: `/pages/order/delivery?order_id=${orderInfo.order_id}` })
+  //点击操作按钮
+  handleClickActionButtons = (e) => {
+    this.setState({
+      buttonsActionVisible: true
+    })
+  }
+
+  //关闭操作弹框
+  handleCloseActionButtons = () => {
+    this.setState({
+      buttonsActionVisible: false
+    })
   }
 
   render() {
     const {
-      noteVisible,
-      actionVisible,
-      actionType,
       orderList,
       page,
-      currentOrder,
       loading,
       inputParams,
       inputValue,
       mainStatus,
       orderBy,
-      pickerVisible,
-      pickerTitle,
-      cancelData
+      pageType,
+      buttonsActionVisible
     } = this.state
 
     return (
@@ -345,7 +275,7 @@ export default class List extends PureComponent {
           <SelectInput
             inputParam={inputParams}
             inputValue={inputValue}
-            pageType='orderList'
+            pageType={pageType}
             paramChange={this.handleParamChange}
             valueChange={this.handleValueChange}
             onInputConfirm={this.searchFilter}
@@ -353,13 +283,13 @@ export default class List extends PureComponent {
         </View>
 
         <Tabbar
-          pageType='orderList'
+          pageType={pageType}
           mainStatus={mainStatus}
           statusChange={this.handleStatusChange}
         />
 
         <FilterBlock
-          pageType='orderList'
+          pageType={pageType}
           orderBy={orderBy}
           onSubmitParams={this.handleSubmitParams}
           onOrderClick={this.orderClick}
@@ -367,55 +297,39 @@ export default class List extends PureComponent {
 
         <ScrollView
           scrollY
-          className='page-order-list-orderList'
+          className={classNames('page-order-list-orderList', {
+            ['show-buttonsaction']: buttonsActionVisible
+          })}
           scrollWithAnimation
           onScrollToLower={this.nextPage}
         >
-          {orderList.map((orderItem) => {
+          {orderList.map((orderItem, index) => {
             return (
               <SpOrderItem
-                key={orderItem.order_id}
-                pageType={'list'}
+                key={`${orderItem.order_id}_${index}`}
+                pageType={pageType}
                 info={orderItem}
                 onGoodItemClick={this.handleClickGoodItem}
-                onClickNote={this.handleClickNoteButton}
-                onClickContact={this.handleClickContactButton}
-                onClickCancel={this.handleClickCancelOrderButton}
-                onClickConfirmGetOrder={this.handleClickConfirmGetOrderButton}
-                onClickVerification={this.handleClickVerification}
-                onClickDelivery={this.handleClickDelivery}
+                renderFooter={
+                  <PageActionButtons
+                    buttons={orderItem?.app_info?.buttons}
+                    pageType={pageType}
+                    onClick={this.handleClickActionButtons}
+                    onClose={this.handleCloseActionButtons}
+                    orderInfo={orderItem}
+                    mainStatus={mainStatus}
+                  />
+                }
               />
             )
           })}
+
           {loading && <SpLoading>正在加载...</SpLoading>}
 
           {!page.isLoading && !page.hasNext && !orderList.length && (
             <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
           )}
         </ScrollView>
-
-        <NoteDrawer
-          visible={noteVisible}
-          onClose={this.handleNoteClose}
-          currentOrder={currentOrder}
-        />
-
-        <ActionModal
-          visible={actionVisible}
-          type={actionType}
-          onClose={this.handleCloseActionModal}
-          currentOrder={currentOrder}
-        />
-
-        <SpPicker
-          visible={pickerVisible}
-          confirmType={'danger'}
-          title={pickerTitle}
-          columns={Object.values(cancelData)}
-          onChange={this.handlePickerChange}
-          onConfirm={this.handlePickerConfirm}
-          onCancel={this.handlePickerCancel}
-        />
 
         <SpToast />
       </View>

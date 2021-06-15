@@ -1,11 +1,25 @@
 .sp-component-form-item{
-
-    height:96px;
+ 
+    height: 96px;
     background-color: #fff;
     padding:0 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &.wrap{
+        flex-direction: column;
+        padding:28px 32px;
+        align-items: flex-start;
+        height:auto;
+
+        .label{
+            margin-bottom: 32px;
+        }
+        .placeholder{
+            width: 100%;
+        }
+    }
 
     .label{
         font-weight: 400;
@@ -20,6 +34,10 @@
 
         &.has-value{
             color:#111A34;
+        }
+
+        &.error{
+            color:$danger-color;
         }
     }
 

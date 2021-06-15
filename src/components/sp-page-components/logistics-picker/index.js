@@ -11,7 +11,7 @@ export default class LogisticsPicker extends PureComponent {
   }
 
   componentDidMount() {
-    api.logistics.list().then((res) => {
+    api.logistics.getCourierCompanyList().then((res) => {
       this.setState({
         list: res.list
       })

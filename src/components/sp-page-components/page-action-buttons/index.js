@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import { CommonButton } from '@/components/sp-page-components'
 import { classNames } from '@/utils'
 import CancelAction from './CancelAction'
 import ActionModal from './ActionModal'
 import NoteDrawer from './NoteDrawer'
+import qs from 'qs'
 import './index.scss'
 
 //一个和业务相关联的page-button组件
@@ -53,6 +55,7 @@ class PageActionButtons extends PureComponent {
       return 'primary'
     }
   }
+
   renderButtons = () => {
     const { buttons = [], buttonClassName } = this.props
 
@@ -76,7 +79,8 @@ class PageActionButtons extends PureComponent {
   }
   //点击不同的按钮进行不同的操作
   handleFooterButtonClick = (buttonType) => {
-    const { orderInfo } = this.props
+    const { onClick = () => {} } = this.props
+    console.log('buttonType', buttonType)
     if (buttonType === 'mark') {
       this.handleClickNote()
     } else if (buttonType === 'contact') {
@@ -85,7 +89,30 @@ class PageActionButtons extends PureComponent {
       this.handleConfirmGetOrder()
     } else if (buttonType === 'cancel') {
       this.handleClickCancel()
+    } else if (buttonType === 'delivery') {
+      this.handleClickDelivery()
+    } else if (buttonType === 'check') {
+      this.handleClickCheck()
     }
+    onClick()
+  }
+
+  handleClickCheck = () => {
+    const { orderInfo } = this.props
+    //处理售后
+    Taro.redirectTo({ url: `/pages/afterSales/deal?aftersalesNo=${orderInfo.aftersales_bn}` })
+  }
+
+  //点击发货按钮
+  handleClickDelivery = () => {
+    const { orderInfo, mainStatus } = this.props
+    let query = {
+      order_id: orderInfo.order_id
+    }
+    if (mainStatus && mainStatus.value) {
+      query.listStatus = mainStatus.value
+    }
+    Taro.redirectTo({ url: `/pages/order/delivery?${qs.stringify(query)}` })
   }
 
   //点击备注按钮
@@ -108,6 +135,7 @@ class PageActionButtons extends PureComponent {
     this.setState({
       noteVisible: false
     })
+    this.handleCloseButtonActions()
   }
 
   //点击联系客户
@@ -131,6 +159,7 @@ class PageActionButtons extends PureComponent {
       cancelVisible: false,
       cancelReasonVisible: false
     })
+    this.handleCloseButtonActions()
   }
 
   //选择其他原因
@@ -145,15 +174,36 @@ class PageActionButtons extends PureComponent {
     this.setState({
       actionVisible: false
     })
+    this.handleCloseButtonActions()
+  }
+
+  //点击核销
+  handleClickVerification = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'verification'
+    })
+  }
+
+  //关闭操作回调
+  handleCloseButtonActions = () => {
+    const { onClose = () => {}, pageType } = this.props
+    if (pageType === 'orderList' || pageType === 'afterSalesList') {
+      setTimeout(() => {
+        onClose()
+      }, 500)
+      return
+    }
+    onClose()
   }
 
   render() {
-    const { className, orderInfo, onClick = () => {} } = this.props
+    const { className, orderInfo, mainStatus } = this.props
     const { cancelVisible, cancelReasonVisible, actionVisible, actionType, noteVisible } =
       this.state
 
     return (
-      <View className={classNames('sp-page-action-buttons', className)} onClick={onClick}>
+      <View className={classNames('sp-page-action-buttons', className)}>
         {this.renderButtons()}
 
         {/* 取消订单组件 */}
@@ -171,6 +221,7 @@ class PageActionButtons extends PureComponent {
           type={actionType}
           onClose={this.handleCloseActionModal}
           orderInfo={orderInfo}
+          mainStatus={mainStatus}
         />
 
         {/* 备注弹框 */}

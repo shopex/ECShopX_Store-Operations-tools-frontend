@@ -1,0 +1,30 @@
+.sp-input-number{
+
+    position:relative;
+    padding: 20px 5px;
+ 
+    &::after{
+        display: block;
+        content: '';
+        height: 1px;
+        background: #C5CAD5;
+        position:absolute;
+        bottom: 0;
+        left:0;
+        right: 0;
+    }   
+
+    .custominput{
+        font-size: 50px;
+        color:#111A34;
+    }
+
+    .placeholder{
+        font-size:50px;
+        color:#CCCCCC;
+        position: absolute;
+        top: 18px;
+        pointer-events: none;
+    }
+   
+}

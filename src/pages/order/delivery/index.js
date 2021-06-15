@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View } from '@tarojs/components'
+import S from '@/spx'
 import {
   MessageCard,
   FixedAction,
@@ -8,10 +9,10 @@ import {
   LogisticsPicker
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem } from '@/components'
-import { getThemeStyle } from '@/utils'
-
+import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
+import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
+import qs from 'qs'
 import './index.scss'
 
 class OrderDelivery extends Component {
@@ -28,6 +29,8 @@ class OrderDelivery extends Component {
       isWhole: true,
       //存储商品价格
       goodPrice: [],
+      goodItems: [],
+      pageType: 'orderDelivery',
       //inputnumber弹框显示隐藏
       inputNumberVisible: false,
       //当前输入的input
@@ -36,24 +39,46 @@ class OrderDelivery extends Component {
       deliveryValue: {},
       deliveryNo: '',
       //输入单号
-      deliveryNoVisible: false
+      deliveryNoVisible: false,
+      loading: false,
+      error: {
+        //存储错误商品id
+        itemError: [],
+        //存储物流公司错误
+        deliveryError: false,
+        //存储物流单号错误
+        deliveryNoError: false
+      },
+      listStatus: ''
     }
   }
 
   async componentDidShow() {
     const {
       router: {
-        params: { order_id }
+        params: { order_id, listStatus }
       }
     } = getCurrentInstance()
+    this.setState({
+      loading: true,
+      listStatus
+    })
     const { orderInfo, tradeInfo } = await api.order.detail({ orderId: order_id })
     this.setState({
       orderInfo,
       tradeInfo,
-      goodPrice: orderInfo?.items?.map((order) => ({ num: 0, max: order.num }))
+      goodPrice: orderInfo?.items?.map((order, index) => ({
+        num: 0,
+        max: Number(order.num) - Number(order.delivery_item_num),
+        index: index
+      })),
+      goodItems: orderInfo?.items
     })
-    this.renderLeftContent()
-    this.renderRightContent()
+    await this.renderLeftContent()
+    await this.renderRightContent()
+    this.setState({
+      loading: false
+    })
   }
 
   renderLeftContent = async () => {
@@ -128,7 +153,8 @@ class OrderDelivery extends Component {
     }
     goodPrice.splice(currentInputIndex, 1, {
       num: Number(number),
-      max: goodPrice[currentInputIndex].max
+      max: goodPrice[currentInputIndex].max,
+      index: goodPrice[currentInputIndex].index
     })
     this.setState({
       inputNumberVisible: false,
@@ -171,7 +197,11 @@ class OrderDelivery extends Component {
     this.handleDeliveryClose()
 
     this.setState({
-      deliveryValue: current
+      deliveryValue: current,
+      error: {
+        ...this.state.error,
+        deliveryError: false
+      }
     })
   }
 
@@ -181,8 +211,148 @@ class OrderDelivery extends Component {
     }
     this.handleCloseNo()
     this.setState({
-      deliveryNo: number
+      deliveryNo: number,
+      error: {
+        ...this.state.error,
+        deliveryNoError: false
+      }
     })
+  }
+
+  //处理数量相关逻辑
+  handlePriceError = () => {
+    const { isWhole, goodPrice, goodItems, error } = this.state
+    //如果是整单发货
+    if (isWhole) {
+      return goodItems.map((item) => ({ ...item, delivery_num: item.num }))
+    } else {
+      //如果是拆分发货
+      const totalNum = goodPrice.reduce((total, current, currentIndex) => total + current.num, 0)
+
+      //应发数量大与最大数量
+      const abnormalNum = goodPrice.find((item) => item.num > item.max)
+
+      //所有价格为空的下标
+      const allPriceNoneIndex = goodPrice.filter((good) => good.num === 0).map((item) => item.index)
+
+      //所有价格为空的id数组
+      const noPriceGoodsIds = goodItems.reduce((total, current, currentIndex) => {
+        if (allPriceNoneIndex.indexOf(currentIndex) > -1) {
+          return total.concat(current.item_id)
+        }
+        return total
+      }, [])
+
+      //如果一个都没有
+      if (!totalNum) {
+        this.setState({
+          error: {
+            ...error,
+            itemError: noPriceGoodsIds
+          }
+        })
+
+        S.toast('请填写商品发货数量')
+        return []
+      } else if (totalNum && abnormalNum) {
+        this.setState({
+          error: {
+            ...error,
+            itemError: noPriceGoodsIds
+          }
+        })
+        S.toast('预计发货数量不能大于应发数量')
+        return []
+      }
+
+      //所有有价格的下标
+      const allPriceHasIndex = goodPrice.filter((good) => good.num > 0).map((item) => item.index)
+      //筛选有价格的商品
+      const hasPriceGoods = goodItems.reduce((total, current, currentIndex) => {
+        if (allPriceHasIndex.indexOf(currentIndex) > -1) {
+          return total.concat({ ...current, delivery_num: goodPrice[currentIndex].num })
+        }
+        return total
+      }, [])
+
+      return hasPriceGoods
+    }
+  }
+
+  //处理快递公司相关逻辑
+  handleDeliveryCompany = () => {
+    const { error, deliveryValue } = this.state
+
+    if (!deliveryValue.name) {
+      this.setState({
+        error: {
+          ...error,
+          deliveryError: true
+        }
+      })
+      S.toast('请选择快递公司')
+    }
+    return deliveryValue.value
+  }
+
+  //处理快递单号
+  handleDeliveryNo = () => {
+    const { error, deliveryNo } = this.state
+
+    if (!deliveryNo) {
+      this.setState({
+        error: {
+          ...error,
+          deliveryNoError: true
+        }
+      })
+      S.toast('请填写物流公司单号')
+    }
+    return deliveryNo
+  }
+
+  //点击确认发货按钮
+  handleDelivery = () => {
+    const { orderInfo, isWhole, listStatus } = this.state
+    //处理商品相关逻辑
+    const totalItems = this.handlePriceError()
+
+    if (!totalItems.length) {
+      return
+    }
+
+    const delivery_corp = this.handleDeliveryCompany()
+
+    if (!delivery_corp) {
+      return
+    }
+
+    const delivery_code = this.handleDeliveryNo()
+
+    if (!delivery_code) {
+      return
+    }
+    requestCallback(
+      async () => {
+        const data = await api.order.delivery({
+          order_id: orderInfo.order_id,
+          delivery_type: isWhole ? 'batch' : 'sep',
+          delivery_corp,
+          delivery_code,
+          sepInfo: JSON.stringify(totalItems),
+          type: 'new'
+        })
+        return data
+      },
+      '发货成功',
+      () => {
+        let query = {}
+        if (listStatus) {
+          query.listStatus = listStatus
+        }
+        Taro.redirectTo({ url: `/pages/order/list?${qs.stringify(query)}` })
+      }
+    )
   }
 
   render() {
@@ -198,12 +368,15 @@ class OrderDelivery extends Component {
       deliveryVisible,
       deliveryValue,
       deliveryNo,
-      deliveryNoVisible
+      deliveryNoVisible,
+      loading,
+      error,
+      pageType
     } = this.state
 
-    console.log('goodPrice', goodPrice)
-
-    return (
+    return loading ? (
+      <SpLoading>正在加载...</SpLoading>
+    ) : (
       <View className='page-order-delivery' style={getThemeStyle()}>
         <MessageCard
           className='margin-top'
@@ -227,9 +400,10 @@ class OrderDelivery extends Component {
               <SpGoodItem
                 // onClick={onGoodItemClick}
                 goodInfo={goodItem}
+                errorGoodIds={error.itemError}
                 orderInfo={orderInfo}
                 className='goodItem'
-                pageType='orderDetail'
+                pageType={pageType}
                 key={index}
                 renderInputNumber={!isWhole}
                 inputnumber={goodPrice[index].num}
@@ -270,12 +444,14 @@ class OrderDelivery extends Component {
             label='快递公司'
             placeholder='请选择快递公司'
             value={deliveryValue?.name}
+            error={error.deliveryError}
             onClickValue={this.handleClickDelivery}
           />
           <SpFormItem
             label='物流单号'
             placeholder='请填写物流公司单号'
             value={deliveryNo}
+            error={error.deliveryNoError}
             onClickValue={this.handleClickDeliveryNo}
           />
         </View>
@@ -295,8 +471,15 @@ class OrderDelivery extends Component {
           onCancel={this.handleCloseNo}
         />
 
+        <SpToast />
+
         <FixedAction>
-          <CommonButton text='确认发货' type='primary' size='normal' />
+          <CommonButton
+            text='确认发货'
+            type='primary'
+            size='normal'
+            onClick={this.handleDelivery}
+          />
         </FixedAction>
       </View>
     )
