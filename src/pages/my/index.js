@@ -20,7 +20,7 @@ export default class My extends Component {
       distributors: null
     }
   }
-  componentDidMount() {
+  componentDidShow() {
     this.getMyInfoHandle()
   }
   async getMyInfoHandle() {
