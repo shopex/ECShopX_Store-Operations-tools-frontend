@@ -20,8 +20,8 @@ export default class My extends Component {
       distributors: null
     }
   }
-  componentDidMount() {
-    this.getMyInfoHandle()
+  componentDidShow() {
+    this.getConfig()
   }
   async getMyInfoHandle() {
     const obj = {

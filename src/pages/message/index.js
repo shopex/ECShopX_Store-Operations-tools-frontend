@@ -59,6 +59,9 @@ export default class Message extends PureComponent {
   componentDidMount() {
     this.getConfig()
   }
+  componentDidShow() {
+    this.getConfig()
+  }
   // 滑动事件
   onscrollPage(e) {
     console.log(e.detail.scrollTop)
