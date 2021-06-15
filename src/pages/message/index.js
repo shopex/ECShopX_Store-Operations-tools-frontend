@@ -66,7 +66,6 @@ export default class Message extends PureComponent {
 
   async getConfig() {
     let { distributor_id } = this.props.planSelection
-    distributor_id = distributor_id ? distributor_id : '102'
     const result = await api.message.getMessageList({ distributor_id })
     console.log(result)
     this.setState({

@@ -21,7 +21,7 @@ export default class My extends Component {
     }
   }
   componentDidShow() {
-    this.getConfig()
+    this.getMyInfoHandle()
   }
   async getMyInfoHandle() {
     const obj = {
