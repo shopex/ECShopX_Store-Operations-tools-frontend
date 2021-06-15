@@ -30,7 +30,10 @@ export default class SpEditForm extends Component {
   onSubmit(event) {
     console.log(this.state.value)
   }
-  openPicker() {
+
+  async openPicker() {
+    const result = await api.address.areaList()
+    console.log(result)
     console.log(1)
   }
   componentDidMount() {}
