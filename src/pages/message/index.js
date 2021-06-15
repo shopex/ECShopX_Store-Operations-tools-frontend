@@ -56,9 +56,6 @@ export default class Message extends PureComponent {
       messageData: {}
     }
   }
-  componentDidMount() {
-    this.getConfig()
-  }
   componentDidShow() {
     this.getConfig()
   }
