@@ -24,8 +24,7 @@
         }
 
         .taro-textarea {
-          resize: none;
-
+          resize: none; 
         }
 
         .taro-textarea::-webkit-input-placeholder {
@@ -37,6 +36,7 @@
   }
 
   .action-modal {
+    z-index: 500;
     .at-modal__container {
       top: 40%;
       border-radius: 8px;

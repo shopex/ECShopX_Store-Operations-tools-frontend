@@ -20,5 +20,6 @@ export { default as SpChangeWL } from './sp-changeWL'
 export { default as SpDrawer } from './sp-drawer'
 export { default as SpFormItem } from './sp-form-item'
 export { default as SpDialogBox } from './sp-dialogBox'
+export { default as SpInputNumber } from './sp-input-number'
 
 export default {}
