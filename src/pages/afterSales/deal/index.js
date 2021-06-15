@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
 import { getCurrentInstance } from '@tarojs/taro'
-import { SpLoading, SpFormItem } from '@/components'
+import { getThemeStyle } from '@/utils'
+import { SpLoading, SpFormItem, SpInputNumber } from '@/components'
 import RefuseTextarea from './comps/RefuseTextarea'
-import WritePriceArea from './comps/WritePriceArea'
-import { OrderRadio } from '@/components/sp-page-components'
+import { OrderRadio, FixedAction, CommonButton } from '@/components/sp-page-components'
 import api from '@/api'
 import './index.scss'
 
@@ -14,7 +14,9 @@ export default class OrderDeal extends PureComponent {
     this.state = {
       status: '',
       isApprove: false,
-      refuseReason: ''
+      refuseReason: '',
+      afterSalesInfo: {},
+      price: {}
     }
   }
 
@@ -25,10 +27,19 @@ export default class OrderDeal extends PureComponent {
       }
     } = getCurrentInstance()
 
-    const { aftersales_type } = await api.afterSales.detail({ no: aftersalesNo })
+    const afterSalesInfo = await api.afterSales.detail({ no: aftersalesNo })
 
     this.setState({
-      status: aftersales_type
+      afterSalesInfo,
+      status: afterSalesInfo.aftersales_type,
+      price: {
+        price: afterSalesInfo.refund_fee,
+        point: afterSalesInfo.refund_point,
+        maxPrice: afterSalesInfo.refund_fee,
+        maxPoint: afterSalesInfo.refund_point,
+        priceError: false,
+        pointError: false
+      }
     })
   }
 
@@ -44,13 +55,35 @@ export default class OrderDeal extends PureComponent {
     })
   }
 
+  handleChangePrice = (price) => {
+    this.setState({
+      price: {
+        ...this.state.price,
+        price: Number(price)
+      }
+    })
+  }
+
+  handleChangePoint = (point) => {
+    this.setState({
+      price: {
+        ...this.state.price,
+        point: Number(point)
+      }
+    })
+  }
+
+  handleSubmit = () => {}
+
   render() {
-    const { status, loading, isApprove } = this.state
+    const { status, loading, isApprove, afterSalesInfo, price } = this.state
+
+    console.log('price', price)
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
     ) : (
-      <View className='page-order-deal'>
+      <View className='page-order-deal' style={getThemeStyle()}>
         <SpFormItem label='处理结果'>
           <OrderRadio
             leftTitle='拒绝'
@@ -64,7 +97,32 @@ export default class OrderDeal extends PureComponent {
           <View className='marginTop24'>
             {isApprove && (
               <SpFormItem label='处理方案' className='formItemPrice' wrap>
-                <WritePriceArea />
+                <View className='page-order-deal-comps-writepricearea'>
+                  <View className='form-price'>
+                    <View className='labelc'>退款金额（元）</View>
+                    <View className='value'>
+                      <SpInputNumber
+                        placeholder='请填写金额'
+                        clear
+                        error={price.priceError}
+                        value={price.price}
+                        onChange={this.handleChangePrice}
+                      />
+                    </View>
+                  </View>
+                  <View className='form-price marginTop16'>
+                    <View className='labelc'>退款积分（分）</View>
+                    <View className='value'>
+                      <SpInputNumber
+                        placeholder='请填写积分'
+                        clear
+                        error={price.pointError}
+                        value={price.point}
+                        onChange={this.handleChangePoint}
+                      />
+                    </View>
+                  </View>
+                </View>
               </SpFormItem>
             )}
             {!isApprove && (
@@ -74,6 +132,10 @@ export default class OrderDeal extends PureComponent {
             )}
           </View>
         )}
+
+        <FixedAction>
+          <CommonButton text='提交审核' type='primary' size='normal' onClick={this.handleSubmit} />
+        </FixedAction>
       </View>
     )
   }

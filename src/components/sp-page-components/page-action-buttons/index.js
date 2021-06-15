@@ -100,7 +100,7 @@ class PageActionButtons extends PureComponent {
   handleClickCheck = () => {
     const { orderInfo } = this.props
     //处理售后
-    Taro.redirectTo({ url: `/pages/afterSales/deal?aftersalesNo=${orderInfo.aftersales_bn}` })
+    Taro.navigateTo({ url: `/pages/afterSales/deal?aftersalesNo=${orderInfo.aftersales_bn}` })
   }
 
   //点击发货按钮
@@ -112,7 +112,7 @@ class PageActionButtons extends PureComponent {
     if (mainStatus && mainStatus.value) {
       query.listStatus = mainStatus.value
     }
-    Taro.redirectTo({ url: `/pages/order/delivery?${qs.stringify(query)}` })
+    Taro.navigateTo({ url: `/pages/order/delivery?${qs.stringify(query)}` })
   }
 
   //点击备注按钮

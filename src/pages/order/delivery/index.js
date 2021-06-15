@@ -350,7 +350,7 @@ class OrderDelivery extends Component {
         if (listStatus) {
           query.listStatus = listStatus
         }
-        Taro.redirectTo({ url: `/pages/order/list?${qs.stringify(query)}` })
+        Taro.navigateTo({ url: `/pages/order/list?${qs.stringify(query)}` })
       }
     )
   }
@@ -391,7 +391,7 @@ class OrderDelivery extends Component {
           <View className='order-detail-title'>
             <View className='text'>发货方式</View>
             <View className='status'>
-              <OrderRadio onChange={this.radioChange} />
+              <OrderRadio onChange={this.radioChange} active={isWhole ? 0 : 1} />
             </View>
           </View>
 
