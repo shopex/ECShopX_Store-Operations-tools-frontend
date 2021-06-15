@@ -3,6 +3,23 @@
     position:relative;
     padding: 20px 5px;
     box-sizing: border-box;
+
+    &.error{
+        &::before{
+            height: 2px;
+            background: $danger-color;
+        }
+        &:after{
+            border-bottom: 2px solid $danger-color;
+        }
+        .tips{
+            color:$danger-color;
+            position: absolute;
+            bottom: -20px;
+            font-size: 28px;
+            font-weight: 400;
+        }
+    }
  
     &::before{
         display: block;
@@ -44,6 +61,7 @@
         position: absolute;
         top: 18px;
         pointer-events: none;
-    }
+    } 
+
    
 }

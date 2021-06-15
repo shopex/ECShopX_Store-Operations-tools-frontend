@@ -32,14 +32,15 @@ export default class SpInputNumber extends PureComponent {
   }
 
   render() {
-    const { placeholder, clear, value } = this.props
+    const { placeholder, clear, value, error } = this.props
 
     const { active } = this.state
 
     return (
       <View
         className={classNames('sp-input-number', {
-          ['active']: active
+          ['active']: active,
+          ['error']: error
         })}
       >
         <Input
@@ -57,6 +58,7 @@ export default class SpInputNumber extends PureComponent {
             <Text className='iconfont '></Text>
           </View>
         )}
+        {error && <View className='tips'>{error}</View>}
       </View>
     )
   }

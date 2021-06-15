@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
 import { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle } from '@/utils'
-import { SpLoading, SpFormItem, SpInputNumber } from '@/components'
+import { SpLoading, SpFormItem, SpInputNumber, SpToast } from '@/components'
 import RefuseTextarea from './comps/RefuseTextarea'
+import S from '@/spx'
 import { OrderRadio, FixedAction, CommonButton } from '@/components/sp-page-components'
 import api from '@/api'
 import './index.scss'
@@ -73,7 +74,43 @@ export default class OrderDeal extends PureComponent {
     })
   }
 
-  handleSubmit = () => {}
+  //提交
+  handleSubmit = () => {
+    console.log('handleSubmit')
+    this.handleValidInput()
+  }
+
+  //验证输入
+  handleValidInput = () => {
+    const { status, isApprove, refuseReason, price } = this.state
+    if (status === 'ONLY_REFUND') {
+      //如果是同意
+      if (isApprove) {
+        if (price.price === 0 && price.maxPrice !== 0) {
+          this.setState({
+            price: {
+              ...price,
+              priceError: '退款金额不能为空'
+            }
+          })
+          return
+        } else if (price.point === 0 && price.maxPoint !== 0) {
+          this.setState({
+            price: {
+              ...price,
+              pointError: '退款积分不能为空'
+            }
+          })
+          return
+        }
+      } else {
+        if (!refuseReason) {
+          S.toast('请选择拒绝原因')
+          return
+        }
+      }
+    }
+  }
 
   render() {
     const { status, loading, isApprove, afterSalesInfo, price } = this.state
@@ -132,6 +169,8 @@ export default class OrderDeal extends PureComponent {
             )}
           </View>
         )}
+
+        <SpToast />
 
         <FixedAction>
           <CommonButton text='提交审核' type='primary' size='normal' onClick={this.handleSubmit} />
