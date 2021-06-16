@@ -4,7 +4,7 @@ import { showToast } from '@/utils'
 import api from '@/api'
 import { SpAddress, SpEditForm } from '@/components'
 import './index.scss'
-import { AtButton } from 'taro-ui'
+import { AtButton, AtFloatLayout } from 'taro-ui'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
 const logo = require('../../assets/imgs/1.jpg')
@@ -15,7 +15,8 @@ export default class Address extends Component {
   constructor() {
     super()
     this.state = {
-      addressList: null
+      addressList: null,
+      isShow: false
     }
   }
   componentDidMount() {
@@ -37,7 +38,14 @@ export default class Address extends Component {
     console.log(result)
   }
   incrementAddress() {
-    console.log(123)
+    this.setState({
+      isShow: true
+    })
+  }
+  isShowEditHandle() {
+    this.setState({
+      isShow: false
+    })
   }
 
   render() {
@@ -45,7 +53,10 @@ export default class Address extends Component {
       <View className='page-address'>
         <View className='nav'>
           <View className='left'>我的售后地址</View>
-          <View className='iconfont icon-xinzengdizhi right' onClick={this.incrementAddress}>
+          <View
+            className='iconfont icon-xinzengdizhi right'
+            onClick={(e) => this.incrementAddress()}
+          >
             {' '}
             新增地址
           </View>
@@ -59,8 +70,9 @@ export default class Address extends Component {
         <View className='confirm'>
           <View className='btn'>选择此地址</View>
         </View>
-
-        <SpEditForm></SpEditForm>
+        <AtFloatLayout isOpened={this.state.isShow}>
+          <SpEditForm isShowEditHandle={(e) => this.isShowEditHandle()}></SpEditForm>
+        </AtFloatLayout>
       </View>
     )
   }

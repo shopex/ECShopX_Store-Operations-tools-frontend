@@ -1,5 +1,5 @@
 import { PureComponent } from 'react'
-import { View, Image, Text, Picker } from '@tarojs/components'
+import { View, Image, Text, Picker, ScrollView } from '@tarojs/components'
 import api from '@/api'
 import './index.scss'
 import Taro from '@tarojs/taro'
@@ -8,32 +8,168 @@ import { AtList, AtListItem } from 'taro-ui'
 export default class ChangeWL extends PureComponent {
   constructor(props) {
     super(props)
+    console.log(props)
     this.state = {
-      selector: ['美国', '中国', '巴西', '日本'],
-      selectorChecked: '美国',
-      timeSel: '12:01',
-      dateSel: '2018-04-22'
+      province: '',
+      city: '',
+      area: '',
+      cityList: null,
+      areaList: null,
+      seletedItem: null
+      // selectList:props.selectList
     }
   }
 
+  seletedHanle(item) {
+    let el = document.getElementsByClassName('wrap')
+    console.log(el)
+    for (let index = 0; index < el.length; index++) {
+      el[index].style.display = 'none'
+    }
+    // console.log(item)
+    this.setState({
+      province: item.label,
+      cityList: item.children
+    })
+    el[1].style.display = 'block'
+  }
+  seletedCityHanle(item) {
+    let el = document.getElementsByClassName('wrap')
+    console.log(el)
+    for (let index = 0; index < el.length; index++) {
+      el[index].style.display = 'none'
+    }
+    this.setState({
+      city: item.label,
+      areaList: item.children
+    })
+    el[2].style.display = 'block'
+  }
+
+  seletedAreaHanle(item) {
+    this.setState({
+      area: item.label,
+      seletedItem: item
+    })
+  }
+
+  seletedprimary(id) {
+    let el = document.getElementsByClassName('wrap')
+    console.log(el)
+    for (let index = 0; index < el.length; index++) {
+      el[index].style.display = 'none'
+    }
+    if (id == 0) {
+      this.setState({
+        province: '',
+        city: '',
+        area: ''
+      })
+    } else if (id == 1) {
+      this.setState({
+        city: '',
+        area: ''
+      })
+    }
+
+    el[id].style.display = 'block'
+  }
+
   render() {
+    const { province, city, area, cityList, areaList, seletedItem } = this.state
+    const { selectList, isShowHandle, getCityHandle } = this.props
     return (
       <View className='cpn-picker'>
         <View className='cover'>
           <View className='bar'>
-            <View className='left'>取消</View>
-            <View className='center'>选择快递公司</View>
-            <View className='right'>确定</View>
+            <View className='left' onClick={isShowHandle}>
+              取消
+            </View>
+            <View className='center'>
+              <View className='title'>所在区域</View>
+              <View className='subtitle'>请选择您所在的省份、城市、区县</View>
+            </View>
+            <View
+              className='right'
+              onClick={(e) => getCityHandle(province, city, area, seletedItem)}
+            >
+              确定
+            </View>
           </View>
           <View className='content'>
-            <Picker mode='selector' range={this.state.selector} onChange={this.onChange}>
-              <AtList>
-                <AtListItem title='国家地区' extraText={this.state.selectorChecked} />
-              </AtList>
-            </Picker>
-            <Picker mode='selector' range={this.state.selector} onChange={this.onChange}>
-              <View className='picker'>当前选择：{this.state.selectorChecked}</View>
-            </Picker>
+            <View className='primary'>
+              <View className='primaryBox'>
+                {province ? (
+                  <View className='seleted' onClick={(e) => this.seletedprimary(0)}>
+                    {province}
+                  </View>
+                ) : (
+                  <View className='select'>请选择</View>
+                )}
+              </View>
+
+              <View className='primaryBox'>
+                {province ? (
+                  city ? (
+                    <View className='seleted' onClick={(e) => this.seletedprimary(1)}>
+                      {city}
+                    </View>
+                  ) : (
+                    <View className='select'>请选择</View>
+                  )
+                ) : null}
+              </View>
+
+              <View className='primaryBox'>
+                {city ? (
+                  area ? (
+                    <View className='seleted'>{area}</View>
+                  ) : (
+                    <View className='select'>请选择</View>
+                  )
+                ) : null}
+              </View>
+            </View>
+            <ScrollView className='wrap show'>
+              {selectList &&
+                selectList.map((item) => {
+                  return (
+                    <View
+                      key={item.label}
+                      className={'item ' + (item.label == province && 'active')}
+                      onClick={(e) => this.seletedHanle(item, 0)}
+                    >
+                      {item.label}
+                    </View>
+                  )
+                })}
+            </ScrollView>
+            <ScrollView className='wrap'>
+              {cityList &&
+                cityList.map((item) => {
+                  return (
+                    <View
+                      className={'item ' + (item.label == city && 'active')}
+                      onClick={(e) => this.seletedCityHanle(item)}
+                    >
+                      {item.label}
+                    </View>
+                  )
+                })}
+            </ScrollView>
+            <ScrollView className='wrap'>
+              {areaList &&
+                areaList.map((item) => {
+                  return (
+                    <View
+                      className={'item ' + (item.label == area && 'active')}
+                      onClick={(e) => this.seletedAreaHanle(item)}
+                    >
+                      {item.label}
+                    </View>
+                  )
+                })}
+            </ScrollView>
           </View>
         </View>
       </View>
