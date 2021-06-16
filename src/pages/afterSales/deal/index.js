@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
 import { getCurrentInstance } from '@tarojs/taro'
-import { getThemeStyle } from '@/utils'
+import { getThemeStyle, requestCallback } from '@/utils'
 import { SpLoading, SpFormItem, SpInputNumber, SpToast } from '@/components'
 import RefuseTextarea from './comps/RefuseTextarea'
 import S from '@/spx'
@@ -57,27 +57,78 @@ export default class OrderDeal extends PureComponent {
   }
 
   handleChangePrice = (price) => {
-    this.setState({
-      price: {
-        ...this.state.price,
-        price: Number(price)
+    this.setState(
+      {
+        price: {
+          ...this.state.price,
+          price: Number(price)
+        }
+      },
+      () => {
+        if (
+          (Number(price) > 0 && this.state.price.maxPrice !== 0) ||
+          Number(price) <= this.state.price.maxPrice
+        ) {
+          this.setState({
+            price: {
+              ...this.state.price,
+              priceError: false
+            }
+          })
+        }
       }
-    })
+    )
   }
 
   handleChangePoint = (point) => {
-    this.setState({
-      price: {
-        ...this.state.price,
-        point: Number(point)
+    this.setState(
+      {
+        price: {
+          ...this.state.price,
+          point: Number(point)
+        }
+      },
+      () => {
+        if (
+          (Number(point) > 0 && this.state.price.maxPoint !== 0) ||
+          Number(point) <= this.state.price.maxPoint
+        ) {
+          this.setState({
+            price: {
+              ...this.state.price,
+              pointError: false
+            }
+          })
+        }
       }
-    })
+    )
   }
 
   //提交
   handleSubmit = () => {
-    console.log('handleSubmit')
-    this.handleValidInput()
+    const { afterSalesInfo, isApprove, refuseReason, price } = this.state
+
+    let isValid = this.handleValidInput()
+
+    if (isValid) {
+      console.log('handleSubmit')
+      requestCallback(
+        async () => {
+          const data = await api.afterSales.review({
+            aftersales_bn: afterSalesInfo.aftersales_bn,
+            is_approved: isApprove ? 1 : 0,
+            refuse_reason: isApprove ? undefined : refuseReason,
+            refund_fee: price.price,
+            refund_point: price.point
+          })
+          return data
+        },
+        '审核成功',
+        () => {
+          Taro.navigateTo({ url: `/pages/afterSales/list` })
+        }
+      )
+    }
   }
 
   //验证输入
@@ -102,14 +153,32 @@ export default class OrderDeal extends PureComponent {
             }
           })
           return
+        } else if (price.point > price.maxPoint) {
+          this.setState({
+            price: {
+              ...price,
+              pointError: '退款积分不能大于最大退款积分'
+            }
+          })
+          return
+        } else if (price.price > price.maxPrice) {
+          this.setState({
+            price: {
+              ...price,
+              priceError: '退款金额不能大于最大退款金额'
+            }
+          })
+          return
         }
       } else {
         if (!refuseReason) {
-          S.toast('请选择拒绝原因')
+          S.toast('请填写拒绝原因')
           return
         }
       }
     }
+
+    return true
   }
 
   render() {
@@ -147,7 +216,7 @@ export default class OrderDeal extends PureComponent {
                       />
                     </View>
                   </View>
-                  <View className='form-price marginTop16'>
+                  <View className='form-price marginTop20'>
                     <View className='labelc'>退款积分（分）</View>
                     <View className='value'>
                       <SpInputNumber
