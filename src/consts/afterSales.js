@@ -31,8 +31,8 @@ export const FILTER_TIME = {
 export const AFTERSALES_TYPE = {
   'all': '全部',
   'ONLY_REFUND': '仅退款',
-  'REFUND_GOODS': '退货退款',
-  'EXCHANGING_GOODS': '换货'
+  'REFUND_GOODS': '退货退款'
+  // 'EXCHANGING_GOODS': '换货'
 }
 
 export const DETAIL_ICON = {

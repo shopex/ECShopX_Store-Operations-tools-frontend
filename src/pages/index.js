@@ -59,6 +59,12 @@ class Index extends PureComponent {
     console.log(123)
   }
 
+  goAfterSalesPageHandle = () => {
+    Taro.navigateTo({
+      url: '/pages/afterSales/list'
+    })
+  }
+
   async handleOnScanQRCode() {
     const res = await qwsdk.scanQRCode()
     console.log(res)
@@ -154,7 +160,7 @@ class Index extends PureComponent {
                 </View>
                 <View className='subtitle'>订单</View>
               </View>
-              <View className='item'>
+              <View className='item' onClick={this.goAfterSalesPageHandle}>
                 <View>
                   <Image className='img' src={require('@/assets/imgs/index/shouhou.svg')}></Image>
                 </View>

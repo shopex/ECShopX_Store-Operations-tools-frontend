@@ -63,9 +63,9 @@ export default class List extends PureComponent {
       params['order_by'] = orderBy
     }
 
-    if (filterParams.orderClass) {
-      if (filterParams.orderClass !== 'all') {
-        params['order_class'] = filterParams.orderClass
+    if (filterParams.aftersalesType) {
+      if (filterParams.aftersalesType !== 'all') {
+        params['aftersales_type'] = filterParams.aftersalesType
       }
     }
 
@@ -73,9 +73,8 @@ export default class List extends PureComponent {
       params['receipt_type'] = filterParams.receiptType
     }
 
-    if (filterParams.orderTime) {
-      let timeArr = calculateTimestamp(filterParams.orderTime)
-      console.log('filterParams.orderTime', timeArr)
+    if (filterParams.createTime) {
+      let timeArr = calculateTimestamp(filterParams.createTime)
       if (timeArr.length) {
         params['time_start_begin'] = timeArr[0]
         params['time_start_end'] = timeArr[1]

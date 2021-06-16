@@ -14,3 +14,8 @@ export function detail(params) {
 export function review(params) {
   return req.post(`/aftersales/review`, params)
 }
+
+//售后地址
+export function address(params) {
+  return req.post(`/distributors/aftersalesaddress`, params)
+}

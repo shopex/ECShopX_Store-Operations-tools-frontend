@@ -30,6 +30,10 @@ export default class OrderDeal extends PureComponent {
 
     const afterSalesInfo = await api.afterSales.detail({ no: aftersalesNo })
 
+    // const addressList=await api.afterSales.address({page:1,page_size:10})
+
+    // console.log("addressList",addressList)
+
     this.setState({
       afterSalesInfo,
       status: afterSalesInfo.aftersales_type,
@@ -184,7 +188,7 @@ export default class OrderDeal extends PureComponent {
   render() {
     const { status, loading, isApprove, afterSalesInfo, price } = this.state
 
-    console.log('price', price)
+    console.log('status', status)
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
@@ -231,12 +235,19 @@ export default class OrderDeal extends PureComponent {
                 </View>
               </SpFormItem>
             )}
-            {!isApprove && (
-              <SpFormItem label='拒绝原因' className='formItemRefuse' wrap>
-                <RefuseTextarea onChange={this.handleChangeRefuseReason} />
-              </SpFormItem>
-            )}
           </View>
+        )}
+
+        {status === 'REFUND_GOODS' && afterSalesInfo.progress === 0 && (
+          <View className='marginTop24'>
+            {isApprove && <SpFormItem label='回寄地址' placeholder='请选择售后地址'></SpFormItem>}
+          </View>
+        )}
+
+        {!isApprove && (
+          <SpFormItem label='拒绝原因' className='formItemRefuse marginTop24' wrap>
+            <RefuseTextarea onChange={this.handleChangeRefuseReason} />
+          </SpFormItem>
         )}
 
         <SpToast />
