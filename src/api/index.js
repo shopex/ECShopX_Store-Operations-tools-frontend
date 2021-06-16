@@ -7,6 +7,7 @@ import * as planSelection from './planSelection'
 import * as my from './my'
 import * as logistics from './logistics'
 import * as address from './address'
+import * as afterSales from './afterSales'
 
 export default {
   auth,
@@ -17,5 +18,6 @@ export default {
   my,
   home,
   logistics,
-  address
+  address,
+  afterSales
 }

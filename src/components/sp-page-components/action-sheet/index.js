@@ -30,14 +30,6 @@ class SpActionSheet extends PureComponent {
       type = 'normal'
     } = this.props
 
-    const { selector } = this.state
-
-    // if(type==='picker'){
-    //     return <Picker  mode='selector' range={selector} onChange={this.handleChangePicker} className={classNames('sp-action-sheet', className)}>
-    //         {children}
-    //     </Picker>
-    // }
-
     return (
       <AtFloatLayout
         isOpened={visible}

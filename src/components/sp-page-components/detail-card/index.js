@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { classNames } from '@/utils'
+import { OrderIcon } from '@/components/sp-page-components'
 import { View } from '@tarojs/components'
 import './index.scss'
 
@@ -18,7 +19,7 @@ class DetailCard extends PureComponent {
           <View className='main'>{status}</View>
           <View className='sub'>{subStatus}</View>
         </View>
-        <View className={classNames('iconfont', 'icon', iconClassName)}></View>
+        <OrderIcon status={iconClassName} className='icon' />
       </View>
     )
   }

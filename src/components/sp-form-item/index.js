@@ -10,16 +10,25 @@ export default class SpFormItem extends PureComponent {
   }
 
   render() {
-    const { label = '这是一个label', value = '', onClickValue = () => {}, placeholder } = this.props
+    const {
+      label = '这是一个label',
+      value = '',
+      onClickValue = () => {},
+      placeholder,
+      error,
+      children,
+      wrap,
+      className
+    } = this.props
 
     return (
-      <View className={classNames('sp-component-form-item')}>
+      <View className={classNames('sp-component-form-item', className, { ['wrap']: wrap })}>
         <View className='label'>{label}</View>
         <View
-          className={classNames('placeholder', { ['has-value']: value })}
+          className={classNames('placeholder', { ['has-value']: value, ['error']: error })}
           onClick={onClickValue}
         >
-          {value ? value : placeholder}
+          {children ? children : value ? value : placeholder}
         </View>
       </View>
     )

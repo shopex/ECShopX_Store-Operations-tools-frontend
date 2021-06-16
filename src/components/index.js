@@ -23,5 +23,6 @@ export { default as SpFormItem } from './sp-form-item'
 export { default as SpDialogBox } from './sp-dialogBox'
 export { default as SpAddress } from './sp-address'
 export { default as SpEditForm } from './sp-editForm'
+export { default as SpInputNumber } from './sp-input-number'
 
 export default {}
