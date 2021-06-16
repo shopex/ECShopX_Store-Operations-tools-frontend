@@ -62,7 +62,7 @@ export default class List extends PureComponent {
       params[inputParams.value] = inputValue
     }
 
-    if (mainStatus) {
+    if (mainStatus && mainStatus.value !== 'all') {
       params['main_status'] = mainStatus.value
     }
 
@@ -82,7 +82,6 @@ export default class List extends PureComponent {
 
     if (filterParams.orderTime) {
       let timeArr = calculateTimestamp(filterParams.orderTime)
-      console.log('filterParams.orderTime', timeArr)
       if (timeArr.length) {
         params['time_start_begin'] = timeArr[0]
         params['time_start_end'] = timeArr[1]
