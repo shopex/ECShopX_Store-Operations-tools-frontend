@@ -7,6 +7,7 @@
     display: inline-flex;
     margin-left: 20px;
     white-space: nowrap;
+    align-items: center;
   }
 
   .cancel-action {
@@ -147,6 +148,24 @@
               right: 60px;
               height: 10px;
               justify-content: space-between;
+
+              &.hasError{
+                .bottom_line{
+                  background-color: $danger-color;
+
+                  &.active {
+                    background-color: $danger-color;
+                  }
+                }
+                .error{
+                  color:$danger-color;
+                  font-size: 24px;
+                  font-weight: 400;
+                  position: absolute;
+                  left:0;
+                  bottom:-38px;
+                }
+              }
 
               .bottom_line {
 
