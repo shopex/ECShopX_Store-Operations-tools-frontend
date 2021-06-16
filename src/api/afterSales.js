@@ -12,5 +12,5 @@ export function detail(params) {
 
 //售后审核
 export function review(params) {
-  return req.get(`/aftersales/review`, params)
+  return req.post(`/aftersales/review`, params)
 }
