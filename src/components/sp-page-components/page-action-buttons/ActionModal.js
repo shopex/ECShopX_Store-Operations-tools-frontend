@@ -45,7 +45,7 @@ export default class ActionModal extends PureComponent {
       childrenNode = (
         <View className='phoneContent'>
           <View className='item item1'>拨打电话</View>
-          <View className='item item2'>{orderInfo.receiver_mobile}</View>
+          <View className='item item2'>{orderInfo.mobile}</View>
         </View>
       )
     } else if (type === 'cancelOrder') {
@@ -112,8 +112,9 @@ export default class ActionModal extends PureComponent {
 
   //拨打电话
   handleCallPhonenumber = () => {
+    const { mobile } = this.props
     Taro.makePhoneCall({
-      phoneNumber: '15397363675'
+      phoneNumber: mobile
     })
   }
 

@@ -239,7 +239,7 @@ export default class List extends PureComponent {
 
   //点击商品列表
   handleClickGoodItem = (goodInfo) => {
-    Taro.redirectTo({ url: `/pages/order/detail?order_id=${goodInfo.order_id}` })
+    Taro.navigateTo({ url: `/pages/order/detail?order_id=${goodInfo.order_id}` })
   }
 
   //点击操作按钮
