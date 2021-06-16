@@ -93,6 +93,8 @@ class PageActionButtons extends PureComponent {
       this.handleClickDelivery()
     } else if (buttonType === 'check') {
       this.handleClickCheck()
+    } else if (buttonType === 'consume') {
+      this.handleConsume()
     }
     onClick()
   }
@@ -136,6 +138,14 @@ class PageActionButtons extends PureComponent {
       noteVisible: false
     })
     this.handleCloseButtonActions()
+  }
+
+  //点击核销
+  handleConsume = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'verification'
+    })
   }
 
   //点击联系客户
