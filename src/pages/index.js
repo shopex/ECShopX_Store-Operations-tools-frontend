@@ -38,11 +38,13 @@ class Index extends PureComponent {
     }
   }
   componentDidMount() {
-    this.getConfig()
     const { href } = window.location
     qwsdk.init({
       url: href
     })
+  }
+  componentDidShow() {
+    this.getConfig()
   }
 
   switchHandle() {
@@ -50,10 +52,15 @@ class Index extends PureComponent {
       moneyShow: !this.state.moneyShow
     })
   }
+  goOrderPageHandle() {
+    Taro.navigateTo({
+      url: '/pages/order/list'
+    })
+    console.log(123)
+  }
 
   async handleOnScanQRCode() {
     const res = await qwsdk.scanQRCode()
-    debugger
     console.log(res)
   }
 
@@ -141,7 +148,7 @@ class Index extends PureComponent {
           <View className='func-list'>
             <View className='title'>常用功能</View>
             <View className='list'>
-              <View className='item'>
+              <View className='item' onClick={this.goOrderPageHandle}>
                 <View>
                   <Image className='img' src={require('@/assets/imgs/index/dingdan.svg')}></Image>
                 </View>
