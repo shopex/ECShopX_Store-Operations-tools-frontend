@@ -63,11 +63,11 @@ class SpGoodPrice extends PureComponent {
   }
 
   render() {
-    const { type = 'normal', price, size = '28', point, prefix } = this.props
+    const { className, type = 'normal', price, size = '28', point, prefix } = this.props
 
     return (
       <View
-        className={classNames('sp-good-item-price', {
+        className={classNames('sp-good-item-price', className, {
           [`discount`]: type === 'discount'
         })}
         style={{

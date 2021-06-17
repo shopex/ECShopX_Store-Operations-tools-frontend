@@ -9,3 +9,18 @@ export function list(params) {
 export function detail(params) {
   return req.get(`/aftersales/${params.no}`)
 }
+
+//售后审核
+export function review(params) {
+  return req.post(`/aftersales/review`, params)
+}
+
+//确认收货
+export function confirm(params) {
+  return req.post(`/aftersales/refundCheck`, params)
+}
+
+//售后地址
+export function address(params) {
+  return req.get(`/distributors/aftersalesaddress`, params)
+}

@@ -12,12 +12,21 @@
         padding:28px 32px;
         align-items: flex-start;
         height:auto;
+        position: relative;
 
         .label{
             margin-bottom: 32px;
         }
         .placeholder{
             width: 100%;
+        }
+        .tip{
+            font-weight: 400;
+            color:var(--color-primary);
+            font-size: 28px;
+            position: absolute;
+            right:32px;
+            top:28px;
         }
     }
 

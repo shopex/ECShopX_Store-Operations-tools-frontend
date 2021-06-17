@@ -14,6 +14,8 @@ export default class OrderStatus extends PureComponent {
       return 'warning'
     } else if (msg === '已完成') {
       return 'success'
+    } else if (msg === '已处理') {
+      return 'success'
     } else {
       return 'process'
     }

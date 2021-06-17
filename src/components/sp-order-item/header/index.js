@@ -46,10 +46,6 @@ export default class No extends PureComponent {
   }
 
   render() {
-    const { info } = this.props
-
-    console.log('renderStatus', this.renderStatus())
-
     return (
       <View className='order-header'>
         <View className='order-no'>

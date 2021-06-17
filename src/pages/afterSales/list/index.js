@@ -10,8 +10,11 @@ import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-com
 import { calculateTimestamp } from '@/utils/time'
 import { classNames } from '@/utils'
 import api from '@/api'
+import { connect } from 'react-redux'
 import './index.scss'
-
+@connect(({ planSelection }) => ({
+  planSelection: planSelection.activeShop
+}))
 @withPager
 @withBackToTop
 export default class List extends PureComponent {
@@ -63,9 +66,9 @@ export default class List extends PureComponent {
       params['order_by'] = orderBy
     }
 
-    if (filterParams.orderClass) {
-      if (filterParams.orderClass !== 'all') {
-        params['order_class'] = filterParams.orderClass
+    if (filterParams.aftersalesType) {
+      if (filterParams.aftersalesType !== 'all') {
+        params['aftersales_type'] = filterParams.aftersalesType
       }
     }
 
@@ -73,9 +76,8 @@ export default class List extends PureComponent {
       params['receipt_type'] = filterParams.receiptType
     }
 
-    if (filterParams.orderTime) {
-      let timeArr = calculateTimestamp(filterParams.orderTime)
-      console.log('filterParams.orderTime', timeArr)
+    if (filterParams.createTime) {
+      let timeArr = calculateTimestamp(filterParams.createTime)
       if (timeArr.length) {
         params['time_start_begin'] = timeArr[0]
         params['time_start_end'] = timeArr[1]
@@ -143,9 +145,11 @@ export default class List extends PureComponent {
 
   //获取订单列表
   getOrdersList = async (params) => {
+    let { distributor_id } = this.props.planSelection
     const { list, total_count: total } = await api.afterSales.list({
       page: params.page_no,
       pageSize: params.page_size,
+      distributor_id,
       ...this.getOrderParams()
     })
     this.setState({
@@ -229,7 +233,7 @@ export default class List extends PureComponent {
 
   //点击商品列表
   handleClickGoodItem = (goodInfo) => {
-    Taro.redirectTo({ url: `/pages/order/detail?order_id=${goodInfo.order_id}` })
+    Taro.navigateTo({ url: `/pages/afterSales/detail?aftersalesNo=${goodInfo.aftersales_bn}` })
   }
 
   //点击操作按钮

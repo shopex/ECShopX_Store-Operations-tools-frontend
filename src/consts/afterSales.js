@@ -31,6 +31,19 @@ export const FILTER_TIME = {
 export const AFTERSALES_TYPE = {
   'all': '全部',
   'ONLY_REFUND': '仅退款',
-  'REFUND_GOODS': '退货退款',
-  'EXCHANGING_GOODS': '换货'
+  'REFUND_GOODS': '退货退款'
+  // 'EXCHANGING_GOODS': '换货'
+}
+
+export const DETAIL_ICON = {
+  0: 'icon-daichuli-01',
+  1: 'icon-daijihui-01',
+  2: 'icon-daiquerenshouhuo-01',
+  3: 'icon-yibohui-01',
+  4: 'icon-yichuli-01',
+  5: 'icon-yibohui-01',
+  6: 'icon-yichuli-01',
+  7: 'icon-chehui-01',
+  8: 'icon-daituikuan-01',
+  9: 'icon-tuikuanzhong-01'
 }

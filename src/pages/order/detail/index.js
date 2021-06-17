@@ -61,7 +61,7 @@ class OrderDetail extends Component {
   //得出发货时间
   getLogistics = async () => {
     const { orderInfo } = this.state
-    const list = await api.logistics.getCourierCompanyList({ orderId: orderInfo.order_id })
+    const list = await api.logistics.getDeliveryList({ order_id: orderInfo.order_id })
     this.setState({
       logisticsList: list
     })
@@ -275,6 +275,14 @@ class OrderDetail extends Component {
     return <SpGoodPrice height={24} price={totalFee} isSame color='red' />
   }
 
+  //查看物流详情
+  viewDeliveryDetail = () => {
+    const {
+      orderInfo: { order_id }
+    } = this.state
+    Taro.navigateTo({ url: `/pages/logisticsInfo/index?order_id=${order_id}` })
+  }
+
   render() {
     const {
       orderInfo,
@@ -306,7 +314,7 @@ class OrderDetail extends Component {
             <View className='title'>{this.renderLogiticsTitle()}</View>
             <View className='desc'>{this.renderLogiticsDesc()}</View>
           </View>
-          <View className='right'>
+          <View className='right' onClick={this.viewDeliveryDetail}>
             <Text className='iconfont icon-chakan'></Text>
             <Text>查看详情</Text>
           </View>
@@ -368,9 +376,9 @@ class OrderDetail extends Component {
           {tradeInfo.timeExpire && (
             <View className='item'>交易时间：{timestampToTime(tradeInfo.timeExpire)}</View>
           )}
-          {!!logisticsList.length && (
+          {!!logisticsList?.length && (
             <View className='item'>
-              发货时间：{timestampToTime(logisticsList[logisticsList.length - 1].created)}
+              发货时间：{logisticsList[logisticsList?.length - 1].delivery_time}
             </View>
           )}
           {terminal_info && (

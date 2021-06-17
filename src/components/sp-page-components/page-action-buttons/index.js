@@ -38,6 +38,9 @@ class PageActionButtons extends PureComponent {
       case 'orderDetail':
         height = 80
         break
+      case 'afterSalesDetail':
+        height = 80
+        break
       default:
         height = 60
         break
@@ -93,11 +96,21 @@ class PageActionButtons extends PureComponent {
       this.handleClickDelivery()
     } else if (buttonType === 'check') {
       this.handleClickCheck()
+    } else if (buttonType === 'consume') {
+      this.handleConsume()
+    } else if (buttonType === 'confirm') {
+      this.handleConfirm()
     }
     onClick()
   }
 
   handleClickCheck = () => {
+    const { orderInfo } = this.props
+    //处理售后
+    Taro.navigateTo({ url: `/pages/afterSales/deal?aftersalesNo=${orderInfo.aftersales_bn}` })
+  }
+
+  handleConfirm = () => {
     const { orderInfo } = this.props
     //处理售后
     Taro.navigateTo({ url: `/pages/afterSales/deal?aftersalesNo=${orderInfo.aftersales_bn}` })
@@ -136,6 +149,14 @@ class PageActionButtons extends PureComponent {
       noteVisible: false
     })
     this.handleCloseButtonActions()
+  }
+
+  //点击核销
+  handleConsume = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'verification'
+    })
   }
 
   //点击联系客户

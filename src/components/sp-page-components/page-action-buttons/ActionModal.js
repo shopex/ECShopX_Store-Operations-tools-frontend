@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import { Text, View, Input } from '@tarojs/components'
-import { classNames, requestCallback } from '@/utils'
+import { classNames, requestCallback, qwsdk } from '@/utils'
 import { AtModal, AtInput } from 'taro-ui'
 import api from '@/api'
 import './index.scss'
@@ -10,15 +10,62 @@ export default class ActionModal extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      veriCode: ['', '', '', '', '', '']
+      veriCode: ['', '', '', '', '', ''],
+      veriError: false
+    }
+  }
+
+  componentDidMount() {
+    const { href } = window.location
+    const { type } = this.props
+    if (type === 'verification') {
+      qwsdk.init({
+        url: href
+      })
     }
   }
 
   handleChangeInputVericode = (e) => {
+    const { orderInfo } = this.props
     const value = e.detail.value
-    this.setState({
-      veriCode: this.fillSix(value)
-    })
+
+    if (!value) {
+      this.setState({
+        veriError: false
+      })
+    }
+
+    this.setState(
+      {
+        veriCode: this.fillSix(value)
+      },
+      () => {
+        //如果核销码全填
+        if (this.state.veriCode.every((item) => item)) {
+          requestCallback(
+            async () => {
+              console.log('orderInfo', orderInfo)
+              const data = await api.order.writeoff({
+                orderId: orderInfo.order_id,
+                pickupcode: this.state.veriCode.reduce((total, current) => {
+                  return total + current
+                }, '')
+              })
+              return data
+            },
+            '核销订单成功',
+            () => {
+              this.handleClose()
+            },
+            () => {
+              this.setState({
+                veriError: '核销码不存在或有误，请检查！'
+              })
+            }
+          )
+        }
+      }
+    )
   }
 
   fillSix = (value = '') => {
@@ -40,6 +87,8 @@ export default class ActionModal extends PureComponent {
     let childrenNode = null
 
     const { type, orderInfo } = this.props
+
+    const { veriError } = this.state
 
     if (type === 'phone') {
       childrenNode = (
@@ -74,7 +123,11 @@ export default class ActionModal extends PureComponent {
               maxlength={6}
               onInput={this.handleChangeInputVericode}
             />
-            <View className='bottom_line——wrapper'>
+            <View
+              className={classNames('bottom_line——wrapper', {
+                ['hasError']: veriError
+              })}
+            >
               {this.state.veriCode.map((code, index) => (
                 <View
                   className={classNames('bottom_line', {
@@ -85,10 +138,11 @@ export default class ActionModal extends PureComponent {
                   <Text className='number'>{code}</Text>
                 </View>
               ))}
+              {!!veriError && <View className='error'>{veriError}</View>}
             </View>
           </View>
           <View className='bottom'>
-            <View className='wrapper-bottom'>
+            <View className='wrapper-bottom' onClick={this.handleOnScanQRCode}>
               <Text className='iconfont icon-saoma'></Text>
               <Text className='text'>扫一扫</Text>
             </View>
@@ -201,6 +255,30 @@ export default class ActionModal extends PureComponent {
     }
 
     return childrenNode && <View className='action'>{childrenNode}</View>
+  }
+
+  //扫一扫
+  handleOnScanQRCode = async () => {
+    const { orderInfo } = this.props
+    const res = await qwsdk.scanQRCode()
+    requestCallback(
+      async () => {
+        const data = await api.order.writeoff({
+          order_id: orderInfo.order_id,
+          ziti_code: res.replace('ZT_', '').substring(0, 6)
+        })
+        return data
+      },
+      '核销订单成功',
+      () => {
+        this.handleClose()
+      },
+      () => {
+        this.setState({
+          veriError: '核销码不存在或有误，请检查！'
+        })
+      }
+    )
   }
 
   render() {
