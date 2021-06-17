@@ -1,23 +1,27 @@
 .sp-filter-button {
   .block {
     margin-bottom: 20px;
-    padding: 15px 0;
+    height:70px;
     font-size: 28px;
     font-weight: 400;
     background: #F5F6F9;
     border-radius: 8px;
     color: #111A34;
     width: calc((100% - 40px)/3);
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     position: relative;
+    
 
     .iconfont {
       position: absolute;
       top: -2px;
-      right: -3px;
+      right:-3px;
       color: var(--color-primary);
-      opacity: 0;
+      opacity: 0; 
+      font-size: 24px;
     }
 
     &.active {

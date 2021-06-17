@@ -78,6 +78,10 @@
 
             .no-number,.has-number{
                 color:var(--color-primary);
+
+                &.error{
+                    color:$danger-color;
+                }
             }
 
             .error-number{

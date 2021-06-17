@@ -36,30 +36,7 @@
         font-size: 24px;
         color: #858B9C;
       }
-
-      .order-status {
-        font-size: 28px;
-        color: #666F83;
-        text-shadow: 0px 2px 4px #E2E4EA;
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        &-text {
-          position: relative;
-          z-index: 1;
-        }
-
-        &-background {
-          background: #FFE3CB;
-          box-shadow: 0px 2px 4px 0px #E2E4EA;
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 16px;
-        }
-      }
+      
     }
   }
 
@@ -87,12 +64,33 @@
       color: #111A34;
       font-size: 22px;
       display: flex;
-      align-items: center;
+      align-items: center; 
 
       &-title{
-        
+        white-space: nowrap;  
+      }
+    }
+  }
+
+  &-extra-sales-list{
+    margin-top: 16px;
+
+    .item{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom:12px;
+
+      .start{
+        font-size: 24px;
+        font-weight: 500;
+        color: #111A34;
       }
 
+      .grey{
+        font-weight: 400;
+        color: #858B9C;
+      }
     }
   }
 

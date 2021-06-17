@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View, Text } from '@tarojs/components'
 import { copyContent } from '@/utils'
-import { ORDER_STATUS } from '@/consts'
+import { OrderStatus } from '@/components/sp-page-components'
 
 export default class No extends PureComponent {
   constructor(props) {
@@ -9,32 +9,54 @@ export default class No extends PureComponent {
     this.state = {}
   }
 
-  renderStatus = (orderInfo) => {
-    const {
-      app_info: { list_status_mag }
-    } = orderInfo
-    return (
-      <View className='order-status'>
-        <Text className='order-status-text'>{list_status_mag}</Text>
-        <Text className='order-status-background'></Text>
-      </View>
-    )
+  renderNo = () => {
+    const { info, pageType } = this.props
+    if (pageType === 'orderList') {
+      return info.order_id
+    } else if (pageType === 'afterSalesList') {
+      return info.aftersales_bn
+    }
+  }
+
+  handleCopy = () => {
+    const { info, pageType } = this.props
+    if (pageType === 'orderList') {
+      copyContent(info.order_id)
+    } else if (pageType === 'afterSalesList') {
+      copyContent(info.aftersales_bn)
+    }
+  }
+
+  renderStatus = () => {
+    const { info, pageType } = this.props
+    if (pageType === 'orderList') {
+      return info?.app_info?.list_status_mag
+    } else if (pageType === 'afterSalesList') {
+      return info?.app_info?.status_msg
+    }
+  }
+
+  renderDate = () => {
+    const { info, pageType } = this.props
+    if (pageType === 'orderList') {
+      return info?.create_date
+    } else if (pageType === 'afterSalesList') {
+      return info?.app_info?.create_date
+    }
   }
 
   render() {
-    const { info } = this.props
-
     return (
       <View className='order-header'>
         <View className='order-no'>
-          <Text className='no'>{info.order_id}</Text>
-          <Text className='copy' onClick={() => copyContent(info.order_id)}>
+          <Text className='no'>{this.renderNo()}</Text>
+          <Text className='copy' onClick={this.handleCopy}>
             复制
           </Text>
         </View>
-        <View className='order-time'>{info.create_date}</View>
+        <View className='order-time'>{this.renderDate()}</View>
 
-        {this.renderStatus(info)}
+        <OrderStatus msg={this.renderStatus()} />
       </View>
     )
   }

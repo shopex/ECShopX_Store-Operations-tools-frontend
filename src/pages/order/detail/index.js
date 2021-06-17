@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle, timestampToTime, calcTimer } from '@/utils'
-import { SpGoodItem, SpGoodPrice } from '@/components'
+import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpNote } from '@/components'
 import {
   DetailCard,
   MessageCard,
@@ -10,7 +10,6 @@ import {
 } from '@/components/sp-page-components'
 import { View, Text } from '@tarojs/components'
 import { AtCountdown } from 'taro-ui'
-
 import api from '@/api'
 import './index.scss'
 
@@ -31,7 +30,8 @@ class OrderDetail extends Component {
       rightContent: [],
       logisticsList: [],
       leftPhone: '',
-      rightPhone: ''
+      rightPhone: '',
+      loading: false
     }
   }
 
@@ -41,21 +41,27 @@ class OrderDetail extends Component {
         params: { order_id }
       }
     } = getCurrentInstance()
+    this.setState({
+      loading: true
+    })
     const { orderInfo, tradeInfo } = await api.order.detail({ orderId: order_id })
     this.setState({
       orderInfo,
       tradeInfo
     })
     this.calcTimer()
-    this.renderLeftContent()
-    this.renderRightContent()
+    await this.renderLeftContent()
+    await this.renderRightContent()
+    this.setState({
+      loading: false
+    })
     this.getLogistics()
   }
 
   //得出发货时间
   getLogistics = async () => {
     const { orderInfo } = this.state
-    const list = await api.logistics.list({ orderId: orderInfo.order_id })
+    const list = await api.logistics.getDeliveryList({ order_id: orderInfo.order_id })
     this.setState({
       logisticsList: list
     })
@@ -174,11 +180,8 @@ class OrderDetail extends Component {
     }
   }
 
-  //渲染图标
-  renderIcon = () => {}
-
   //渲染物流标题
-  renderLogiticsTitle = (desc) => {
+  renderLogiticsTitle = (desc, title) => {
     const {
       orderInfo: { receipt_type }
     } = this.state
@@ -186,15 +189,24 @@ class OrderDetail extends Component {
       if (desc) {
         return '同城配送'
       }
+      if (title) {
+        return '同城配订单'
+      }
       return '同城配信息'
     } else if (receipt_type === 'ziti') {
       if (desc) {
         return '自提'
       }
+      if (title) {
+        return '自提订单'
+      }
       return '自提信息'
     } else {
       if (desc) {
         return '普通快递'
+      }
+      if (title) {
+        return '普通订单'
       }
       return '物流信息'
     }
@@ -263,6 +275,14 @@ class OrderDetail extends Component {
     return <SpGoodPrice height={24} price={totalFee} isSame color='red' />
   }
 
+  //查看物流详情
+  viewDeliveryDetail = () => {
+    const {
+      orderInfo: { order_id }
+    } = this.state
+    Taro.navigateTo({ url: `/pages/logisticsInfo/index?order_id=${order_id}` })
+  }
+
   render() {
     const {
       orderInfo,
@@ -272,18 +292,21 @@ class OrderDetail extends Component {
       rightContent,
       leftPhone,
       rightPhone,
-      logisticsList
+      logisticsList,
+      loading
     } = this.state
 
     let terminal_info = orderInfo?.app_info?.terminal_info
 
-    return (
+    return loading ? (
+      <SpLoading>正在加载...</SpLoading>
+    ) : (
       <View className='page-order-detail' style={getThemeStyle()}>
         <DetailCard
           pageType='orderDetail'
           status={this.renderMainStatus()}
           subStatus={this.renderDesc()}
-          iconfontName={this.renderIcon()}
+          iconClassName={orderInfo?.app_info?.detail_status?.icon}
         />
 
         <View className='card-center'>
@@ -291,7 +314,7 @@ class OrderDetail extends Component {
             <View className='title'>{this.renderLogiticsTitle()}</View>
             <View className='desc'>{this.renderLogiticsDesc()}</View>
           </View>
-          <View className='right'>
+          <View className='right' onClick={this.viewDeliveryDetail}>
             <Text className='iconfont icon-chakan'></Text>
             <Text>查看详情</Text>
           </View>
@@ -307,7 +330,7 @@ class OrderDetail extends Component {
 
         <View className='order-detail'>
           <View className='order-detail-title'>
-            <View className='text'>自提订单</View>
+            <View className='text'>{this.renderLogiticsTitle(false, true)}</View>
             <View className='status'></View>
           </View>
 
@@ -353,9 +376,9 @@ class OrderDetail extends Component {
           {tradeInfo.timeExpire && (
             <View className='item'>交易时间：{timestampToTime(tradeInfo.timeExpire)}</View>
           )}
-          {!!logisticsList.length && (
+          {!!logisticsList?.length && (
             <View className='item'>
-              发货时间：{timestampToTime(logisticsList[logisticsList.length - 1].created)}
+              发货时间：{logisticsList[logisticsList?.length - 1].delivery_time}
             </View>
           )}
           {terminal_info && (
@@ -369,6 +392,8 @@ class OrderDetail extends Component {
             <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
           )}
         </View>
+
+        <SpToast />
 
         <FixedAction>
           <PageActionButtons

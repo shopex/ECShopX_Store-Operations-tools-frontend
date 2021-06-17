@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { classNames } from '@/utils'
+import { OrderIcon } from '@/components/sp-page-components'
 import { View } from '@tarojs/components'
+import { afterSales } from '@/consts'
 import './index.scss'
 
 class DetailCard extends PureComponent {
@@ -9,16 +11,40 @@ class DetailCard extends PureComponent {
     this.state = {}
   }
 
+  renderMainStatus = () => {
+    const { status, pageType, detail } = this.props
+    if (pageType === 'afterSalesDetail') {
+      return afterSales.LIST_STATUS[detail?.aftersales_status + 1]
+    }
+    return status
+  }
+
+  renderSubStatus = () => {
+    const { subStatus, pageType, detail } = this.props
+    if (pageType === 'afterSalesDetail') {
+      return detail?.app_info?.progress_msg
+    }
+    return subStatus
+  }
+
+  renderIcon = () => {
+    const { iconClassName, pageType, detail } = this.props
+    if (pageType === 'afterSalesDetail') {
+      return detail?.progress
+    }
+    return iconClassName
+  }
+
   render() {
-    const { iconClassName, status, subStatus } = this.props
+    const { pageType } = this.props
 
     return (
       <View className={classNames('sp-page-detail-card')}>
         <View className='status'>
-          <View className='main'>{status}</View>
-          <View className='sub'>{subStatus}</View>
+          <View className='main'>{this.renderMainStatus()}</View>
+          <View className='sub'>{this.renderSubStatus()}</View>
         </View>
-        <View className={classNames('iconfont', 'icon', iconClassName)}></View>
+        <OrderIcon status={this.renderIcon()} className='icon' pageType={pageType} />
       </View>
     )
   }

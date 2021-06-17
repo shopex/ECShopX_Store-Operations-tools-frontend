@@ -11,3 +11,7 @@ export function workwechatOauthLogin(params) {
 export function bindMobile(params) {
   return req.post('/operator/workwechat/bind_mobile', params)
 }
+
+export function getQwJsSdkConfig(params) {
+  return req.post('/workwechat/distributor/js/config', params)
+}

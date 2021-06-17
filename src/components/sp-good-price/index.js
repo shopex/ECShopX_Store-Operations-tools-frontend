@@ -34,9 +34,9 @@ class SpGoodPrice extends PureComponent {
           ['color-red']: color
         })}
       >
-        <View className='symbol'>{symbol}</View>
+        {symbol}
         <View className='integer'>{isNone ? '0.' : `${priceArr[0]}.`}</View>
-        <View className='decimal'>{isNone ? '00' : `${priceArr[1]}`}</View>
+        {isNone ? '00' : `${priceArr[1]}`}
       </View>
     )
   }
@@ -63,11 +63,11 @@ class SpGoodPrice extends PureComponent {
   }
 
   render() {
-    const { type = 'normal', price, size = '28', point, prefix } = this.props
+    const { className, type = 'normal', price, size = '28', point, prefix } = this.props
 
     return (
       <View
-        className={classNames('sp-good-item-price', {
+        className={classNames('sp-good-item-price', className, {
           [`discount`]: type === 'discount'
         })}
         style={{

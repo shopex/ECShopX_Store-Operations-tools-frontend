@@ -1,3 +1,5 @@
+import * as afterSales from './afterSales'
+
 //订单列表主状态
 export const ORDER_LIST_STATUS = {
   'all': '全部',
@@ -19,7 +21,7 @@ export const ORDER_LIST_FILTER_TIME = {
   'all': '全部',
   'today': '今天',
   'yesterday': '昨天',
-  // 'recently7': '近七天',
+  'recently7': '近七天',
   'recently30': '近30天'
 }
 
@@ -62,3 +64,20 @@ export const ORDER_LIST_CANCEL_REASON = {
   11: '客户长时间未付款',
   12: '客户其他原因'
 }
+
+export const ORDER_DETAIL_ICON = {
+  'success_1': 'icon-yiwancheng-01',
+  'success_2': 'icon-weitoutuo-01',
+  'delivery_1': 'icon-daifahuo-01',
+  'delivery_2': 'icon-qishoupeisong-011',
+  'payed_1': 'icon-daifahuo-011',
+  'payed_2': 'icon-qishouquxiao-01',
+  'payed_3': 'icon-dengqishoujiedan-01',
+  'payed_4': 'icon-jianhuo-01',
+  'payed_5': 'icon-zhengzaiquhuo-01',
+  'payed_6': 'icon-daiziti-01',
+  'not_pay': 'icon-daifukuan-01',
+  'cancel': 'icon-quxiaodingdan-01'
+}
+
+export { afterSales }

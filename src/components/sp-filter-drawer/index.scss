@@ -12,12 +12,25 @@
 
         .filterTitle{
           
+          position: relative;
+          text-align: center;
 
           .text{
             font-size: 36px;
             font-weight: 400;
             color: #111A34;
           }
+
+          .iconfont{
+            font-size:46px;
+            color:#111A34;
+            font-weight: 500;
+            position: absolute;
+            left:0;
+            top:50%;
+            transform: translateY(-50%);
+          }
+
         }
         .main{
 
