@@ -228,7 +228,7 @@ export default class List extends PureComponent {
 
   //点击商品列表
   handleClickGoodItem = (goodInfo) => {
-    Taro.redirectTo({ url: `/pages/afterSales/detail?aftersalesNo=${goodInfo.aftersales_bn}` })
+    Taro.navigateTo({ url: `/pages/afterSales/detail?aftersalesNo=${goodInfo.aftersales_bn}` })
   }
 
   //点击操作按钮

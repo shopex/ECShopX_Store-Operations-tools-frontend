@@ -17,9 +17,12 @@ export default class ActionModal extends PureComponent {
 
   componentDidMount() {
     const { href } = window.location
-    qwsdk.init({
-      url: href
-    })
+    const { type } = this.props
+    if (type === 'verification') {
+      qwsdk.init({
+        url: href
+      })
+    }
   }
 
   handleChangeInputVericode = (e) => {

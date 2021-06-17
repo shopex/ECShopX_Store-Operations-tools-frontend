@@ -7,8 +7,12 @@ import RefuseTextarea from './comps/RefuseTextarea'
 import S from '@/spx'
 import { OrderRadio, FixedAction, CommonButton } from '@/components/sp-page-components'
 import api from '@/api'
+import { connect } from 'react-redux'
 import './index.scss'
 
+@connect(({ planSelection }) => ({
+  planSelection: planSelection.activeShop
+}))
 export default class OrderDeal extends PureComponent {
   constructor(props) {
     super(props)
@@ -17,7 +21,8 @@ export default class OrderDeal extends PureComponent {
       isApprove: false,
       refuseReason: '',
       afterSalesInfo: {},
-      price: {}
+      price: {},
+      selectAddress: null
     }
   }
 
@@ -28,11 +33,15 @@ export default class OrderDeal extends PureComponent {
       }
     } = getCurrentInstance()
 
-    const afterSalesInfo = await api.afterSales.detail({ no: aftersalesNo })
+    if (aftersalesNo) {
+      Taro.setStorageSync('aftersalesNo', aftersalesNo)
+    }
 
-    //const addressList=await api.afterSales.address({page:1,page_size:10,distributor_id:afterSalesInfo.distributor_id,company_id:0})
+    const afterSalesInfo = await api.afterSales.detail({
+      no: aftersalesNo || Taro.getStorageSync('aftersalesNo')
+    })
 
-    // console.log("addressList",addressList)
+    await this.getAddressDetail()
 
     this.setState({
       afterSalesInfo,
@@ -45,6 +54,47 @@ export default class OrderDeal extends PureComponent {
         priceError: false,
         pointError: false
       }
+    })
+  }
+
+  getAddressDetail = async () => {
+    const {
+      router: {
+        params: { address_id }
+      }
+    } = getCurrentInstance()
+
+    let { distributor_id } = this.props.planSelection
+
+    const { list: addressList } = await api.afterSales.address({
+      page: 1,
+      page_size: 100,
+      distributor_id: distributor_id
+    })
+
+    let selectAddressId = address_id
+
+    if (!selectAddressId) {
+      //没有选择地址则取默认地址
+      selectAddressId = addressList.find((item) => item.is_default == 1).address_id
+    }
+
+    const {
+      mobile,
+      contact,
+      regions,
+      address,
+      address_id: return_address_id
+    } = await api.address.detail({ address_id: selectAddressId })
+
+    this.setState({
+      selectAddress: {
+        mobile,
+        contact,
+        address: `${regions.replace(/[(\"|\[|\]|\,|')]/g, '')} ${address}`,
+        id: return_address_id
+      },
+      isApprove: !!address_id
     })
   }
 
@@ -110,26 +160,57 @@ export default class OrderDeal extends PureComponent {
 
   //提交
   handleSubmit = () => {
-    const { afterSalesInfo, isApprove, refuseReason, price } = this.state
+    const { afterSalesInfo, isApprove, refuseReason, price, selectAddress } = this.state
 
     let isValid = this.handleValidInput()
 
+    let params = {
+      aftersales_bn: afterSalesInfo.aftersales_bn
+    }
+
+    if (isValid && isValid.status) {
+      if (isValid.status === 'ONLY_REFUND') {
+        params = {
+          ...params,
+          is_approved: isApprove ? 1 : 0,
+          refuse_reason: isApprove ? undefined : refuseReason,
+          refund_fee: price.price,
+          refund_point: price.point
+        }
+      } else if (isValid.status === 'REFUND_GOODS0') {
+        params = {
+          ...params,
+          is_approved: isApprove ? 1 : 0,
+          refuse_reason: isApprove ? undefined : refuseReason,
+          aftersales_address_id: selectAddress.id
+        }
+      } else if (isValid.status === 'REFUND_GOODS2') {
+        params = {
+          ...params,
+          check_refund: isApprove ? 1 : 0,
+          refund_memo: isApprove ? undefined : refuseReason,
+          refund_fee: price.price,
+          refund_point: price.point
+        }
+      }
+    }
+
     if (isValid) {
-      console.log('handleSubmit')
       requestCallback(
         async () => {
-          const data = await api.afterSales.review({
-            aftersales_bn: afterSalesInfo.aftersales_bn,
-            is_approved: isApprove ? 1 : 0,
-            refuse_reason: isApprove ? undefined : refuseReason,
-            refund_fee: price.price,
-            refund_point: price.point
-          })
+          let data
+          if (isValid.status === 'ONLY_REFUND' || isValid.status === 'REFUND_GOODS0') {
+            data = await api.afterSales.review(params)
+          } else {
+            data = await api.afterSales.confirm(params)
+          }
           return data
         },
         '审核成功',
         () => {
-          Taro.navigateTo({ url: `/pages/afterSales/list` })
+          setTimeout(() => {
+            Taro.navigateTo({ url: `/pages/afterSales/list` })
+          }, 500)
         }
       )
     }
@@ -137,8 +218,8 @@ export default class OrderDeal extends PureComponent {
 
   //验证输入
   handleValidInput = () => {
-    const { status, isApprove, refuseReason, price } = this.state
-    if (status === 'ONLY_REFUND') {
+    const { status, isApprove, refuseReason, price, afterSalesInfo } = this.state
+    if (status === 'ONLY_REFUND' || (status === 'REFUND_GOODS' && afterSalesInfo.progress === 2)) {
       //如果是同意
       if (isApprove) {
         if (price.price === 0 && price.maxPrice !== 0) {
@@ -182,11 +263,24 @@ export default class OrderDeal extends PureComponent {
       }
     }
 
-    return true
+    if (status === 'REFUND_GOODS' && afterSalesInfo.progress === 0) {
+      //如果是同意
+      if (isApprove) {
+      } else {
+        if (!refuseReason) {
+          S.toast('请填写拒绝原因')
+          return
+        }
+      }
+    }
+
+    return {
+      status: status === 'ONLY_REFUND' ? 'ONLY_REFUND' : `${status}${afterSalesInfo.progress}`
+    }
   }
 
   handleNavigateAdressList = () => {
-    Taro.navigateTo({ url: '' })
+    Taro.navigateTo({ url: '/pages/address/index' })
   }
 
   handleClickAdress = () => {
@@ -198,9 +292,7 @@ export default class OrderDeal extends PureComponent {
   }
 
   render() {
-    const { status, loading, isApprove, afterSalesInfo, price } = this.state
-
-    console.log('status', status)
+    const { status, loading, isApprove, afterSalesInfo, price, selectAddress } = this.state
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
@@ -215,7 +307,8 @@ export default class OrderDeal extends PureComponent {
           />
         </SpFormItem>
 
-        {status === 'ONLY_REFUND' && (
+        {(status === 'ONLY_REFUND' ||
+          (status === 'REFUND_GOODS' && afterSalesInfo.progress === 2)) && (
           <View className='marginTop24'>
             {isApprove && (
               <SpFormItem label='处理方案' className='formItemPrice' wrap>
@@ -256,25 +349,27 @@ export default class OrderDeal extends PureComponent {
               <SpFormItem
                 label='回寄地址'
                 placeholder='请选择售后地址'
-                wrap
+                wrap={selectAddress}
                 tip='修改售后地址'
                 onClickValue={this.handleClickAdress}
                 onClickTip={this.handleClickTip}
               >
-                <View className='address'>
-                  <View className='item'>
-                    <View className='label'>联系人</View>
-                    <View className='value'>我是联系人</View>
+                {selectAddress && (
+                  <View className='address'>
+                    <View className='item'>
+                      <View className='label'>联系人</View>
+                      <View className='value'>{selectAddress.contact}</View>
+                    </View>
+                    <View className='item'>
+                      <View className='label'>电话号码</View>
+                      <View className='value'>{selectAddress.mobile}</View>
+                    </View>
+                    <View className='item'>
+                      <View className='label'>回寄地址</View>
+                      <View className='value'>{selectAddress.address}</View>
+                    </View>
                   </View>
-                  <View className='item'>
-                    <View className='label'>电话号码</View>
-                    <View className='value'>1388888888</View>
-                  </View>
-                  <View className='item'>
-                    <View className='label'>回寄地址</View>
-                    <View className='value'>上海市徐汇区宜山路700号普天信息产业园C1幢</View>
-                  </View>
-                </View>
+                )}
               </SpFormItem>
             )}
           </View>

@@ -11,12 +11,19 @@ class OrderRadio extends PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidShow() {
     const { active: activeProp } = this.props
-    const { active } = this.state
     this.setState({
       active: activeProp
     })
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.props.active !== prevState.active) {
+      this.setState({
+        active: this.props.active
+      })
+    }
   }
 
   handleClick = (activeIndex) => (e) => {
