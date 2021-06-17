@@ -14,7 +14,8 @@ export default {
     'pages/auth/agreement',
     'pages/auth/bindPhone',
     'pages/planSelection/index',
-    'pages/logisticsInfo/index'
+    'pages/logisticsInfo/index',
+    'pages/address/index'
   ],
   tabBar: {
     list: [
