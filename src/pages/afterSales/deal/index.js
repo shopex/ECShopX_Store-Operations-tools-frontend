@@ -28,17 +28,15 @@ export default class OrderDeal extends PureComponent {
 
   async componentDidShow() {
     const {
-      router: {
-        params: { aftersalesNo }
-      }
+      router: { params }
     } = getCurrentInstance()
 
-    if (aftersalesNo) {
-      Taro.setStorageSync('aftersalesNo', aftersalesNo)
+    if (params?.aftersalesNo) {
+      Taro.setStorageSync('aftersalesNo', params?.aftersalesNo)
     }
 
     const afterSalesInfo = await api.afterSales.detail({
-      no: aftersalesNo || Taro.getStorageSync('aftersalesNo')
+      no: params?.aftersalesNo || Taro.getStorageSync('aftersalesNo')
     })
 
     await this.getAddressDetail()
@@ -58,11 +56,7 @@ export default class OrderDeal extends PureComponent {
   }
 
   getAddressDetail = async () => {
-    const {
-      router: {
-        params: { address_id }
-      }
-    } = getCurrentInstance()
+    const { router } = getCurrentInstance()
 
     let { distributor_id } = this.props.planSelection
 
@@ -72,30 +66,32 @@ export default class OrderDeal extends PureComponent {
       distributor_id: distributor_id
     })
 
-    let selectAddressId = address_id
+    let selectAddressId = router?.params?.address_id
 
     if (!selectAddressId) {
       //没有选择地址则取默认地址
-      selectAddressId = addressList.find((item) => item.is_default == 1).address_id
+      selectAddressId = addressList.find((item) => item.is_default == 1)?.address_id
     }
 
-    const {
-      mobile,
-      contact,
-      regions,
-      address,
-      address_id: return_address_id
-    } = await api.address.detail({ address_id: selectAddressId })
-
-    this.setState({
-      selectAddress: {
+    if (selectAddressId) {
+      const {
         mobile,
         contact,
-        address: `${regions.replace(/[(\"|\[|\]|\,|')]/g, '')} ${address}`,
-        id: return_address_id
-      },
-      isApprove: !!address_id
-    })
+        regions,
+        address,
+        address_id: return_address_id
+      } = await api.address.detail({ address_id: selectAddressId })
+
+      this.setState({
+        selectAddress: {
+          mobile,
+          contact,
+          address: `${regions.replace(/[(\"|\[|\]|\,|')]/g, '')} ${address}`,
+          id: return_address_id
+        },
+        isApprove: !!router?.params?.address_id
+      })
+    }
   }
 
   handleChangeApprove = (active) => {

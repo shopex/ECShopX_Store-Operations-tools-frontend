@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View } from '@tarojs/components'
+import { View, MatchMedia } from '@tarojs/components'
 import { SpGoodItem, SpGoodPrice } from '@/components'
 import HeaderInfo from './header'
 import './index.scss'

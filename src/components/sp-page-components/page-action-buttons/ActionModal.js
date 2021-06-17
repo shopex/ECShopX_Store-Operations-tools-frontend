@@ -263,9 +263,9 @@ export default class ActionModal extends PureComponent {
     const res = await qwsdk.scanQRCode()
     requestCallback(
       async () => {
-        const data = await api.order.code({
+        const data = await api.order.writeoff({
           order_id: orderInfo.order_id,
-          pickupcode: res.replace('ZT_', '').substring(0, 6)
+          ziti_code: res.replace('ZT_', '').substring(0, 6)
         })
         return data
       },

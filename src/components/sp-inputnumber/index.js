@@ -26,9 +26,25 @@ export default class SpInputNumber extends PureComponent {
   }
 
   handleBlur = () => {
-    this.setState({
-      active: false
-    })
+    const { clear, value } = this.props
+    const self = this
+    if (clear && value) {
+      setTimeout(() => {
+        self.setState({
+          active: false
+        })
+      }, 200)
+    } else {
+      self.setState({
+        active: false
+      })
+    }
+  }
+
+  clearValue = () => {
+    console.log('clearValue')
+    const { onChange = () => {} } = this.props
+    onChange(0)
   }
 
   render() {
@@ -53,9 +69,9 @@ export default class SpInputNumber extends PureComponent {
           onBlur={this.handleBlur}
         />
         {placeholder && !value && value != 0 && <View className='placeholder'>{placeholder}</View>}
-        {clear && !!value && (
-          <View className='clear'>
-            <Text className='iconfont '></Text>
+        {clear && !!value && active && (
+          <View className='clear' onClick={this.clearValue}>
+            <Text className='iconfont icon-shanchu-01'></Text>
           </View>
         )}
         {error && <View className='tips'>{error}</View>}

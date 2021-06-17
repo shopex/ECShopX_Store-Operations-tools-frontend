@@ -38,6 +38,9 @@ class PageActionButtons extends PureComponent {
       case 'orderDetail':
         height = 80
         break
+      case 'afterSalesDetail':
+        height = 80
+        break
       default:
         height = 60
         break

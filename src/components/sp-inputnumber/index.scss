@@ -44,10 +44,29 @@
         pointer-events: none; 
     }
 
+    .clear{
+
+        position: absolute;
+        right:0;
+        top:0;
+        bottom:0;
+        width:50px;
+        @include flexbox;
+
+        .iconfont{
+            color:#C5CAD5;
+            font-size: 36px; 
+        }
+        
+
+    }
+
     &.active{
         &:after{
             transform: scaleX(1);
         }
+
+       
     }
 
     .custominput{

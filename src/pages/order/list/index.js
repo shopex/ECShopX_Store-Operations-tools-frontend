@@ -10,8 +10,12 @@ import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-com
 import { calculateTimestamp } from '@/utils/time'
 import { classNames } from '@/utils'
 import api from '@/api'
+import { connect } from 'react-redux'
 import './index.scss'
 
+@connect(({ planSelection }) => ({
+  planSelection: planSelection.activeShop
+}))
 @withPager
 @withBackToTop
 export default class List extends PureComponent {
@@ -149,12 +153,14 @@ export default class List extends PureComponent {
 
   //获取订单列表
   getOrdersList = async (params) => {
+    let { distributor_id } = this.props.planSelection
     const {
       list,
       pager: { count: total }
     } = await api.order.list({
       page: params.page_no,
       pageSize: params.page_size,
+      distributor_id,
       ...this.getOrderParams()
     })
     this.setState({

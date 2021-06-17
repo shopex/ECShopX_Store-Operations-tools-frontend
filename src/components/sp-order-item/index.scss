@@ -65,6 +65,10 @@
       font-size: 22px;
       display: flex;
       align-items: center; 
+
+      &-title{
+        white-space: nowrap;  
+      }
     }
   }
 
