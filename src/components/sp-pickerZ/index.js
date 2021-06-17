@@ -22,7 +22,6 @@ export default class ChangeWL extends PureComponent {
 
   seletedHanle(item) {
     let el = document.getElementsByClassName('wrap')
-    console.log(el)
     for (let index = 0; index < el.length; index++) {
       el[index].style.display = 'none'
     }
@@ -35,7 +34,6 @@ export default class ChangeWL extends PureComponent {
   }
   seletedCityHanle(item) {
     let el = document.getElementsByClassName('wrap')
-    console.log(el)
     for (let index = 0; index < el.length; index++) {
       el[index].style.display = 'none'
     }

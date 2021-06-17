@@ -7,9 +7,10 @@ import { SpPickerZ } from '@/components'
 import './index.scss'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
-
 const logo = require('../../assets/imgs/arrow.png')
-
+@connect(({ planSelection }) => ({
+  planSelection: planSelection.activeShop
+}))
 export default class SpEditForm extends Component {
   constructor() {
     super()
@@ -38,25 +39,36 @@ export default class SpEditForm extends Component {
     return arr
   }
   async onSubmit(event) {
-    console.log(11111)
+    let { distributor_id } = this.props.planSelection
     const { city, province, area, username, phone, addressDetail, Cityinfo } = this.state
-    const a = Cityinfo.path.split(',')
+    const formatCityinfo = Cityinfo.path.split(',')
     if (city && username && phone && addressDetail) {
       const obj = {
-        distributor_id: "['102']",
+        distributor_id: `'["${distributor_id}"]'`,
         province,
         city,
         area,
-        regions_id: `['${a[0]}','${a[1]}','${a[2]}']`,
+        regions_id: `["${formatCityinfo[0]}","${formatCityinfo[1]}","${formatCityinfo[2]}"]`,
         address: addressDetail,
-        regions: `['${province}','${city},'${area}']`,
+        regions: `["${province}","${city}","${area}"]`,
         contact: username,
         mobile: phone
       }
 
-      const result = await api.address.postAddressList(obj)
-      console.log(result)
-      showToast('ok')
+      const { result } = await api.address.postAddressList(obj)
+      const { address_id } = result
+      console.log(address_id)
+      const res = await this.props.seletedAddress(address_id)
+      if (res.status) {
+        showToast('ok')
+        this.props.getConfig()
+        this.props.isShowEditHandle()
+        Taro.navigateTo({
+          url: `/pages/afterSales/deal?address_id=${address_id}`
+        })
+      } else {
+        showToast('失败')
+      }
     } else {
       showToast('请输入完整信息')
       return
@@ -112,7 +124,7 @@ export default class SpEditForm extends Component {
   }
   componentDidMount() {}
   render() {
-    const { isShowEditHandle } = this.props
+    const { isShowEditHandle, getConfig } = this.props
     const { province, city, area, username, phone, addressDetail, isShow } = this.state
     return (
       <View className='sp-editForm'>

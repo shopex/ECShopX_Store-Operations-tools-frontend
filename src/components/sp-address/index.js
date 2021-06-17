@@ -14,7 +14,9 @@ export default class SpAddress extends Component {
   constructor(props) {
     super(props)
     console.log(props)
-    this.state = {}
+    this.state = {
+      isActive: 0
+    }
   }
 
   notUpdate(message) {
@@ -22,25 +24,25 @@ export default class SpAddress extends Component {
   }
 
   render() {
-    const { addressList } = this.props
+    const { addressList, switchAddressHandle, index } = this.props
     return (
-      <ScrollView className='sp-address'>
-        {addressList.map((item) => {
-          return (
-            <View className='item' key={item.address_id}>
-              <View className={'btn ' + (item.is_default && 'active')}>
-                <View className='right iconfont icon-gouxuan-01'></View>
-              </View>
-              <View className='address'>
-                <View className='title'>
-                  {item.province + item.city + item.area + item.address}
-                </View>
-                <View className='name_tel'>{item.contact + '  ' + item.mobile}</View>
-              </View>
+      <View className='sp-address'>
+        <View
+          className='item'
+          key={addressList.address_id}
+          onClick={(e) => switchAddressHandle(index)}
+        >
+          <View className={'btn ' + (addressList.is_default === '1' && 'active')}>
+            <View className='right iconfont icon-gouxuan-01'></View>
+          </View>
+          <View className='address'>
+            <View className='title'>
+              {addressList.province + addressList.city + addressList.area + addressList.address}
             </View>
-          )
-        })}
-      </ScrollView>
+            <View className='name_tel'>{addressList.contact + '  ' + addressList.mobile}</View>
+          </View>
+        </View>
+      </View>
     )
   }
 }

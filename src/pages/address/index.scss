@@ -18,6 +18,11 @@
       font-weight: 500;
     }
   }
+  .addressBox{
+    @include page-scroll(100px,190px);
+    // height: calc(100% - 200px);
+    box-sizing: border-box;
+  }
   .confirm {
     position: absolute;
     bottom: 0;
