@@ -2,6 +2,7 @@ export default {
   pages: [
     'pages/index',
     'pages/message/index',
+    'pages/messageDetail/index',
     'pages/my/index',
     'pages/auth/login',
     'pages/auth/index',
