@@ -8,32 +8,77 @@ import './index.scss'
 export default class MessageDetail extends PureComponent {
   constructor(props) {
     super(props)
-    Taro.setNavigationBarTitle({ title: '等会撒很大声1212' })
   }
   componentDidMount() {}
 
+  formatSpec(spec) {
+    return spec.join('/')
+  }
+
   render() {
-    console.log(this.props)
-    const { goodsName, total_fee, number, orderId } = this.props.SpMessageDetailData
+    const { goodsName, total_fee, number, orderId, description, afterSaleType, goods_price, spec } =
+      JSON.parse(this.props.SpMessageDetailData.content)
+    const { is_read, operator_id } = this.props.SpMessageDetailData
     const { date, msgType, titleList } = this.props
+
     return (
       <View className='cpn-messageDetail'>
         <View className='date'>{date}</View>
         <View className='box'>
           <View className='top'>
-            <View className='title'>{goodsName}</View>
-            <View className='iconfont icon-jiantou'></View>
+            {msgType === '1' && (
+              <>
+                <View className='titleBox'>
+                  <View>{afterSaleType}</View>
+                  {is_read == '1' && <View className='is_read'></View>}
+                </View>
+
+                <View className='iconfont icon-jiantou'></View>
+              </>
+            )}
+            {(msgType == '2' || msgType == '3') && (
+              <>
+                <View className='titleBox'>
+                  <View className='title'>{goodsName}</View>
+                  {is_read == '1' && <View className='is_read'></View>}
+                </View>
+
+                <View className='iconfont icon-jiantou'></View>
+              </>
+            )}
           </View>
           <View className='list'>
             <View className='item'>
               <View className='title'>{titleList[0]}</View>
-              <View className='content'>{date}</View>
+              {msgType == '1' && (
+                <>
+                  <View className='content'>{description}</View>
+                </>
+              )}
+              {(msgType == '2' || msgType == '3') && (
+                <>
+                  <View className='content'>
+                    数量{number}/{this.formatSpec(spec)}/￥{goods_price}
+                  </View>
+                </>
+              )}
             </View>
             <View className='item'>
               <View className='title'>{titleList[1]}</View>
               <View className='content order'>
-                <View className='subtitle'>{total_fee}</View>
-                {titleList[1] === '商品名称' && <View className='info'>{date}</View>}
+                {msgType === '1' && (
+                  <>
+                    <View className='subtitle'>{goodsName}</View>
+                    <View className='info '>
+                      （数量：{number} / {goods_price}）
+                    </View>
+                  </>
+                )}
+                {(msgType == '2' || msgType == '3') && (
+                  <>
+                    <View className='info '>{total_fee}</View>
+                  </>
+                )}
               </View>
             </View>
             <View className='item'>

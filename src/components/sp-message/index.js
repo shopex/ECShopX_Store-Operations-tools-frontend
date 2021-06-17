@@ -9,8 +9,8 @@ class Index extends PureComponent {
     console.log(props)
   }
   render() {
-    const { imgurl, bgColor, title, subtitle, onclickHander } = this.props.SpMessageData
-    const { date, messageNum } = this.props
+    const { imgurl, bgColor, title, subtitle } = this.props.SpMessageData
+    const { date, messageNum, onclickHander } = this.props
     return (
       <View className='com-message' onClick={onclickHander}>
         <View className='left'>

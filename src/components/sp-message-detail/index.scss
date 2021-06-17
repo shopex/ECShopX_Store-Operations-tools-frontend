@@ -25,9 +25,22 @@
       @include flex_JC_SB_AC;
       padding: 23px;
       border-bottom: 1px solid #e2e4ea;
-      .title {
+      .titleBox {
+        display: flex;
         font-size: 30px;
         color: #666f83;
+        .title{
+          max-width: 500px;
+          @include  text-overflow;
+        }
+        .is_read{
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: red;
+          margin: auto 0;
+          margin-left: 15px;
+        }
       }
     }
     .list {
