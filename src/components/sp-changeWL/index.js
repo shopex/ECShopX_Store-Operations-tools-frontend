@@ -114,79 +114,7 @@ export default class ChangeWL extends PureComponent {
             </View>
           </View>
         )}
-        {/* {
-          delivery_list_item.isShow &&
-            <SpDialogBox
-                key={item.orders_delivery_id}
-                title={updateOddNumbers.title}
-                handleClose={this.handleClose.bind(this)}
-                rightClickHandle={e=>this.rightClickHandle(item.orders_delivery_id)}
-                changeHandle={(e) => {
-                  this.OddNumbersInputChange(e, item.orders_delivery_id)
-                }}
-                delivery_list_item={item}
-            ></SpDialogBox>
-        } */}
       </>
     )
-
-    // <View className='cpn-spChangeWL'>
-    //   <View className='bar'>
-    //     <View className='title'>物流公司</View>
-    //     <View className='content'>
-    //       {showEdit ? (
-    //         <Text className='iconfont icon-queren update' onClick={this.editBtnHandle.bind(this)}>
-    //           {' '}
-    //           确认修改
-    //         </Text>
-    //       ) : (
-    //         <View className='iconfont icon-xiugai update' onClick={this.editBtnHandle.bind(this)}>
-    //           {' '}
-    //           修改物流
-    //         </View>
-    //       )}
-    //     </View>
-    //   </View>
-    //   <View className='list'>
-    //     <View className='title'>快递公司</View>
-    //     <View className='content'>
-    //       <Text className='value'>{111&&delivery_list.delivery_corp_name} </Text>
-    //       {
-    //          showEdit && <Picker value='' onChange={changeHandle} range={CourierCompany} rangeKey={'name'} className='picker' mode='selector'><Text className='edit' onClick={e=>{editItemHandle(item.title)}}> 编辑</Text></Picker>
-    //       }
-    //     </View>
-    //   </View>
-    //   <View className='list'>
-    //     <View className='title'>物流单号</View>
-    //     <View className='content'>
-    //       <Text className='value'>{111&&delivery_list.order_id} </Text>
-    //       {
-    //         (showEdit && <Text className='edit' onClick={e=>{editItemHandle(item.title)}}> 编辑</Text>)
-    //       }
-    //     </View>
-    //   </View>
-    //   {/* {barList.map((item) => {
-    //     return (
-
-    //       <View className='list' key={item.title}>
-
-    //         <View className='title'>{item.title}</View>
-
-    //         <View className='content'>
-    //           <Text className='value'>{delivery_list.delivery_corp_name} </Text>
-    //           {
-    //             item.title =='快递公司'?
-
-    //             showEdit && <Picker value='' onChange={changeHandle} range={CourierCompany} rangeKey={'name'} className='picker' mode='selector'><Text className='edit' onClick={e=>{editItemHandle(item.title)}}> 编辑</Text></Picker>
-
-    //             :
-    //             (showEdit && <Text className='edit' onClick={e=>{editItemHandle(item.title)}}> 编辑</Text>)
-    //           }
-
-    //         </View>
-    //       </View>
-    //     )
-    //   })} */}
-    // </View>
   }
 }

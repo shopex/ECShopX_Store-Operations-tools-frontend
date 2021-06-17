@@ -1,0 +1,49 @@
+.sp-editForm {
+  .box {
+    background: #fff;
+    border-radius: 8px;
+    .title {
+      width: 100%;
+      text-align: center;
+      font-size: 40px;
+      line-height: 150px;
+    }
+    .content {
+      padding: 0 40px;
+      label,
+      input {
+        font-size: 32px;
+
+        color: #666f83;
+      }
+      taro-image-core{
+        width: 30px;
+        height: 30px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    .ctrl {
+      display: flex;
+      box-sizing: border-box;
+      border-top: 1px solid;
+      border-color: rgba(0, 0, 0, 0.1);
+      .item {
+        text-align: center;
+        width: 50%;
+
+        font-size: 36px;
+        line-height: 100px;
+        color: #666f83;
+        box-sizing: border-box;
+        &:last-child {
+          color: #4980ff;
+          border-left: 1px solid;
+          border-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}
