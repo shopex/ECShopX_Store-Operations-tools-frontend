@@ -29,3 +29,8 @@ export function detail({ orderId }) {
 export function member({ userId }) {
   return req.get(`/member`, { user_id: userId })
 }
+
+//订单发货
+export function delivery(params) {
+  return req.post(`/delivery`, params)
+}

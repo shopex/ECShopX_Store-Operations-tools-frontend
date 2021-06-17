@@ -7,7 +7,7 @@ import configStore from './store'
 import '@/muiApp/index.scss'
 import './app.scss'
 
-const store = configStore()
+const { store } = configStore()
 
 SAPP.init(Taro, store)
 class App extends Component {

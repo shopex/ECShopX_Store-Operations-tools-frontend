@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { View, Text } from '@tarojs/components'
 import classNames from '@/utils/classNames'
 import './index.scss'
@@ -10,7 +10,7 @@ const ScrollButton = (props) => {
     refuseText = '不同意',
     confirmText = '同意并开始使用',
     onReset = () => {},
-    onConfirm = () => {},
+    onClickConfirm = () => {},
     onTransitionEnd = () => {},
     isSubmit = false,
     ...restProps
@@ -19,18 +19,29 @@ const ScrollButton = (props) => {
   //因为会销毁
   const [activeIndex, setActiveIndex] = useState(isSubmit ? 1 : 0)
 
+  //是否触发点击时间
+  const isTouch = useRef(false)
+
   const handleChange = (index) => (e) => {
-    console.log('handleChange', index)
     if (index === 0) {
       onReset()
+      isTouch.current = true
     } else {
-      onConfirm()
+      if (activeIndex === index) {
+        onClickConfirm()
+      }
+      isTouch.current = true
     }
     setActiveIndex(index)
+    setTimeout(() => {
+      isTouch.current = false
+    }, 1000)
   }
 
   const handleTransitionEnd = () => {
-    onTransitionEnd(activeIndex === 1)
+    if (isTouch.current) {
+      onTransitionEnd(activeIndex === 1)
+    }
   }
 
   useEffect(() => {
@@ -38,8 +49,6 @@ const ScrollButton = (props) => {
       console.log('useEff')
     }
   }, [])
-
-  console.log('setActiveIndex', activeIndex)
 
   return (
     <View className={classNames('sp-page-confirm-scroll-button', className)} {...restProps}>
@@ -69,4 +78,4 @@ const ScrollButton = (props) => {
   )
 }
 
-export default ScrollButton
+export default React.memo(ScrollButton)
