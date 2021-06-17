@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import { View, Text } from '@tarojs/components'
-import { getCurrentInstance } from '@tarojs/taro'
+import { View } from '@tarojs/components'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle, requestCallback } from '@/utils'
 import { SpLoading, SpFormItem, SpInputNumber, SpToast } from '@/components'
 import RefuseTextarea from './comps/RefuseTextarea'
@@ -30,7 +30,7 @@ export default class OrderDeal extends PureComponent {
 
     const afterSalesInfo = await api.afterSales.detail({ no: aftersalesNo })
 
-    // const addressList=await api.afterSales.address({page:1,page_size:10})
+    //const addressList=await api.afterSales.address({page:1,page_size:10,distributor_id:afterSalesInfo.distributor_id,company_id:0})
 
     // console.log("addressList",addressList)
 
@@ -185,6 +185,18 @@ export default class OrderDeal extends PureComponent {
     return true
   }
 
+  handleNavigateAdressList = () => {
+    Taro.navigateTo({ url: '' })
+  }
+
+  handleClickAdress = () => {
+    this.handleNavigateAdressList()
+  }
+
+  handleClickTip = () => {
+    this.handleNavigateAdressList()
+  }
+
   render() {
     const { status, loading, isApprove, afterSalesInfo, price } = this.state
 
@@ -240,7 +252,31 @@ export default class OrderDeal extends PureComponent {
 
         {status === 'REFUND_GOODS' && afterSalesInfo.progress === 0 && (
           <View className='marginTop24'>
-            {isApprove && <SpFormItem label='回寄地址' placeholder='请选择售后地址'></SpFormItem>}
+            {isApprove && (
+              <SpFormItem
+                label='回寄地址'
+                placeholder='请选择售后地址'
+                wrap
+                tip='修改售后地址'
+                onClickValue={this.handleClickAdress}
+                onClickTip={this.handleClickTip}
+              >
+                <View className='address'>
+                  <View className='item'>
+                    <View className='label'>联系人</View>
+                    <View className='value'>我是联系人</View>
+                  </View>
+                  <View className='item'>
+                    <View className='label'>电话号码</View>
+                    <View className='value'>1388888888</View>
+                  </View>
+                  <View className='item'>
+                    <View className='label'>回寄地址</View>
+                    <View className='value'>上海市徐汇区宜山路700号普天信息产业园C1幢</View>
+                  </View>
+                </View>
+              </SpFormItem>
+            )}
           </View>
         )}
 

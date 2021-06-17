@@ -55,4 +55,27 @@
 
     }
     
+    .address{
+        padding: 30px 32px;
+        background: #F5F6F9;
+        border-radius: 8px;
+
+        .item{
+            display: flex;
+
+            .label{
+                font-size: 28px;
+                font-weight: 400;
+                color:#666F83;
+                flex-shrink: 0;
+                flex-wrap: nowrap;
+                flex-basis:170px;
+            }
+            .value{
+                font-size: 28px;
+                font-weight: 400;
+                color:#111A34;
+            }
+        }
+    }
 }

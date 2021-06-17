@@ -14,16 +14,23 @@ export default class SpFormItem extends PureComponent {
       label = '这是一个label',
       value = '',
       onClickValue = () => {},
+      onClickTip = () => {},
       placeholder,
       error,
       children,
       wrap,
-      className
+      className,
+      tip
     } = this.props
 
     return (
       <View className={classNames('sp-component-form-item', className, { ['wrap']: wrap })}>
         <View className='label'>{label}</View>
+        {wrap && tip && (
+          <View className='tip' onClick={onClickTip}>
+            {tip}
+          </View>
+        )}
         <View
           className={classNames('placeholder', { ['has-value']: value, ['error']: error })}
           onClick={onClickValue}
