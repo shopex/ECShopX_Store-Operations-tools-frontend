@@ -97,7 +97,12 @@ export function copyContent(content) {
   })
 }
 
-async function requestCallback(func, successText, successCallback) {
+async function requestCallback(
+  func,
+  successText,
+  successCallback = () => {},
+  failCallback = () => {}
+) {
   let result = 1
 
   try {
@@ -112,6 +117,10 @@ async function requestCallback(func, successText, successCallback) {
 
   if (result !== 0) {
     successCallback()
+  }
+
+  if (result == 0) {
+    failCallback()
   }
 }
 

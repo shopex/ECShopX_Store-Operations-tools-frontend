@@ -75,6 +75,19 @@ $danger-color:#FF5257;
 
             &.selected{
               color:var(--color-primary);
+              position: relative;
+
+              &::after{
+                display: block;
+                font-family: "iconfont" !important;
+                font-size: 20px;
+                font-style: normal;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                content: "\e836";
+                position: absolute;  
+                right:200px;
+              }
             }
           }
 

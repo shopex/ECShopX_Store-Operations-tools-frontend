@@ -14,3 +14,7 @@ export function updateAddressActive(params) {
 export function areaList() {
   return req.get('/espier/address')
 }
+
+export function detail(params) {
+  return req.get(`/distributors/aftersalesaddress/${params.address_id}`)
+}

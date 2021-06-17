@@ -75,7 +75,17 @@ class SpGoodItem extends PureComponent {
       return goodInfo?.pic
     } else if (pageType === 'afterSalesList') {
       return goodInfo?.item_pic
+    } else if (pageType === 'afterSalesDetail') {
+      return goodInfo?.item_pic
     }
+  }
+
+  renderSpec = () => {
+    const { goodInfo, pageType } = this.props
+    if (pageType === 'afterSalesDetail') {
+      return goodInfo?.orderItem?.item_spec_desc
+    }
+    return goodInfo.item_spec_desc
   }
 
   render() {
@@ -94,7 +104,7 @@ class SpGoodItem extends PureComponent {
         </View>
         <View className='sp-good-item-content'>
           <View className='sp-good-item-content_name'>{goodInfo.item_name}</View>
-          <View className='sp-good-item-content_spec'>{goodInfo.item_spec_desc}</View>
+          <View className='sp-good-item-content_spec'>{this.renderSpec()}</View>
           <View className='sp-good-item-content_number'>货号：{goodInfo.item_bn}</View>
         </View>
         <View

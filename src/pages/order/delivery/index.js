@@ -350,7 +350,9 @@ class OrderDelivery extends Component {
         if (listStatus) {
           query.listStatus = listStatus
         }
-        Taro.navigateTo({ url: `/pages/order/list?${qs.stringify(query)}` })
+        setTimeout(() => {
+          Taro.navigateTo({ url: `/pages/order/list?${qs.stringify(query)}` })
+        }, 500)
       }
     )
   }

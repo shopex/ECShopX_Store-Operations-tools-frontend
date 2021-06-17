@@ -15,3 +15,8 @@ export function getCourierCompanyList() {
 export function uodateLogistics(orders_delivery_id, data) {
   return req.put(`/delivery/${orders_delivery_id}`, data)
 }
+
+//获取物流详情
+export function getDeliveryList(params) {
+  return req.get(`/delivery/lists`, params)
+}

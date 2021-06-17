@@ -3,6 +3,23 @@
     position:relative;
     padding: 20px 5px;
     box-sizing: border-box;
+
+    &.error{
+        &::before{
+            height: 2px;
+            background: $danger-color;
+        }
+        &:after{
+            border-bottom: 2px solid $danger-color;
+        }
+        .tips{
+            color:$danger-color;
+            position: absolute;
+            bottom: -40px;
+            font-size: 28px;
+            font-weight: 400;
+        }
+    }
  
     &::before{
         display: block;
@@ -27,10 +44,29 @@
         pointer-events: none; 
     }
 
+    .clear{
+
+        position: absolute;
+        right:0;
+        top:0;
+        bottom:0;
+        width:50px;
+        @include flexbox;
+
+        .iconfont{
+            color:#C5CAD5;
+            font-size: 36px; 
+        }
+        
+
+    }
+
     &.active{
         &:after{
             transform: scaleX(1);
         }
+
+       
     }
 
     .custominput{
@@ -44,6 +80,7 @@
         position: absolute;
         top: 18px;
         pointer-events: none;
-    }
+    } 
+
    
 }

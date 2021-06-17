@@ -10,6 +10,11 @@ export function remarks({ orderId, ...params }) {
   return req.put(`/remarks/${orderId}`, params)
 }
 
+//扫一扫
+export function code(params) {
+  return req.post(`/ziticode`, params)
+}
+
 //订单取消
 export function cancel(params) {
   return req.post(`/order/${params.order_id}/cancel`, params)
@@ -33,4 +38,9 @@ export function member({ userId }) {
 //订单发货
 export function delivery(params) {
   return req.post(`/delivery`, params)
+}
+
+//订单核销
+export function writeoff({ orderId, ...params }) {
+  return req.post(`/writeoff/${orderId}`, params)
 }

@@ -44,7 +44,7 @@ export default class SpEditForm extends Component {
     const formatCityinfo = Cityinfo.path.split(',')
     if (city && username && phone && addressDetail) {
       const obj = {
-        distributor_id: `'["${distributor_id}"]'`,
+        distributor_id: `["${distributor_id}"]`,
         province,
         city,
         area,
