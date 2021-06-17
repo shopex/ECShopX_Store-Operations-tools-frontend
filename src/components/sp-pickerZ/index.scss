@@ -1,36 +1,38 @@
 .cpn-picker{
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
-  top: 0;
   left: 0;
-  z-index: 9;
-  background: rgba(37, 38, 45, 0.6);
   .cover {
     position: absolute;
     bottom: 0;
     background: #fff;
-    height: 670px;
+    height: 900px;
     width: 100%;
     box-sizing: border-box;
     border-radius: 8px 8px 0px 0px;
     overflow: hidden;
     .bar {
-      padding: 0 40px;
+      padding: 30px 40px;
       box-sizing: border-box;
-      height: 120px;
-      line-height: 120px;
+
       background: #f9fafb;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       .left {
         font-size: 36px;
         color: #666f83;
       }
       .center {
-        font-size: 40px;
-        color: #111a34;
+        text-align: center;
+        .title{
+          font-size: 40px;
+          color: #111a34;
+        }
+        .subtitle{
+          font-size:28px ;
+          color: #858B9C;
+        }
       }
       .right {
         font-size: 36px;
@@ -38,8 +40,61 @@
       }
     }
     .content {
-      height: 550px;
-     
+      min-height: 550px;
+      box-sizing: border-box;
+      padding: 0 40px;
+      .primary{
+        display: flex;
+        justify-content: space-between;
+        font-size: 32px;
+        height: 110px;
+        line-height: 102px;
+        border-bottom: 1px solid #E2E4EA;
+        box-sizing: border-box;
+        .primaryBox{
+          min-width: 120px;
+          @include text-overflow;
+          // min-width: 100px;
+          .select{
+            text-align: center;
+            color: #2F86F6;
+            border-bottom: 5px solid #4980ff;
+          }
+          .seleted{
+            text-align: left;
+            @include text-overflow;
+            color: #41485D;
+            border: none;
+            &.active{
+              color: #2F86F6;
+              border-bottom: 5px solid #4980ff;
+            }
+          }
+        }
+      }
+      .wrap{
+        padding: 0 40px;
+        @include page-scroll(280px);
+        box-sizing: border-box;
+        height: 560px;
+        display: none;
+        &.show{
+          display: block;
+        }
+        .item{
+          font-size: 32px;
+          color: #41485D;
+          height: 110px;
+          line-height: 110px;
+          border-bottom: 1px solid #E2E4EA;
+          &.active{
+            color: #2F86F6;
+          }
+
+        }
+
+        
+      }
     }
   }
 }
