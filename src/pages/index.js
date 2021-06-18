@@ -99,9 +99,7 @@ class Index extends PureComponent {
               <View className='avatar'>
                 <Image className='photo' src={logo}></Image>
               </View>
-              <View>
-                <Text className='title'>{name}</Text>
-              </View>
+              <View className='title'>{name}</View>
             </View>
           </View>
           <View className='current-status'>
