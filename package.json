@@ -81,7 +81,6 @@
     "lint-staged": "^10.2.11",
     "prettier": "^2.3.0",
     "prettier-eslint-cli": "^5.0.1",
-    "stylelint": "9.3.0",
-    "vconsole": "^3.7.0"
+    "stylelint": "9.3.0"
   }
 }
