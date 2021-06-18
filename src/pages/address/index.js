@@ -2,12 +2,12 @@ import { Component, createElement } from 'react'
 import { View, Image, Form, Input, Button, Picker, ScrollView } from '@tarojs/components'
 import { showToast } from '@/utils'
 import api from '@/api'
-import { SpAddress, SpEditForm } from '@/components'
+import { SpAddress, SpEditForm, SpLoading } from '@/components'
 import './index.scss'
 import { AtButton, AtFloatLayout } from 'taro-ui'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
-const logo = require('../../assets/imgs/1.jpg')
+
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
@@ -16,8 +16,8 @@ export default class Address extends Component {
     super()
     this.state = {
       addressList: null,
-      // isShow: false,
-      isActive: null
+      isActive: null,
+      loading: false
     }
   }
   componentDidShow() {
@@ -28,12 +28,18 @@ export default class Address extends Component {
     showToast(`${message}暂不支持修改！`)
   }
   async getConfig() {
+    this.setState({
+      loading: true
+    })
     let { distributor_id } = this.props.planSelection
     const data = {
       distributor_id,
       page_size: 1000
     }
     const result = await api.address.getAddressList(data)
+    this.setState({
+      loading: false
+    })
     this.setState({
       addressList: result.list
     })
@@ -90,6 +96,7 @@ export default class Address extends Component {
   render() {
     return (
       <View className='page-address'>
+        {this.state.loading && <SpLoading>正在加载...</SpLoading>}
         <View className='nav'>
           <View className='left'>我的售后地址</View>
           <View
@@ -100,7 +107,7 @@ export default class Address extends Component {
             新增地址
           </View>
         </View>
-        {this.state.addressList && (
+        {this.state.addressList ? (
           <ScrollView className='addressBox'>
             {this.state.addressList.map((item, index) => {
               return (
@@ -113,6 +120,8 @@ export default class Address extends Component {
               )
             })}
           </ScrollView>
+        ) : (
+          <View>暂无地址</View>
         )}
 
         <View className='confirm'>

@@ -67,6 +67,7 @@ class Index extends PureComponent {
 
   handleOnScanQRCode = async () => {
     const res = await qwsdk.scanQRCode()
+
     requestCallback(
       async () => {
         const data = await api.order.qrwriteoff({

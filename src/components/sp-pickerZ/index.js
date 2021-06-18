@@ -147,6 +147,7 @@ export default class ChangeWL extends PureComponent {
                 cityList.map((item) => {
                   return (
                     <View
+                      key={item.label}
                       className={'item ' + (item.label == city && 'active')}
                       onClick={(e) => this.seletedCityHanle(item)}
                     >
@@ -160,6 +161,7 @@ export default class ChangeWL extends PureComponent {
                 areaList.map((item) => {
                   return (
                     <View
+                      key={item.label}
                       className={'item ' + (item.label == area && 'active')}
                       onClick={(e) => this.seletedAreaHanle(item)}
                     >
