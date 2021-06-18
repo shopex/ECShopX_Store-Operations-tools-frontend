@@ -1,5 +1,5 @@
 import { PureComponent } from 'react'
-import { View, Image } from '@tarojs/components'
+import { View, Image, ScrollView } from '@tarojs/components'
 import api from '@/api'
 import './index.scss'
 import Taro from '@tarojs/taro'
@@ -51,18 +51,20 @@ export default class PlanSelection extends PureComponent {
     const { isActive, shopList } = this.state
     return (
       <View className='page-planSelection'>
-        <View className='title'>选择您的店铺工作台</View>
-        <View className='tips'>没有找到？请联系您的超级管理员</View>
-        <View className='box'>
-          <SpRadio
-            isActive={isActive}
-            SpRadioData={shopList}
-            activeHandle={this.activeHandle}
-          ></SpRadio>
-        </View>
-        <View className='logoBox'>
-          <Image src={logo}></Image>
-        </View>
+        <ScrollView className='welcome-scrollview' scrollY scrollWithAnimation>
+          <View className='title'>选择您的店铺工作台</View>
+          <View className='tips'>没有找到？请联系您的超级管理员</View>
+          <View className='box'>
+            <SpRadio
+              isActive={isActive}
+              SpRadioData={shopList}
+              activeHandle={this.activeHandle}
+            ></SpRadio>
+          </View>
+          <View className='logoBox'>
+            <Image src={logo}></Image>
+          </View>
+        </ScrollView>
       </View>
     )
   }

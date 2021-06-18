@@ -1,7 +1,12 @@
 .page-planSelection{
-  padding: 30px 32px;
-  background: #fff;
-  height: 100%;
+  .welcome-scrollview {
+    padding:0 50px ;
+    box-sizing: border-box;
+    @include page-scroll(0, 120px);
+    background: #fff;
+    min-height: 100%;
+    
+  }
   .title{
     color: #111A34;
     font-size: 52px;
@@ -15,6 +20,11 @@
     margin-top: 80px;
   }
   .logoBox{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    // bottom: ;
     margin-top: 200px;
     taro-image-core{
       position: relative;
