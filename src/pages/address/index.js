@@ -16,11 +16,11 @@ export default class Address extends Component {
     super()
     this.state = {
       addressList: null,
-      isShow: false,
+      // isShow: false,
       isActive: null
     }
   }
-  componentDidMount() {
+  componentDidShow() {
     this.getConfig()
   }
 
@@ -40,13 +40,13 @@ export default class Address extends Component {
     console.log(result)
   }
   incrementAddress() {
-    this.setState({
-      isShow: true
+    Taro.navigateTo({
+      url: `/pages/address/addAddress/index`
     })
   }
   isShowEditHandle() {
-    this.setState({
-      isShow: false
+    Taro.navigateTo({
+      url: `/pages/address/index`
     })
   }
   switchAddressHandle(index) {
@@ -120,13 +120,13 @@ export default class Address extends Component {
             选择此地址
           </View>
         </View>
-        <AtFloatLayout isOpened={this.state.isShow}>
+        {/* <AtFloatLayout isOpened={this.state.isShow}>
           <SpEditForm
             seletedAddress={this.seletedAddress}
             getConfig={(e) => this.getConfig()}
             isShowEditHandle={(e) => this.isShowEditHandle()}
           ></SpEditForm>
-        </AtFloatLayout>
+        </AtFloatLayout> */}
       </View>
     )
   }

@@ -16,7 +16,8 @@ export default {
     'pages/auth/bindPhone',
     'pages/planSelection/index',
     'pages/logisticsInfo/index',
-    'pages/address/index'
+    'pages/address/index',
+    'pages/address/addAddress/index'
   ],
   tabBar: {
     list: [
