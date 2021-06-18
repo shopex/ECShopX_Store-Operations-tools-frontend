@@ -17,9 +17,9 @@ class SpGoodItem extends PureComponent {
     } = this.props
     //如果是积分订单
     if (order_class === 'pointsmall') {
-      return <SpGoodPrice type='normal' point={goodInfo.point} />
+      return <SpGoodPrice type='normal' point={goodInfo.item_point} />
     } else {
-      return <SpGoodPrice price={goodInfo.item_fee} />
+      return <SpGoodPrice price={goodInfo.price} />
     }
   }
 

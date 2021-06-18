@@ -47,5 +47,5 @@ export function writeoff({ orderId, ...params }) {
 
 //订单核销
 export function qrwriteoff(params) {
-  return req.get(`/qr_writeoff`, params)
+  return req.post(`/qr_writeoff`, params)
 }
