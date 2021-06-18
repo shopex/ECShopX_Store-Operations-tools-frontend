@@ -166,7 +166,9 @@ export default class ActionModal extends PureComponent {
 
   //拨打电话
   handleCallPhonenumber = () => {
-    const { mobile } = this.props
+    const {
+      orderInfo: { mobile }
+    } = this.props
     Taro.makePhoneCall({
       phoneNumber: mobile
     })
@@ -259,19 +261,18 @@ export default class ActionModal extends PureComponent {
 
   //扫一扫
   handleOnScanQRCode = async () => {
-    const { orderInfo } = this.props
     const res = await qwsdk.scanQRCode()
     requestCallback(
       async () => {
-        const data = await api.order.writeoff({
-          order_id: orderInfo.order_id,
-          ziti_code: res.replace('ZT_', '').substring(0, 6)
+        const data = await api.order.qrwriteoff({
+          code: res.replace('ZT_', '')
         })
         return data
       },
       '核销订单成功',
-      () => {
+      ({ order_id }) => {
         this.handleClose()
+        Taro.navigateTo({ url: `/pages/order/detail?order_id=${order_id}` })
       },
       () => {
         this.setState({
