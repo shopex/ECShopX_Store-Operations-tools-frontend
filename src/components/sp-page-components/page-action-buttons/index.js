@@ -219,7 +219,7 @@ class PageActionButtons extends PureComponent {
   }
 
   render() {
-    const { className, orderInfo, mainStatus } = this.props
+    const { className, orderInfo, mainStatus, onRefresh = () => {} } = this.props
     const { cancelVisible, cancelReasonVisible, actionVisible, actionType, noteVisible } =
       this.state
 
@@ -233,6 +233,7 @@ class PageActionButtons extends PureComponent {
           orderInfo={orderInfo}
           reasonVisible={cancelReasonVisible}
           onCancel={this.handleClosePicker}
+          onRefresh={onRefresh}
           onSelectOther={this.handleSelectCancel}
         />
 
@@ -241,6 +242,7 @@ class PageActionButtons extends PureComponent {
           visible={actionVisible}
           type={actionType}
           onClose={this.handleCloseActionModal}
+          onRefresh={onRefresh}
           orderInfo={orderInfo}
           mainStatus={mainStatus}
         />

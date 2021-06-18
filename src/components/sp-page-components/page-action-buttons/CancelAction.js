@@ -22,7 +22,7 @@ export default class CancelAction extends PureComponent {
 
   handlePickerConfirm = (selectIndex) => {
     const { cancelData } = this.state
-    const { onSelectOther = () => {}, orderInfo, onCancel } = this.props
+    const { onSelectOther = () => {}, onRefresh, orderInfo, onCancel } = this.props
     let cancelKeys = Object.keys(cancelData)
     let selectKey = cancelKeys[selectIndex]
     //如果是取消原因
@@ -40,6 +40,7 @@ export default class CancelAction extends PureComponent {
         '取消订单成功',
         () => {
           onCancel && onCancel()
+          onRefresh?.()
         }
       )
     }
@@ -52,7 +53,7 @@ export default class CancelAction extends PureComponent {
   }
 
   handleConfirm = () => {
-    const { orderInfo, onCancel } = this.props
+    const { orderInfo, onCancel, onRefresh } = this.props
     requestCallback(
       async () => {
         const data = await api.order.cancel({
@@ -68,6 +69,7 @@ export default class CancelAction extends PureComponent {
           note: ''
         })
         onCancel && onCancel()
+        onRefresh?.()
       }
     )
   }
