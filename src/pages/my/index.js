@@ -2,6 +2,8 @@ import { Component, createElement } from 'react'
 import { View, Image, Form, Input, Button } from '@tarojs/components'
 import { showToast, strLength } from '@/utils'
 import api from '@/api'
+import imgUploader from '@/utils/upload.js'
+
 import './index.scss'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
@@ -43,7 +45,6 @@ export default class My extends Component {
     const { activeShop } = this.props.planSelection
     if (activeShop) {
       let { distributor_id } = activeShop
-      distributor_id = distributor_id || '102'
       console.log(distributor_id)
       const result = data.filter((item) => {
         return item.distributor_id == distributor_id
@@ -82,6 +83,30 @@ export default class My extends Component {
   notUpdate(message) {
     showToast(`${message}暂不支持修改！`)
   }
+
+  // 上传头像
+  async handleAvatar() {
+    const { tempFiles = [] } = await Taro.chooseImage({
+      count: 1
+    })
+
+    console.log(tempFiles)
+    if (tempFiles.length > 0) {
+      const imgFiles = tempFiles.slice(0, 1).map((item) => {
+        return {
+          file: item,
+          url: item.path
+        }
+      })
+      const res = await imgUploader.uploadImageFn(imgFiles)
+      console.log(res)
+      // userInfo.avatar = res[0].url
+      // this.setState({
+      //   userInfo
+      // })
+    }
+  }
+
   photoUpdate() {
     let input = document.createElement('input')
     input.setAttribute('type', 'file')
@@ -126,7 +151,7 @@ export default class My extends Component {
           <Form onSubmit={this.formSubmit.bind(this)}>
             <View className='photoBox'>
               <View className='iconfont icon-zu1684 title'> 我的头像</View>
-              <View className='photo' onClick={(e) => this.photoUpdate()}>
+              <View className='photo' onClick={(e) => this.handleAvatar()}>
                 <Image src={logo || head_portrait}></Image>
               </View>
             </View>
