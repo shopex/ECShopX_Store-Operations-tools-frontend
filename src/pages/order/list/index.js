@@ -209,6 +209,10 @@ export default class List extends PureComponent {
     this.searchFilter({ isResetList: true })
   }
 
+  handleRefresh = () => {
+    this.searchFilter({ isResetList: true })
+  }
+
   //提交筛选状态
   handleSubmitParams = (params) => {
     console.log('handleSubmitParams')
@@ -323,6 +327,7 @@ export default class List extends PureComponent {
                     onClose={this.handleCloseActionButtons}
                     orderInfo={orderItem}
                     mainStatus={mainStatus}
+                    onRefresh={this.handleRefresh}
                   />
                 }
               />

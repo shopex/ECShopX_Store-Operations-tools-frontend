@@ -26,7 +26,7 @@ export default class ActionModal extends PureComponent {
   }
 
   handleChangeInputVericode = (e) => {
-    const { orderInfo } = this.props
+    const { orderInfo, onRefresh } = this.props
     const value = e.detail.value
 
     if (!value) {
@@ -56,6 +56,7 @@ export default class ActionModal extends PureComponent {
             '核销订单成功',
             () => {
               this.handleClose()
+              onRefresh?.()
             },
             () => {
               this.setState({
@@ -182,7 +183,7 @@ export default class ActionModal extends PureComponent {
 
   //取消订单
   handleCancelOrder = () => {
-    const { orderInfo } = this.props
+    const { orderInfo, onRefresh } = this.props
     requestCallback(
       async () => {
         const data = await api.order.cancel({
@@ -193,13 +194,14 @@ export default class ActionModal extends PureComponent {
       '取消订单成功',
       () => {
         this.handleClose()
+        onRefresh?.()
       }
     )
   }
 
   //点击确认取单
   handleGetOrder = () => {
-    const { orderInfo } = this.props
+    const { orderInfo, onRefresh } = this.props
     requestCallback(
       async () => {
         const data = await api.order.businessreceipt({
@@ -210,6 +212,7 @@ export default class ActionModal extends PureComponent {
       '接单成功',
       () => {
         this.handleClose()
+        onRefresh?.()
       }
     )
   }
@@ -283,11 +286,11 @@ export default class ActionModal extends PureComponent {
   }
 
   render() {
-    const { visible } = this.props
+    const { visible, onClose = () => {} } = this.props
 
     return (
       <View className={classNames('action-modal')}>
-        <AtModal isOpened={visible}>
+        <AtModal isOpened={visible} onClose={onClose}>
           {this.renderContent()}
           {this.renderAction()}
         </AtModal>
