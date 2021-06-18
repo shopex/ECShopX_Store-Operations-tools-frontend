@@ -15,10 +15,12 @@ export default class ActionModal extends PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps, prevState) {
     const { href } = window.location
     const { type } = this.props
+
     if (type === 'verification') {
+      console.log('componentDidUpdate', type)
       qwsdk.init({
         url: href
       })
@@ -264,7 +266,9 @@ export default class ActionModal extends PureComponent {
 
   //扫一扫
   handleOnScanQRCode = async () => {
+    console.log('handleOnScanQRCode')
     const res = await qwsdk.scanQRCode()
+    console.log('handleOnScanQRCode', res)
     requestCallback(
       async () => {
         const data = await api.order.qrwriteoff({
