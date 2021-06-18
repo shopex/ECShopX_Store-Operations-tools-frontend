@@ -1,5 +1,5 @@
 import { Component, createElement } from 'react'
-import { View, Image, Form, Input, Button, Picker } from '@tarojs/components'
+import { View, Image, Form, Input, Button, Picker, Text } from '@tarojs/components'
 import { AtForm, AtInput, AtButton, AtFloatLayout } from 'taro-ui'
 import { showToast } from '@/utils'
 import api from '@/api'
@@ -58,11 +58,13 @@ export default class SpEditForm extends Component {
       const { result } = await api.address.postAddressList(obj)
       const { address_id } = result
       console.log(address_id)
-      const res = await this.props.seletedAddress(address_id)
+      const params = {
+        address_id,
+        set_default: 1
+      }
+      const res = await api.address.updateAddressActive(params)
       if (res.status) {
         showToast('ok')
-        this.props.getConfig()
-        this.props.isShowEditHandle()
         Taro.navigateTo({
           url: `/pages/afterSales/deal?address_id=${address_id}`
         })
@@ -122,28 +124,29 @@ export default class SpEditForm extends Component {
       phone: value
     })
   }
+
   componentDidMount() {}
   render() {
-    const { isShowEditHandle, getConfig } = this.props
-    const { province, city, area, username, phone, addressDetail, isShow } = this.state
+    const { province, city, area, username, phone, addressDetail, isShow, Cityinfo } = this.state
     return (
       <View className='sp-editForm'>
         <View className='box'>
-          <View className='title'>新增售后地址</View>
+          <View className='title'></View>
           <View className='content'>
             <AtForm>
-              <AtInput
-                name='value'
-                title='所在地区'
-                type='text'
-                placeholder='所在省市'
-                onFocus={(e) => {
-                  this.openPicker()
-                }}
-                value={province ? province + '/' + city + '/' + area : ''}
-              >
-                <Image src={logo} />
-              </AtInput>
+              <View className='selectCity' onClick={(e) => this.openPicker()}>
+                <View className='label'>所在地区</View>
+                <View className='city'>
+                  {Cityinfo ? (
+                    <Text>{province + city + area}</Text>
+                  ) : (
+                    <Text className='default'>所在省市</Text>
+                  )}
+                </View>
+                <View className='value'>
+                  <Text className='iconfont icon-jiantou'></Text>
+                </View>
+              </View>
               <AtInput
                 name='value'
                 title='联系人'
@@ -170,26 +173,20 @@ export default class SpEditForm extends Component {
               />
             </AtForm>
           </View>
+        </View>
 
-          <View className='ctrl'>
-            <View className='item' onClick={isShowEditHandle}>
-              取消
-            </View>
-            <View className='item' onClick={(e) => this.onSubmit()}>
-              新增并选择
-            </View>
+        <View className='confirm'>
+          <View className='btn' onClick={(e) => this.onSubmit()}>
+            新增并选择
           </View>
         </View>
-        {/* <AtFloatLayout isOpened={this.state.isShow}>
-              <SpPickerZ selectList={this.state.selectList}></SpPickerZ>
-        </AtFloatLayout> */}
-        {isShow && (
+        <AtFloatLayout isOpened={this.state.isShow}>
           <SpPickerZ
             getCityHandle={this.getCityHandle.bind(this)}
             isShowHandle={(e) => this.isShowHandle()}
             selectList={this.state.selectList}
           ></SpPickerZ>
-        )}
+        </AtFloatLayout>
       </View>
     )
   }
