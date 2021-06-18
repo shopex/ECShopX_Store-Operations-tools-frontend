@@ -78,28 +78,11 @@ export default class MessageDetail extends PureComponent {
     }
   }
 
-  // async onScroll(e) {
-
-  //   if (e.detail.scrollTop>this.state.page*95 && e.detail.scrollTop % 95 ==0 ) {
-  //     const { type } = getCurrentInstance().router.params
-  //     let { distributor_id } = this.props.planSelection
-  //     const obj = {
-  //       page:this.state.page,
-  //       pageSize: 4,
-  //       msg_type: type, //  1: 售后, 2: 待发货, 3: 未妥投
-  //       distributor_id,
-  //       id: 0
-  //     }
-  //     const result = await api.message.getMessageDetail(obj)
-
-  //     this.setState({
-  //       page:this.state.page+1,
-  //       detailList:this.state.detailList.concat(result.list)
-  //     })
-
-  //   }
-  //   console.log(e.detail)
-  // }
+  OrderHandle(order_id) {
+    Taro.navigateTo({
+      url: `/pages/order/detail?order_id=${order_id}`
+    })
+  }
 
   render() {
     const { loading } = this.state
@@ -108,7 +91,6 @@ export default class MessageDetail extends PureComponent {
         className='page-messageDetail'
         scrollY
         scrollWithAnimation
-        //  onScroll={e=>this.onScroll(e)}
         onScrollToLower={this.nextPage}
       >
         {loading && <SpLoading>正在加载...</SpLoading>}
@@ -121,6 +103,7 @@ export default class MessageDetail extends PureComponent {
                 SpMessageDetailData={item}
                 msgType={item.msg_type}
                 titleList={this.state.titleList}
+                OrderHandle={this.OrderHandle}
               />
             )
           })}
