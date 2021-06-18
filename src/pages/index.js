@@ -3,7 +3,7 @@ import React, { Component, PureComponent } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { withLogin } from '@/hocs'
 import api from '@/api'
-import { navigateTo, formatNum, qwsdk } from '@/utils'
+import { requestCallback, formatNum, qwsdk } from '@/utils'
 import { connect } from 'react-redux'
 import './index.scss'
 
@@ -65,9 +65,25 @@ class Index extends PureComponent {
     })
   }
 
-  async handleOnScanQRCode() {
+  handleOnScanQRCode = async () => {
     const res = await qwsdk.scanQRCode()
-    console.log(res)
+    requestCallback(
+      async () => {
+        const data = await api.order.qrwriteoff({
+          code: res.replace('ZT_', '')
+        })
+        return data
+      },
+      '核销订单成功',
+      ({ order_id }) => {
+        Taro.navigateTo({ url: `/pages/order/detail?order_id=${order_id}` })
+      },
+      () => {
+        this.setState({
+          veriError: '核销码不存在或有误，请检查！'
+        })
+      }
+    )
   }
 
   render() {
