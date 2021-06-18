@@ -3,7 +3,7 @@ import req from '@/api/req'
 // import * as qiniu from 'qiniu-js'
 
 const getToken = (params) => {
-  return req.get('espier/image_upload_token', params)
+  return req.post('/espier/oss_upload_token', params)
 }
 
 // const uploadURLFromRegionCode = (code) => {
@@ -165,7 +165,11 @@ const uploadImageFn = async (imgFiles, filetype = 'image') => {
     }
     try {
       const filename = item.url.slice(item.url.lastIndexOf('/') + 1)
-      const { driver, token } = await getToken({ filetype, filename })
+      console.log(filetype, filename)
+      // const { driver, token } = await getToken({ filetype, filename })
+      const { driver, token } = await getToken({ filetype })
+
+      console.log(driver, token)
       const uploadType = getUploadFun(driver)
       const img = await upload[uploadType](item, { ...token, filetype })
       if (!img || !img.url) {

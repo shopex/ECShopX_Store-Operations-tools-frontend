@@ -9,7 +9,3 @@ export function getMyinfo(params) {
 export function updateInfo(params) {
   return req.put('/operator/updatedata', params)
 }
-
-export function updatePhoto(params) {
-  return req.post('/espier/oss_upload_token', params)
-}

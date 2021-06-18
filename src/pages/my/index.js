@@ -30,6 +30,7 @@ export default class My extends Component {
       is_app: 1
     }
     const result = await api.my.getMyinfo(obj)
+    console.log(result)
     const { username, mobile, head_portrait, work_userid, distributors } = result
     this.setState({
       username,
@@ -100,10 +101,15 @@ export default class My extends Component {
       })
       const res = await imgUploader.uploadImageFn(imgFiles)
       console.log(res)
-      // userInfo.avatar = res[0].url
-      // this.setState({
-      //   userInfo
-      // })
+      let head_portrait = res[0].url
+      console.log(head_portrait)
+      this.setState({
+        head_portrait
+      })
+      const result = await api.my.updateInfo({
+        head_portrait
+      })
+      console.log(result)
     }
   }
 
@@ -152,7 +158,7 @@ export default class My extends Component {
             <View className='photoBox'>
               <View className='iconfont icon-zu1684 title'> 我的头像</View>
               <View className='photo' onClick={(e) => this.handleAvatar()}>
-                <Image src={logo || head_portrait}></Image>
+                <Image src={head_portrait}></Image>
               </View>
             </View>
             <View className='common'>
