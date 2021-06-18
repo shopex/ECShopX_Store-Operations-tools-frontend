@@ -52,7 +52,7 @@ export default class CancelAction extends PureComponent {
   }
 
   handleConfirm = () => {
-    const { orderInfo } = this.props
+    const { orderInfo, onCancel } = this.props
     requestCallback(
       async () => {
         const data = await api.order.cancel({
@@ -67,7 +67,7 @@ export default class CancelAction extends PureComponent {
         this.setState({
           note: ''
         })
-        onClose && onClose()
+        onCancel && onCancel()
       }
     )
   }
