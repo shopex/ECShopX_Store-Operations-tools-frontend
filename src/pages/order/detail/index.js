@@ -87,7 +87,8 @@ class OrderDetail extends Component {
         receiver_state,
         receiver_city,
         receiver_district,
-        receiver_address
+        receiver_address,
+        mobile
       }
     } = this.state
     let leftContent
@@ -99,7 +100,7 @@ class OrderDetail extends Component {
         },
         {
           label: '手机号',
-          value: receiver_mobile
+          value: mobile
         }
       ]
     } else {
