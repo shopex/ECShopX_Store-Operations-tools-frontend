@@ -119,8 +119,10 @@ async function requestCallback(
 ) {
   let result = 1
 
+  let res
+
   try {
-    const res = await func()
+    res = await func()
     if (res) {
       S.toast(successText)
     }
@@ -130,7 +132,7 @@ async function requestCallback(
   }
 
   if (result !== 0) {
-    successCallback()
+    successCallback(res)
   }
 
   if (result == 0) {

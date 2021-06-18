@@ -49,6 +49,7 @@ class SearchInput extends PureComponent {
   }
 
   handleSubmit = (e) => {
+    console.log('e', e)
     if (e.code === 'Enter' && this.props.onInputConfirm) {
       this.props.onInputConfirm({ isResetList: true })
     }
