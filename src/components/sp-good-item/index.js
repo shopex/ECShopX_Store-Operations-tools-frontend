@@ -17,8 +17,14 @@ class SpGoodItem extends PureComponent {
     } = this.props
     //如果是积分订单
     if (order_class === 'pointsmall') {
+      if (pageType === 'afterSalesList') {
+        return <SpGoodPrice type='normal' point={goodInfo?.orderItem?.item_point} />
+      }
       return <SpGoodPrice type='normal' point={goodInfo.item_point} />
     } else {
+      if (pageType === 'afterSalesList') {
+        return <SpGoodPrice type='normal' price={goodInfo?.orderItem?.price} />
+      }
       return <SpGoodPrice price={goodInfo.price} />
     }
   }
@@ -26,12 +32,19 @@ class SpGoodItem extends PureComponent {
   renderOriginPrice = () => {
     const {
       orderInfo: { order_class },
-      goodInfo
+      goodInfo,
+      pageType
     } = this.props
     //如果是积分订单
     if (order_class === 'pointsmall') {
+      if (pageType === 'afterSalesList') {
+        return <SpGoodPrice type='discount' point={goodInfo?.orderItem?.point} />
+      }
       return <SpGoodPrice type='discount' point={goodInfo.point} />
     } else {
+      if (pageType === 'afterSalesList') {
+        return <SpGoodPrice type='discount' price={goodInfo?.orderItem?.market_price} />
+      }
       return <SpGoodPrice type='discount' size={22} price={goodInfo.market_price} />
     }
   }
