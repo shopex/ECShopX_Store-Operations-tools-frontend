@@ -9,10 +9,26 @@ class FixedAction extends PureComponent {
     this.state = {}
   }
 
+  isDetail = () => {
+    const { pageType } = this.props
+    if (pageType === 'orderDetail' || pageType === 'afterSalesDetail') {
+      return true
+    }
+    return false
+  }
+
   render() {
     const { className, children } = this.props
 
-    return <View className={classNames('sp-page-fixed-action', className)}>{children}</View>
+    return (
+      <View
+        className={classNames('sp-page-fixed-action', className, {
+          ['detail-page']: this.isDetail()
+        })}
+      >
+        {children}
+      </View>
+    )
   }
 }
 export default FixedAction

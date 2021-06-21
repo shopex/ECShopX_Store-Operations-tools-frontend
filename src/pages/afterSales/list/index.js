@@ -310,7 +310,7 @@ export default class List extends PureComponent {
                     pageType={pageType}
                     onClick={this.handleClickActionButtons}
                     onClose={this.handleCloseActionButtons}
-                    orderInfo={orderItem}
+                    orderInfo={orderItem?.app_info?.order_info}
                     mainStatus={mainStatus}
                   />
                 }

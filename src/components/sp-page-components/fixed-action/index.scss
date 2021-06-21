@@ -6,7 +6,14 @@
     right:0;
     height:160px;
     background-color: #fff;
-    padding:20px 50px;
+    padding:0px 50px;
     box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.14);
+    box-sizing: border-box;
+    padding-top: 4px;
+
+    &.detail-page{
+        height:160px;
+        padding-top:20px;
+    }
 
 }

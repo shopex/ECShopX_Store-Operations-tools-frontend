@@ -124,7 +124,7 @@ class OrderDetail extends Component {
 
         <SpToast />
 
-        <FixedAction>
+        <FixedAction pageType={pageType}>
           <PageActionButtons
             buttons={detail?.app_info?.buttons}
             pageType={pageType}
