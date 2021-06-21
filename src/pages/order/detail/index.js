@@ -384,7 +384,7 @@ class OrderDetail extends Component {
           )}
           {terminal_info && (
             <View className='item'>
-              {terminal_info?.msg}: {timestampToTime(terminal_info?.time)}
+              {terminal_info?.msg}：{timestampToTime(terminal_info?.time)}
             </View>
           )}
           <View className='item'>订单编号：{orderInfo.order_id}</View>
@@ -396,7 +396,7 @@ class OrderDetail extends Component {
 
         <SpToast />
 
-        <FixedAction>
+        <FixedAction pageType={pageType}>
           <PageActionButtons
             buttons={orderInfo.app_info?.buttons}
             pageType={pageType}
