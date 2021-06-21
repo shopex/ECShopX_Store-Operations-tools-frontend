@@ -1,16 +1,13 @@
 import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import { View, ScrollView } from '@tarojs/components'
-import { SptitleBar, SpMessage, SpLoading } from '@/components'
+import { SptitleBar, SpMessage, SpLoading, SpNote } from '@/components'
 import './index.scss'
 import { showToast } from '@/utils'
 import { connect } from 'react-redux'
 
 import api from '@/api'
 
-const SpTitleBarData = {
-  title: '消息中心'
-}
 const SpMessageData = [
   {
     type: 1,
@@ -99,45 +96,56 @@ export default class Message extends PureComponent {
     return (
       <View className='page-message'>
         {loading && <SpLoading>正在加载...</SpLoading>}
-
-        {!is_empty ? (
+        {is_empty == 0 ? (
           <ScrollView className='message-list'>
             {SpMessageData.map((item, index) => {
               if (index == 0) {
                 return (
-                  <SpMessage
-                    SpMessageData={item}
-                    date={date_type_1}
-                    messageNum={num_type_1}
-                    key={item.title}
-                    onclickHander={(e) => this.onclickHander(item)}
-                  ></SpMessage>
+                  <>
+                    {date_type_1 && (
+                      <SpMessage
+                        SpMessageData={item}
+                        date={date_type_1}
+                        messageNum={num_type_1}
+                        key={item.title}
+                        onclickHander={(e) => this.onclickHander(item)}
+                      ></SpMessage>
+                    )}
+                  </>
                 )
               } else if (index == 1) {
                 return (
-                  <SpMessage
-                    date={date_type_2}
-                    messageNum={num_type_2}
-                    SpMessageData={item}
-                    key={item.title}
-                    onclickHander={(e) => this.onclickHander(item)}
-                  ></SpMessage>
+                  <>
+                    {date_type_2 && (
+                      <SpMessage
+                        date={date_type_2}
+                        messageNum={num_type_2}
+                        SpMessageData={item}
+                        key={item.title}
+                        onclickHander={(e) => this.onclickHander(item)}
+                      ></SpMessage>
+                    )}
+                  </>
                 )
               } else {
                 return (
-                  <SpMessage
-                    date={date_type_3}
-                    messageNum={num_type_3}
-                    SpMessageData={item}
-                    key={item.title}
-                    onclickHander={(e) => this.onclickHander(item)}
-                  ></SpMessage>
+                  <>
+                    {date_type_3 && (
+                      <SpMessage
+                        date={date_type_3}
+                        messageNum={num_type_3}
+                        SpMessageData={item}
+                        key={item.title}
+                        onclickHander={(e) => this.onclickHander(item)}
+                      ></SpMessage>
+                    )}
+                  </>
                 )
               }
             })}
           </ScrollView>
         ) : (
-          <View>暂无消息喔</View>
+          <SpNote img='trades_empty.png'>暂无消息哦~</SpNote>
         )}
       </View>
     )

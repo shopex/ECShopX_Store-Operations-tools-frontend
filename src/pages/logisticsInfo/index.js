@@ -1,10 +1,10 @@
 import { PureComponent } from 'react'
 import { View, Image, Picker } from '@tarojs/components'
 import api from '@/api'
-import { SpChangeWL, SpDialogBox, SpPickerZ } from '@/components'
+import { SpChangeWL, SpDialogBox, SpLoading } from '@/components'
 import { timestampToTime } from '@/utils'
 import './index.scss'
-import Taro from '@tarojs/taro'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 
 import { AtTimeline } from 'taro-ui'
 
@@ -17,6 +17,7 @@ export default class Logistics extends PureComponent {
       updateOddNumbers: {
         title: '物流单号'
       },
+      loading: false,
       // 快递公司列表
       CourierCompany: null
     }
@@ -27,9 +28,13 @@ export default class Logistics extends PureComponent {
   }
   // 获取物流信息
   async getConfig() {
+    this.setState({
+      loading: true
+    })
+    const { order_id } = getCurrentInstance().router.params
+    console.log(order_id)
     const query = {
-      // order_id: 3431449000310318
-      order_id: 3448428000160330
+      order_id: order_id
     }
     const result = await api.logistics.getLogistics(query)
     const data = result.delivery_list.map((item) => {
@@ -42,7 +47,8 @@ export default class Logistics extends PureComponent {
     console.log(data)
     this.setState({
       logs: result.logs,
-      delivery_list: data
+      delivery_list: data,
+      loading: false
       // isOpened:true
     })
     console.log(result)
@@ -150,9 +156,11 @@ export default class Logistics extends PureComponent {
   }
 
   render() {
-    const { updateOddNumbers, CourierCompany, delivery_list, CourierCompany_zanCun } = this.state
+    const { updateOddNumbers, CourierCompany, delivery_list, CourierCompany_zanCun, loading } =
+      this.state
     return (
       <View className='page-logisticsInfo'>
+        {loading && <SpLoading>正在加载...</SpLoading>}
         {delivery_list &&
           delivery_list.map((item) => {
             return (
