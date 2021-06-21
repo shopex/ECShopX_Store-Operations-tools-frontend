@@ -1,6 +1,7 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component, PureComponent } from 'react'
 import { View, Text, Image } from '@tarojs/components'
+import { SpLoading } from '@/components'
 import { withLogin } from '@/hocs'
 import api from '@/api'
 import { requestCallback, formatNum, qwsdk } from '@/utils'
@@ -25,7 +26,8 @@ class Index extends PureComponent {
         real_refunded_fee: 5, //退款金额
         real_aftersale_count: 6, //售后订单数
         real_deposit: 7 // 新增储蓄
-      }
+      },
+      loading: true
     }
   }
   async getConfig() {
@@ -88,7 +90,7 @@ class Index extends PureComponent {
   }
 
   render() {
-    const { moneyShow, realTimeData } = this.state
+    const { moneyShow, realTimeData, loading } = this.state
 
     const { name, logo } = this.props.planSelection
     return (

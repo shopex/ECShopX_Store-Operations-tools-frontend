@@ -3,7 +3,7 @@ import { View, Image, ScrollView } from '@tarojs/components'
 import api from '@/api'
 import './index.scss'
 import Taro from '@tarojs/taro'
-import { SpRadio } from '@/components'
+import { SpRadio, SpLoading } from '@/components'
 import { connect } from 'react-redux'
 
 const logo = require('@/assets/imgs/shopex-logo.png')
@@ -21,7 +21,8 @@ export default class PlanSelection extends PureComponent {
     super(props)
     this.state = {
       isActive: null,
-      shopList: null
+      shopList: null,
+      loading: false
     }
   }
 
@@ -33,13 +34,17 @@ export default class PlanSelection extends PureComponent {
     Taro.redirectTo({ url: `/pages/index` })
   }
   async getPlanSelectionHanle() {
+    this.setState({
+      loading: true
+    })
     let data = {
       is_app: 1
     }
     const result = await api.planSelection.getShopList(data)
     console.log(result)
     this.setState({
-      shopList: result.list
+      shopList: result.list,
+      loading: false
     })
   }
 
@@ -48,13 +53,15 @@ export default class PlanSelection extends PureComponent {
   }
 
   render() {
-    const { isActive, shopList } = this.state
+    const { isActive, shopList, loading } = this.state
     return (
       <View className='page-planSelection'>
         <ScrollView className='welcome-scrollview' scrollY scrollWithAnimation>
           <View className='title'>选择您的店铺工作台</View>
           <View className='tips'>没有找到？请联系您的超级管理员</View>
+
           <View className='box'>
+            {loading && <SpLoading>正在加载...</SpLoading>}
             <SpRadio
               isActive={isActive}
               SpRadioData={shopList}

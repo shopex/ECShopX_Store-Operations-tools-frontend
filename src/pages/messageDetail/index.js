@@ -2,7 +2,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import api from '@/api'
 import { View, Text, ScrollView } from '@tarojs/components'
-import { SpMessageDetail, SpLoading } from '@/components'
+import { SpMessageDetail, SpLoading, SpTips } from '@/components'
 import { timestampToTime } from '@/utils'
 import './index.scss'
 import { connect } from 'react-redux'
@@ -56,6 +56,7 @@ export default class MessageDetail extends PureComponent {
       page: params.page_no,
       pageSize: params.page_size
     })
+
     this.setState({
       detailList: [...this.state.detailList, ...list]
     })
@@ -72,7 +73,6 @@ export default class MessageDetail extends PureComponent {
     this.setState({
       loading: false
     })
-
     return {
       total: total_count
     }
@@ -85,7 +85,8 @@ export default class MessageDetail extends PureComponent {
   }
 
   render() {
-    const { loading } = this.state
+    const { loading, page } = this.state
+    console.log(this.state)
     return (
       <ScrollView
         className='page-messageDetail'
@@ -93,7 +94,6 @@ export default class MessageDetail extends PureComponent {
         scrollWithAnimation
         onScrollToLower={this.nextPage}
       >
-        {loading && <SpLoading>正在加载...</SpLoading>}
         {this.state.detailList &&
           this.state.detailList.map((item) => {
             return (
@@ -107,6 +107,8 @@ export default class MessageDetail extends PureComponent {
               />
             )
           })}
+        {loading && <SpLoading>正在加载...</SpLoading>}
+        {!page.hasNext && <SpTips msg={'没有更多了哦~'}></SpTips>}
       </ScrollView>
     )
   }
