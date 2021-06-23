@@ -13,6 +13,12 @@ import './app.scss'
 const { store } = configStore()
 
 SAPP.init(Taro, store)
+
+if (APP_DEBUG == 'true') {
+  import('vconsole').then((VConsole) => {
+    new VConsole.default()
+  })
+}
 class App extends Component {
   componentDidMount() {
     console.log('App', getCurrentInstance())
