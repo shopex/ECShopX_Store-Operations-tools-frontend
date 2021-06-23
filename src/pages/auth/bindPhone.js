@@ -1,3 +1,4 @@
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
 import { View, Image, ScrollView } from '@tarojs/components'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
