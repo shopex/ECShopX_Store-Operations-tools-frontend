@@ -33,7 +33,7 @@ export default class Index extends Component {
       S.set('user_info', userInfo, true)
       Taro.redirectTo({ url: `/pages/planSelection/index` })
     } else if (status == 'unbound') {
-      Taro.navigateTo({
+      Taro.redirectTo({
         url: `/pages/auth/bindPhone?work_userid=${work_userid}&check_token=${check_token}`
       })
     }

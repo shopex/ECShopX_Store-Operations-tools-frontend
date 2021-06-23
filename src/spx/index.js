@@ -140,7 +140,7 @@ class Spx {
       return userInfo
     } catch (e) {
       log.debug('[auth failed] redirect to oauth page: ', e)
-      this.login(ctx)
+      this.login(ctx, true)
     }
   }
 
