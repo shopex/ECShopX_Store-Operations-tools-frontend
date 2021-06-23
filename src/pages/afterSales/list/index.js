@@ -5,7 +5,7 @@ import { getThemeStyle } from '@/utils'
 import FilterBlock from './comps/filterblock'
 import { ORDER_LIST_STATUS } from '@/consts'
 import { withPager, withBackToTop } from '@/hocs'
-import { SpLoading, SpNote, SpOrderItem, SpToast } from '@/components'
+import { SpLoading, SpNote, SpOrderItem, SpToast, SpTips } from '@/components'
 import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-components'
 import { calculateTimestamp } from '@/utils/time'
 import { classNames } from '@/utils'
@@ -323,6 +323,8 @@ export default class List extends PureComponent {
           {!page.isLoading && !page.hasNext && !orderList.length && (
             <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
           )}
+
+          {!page.hasNext && <SpTips msg={'没有更多了哦~'}></SpTips>}
         </ScrollView>
 
         <SpToast />
