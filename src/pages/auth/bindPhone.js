@@ -30,10 +30,14 @@ export default class BindPhone extends Component {
       check_token,
       mobile
     })
-    S.setAuthToken(token)
-    const userInfo = await api.operator.getUserInfo()
-    S.set('user_info', userInfo, true)
-    Taro.redirectTo({ url: `/pages/planSelection/index` })
+    if (token) {
+      S.setAuthToken(token)
+      const userInfo = await api.operator.getUserInfo()
+      S.set('user_info', userInfo, true)
+      Taro.redirectTo({ url: `/pages/planSelection/index` })
+    } else {
+      showToast('登录失败')
+    }
   }
 
   async handleTimerStart() {
