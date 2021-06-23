@@ -96,7 +96,7 @@ export default class Message extends PureComponent {
     return (
       <View className='page-message'>
         {loading && <SpLoading>正在加载...</SpLoading>}
-        {is_empty == 0 ? (
+        {is_empty == 0 && (
           <ScrollView className='message-list'>
             {SpMessageData.map((item, index) => {
               if (index == 0) {
@@ -144,9 +144,8 @@ export default class Message extends PureComponent {
               }
             })}
           </ScrollView>
-        ) : (
-          <SpNote img='trades_empty.png'>暂无消息哦~</SpNote>
         )}
+        {is_empty == 1 && <SpNote img='trades_empty.png'>暂无消息哦~</SpNote>}
       </View>
     )
   }
