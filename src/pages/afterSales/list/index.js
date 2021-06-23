@@ -311,6 +311,7 @@ export default class List extends PureComponent {
                     onClick={this.handleClickActionButtons}
                     onClose={this.handleCloseActionButtons}
                     orderInfo={orderItem?.app_info?.order_info}
+                    maxOrderInfo={orderItem}
                     mainStatus={mainStatus}
                   />
                 }

@@ -104,16 +104,23 @@ class PageActionButtons extends PureComponent {
     onClick()
   }
 
-  handleClickCheck = () => {
-    const { orderInfo } = this.props
+  handleNavigationDeal = () => {
+    const { orderInfo, maxOrderInfo } = this.props
+    console.log('orderInfo', maxOrderInfo)
     //处理售后
-    Taro.navigateTo({ url: `/pages/afterSales/deal?aftersalesNo=${orderInfo.aftersales_bn}` })
+    Taro.navigateTo({
+      url: `/pages/afterSales/deal?aftersalesNo=${
+        orderInfo.aftersales_bn || maxOrderInfo.aftersales_bn
+      }`
+    })
+  }
+
+  handleClickCheck = () => {
+    this.handleNavigationDeal()
   }
 
   handleConfirm = () => {
-    const { orderInfo } = this.props
-    //处理售后
-    Taro.navigateTo({ url: `/pages/afterSales/deal?aftersalesNo=${orderInfo.aftersales_bn}` })
+    this.handleNavigationDeal()
   }
 
   //点击发货按钮

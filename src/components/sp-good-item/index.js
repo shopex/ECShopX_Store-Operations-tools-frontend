@@ -86,6 +86,8 @@ class SpGoodItem extends PureComponent {
     const { goodInfo, pageType } = this.props
     if (pageType === 'orderList') {
       return goodInfo?.pic
+    } else if (pageType === 'orderDetail') {
+      return goodInfo?.pic
     } else if (pageType === 'afterSalesList') {
       return goodInfo?.item_pic
     } else if (pageType === 'afterSalesDetail') {
