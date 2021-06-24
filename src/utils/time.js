@@ -1,3 +1,4 @@
+import { isIos } from './index'
 //计算不同时间区间的起始时间戳
 export function calculateTimestamp(type) {
   let timeArr = []
@@ -50,13 +51,24 @@ function doHandleMonth(month) {
   if (month.toString().length == 1) {
     m = '0' + month
   }
+
   return m
 }
 
 //得出时间戳
 function getTimetampFrom(day) {
+  console.log('getTimetampFrom', day)
+
   if (!day) {
     return new Date().getTime()
   }
+
+  if (isIos()) {
+    //IOS不兼容new Date()
+    day = day.replace(/\-/g, '/')
+  }
+
+  console.log('getTimetampFrom2', day, new Date(day))
+
   return new Date(day).getTime()
 }
