@@ -250,6 +250,10 @@ export default class List extends PureComponent {
     })
   }
 
+  handleRefresh = () => {
+    this.searchFilter({ isResetList: true })
+  }
+
   render() {
     const {
       orderList,
@@ -312,6 +316,7 @@ export default class List extends PureComponent {
                     onClose={this.handleCloseActionButtons}
                     orderInfo={orderItem?.app_info?.order_info}
                     maxOrderInfo={orderItem}
+                    onRefresh={this.handleRefresh}
                     mainStatus={mainStatus}
                   />
                 }
