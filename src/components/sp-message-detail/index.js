@@ -12,10 +12,11 @@ export default class MessageDetail extends PureComponent {
   componentDidMount() {}
 
   formatSpec(spec) {
-    return spec.join('/')
-  }
-  OrderHandle() {
-    console.log(123)
+    if (spec.length > 0) {
+      return spec.join('/')
+    } else {
+      return '/'
+    }
   }
 
   render() {
@@ -28,12 +29,12 @@ export default class MessageDetail extends PureComponent {
       <View className='cpn-messageDetail'>
         <View className='date'>{date}</View>
         <View className='box'>
-          <View className='top' onClick={(e) => OrderHandle(orderId)}>
+          <View className='top' onClick={(e) => OrderHandle(orderId, msgType)}>
             {msgType === '1' && (
               <>
                 <View className='titleBox'>
                   <View>{afterSaleType}</View>
-                  {is_read == '1' && <View className='is_read'></View>}
+                  {is_read === '0' && <View className='is_read'></View>}
                 </View>
 
                 <View className='iconfont icon-jiantou'></View>
@@ -43,7 +44,7 @@ export default class MessageDetail extends PureComponent {
               <>
                 <View className='titleBox'>
                   <View className='title'>{goodsName}</View>
-                  {is_read == '1' && <View className='is_read'></View>}
+                  {is_read === '0' && <View className='is_read'></View>}
                 </View>
 
                 <View className='iconfont icon-jiantou'></View>
@@ -61,7 +62,8 @@ export default class MessageDetail extends PureComponent {
               {(msgType == '2' || msgType == '3') && (
                 <>
                   <View className='content'>
-                    数量{number}/{this.formatSpec(spec)}/￥{goods_price}
+                    数量{number}
+                    {this.formatSpec(spec)}￥{goods_price}
                   </View>
                 </>
               )}

@@ -78,10 +78,16 @@ export default class MessageDetail extends PureComponent {
     }
   }
 
-  OrderHandle(order_id) {
-    Taro.navigateTo({
-      url: `/pages/order/detail?order_id=${order_id}`
-    })
+  OrderHandle(order_id, msg_type) {
+    if (msg_type == 1) {
+      Taro.navigateTo({
+        url: `/pages/afterSales/detail?aftersalesNo=${order_id}`
+      })
+    } else {
+      Taro.navigateTo({
+        url: `/pages/order/detail?order_id=${order_id}`
+      })
+    }
   }
 
   render() {
@@ -99,7 +105,7 @@ export default class MessageDetail extends PureComponent {
             return (
               <SpMessageDetail
                 date={timestampToTime(item.add_time)}
-                key={item.productCoding}
+                key={item.id}
                 SpMessageDetailData={item}
                 msgType={item.msg_type}
                 titleList={this.state.titleList}
