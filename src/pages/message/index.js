@@ -24,7 +24,7 @@ const SpMessageData = [
     bgColor: {
       background: 'linear-gradient(180deg, #FFA040 0%, #FFC758 100%)'
     },
-    title: '代发货订单',
+    title: '待发货订单',
     subtitle: '新增发货订单，请及时处理'
   },
   {

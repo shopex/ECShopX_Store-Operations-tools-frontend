@@ -32,8 +32,10 @@ class Index extends PureComponent {
   }
   async getConfig() {
     let { distributor_id } = this.props.planSelection
-    if (distributor_id) {
+    console.log(distributor_id)
+    if (distributor_id != null) {
       const result = await api.home.getStatistics({ shop_id: distributor_id })
+      console.log(result)
       this.setState({
         realTimeData: result.today_data
       })
@@ -65,6 +67,25 @@ class Index extends PureComponent {
     Taro.navigateTo({
       url: '/pages/afterSales/list'
     })
+  }
+
+  formatA(num) {
+    var result = parseFloat(num)
+    if (isNaN(result)) {
+      console('传递参数错误，请检查！')
+      return false
+    }
+    result = Math.round(num * 100) / 100
+    var s_x = result.toString()
+    var pos_decimal = s_x.indexOf('.')
+    if (pos_decimal < 0) {
+      pos_decimal = s_x.length
+      s_x += '.'
+    }
+    while (s_x.length <= pos_decimal + 2) {
+      s_x += '0'
+    }
+    return s_x
   }
 
   handleOnScanQRCode = async () => {
@@ -130,7 +151,7 @@ class Index extends PureComponent {
               </View>
               <View className='money'>
                 {moneyShow ? (
-                  <Text>{formatNum(realTimeData.real_payed_fee)}</Text>
+                  <Text>{this.formatA(realTimeData.real_payed_fee / 100)}</Text>
                 ) : (
                   <Text>****</Text>
                 )}
@@ -150,7 +171,10 @@ class Index extends PureComponent {
             <View className='list list-2'>
               <View className='pay-order'>
                 <View className='title'>退款（元）</View>
-                <View className='color-gray'>{formatNum(realTimeData.real_refunded_fee)}</View>
+
+                <View className='color-gray'>
+                  {this.formatA(realTimeData.real_refunded_fee / 100)}
+                </View>
               </View>
               <View className='pay-order'>
                 <View className='title'>实付会员（人）</View>
@@ -160,11 +184,11 @@ class Index extends PureComponent {
             <View className='list list-2'>
               <View className='pay-order'>
                 <View className='title'>客单价（元）</View>
-                <View>{formatNum(realTimeData.real_atv)} </View>
+                <View>{this.formatA(realTimeData.real_atv / 100)} </View>
               </View>
               <View className='pay-order'>
-                <View className='title'>新增储值（人）</View>
-                <View>{realTimeData.real_deposit}</View>
+                <View className='title'>新增储值（元）</View>
+                <View>{this.formatA(realTimeData.real_deposit / 100)}</View>
               </View>
             </View>
           </View>

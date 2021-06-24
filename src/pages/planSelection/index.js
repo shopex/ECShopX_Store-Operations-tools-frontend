@@ -3,7 +3,7 @@ import { View, Image, ScrollView } from '@tarojs/components'
 import api from '@/api'
 import './index.scss'
 import Taro from '@tarojs/taro'
-import { SpRadio, SpLoading } from '@/components'
+import { SpRadio, SpLoading, SpNote } from '@/components'
 import { connect } from 'react-redux'
 
 const logo = require('@/assets/imgs/shopex-logo.png')
@@ -21,7 +21,7 @@ export default class PlanSelection extends PureComponent {
     super(props)
     this.state = {
       isActive: null,
-      shopList: null,
+      shopList: [],
       loading: false
     }
   }
@@ -62,11 +62,14 @@ export default class PlanSelection extends PureComponent {
 
           <View className='box'>
             {loading && <SpLoading>正在加载...</SpLoading>}
-            <SpRadio
-              isActive={isActive}
-              SpRadioData={shopList}
-              activeHandle={this.activeHandle}
-            ></SpRadio>
+            {shopList.length > 0 && (
+              <SpRadio
+                isActive={isActive}
+                SpRadioData={shopList}
+                activeHandle={this.activeHandle}
+              ></SpRadio>
+            )}
+            {shopList.length <= 0 && <SpNote img='trades_empty.png'>快去添加店铺吧~</SpNote>}
           </View>
           <View className='logoBox'>
             <Image src={logo}></Image>

@@ -2,7 +2,7 @@ import { Component, createElement } from 'react'
 import { View, Image, Form, Input, Button } from '@tarojs/components'
 import { showToast, strLength } from '@/utils'
 import api from '@/api'
-import imgUploader from '@/utils/upload.js'
+import UploadUtil from '@/utils/uploadUtil'
 
 import './index.scss'
 import Taro from '@tarojs/taro'
@@ -92,25 +92,28 @@ export default class My extends Component {
     })
 
     console.log(tempFiles)
-    if (tempFiles.length > 0) {
-      const imgFiles = tempFiles.slice(0, 1).map((item) => {
-        return {
-          file: item,
-          url: item.path
-        }
+    // const res = await imgUploader.uploadImageFn(imgFiles)
+    // console.log(res)
+    // let head_portrait = res[0].url
+    // console.log(head_portrait)
+    // this.setState({
+    //   head_portrait
+    // })
+    // const result = await api.my.updateInfo({
+    //   head_portrait
+    // })
+    // console.log(result)
+
+    const upload = new UploadUtil()
+    // console.log(imgFiles);
+    console.log(tempFiles[0])
+
+    // 上传
+    upload
+      .uploadImg(tempFiles[0].originalFileObj, tempFiles[0].originalFileObj.name)
+      .then((res) => {
+        console.log(res)
       })
-      const res = await imgUploader.uploadImageFn(imgFiles)
-      console.log(res)
-      let head_portrait = res[0].url
-      console.log(head_portrait)
-      this.setState({
-        head_portrait
-      })
-      const result = await api.my.updateInfo({
-        head_portrait
-      })
-      console.log(result)
-    }
   }
 
   photoUpdate() {
