@@ -162,4 +162,22 @@ function calcTimer(totalSec) {
   }
 }
 
-export { classNames, log, debounce, throttle, validate, requestCallback, range, calcTimer, qwsdk }
+function isIos() {
+  let u = navigator.userAgent
+  let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1
+  let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) //ios终端
+  return isiOS
+}
+
+export {
+  classNames,
+  log,
+  debounce,
+  throttle,
+  validate,
+  requestCallback,
+  range,
+  calcTimer,
+  qwsdk,
+  isIos
+}
