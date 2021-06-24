@@ -1,3 +1,4 @@
+import { isIos } from './index'
 //计算不同时间区间的起始时间戳
 export function calculateTimestamp(type) {
   let timeArr = []
@@ -26,13 +27,9 @@ export function calculateTimestamp(type) {
 }
 
 function getDay(day) {
-  console.log('getDay', day)
-
   var today = new Date()
 
   var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day
-
-  console.log('targetday_milliseconds', targetday_milliseconds)
 
   today.setTime(targetday_milliseconds) //注意，这行是关键代码
 
@@ -42,20 +39,14 @@ function getDay(day) {
 
   var tDate = today.getDate()
 
-  console.log('today', tYear, tMonth, tDate)
-
   tMonth = doHandleMonth(tMonth + 1)
 
   tDate = doHandleMonth(tDate)
-
-  console.log('return ', tYear + '-' + tMonth + '-' + tDate)
 
   return tYear + '-' + tMonth + '-' + tDate
 }
 
 function doHandleMonth(month) {
-  console.log('doHandleMonth', month)
-
   var m = month
   if (month.toString().length == 1) {
     m = '0' + month
@@ -71,5 +62,13 @@ function getTimetampFrom(day) {
   if (!day) {
     return new Date().getTime()
   }
+
+  if (isIos()) {
+    //IOS不兼容new Date()
+    day = day.replace(/\-/g, '/')
+  }
+
+  console.log('getTimetampFrom2', day, new Date(day))
+
   return new Date(day).getTime()
 }
