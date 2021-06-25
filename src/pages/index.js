@@ -31,7 +31,8 @@ class Index extends PureComponent {
       apis: {
         aftersales: '',
         order: ''
-      }
+      },
+      is_center: false
     }
   }
   async getConfig() {
@@ -42,7 +43,8 @@ class Index extends PureComponent {
       console.log(result)
       this.setState({
         realTimeData: result.today_data,
-        apis: result.apis
+        apis: result.apis,
+        is_center: result.is_center
       })
     }
   }
@@ -115,7 +117,7 @@ class Index extends PureComponent {
   }
 
   render() {
-    const { moneyShow, realTimeData, loading, apis } = this.state
+    const { moneyShow, realTimeData, loading, apis, is_center } = this.state
 
     const { name, logo } = this.props.planSelection
     return (
@@ -191,8 +193,12 @@ class Index extends PureComponent {
                 <View>{this.formatA(realTimeData.real_atv / 100)} </View>
               </View>
               <View className='pay-order'>
-                <View className='title'>新增储值（元）</View>
-                <View>{this.formatA(realTimeData.real_deposit / 100)}</View>
+                {is_center && (
+                  <>
+                    <View className='title'>新增储值（元）</View>
+                    <View>{this.formatA(realTimeData.real_deposit / 100)}</View>
+                  </>
+                )}
               </View>
             </View>
           </View>

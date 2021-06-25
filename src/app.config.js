@@ -41,7 +41,7 @@ export default {
       }
     ],
     selectedColor: '#4980FF',
-    backgroundColor: '#F5F5F5'
+    backgroundColor: '#FFF'
   },
   window: {
     backgroundTextStyle: 'light',
