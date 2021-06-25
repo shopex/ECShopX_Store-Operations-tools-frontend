@@ -122,25 +122,10 @@ export default class List extends PureComponent {
     })
   }
 
-  async componentDidMount() {
+  async componentDidShow() {
     const {
-      router: {
-        params: { listStatus }
-      }
+      router: { params }
     } = getCurrentInstance()
-
-    let findStatus = Object.keys(ORDER_LIST_STATUS)
-      .map((key) => ({
-        value: key,
-        label: ORDER_LIST_STATUS[key]
-      }))
-      .find((item) => item.value === listStatus)
-
-    if (listStatus) {
-      this.setState({
-        mainStatus: findStatus
-      })
-    }
 
     await this.searchFilter({ isCMD: true })
   }

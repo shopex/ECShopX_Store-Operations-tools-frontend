@@ -49,3 +49,12 @@ export function writeoff({ orderId, ...params }) {
 export function qrwriteoff(params) {
   return req.post(`/qr_writeoff`, params)
 }
+//获取取消订单信息
+export function getcancelinfo(params) {
+  return req.get(`/order/${params.order_id}/cancelinfo`, params)
+}
+
+//确认订单取消审核
+export function confirmcancel(params) {
+  return req.post(`/order/${params.order_id}/confirmcancel`, params)
+}
