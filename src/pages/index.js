@@ -119,7 +119,7 @@ class Index extends PureComponent {
 
     const { name, logo } = this.props.planSelection
     return (
-      <View className='page-index' style={{ paddingBottom: 50 + 'px' }}>
+      <View className='page-index'>
         <>
           <View className='top'>
             <View className='shop-title'>
