@@ -113,7 +113,7 @@ export default class My extends Component {
     const resultConfig = await api.my.updateInfo({
       head_portrait: this.state.head_portrait
     })
-    showToast('修改成功~')
+    showToast('修改成功')
   }
 
   photoUpdate() {
