@@ -50,11 +50,11 @@
 
     .taro-textarea {
       resize: none;
-
+      font-size: $textarea-font-size;
     }
 
     .taro-textarea::-webkit-input-placeholder {
-      font-size: 24px;
+      font-size: $textarea-placeholder-font-size;
       color: #C5CAD5;
     }
   }
