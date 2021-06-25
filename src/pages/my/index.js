@@ -90,31 +90,7 @@ export default class My extends Component {
     const { tempFiles = [] } = await Taro.chooseImage({
       count: 1
     })
-
-    console.log(tempFiles)
-    // const res = await imgUploader.uploadImageFn(imgFiles)
-    // console.log(res)
-    // let head_portrait = res[0].url
-    // console.log(head_portrait)
-    // this.setState({
-    //   head_portrait
-    // })
-    // const result = await api.my.updateInfo({
-    //   head_portrait
-    // })
-    // console.log(result)
-
     const upload = new UploadUtil()
-    // console.log(imgFiles);
-    console.log(tempFiles[0])
-
-    // 上传
-    // upload
-    //   .uploadImg(tempFiles[0].originalFileObj, tempFiles[0].originalFileObj.name)
-    //   .then((res) => {
-    //     this.handleAvatarSuccess(res,tempFiles[0].originalFileObj);
-    //   })
-
     const result = await upload.uploadImg(
       tempFiles[0].originalFileObj,
       tempFiles[0].originalFileObj.name
@@ -123,10 +99,6 @@ export default class My extends Component {
   }
 
   async handleAvatarSuccess(res, file) {
-    console.log(res.data)
-    // const result = JSON.parse(res.data);
-    // console.log(result);
-
     let uploadParams = {
       image_cat_id: 2, //图片分类必填,必须为整数
       image_name: file.name, //图片名称必填,不能超过50个字符
@@ -135,7 +107,13 @@ export default class My extends Component {
       storage: 'image' //图片id必填
     }
     const result = await api.qiniu.uploadQiniuPic(uploadParams)
-    console.log(result)
+    this.setState({
+      head_portrait: result.image_full_url
+    })
+    const resultConfig = await api.my.updateInfo({
+      head_portrait: this.state.head_portrait
+    })
+    showToast('修改成功')
   }
 
   photoUpdate() {
