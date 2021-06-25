@@ -8,6 +8,7 @@ import * as my from './my'
 import * as logistics from './logistics'
 import * as address from './address'
 import * as afterSales from './afterSales'
+import * as qiniu from './qiniu'
 
 export default {
   auth,
@@ -19,5 +20,6 @@ export default {
   home,
   logistics,
   address,
-  afterSales
+  afterSales,
+  qiniu
 }
