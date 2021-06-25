@@ -22,11 +22,12 @@
 
         .taro-textarea {
             resize: none; 
+            font-size: $textarea-font-size;
             background-color:#F5F6F7;
         }
   
         .taro-textarea::-webkit-input-placeholder {
-            font-size: 24px;
+            font-size: $textarea-placeholder-font-size;
             color: #C5CAD5;
         }
     }
