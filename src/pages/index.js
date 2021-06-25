@@ -34,7 +34,7 @@ class Index extends PureComponent {
     let { distributor_id } = this.props.planSelection
     console.log(distributor_id)
     if (distributor_id != null) {
-      const result = await api.home.getStatistics({ shop_id: distributor_id })
+      const result = await api.home.getStatistics({ shop_id: distributor_id, is_app: 1 })
       console.log(result)
       this.setState({
         realTimeData: result.today_data

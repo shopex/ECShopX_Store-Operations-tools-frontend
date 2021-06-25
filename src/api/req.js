@@ -19,7 +19,6 @@ class API {
     // if ( company_id ) {
     //   options.company_id = company_id
     // }
-    // debugger
     // options.company_id = APP_COMPANY_ID;
     // if (process.env.TARO_ENV === "weapp") {
     //   const extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {};
@@ -65,15 +64,17 @@ class API {
 
   makeReq(config) {
     const { url, data, header = {}, method = 'GET', showLoading, showError = true } = config
+
     const methodIsGet = method.toLowerCase() === 'get'
 
     let reqUrl = /^http/.test(url) ? url : `${this.baseURL}${url.replace(/^\//, '')}`
     const query = !data || typeof data === 'string' ? qs.parse(data) : data
+    console.log(query)
+    console.log(methodIsGet)
 
     if (!methodIsGet) {
       header['content-type'] = header['content-type'] || 'application/x-www-form-urlencoded'
     }
-
     const token = S.getAuthToken()
     if (token) {
       header['Authorization'] = `Bearer ${token}`

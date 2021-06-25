@@ -78,10 +78,10 @@ export default class MessageDetail extends PureComponent {
     }
   }
 
-  OrderHandle(order_id, msg_type) {
+  OrderHandle(order_id, msg_type, afterSalesBn) {
     if (msg_type == 1) {
       Taro.navigateTo({
-        url: `/pages/afterSales/detail?aftersalesNo=${order_id}`
+        url: `/pages/afterSales/detail?aftersalesNo=${afterSalesBn}`
       })
     } else {
       Taro.navigateTo({

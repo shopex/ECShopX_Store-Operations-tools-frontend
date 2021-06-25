@@ -1,13 +1,3 @@
-/*
- * @Author: Arvin
- * @GitHub: https://github.com/973749104
- * @Blog: https://liuhgxu.com
- * @Description: oss上传
- * @FilePath: /app/src/utils/uploadUtil.js
- * @Date: 2020-03-06 10:28:22
- * @LastEditors: Arvin
- * @LastEditTime: 2020-11-16 15:42:26
- */
 // 阿里云
 // import Oss from 'ali-oss'
 // 亚马逊

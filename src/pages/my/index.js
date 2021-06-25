@@ -2,7 +2,7 @@ import { Component, createElement } from 'react'
 import { View, Image, Form, Input, Button } from '@tarojs/components'
 import { showToast, strLength } from '@/utils'
 import api from '@/api'
-import UploadUtil from '@/utils/uploadUtil'
+import UploadUtil from '@/utils/UploadUtil'
 
 import './index.scss'
 import Taro from '@tarojs/taro'
@@ -109,11 +109,33 @@ export default class My extends Component {
     console.log(tempFiles[0])
 
     // 上传
-    upload
-      .uploadImg(tempFiles[0].originalFileObj, tempFiles[0].originalFileObj.name)
-      .then((res) => {
-        console.log(res)
-      })
+    // upload
+    //   .uploadImg(tempFiles[0].originalFileObj, tempFiles[0].originalFileObj.name)
+    //   .then((res) => {
+    //     this.handleAvatarSuccess(res,tempFiles[0].originalFileObj);
+    //   })
+
+    const result = await upload.uploadImg(
+      tempFiles[0].originalFileObj,
+      tempFiles[0].originalFileObj.name
+    )
+    this.handleAvatarSuccess(result, tempFiles[0].originalFileObj)
+  }
+
+  async handleAvatarSuccess(res, file) {
+    console.log(res.data)
+    // const result = JSON.parse(res.data);
+    // console.log(result);
+
+    let uploadParams = {
+      image_cat_id: 2, //图片分类必填,必须为整数
+      image_name: file.name, //图片名称必填,不能超过50个字符
+      image_url: JSON.parse(res.data).data.image_url, //图片链接必填
+      image_type: file.type, //图片分类长度不能超过20个字符
+      storage: 'image' //图片id必填
+    }
+    const result = await api.qiniu.uploadQiniuPic(uploadParams)
+    console.log(result)
   }
 
   photoUpdate() {

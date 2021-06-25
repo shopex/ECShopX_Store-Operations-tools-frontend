@@ -20,6 +20,12 @@ if (APP_DEBUG == 'true') {
   })
 }
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      bottomLift: ''
+    }
+  }
   componentDidMount() {
     console.log('App', getCurrentInstance())
     console.log('app componentDidMount')
@@ -31,6 +37,32 @@ class App extends Component {
         //   url: '/pages/auth/agreement'
         // })
       }
+    })
+  }
+  onLaunch(options) {
+    console.log(1)
+    // this.getDeviceSize().then(res => {
+    //   const {bottomLift} = res
+    //   console.log('bottomLift:'+ bottomLift);
+    //   this.setState({
+    //     bottomLift
+    //   })
+    //   // this.globalData.bottomLift = bottomLift
+    // })
+  }
+  // 获取设备信息
+  getDeviceSize() {
+    return new Promise((resolve, reject) => {
+      Taro.getSystemInfo({
+        success: function (res) {
+          console.log(res)
+          console.log(1111111111111111111111)
+          const { screenHeight, safeArea } = res
+          const { bottom } = safeArea
+          const bottomLift = screenHeight - bottom
+          resolve({ bottomLift })
+        }
+      })
     })
   }
 

@@ -1,6 +1,7 @@
-import fetch from './req'
+import Taro from '@tarojs/taro'
 import req from './req'
 import axios from 'axios'
+import S from '@/spx'
 
 /**
  * @description: 获取上传Token
@@ -20,29 +21,22 @@ import axios from 'axios'
 export function getOssToken(params) {
   return req.post('/espier/oss_upload_token', params)
 }
-
-// 本地上传
-// export const LocalUpload = (tokenRes, file, filetype = 'image') => {
-//   return fetch({
-//     url: '/espier/upload_localimage',
-//     method: 'post',
-//     data: {
-//       ...tokenRes,
-//       images: file,
-//       filetype,
-//       isUploadFile: true
-//     }
-//   })
-// }
 export function LocalUpload(tokenRes, file, filetype = 'image') {
   console.log(tokenRes)
   console.log(file)
-  return req.post('/espier/upload_localimage', {
-    ...tokenRes,
-    images: file,
-    filetype,
-
-    isUploadFile: true
+  const token = S.getAuthToken()
+  return Taro.uploadFile({
+    url: `${req.baseURL}espier/upload_localimage`,
+    // filePath: item.url,
+    // name: 'images',
+    header: {
+      'Authorization': `Bearer ${token}`
+    },
+    formData: {
+      ...tokenRes,
+      images: file,
+      filetype
+    }
   })
 }
 
