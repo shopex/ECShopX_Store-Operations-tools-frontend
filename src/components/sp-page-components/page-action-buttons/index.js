@@ -100,8 +100,19 @@ class PageActionButtons extends PureComponent {
       this.handleConsume()
     } else if (buttonType === 'confirm') {
       this.handleConfirm()
+    } else if (buttonType === 'confirmcancel') {
+      this.handleNavigationAftersalesDeal()
     }
     onClick()
+  }
+
+  //跳转到售后处理页
+  handleNavigationAftersalesDeal = () => {
+    const { orderInfo } = this.props
+    //处理售后
+    Taro.navigateTo({
+      url: `/pages/afterSales/deal?orderId=${orderInfo.order_id}`
+    })
   }
 
   handleNavigationDeal = () => {

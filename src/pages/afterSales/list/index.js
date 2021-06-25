@@ -114,25 +114,10 @@ export default class List extends PureComponent {
     })
   }
 
-  async componentDidMount() {
+  async componentDidShow() {
     const {
-      router: {
-        params: { listStatus }
-      }
+      router: { params }
     } = getCurrentInstance()
-
-    let findStatus = Object.keys(ORDER_LIST_STATUS)
-      .map((key) => ({
-        value: key,
-        label: ORDER_LIST_STATUS[key]
-      }))
-      .find((item) => item.value === listStatus)
-
-    if (listStatus) {
-      this.setState({
-        mainStatus: findStatus
-      })
-    }
 
     await this.searchFilter({ isCMD: true })
   }
@@ -250,6 +235,10 @@ export default class List extends PureComponent {
     })
   }
 
+  handleRefresh = () => {
+    this.searchFilter({ isResetList: true })
+  }
+
   render() {
     const {
       orderList,
@@ -312,6 +301,7 @@ export default class List extends PureComponent {
                     onClose={this.handleCloseActionButtons}
                     orderInfo={orderItem?.app_info?.order_info}
                     maxOrderInfo={orderItem}
+                    onRefresh={this.handleRefresh}
                     mainStatus={mainStatus}
                   />
                 }

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { getThemeStyle, requestCallback } from '@/utils'
+import { getThemeStyle, requestCallback, toFixed, isNull } from '@/utils'
 import { SpLoading, SpFormItem, SpInputNumber, SpToast } from '@/components'
 import RefuseTextarea from './comps/RefuseTextarea'
 import S from '@/spx'
@@ -22,7 +22,9 @@ export default class OrderDeal extends PureComponent {
       refuseReason: '',
       afterSalesInfo: {},
       price: {},
-      selectAddress: null
+      selectAddress: null,
+      fromOrderList: false,
+      orderCancelInfo: {}
     }
   }
 
@@ -31,28 +33,57 @@ export default class OrderDeal extends PureComponent {
       router: { params }
     } = getCurrentInstance()
 
+    let afterSalesInfo = {}
+    let orderCancelInfo = {}
+
     if (params?.aftersalesNo) {
       Taro.setStorageSync('aftersalesNo', params?.aftersalesNo)
     }
 
-    const afterSalesInfo = await api.afterSales.detail({
-      no: params?.aftersalesNo || Taro.getStorageSync('aftersalesNo')
-    })
+    if (params?.orderId) {
+      Taro.setNavigationBarTitle({ title: '退款审核' })
 
-    await this.getAddressDetail()
+      //从订单页面而来
+      orderCancelInfo = await api.order.getcancelinfo({
+        order_id: params?.orderId,
+        order_type: 'normal'
+      })
+      this.setState({
+        fromOrderList: true,
+        orderCancelInfo
+      })
+    } else {
+      afterSalesInfo = await api.afterSales.detail({
+        no: params?.aftersalesNo || Taro.getStorageSync('aftersalesNo')
+      })
+      await this.getAddressDetail()
+    }
+
+    let price = isNull(afterSalesInfo.refund_fee)
+      ? toFixed(orderCancelInfo.total_fee)
+      : toFixed(afterSalesInfo.refund_fee)
+    let point = isNull(afterSalesInfo.refund_point)
+      ? orderCancelInfo.point
+      : afterSalesInfo.refund_point
 
     this.setState({
       afterSalesInfo,
       status: afterSalesInfo.aftersales_type,
       price: {
-        price: afterSalesInfo.refund_fee,
-        point: afterSalesInfo.refund_point,
-        maxPrice: afterSalesInfo.refund_fee,
-        maxPoint: afterSalesInfo.refund_point,
+        price,
+        point,
+        maxPrice: price,
+        maxPoint: point,
         priceError: false,
         pointError: false
       }
     })
+  }
+
+  dealOrder = () => {
+    const {
+      router: { params }
+    } = getCurrentInstance()
   }
 
   getAddressDetail = async () => {
@@ -156,7 +187,42 @@ export default class OrderDeal extends PureComponent {
 
   //提交
   handleSubmit = () => {
-    const { afterSalesInfo, isApprove, refuseReason, price, selectAddress } = this.state
+    const {
+      afterSalesInfo,
+      isApprove,
+      refuseReason,
+      price,
+      selectAddress,
+      fromOrderList,
+      orderCancelInfo
+    } = this.state
+
+    if (fromOrderList) {
+      if (isApprove) {
+      } else {
+        if (!refuseReason) {
+          S.toast('请填写拒绝原因')
+          return
+        }
+      }
+      requestCallback(
+        async () => {
+          let data = await api.order.confirmcancel({
+            order_id: orderCancelInfo.order_id,
+            check_cancel: isApprove ? 1 : 0,
+            shop_reject_reason: refuseReason
+          })
+          return data
+        },
+        '审核成功',
+        () => {
+          setTimeout(() => {
+            Taro.redirectTo({ url: `/pages/order/list` })
+          }, 500)
+        }
+      )
+      return
+    }
 
     let isValid = this.handleValidInput()
 
@@ -205,7 +271,7 @@ export default class OrderDeal extends PureComponent {
         '审核成功',
         () => {
           setTimeout(() => {
-            Taro.navigateTo({ url: `/pages/afterSales/list` })
+            Taro.redirectTo({ url: `/pages/afterSales/list` })
           }, 500)
         }
       )
@@ -288,7 +354,8 @@ export default class OrderDeal extends PureComponent {
   }
 
   render() {
-    const { status, loading, isApprove, afterSalesInfo, price, selectAddress } = this.state
+    const { status, loading, isApprove, afterSalesInfo, price, selectAddress, fromOrderList } =
+      this.state
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
@@ -304,7 +371,8 @@ export default class OrderDeal extends PureComponent {
         </SpFormItem>
 
         {(status === 'ONLY_REFUND' ||
-          (status === 'REFUND_GOODS' && afterSalesInfo.progress === 2)) && (
+          (status === 'REFUND_GOODS' && afterSalesInfo.progress === 2) ||
+          fromOrderList) && (
           <View className='marginTop24'>
             {isApprove && (
               <SpFormItem label='处理方案' className='formItemPrice' wrap>
@@ -315,6 +383,7 @@ export default class OrderDeal extends PureComponent {
                       <SpInputNumber
                         placeholder='请填写金额'
                         clear
+                        disabled={fromOrderList}
                         error={price.priceError}
                         value={price.price}
                         onChange={this.handleChangePrice}
@@ -327,6 +396,7 @@ export default class OrderDeal extends PureComponent {
                       <SpInputNumber
                         placeholder='请填写积分'
                         clear
+                        disabled={fromOrderList}
                         error={price.pointError}
                         value={price.point}
                         onChange={this.handleChangePoint}

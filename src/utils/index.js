@@ -169,6 +169,15 @@ function isIos() {
   return isiOS
 }
 
+function toFixed(total, number = 2, divisor = 100) {
+  return (Number(total) / divisor).toFixed(number)
+}
+
+function isNull(value) {
+  console.log('isNull', value, !value && value !== 0)
+  return !value && value !== 0
+}
+
 export {
   classNames,
   log,
@@ -179,5 +188,7 @@ export {
   range,
   calcTimer,
   qwsdk,
-  isIos
+  isIos,
+  toFixed,
+  isNull
 }

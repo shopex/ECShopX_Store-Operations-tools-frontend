@@ -92,6 +92,8 @@ class SpGoodItem extends PureComponent {
       return goodInfo?.item_pic
     } else if (pageType === 'afterSalesDetail') {
       return goodInfo?.item_pic
+    } else if (pageType === 'orderDelivery') {
+      return goodInfo?.pic
     }
   }
 
