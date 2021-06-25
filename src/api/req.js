@@ -69,9 +69,6 @@ class API {
 
     let reqUrl = /^http/.test(url) ? url : `${this.baseURL}${url.replace(/^\//, '')}`
     const query = !data || typeof data === 'string' ? qs.parse(data) : data
-    console.log(query)
-    console.log(methodIsGet)
-
     if (!methodIsGet) {
       header['content-type'] = header['content-type'] || 'application/x-www-form-urlencoded'
     }
