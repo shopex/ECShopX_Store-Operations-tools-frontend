@@ -133,12 +133,15 @@ $md-white: #fff;
       color: #666;
     }
     .list {
-      @include listStyle;
-      text-align: center;
+      // @include listStyle;
+
       margin-top: 30px;
+      overflow: hidden;
       .item {
-        flex: 1;
         flex-wrap: wrap;
+        float: left;
+        text-align: center;
+        width: 33.333%;
         .img {
           width: 60px;
           height: 80px;

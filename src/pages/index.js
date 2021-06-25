@@ -27,7 +27,11 @@ class Index extends PureComponent {
         real_aftersale_count: 6, //售后订单数
         real_deposit: 7 // 新增储蓄
       },
-      loading: true
+      loading: true,
+      apis: {
+        aftersales: '',
+        order: ''
+      }
     }
   }
   async getConfig() {
@@ -37,7 +41,8 @@ class Index extends PureComponent {
       const result = await api.home.getStatistics({ shop_id: distributor_id, is_app: 1 })
       console.log(result)
       this.setState({
-        realTimeData: result.today_data
+        realTimeData: result.today_data,
+        apis: result.apis
       })
     }
   }
@@ -60,7 +65,6 @@ class Index extends PureComponent {
     Taro.navigateTo({
       url: '/pages/order/list'
     })
-    console.log(123)
   }
 
   goAfterSalesPageHandle = () => {
@@ -111,11 +115,11 @@ class Index extends PureComponent {
   }
 
   render() {
-    const { moneyShow, realTimeData, loading } = this.state
+    const { moneyShow, realTimeData, loading, apis } = this.state
 
     const { name, logo } = this.props.planSelection
     return (
-      <View className='page-index'>
+      <View className='page-index' style={{ paddingBottom: 50 + 'px' }}>
         <>
           <View className='top'>
             <View className='shop-title'>
@@ -195,18 +199,23 @@ class Index extends PureComponent {
           <View className='func-list'>
             <View className='title'>常用功能</View>
             <View className='list'>
-              <View className='item' onClick={this.goOrderPageHandle}>
-                <View>
-                  <Image className='img' src={require('@/assets/imgs/index/dingdan.svg')}></Image>
+              {apis.order && (
+                <View className='item' onClick={this.goOrderPageHandle}>
+                  <View>
+                    <Image className='img' src={require('@/assets/imgs/index/dingdan.svg')}></Image>
+                  </View>
+                  <View className='subtitle'>订单</View>
                 </View>
-                <View className='subtitle'>订单</View>
-              </View>
-              <View className='item' onClick={this.goAfterSalesPageHandle}>
-                <View>
-                  <Image className='img' src={require('@/assets/imgs/index/shouhou.svg')}></Image>
+              )}
+              {apis.aftersales && (
+                <View className='item' onClick={this.goAfterSalesPageHandle}>
+                  <View>
+                    <Image className='img' src={require('@/assets/imgs/index/shouhou.svg')}></Image>
+                  </View>
+                  <View className='subtitle'>售后</View>
                 </View>
-                <View className='subtitle'>售后</View>
-              </View>
+              )}
+
               <View className='item' onClick={this.handleOnScanQRCode.bind(this)}>
                 <View>
                   <Image
