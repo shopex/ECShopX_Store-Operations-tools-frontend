@@ -95,17 +95,20 @@ export default class My extends Component {
       tempFiles[0].originalFileObj,
       tempFiles[0].originalFileObj.name
     )
+    console.log(result)
     this.handleAvatarSuccess(result, tempFiles[0].originalFileObj)
   }
 
   async handleAvatarSuccess(res, file) {
+    console.log(res)
     let uploadParams = {
       image_cat_id: 2, //图片分类必填,必须为整数
       image_name: file.name, //图片名称必填,不能超过50个字符
-      image_url: JSON.parse(res.data).data.image_url, //图片链接必填
+      image_url: res.data ? JSON.parse(res.data).data.image_url : res.key, //图片链接必填
       image_type: file.type, //图片分类长度不能超过20个字符
       storage: 'image' //图片id必填
     }
+    console.log(uploadParams)
     const result = await api.qiniu.uploadQiniuPic(uploadParams)
     this.setState({
       head_portrait: result.image_full_url

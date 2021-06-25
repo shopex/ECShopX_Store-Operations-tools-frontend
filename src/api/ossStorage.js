@@ -41,19 +41,21 @@ export function LocalUpload(tokenRes, file, filetype = 'image') {
 }
 
 export const AliUpload = (tokenRes, file) => {
-  const formData = new FormData()
-  formData.append('key', tokenRes.dir)
-  formData.append('policy', tokenRes.policy)
-  formData.append('OSSAccessKeyId', tokenRes.accessid)
-  formData.append('success_action_status', '200')
-  // formData.append('callback', tokenRes.callback)
-  formData.append('signature', tokenRes.signature)
-  formData.append('name', file.name)
-  formData.append('file', file)
-  return axios({
-    method: 'POST',
+  console.log(tokenRes, file)
+  const token = S.getAuthToken()
+  return Taro.uploadFile({
     url: tokenRes.host,
-    headers: { 'Content-Type': 'multipart/form-data;charset=UTF-8' },
-    data: formData
+    header: {
+      'Authorization': `Bearer ${token}`
+    },
+    formData: {
+      key: tokenRes.dir,
+      policy: tokenRes.policy,
+      OSSAccessKeyId: tokenRes.accessid,
+      signature: tokenRes.signature,
+      name: file.name,
+      success_action_status: 200,
+      file: file
+    }
   })
 }
