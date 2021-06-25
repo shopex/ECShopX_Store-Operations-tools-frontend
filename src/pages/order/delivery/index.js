@@ -48,20 +48,18 @@ class OrderDelivery extends Component {
         deliveryError: false,
         //存储物流单号错误
         deliveryNoError: false
-      },
-      listStatus: ''
+      }
     }
   }
 
   async componentDidShow() {
     const {
       router: {
-        params: { order_id, listStatus }
+        params: { order_id }
       }
     } = getCurrentInstance()
     this.setState({
-      loading: true,
-      listStatus
+      loading: true
     })
     const { orderInfo, tradeInfo } = await api.order.detail({ orderId: order_id })
     this.setState({
@@ -313,7 +311,7 @@ class OrderDelivery extends Component {
 
   //点击确认发货按钮
   handleDelivery = () => {
-    const { orderInfo, isWhole, listStatus } = this.state
+    const { orderInfo, isWhole } = this.state
     //处理商品相关逻辑
     const totalItems = this.handlePriceError()
 
@@ -347,11 +345,8 @@ class OrderDelivery extends Component {
       '发货成功',
       () => {
         let query = {}
-        if (listStatus) {
-          query.listStatus = listStatus
-        }
         setTimeout(() => {
-          Taro.navigateTo({ url: `/pages/order/list?${qs.stringify(query)}` })
+          Taro.redirectTo({ url: `/pages/order/list` })
         }, 500)
       }
     )

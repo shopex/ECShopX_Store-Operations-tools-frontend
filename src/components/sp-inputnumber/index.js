@@ -42,13 +42,12 @@ export default class SpInputNumber extends PureComponent {
   }
 
   clearValue = () => {
-    console.log('clearValue')
     const { onChange = () => {} } = this.props
     onChange(0)
   }
 
   render() {
-    const { placeholder, clear, value, error } = this.props
+    const { placeholder, clear, value, error, disabled } = this.props
 
     const { active } = this.state
 
@@ -67,6 +66,7 @@ export default class SpInputNumber extends PureComponent {
           onInput={this.handleInput}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          disabled={disabled}
         />
         {placeholder && !value && value != 0 && <View className='placeholder'>{placeholder}</View>}
         {clear && !!value && active && (
