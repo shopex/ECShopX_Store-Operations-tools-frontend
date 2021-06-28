@@ -1,5 +1,5 @@
 import { Component, createElement } from 'react'
-import { View, Image, Form, Input, Button } from '@tarojs/components'
+import { View, Image, Form, Input, Button, Text } from '@tarojs/components'
 import { showToast, strLength } from '@/utils'
 import api from '@/api'
 import UploadUtil from '@/utils/UploadUtil'
@@ -153,34 +153,47 @@ export default class My extends Component {
               <View className='title'>{distributors && distributors.name}</View>
               {distributors && distributors.is_center && <View className='tag'>总部</View>}
             </View>
-            <View className='iconfont icon-qiehuan1 switch-shop' onClick={this.switchShopHandle}>
-              {' '}
-              切换店铺
+            <View className='switch-shop' onClick={this.switchShopHandle}>
+              <Text className='iconfont icon-qiehuan1'></Text>
+              <Text>切换店铺</Text>
             </View>
           </View>
         </View>
+        <View className='joker'></View>
         <View className='formBox'>
           <Form onSubmit={this.formSubmit.bind(this)}>
             <View className='photoBox'>
-              <View className='iconfont icon-zu1684 title'> 我的头像</View>
+              <View className='title'>
+                <Text className='iconfont icon-zu1684'></Text>
+                <Text>手机号</Text>
+              </View>
               <View className='photo' onClick={(e) => this.handleAvatar()}>
                 <Image src={head_portrait}></Image>
               </View>
             </View>
             <View className='common'>
-              <View className='iconfont icon-shoujihao title'> 手机号</View>
+              <View className='title'>
+                <Text className='iconfont icon-shoujihao'></Text>
+                <Text>手机号</Text>
+              </View>
               <View className='value' onClick={(e) => this.notUpdate('手机号')}>
                 {mobile}
               </View>
             </View>
             <View className='common'>
-              <View className='iconfont icon-id title'> 企业微信ID</View>
+              <View className='title'>
+                <Text className='iconfont icon-id'></Text>
+                <Text>企业微信ID</Text>
+              </View>
               <View className='value' onClick={(e) => this.notUpdate('企业微信ID')}>
-                {work_userid || 123}
+                {work_userid}
               </View>
             </View>
             <View className='common borderNone'>
-              <View className='iconfont icon-keai title'> 我的昵称</View>
+              <View className='title'>
+                <Text className='iconfont icon-keai'></Text>
+                <Text>我的昵称</Text>
+              </View>
               <View className='value'>
                 <input
                   type='text'
