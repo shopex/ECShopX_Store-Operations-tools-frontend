@@ -3,7 +3,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle, timestampToTime } from '@/utils'
 import { SpGoodItem, SpGoodPrice, SpToast, SpLoading } from '@/components'
 import { DetailCard, FixedAction, PageActionButtons } from '@/components/sp-page-components'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import { afterSales } from '@/consts'
 import api from '@/api'
 import './index.scss'
@@ -85,7 +85,9 @@ class OrderDetail extends Component {
             <View className='label'>图片信息</View>
             <View className='value'>
               {detail?.evidence_pic?.map((pic) => (
-                <View className='pic'></View>
+                <View className='pic'>
+                  <Image src={pic} className='image' />
+                </View>
               ))}
             </View>
           </View>
