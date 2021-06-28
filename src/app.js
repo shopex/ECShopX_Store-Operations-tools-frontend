@@ -4,43 +4,84 @@ import { Provider } from 'react-redux'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
 import '@/muiApp/index.scss'
+// import VConsole from 'vconsole'
+
 import './app.scss'
 
-const store = configStore()
+// new VConsole()
 
-SAPP.init( Taro, store )
+const { store } = configStore()
+
+SAPP.init(Taro, store)
+
+if (APP_DEBUG == 'true') {
+  import('vconsole').then((VConsole) => {
+    new VConsole.default()
+  })
+}
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      bottomLift: ''
+    }
+  }
   componentDidMount() {
-    console.log( 'App', getCurrentInstance() )
-    console.log( 'app componentDidMount' )
-    SAPP.onReady( () => {
-      console.log( 'INIT_START', SAPP.Plus.storage.getItem( 'INIT_START' ) )
-      if ( !SAPP.Plus.storage.getItem( 'INIT_START' ) ) {
-        SAPP.Plus.storage.setItem( 'INIT_START', "true" )
+    console.log('App', getCurrentInstance())
+    console.log('app componentDidMount')
+    SAPP.onReady(() => {
+      console.log('INIT_START', SAPP.Plus.storage.getItem('INIT_START'))
+      if (!SAPP.Plus.storage.getItem('INIT_START')) {
+        SAPP.Plus.storage.setItem('INIT_START', 'true')
         // Taro.redirectTo({
         //   url: '/pages/auth/agreement'
         // })
       }
     })
   }
+  onLaunch(options) {
+    console.log(1)
+    // this.getDeviceSize().then(res => {
+    //   const {bottomLift} = res
+    //   console.log('bottomLift:'+ bottomLift);
+    //   this.setState({
+    //     bottomLift
+    //   })
+    //   // this.globalData.bottomLift = bottomLift
+    // })
+  }
+  // 获取设备信息
+  getDeviceSize() {
+    return new Promise((resolve, reject) => {
+      Taro.getSystemInfo({
+        success: function (res) {
+          console.log(res)
+          console.log(1111111111111111111111)
+          const { screenHeight, safeArea } = res
+          const { bottom } = safeArea
+          const bottomLift = screenHeight - bottom
+          resolve({ bottomLift })
+        }
+      })
+    })
+  }
 
-  componentDidShow() {
-    console.log('app componentDidShow')
+  componentDidShow(options) {
+    const { company_id } = options
+    if (company_id) {
+      Taro.setStorageSync('company_id', company_id)
+    }
   }
 
   componentDidHide() {
     console.log('app componentDidHide')
   }
 
-  componentDidCatchError () {}
+  componentDidCatchError() {}
 
   // this.props.children 是将要会渲染的页面
   render() {
-    return (
-      <Provider store={store}>
-        {this.props.children}
-      </Provider>
-    )
+    return <Provider store={store}>{this.props.children}</Provider>
   }
 }
 

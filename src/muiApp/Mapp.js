@@ -127,9 +127,9 @@ class MAPP {
     const url = data.url;
     const params = Object.assign({}, data.params);
     let animate = "slide-in-right" || params.animate;
-    if (this._pathIsTabbar(url)) {
-      animate = "none";
-    }
+    // if (this._pathIsTabbar(url)) {
+    //   animate = "none";
+    // }
 
     let view = this._getPageURL(url);
     log.info("webView: " + view);

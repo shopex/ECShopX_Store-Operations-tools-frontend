@@ -1,0 +1,33 @@
+.sp-page-detail-card{
+    width:100%; 
+    background-color: var(--color-primary); 
+    padding:64px 32px;
+    padding-right: 85px;
+    display: flex;
+    position: relative;
+    z-index:0;
+    box-sizing: border-box;
+
+    .status{
+        color: white;
+
+        .main{
+            font-size: 52px;
+            font-weight: 400;
+        }
+
+        .sub{
+            font-size: 28px;
+            font-weight: 300;
+            margin-top: 28px;
+        }
+    }
+
+    .icon{
+        position: absolute;
+        font-size: 80px;
+        color:white;
+        right: 64px;
+        top:40px;
+    }
+}

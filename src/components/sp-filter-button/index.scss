@@ -1,0 +1,67 @@
+.sp-filter-button {
+  .block {
+    margin-bottom: 20px;
+    height:70px;
+    font-size: 28px;
+    font-weight: 400;
+    background: #F5F6F9;
+    border-radius: 8px;
+    color: #111A34;
+    width: calc((100% - 40px)/3);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    
+
+    .iconfont {
+      position: absolute;
+      top: -2px;
+      right:-3px;
+      color: var(--color-primary);
+      opacity: 0; 
+      font-size: 24px;
+    }
+
+    &.active {
+      border-radius: 8px;
+      border: 2px solid var(--color-primary);
+      color: var(--color-primary);
+
+      .iconfont {
+        opacity: 1;
+      }
+    }
+
+    &.col-1 {
+      width: calc((100% - 40px)/3*1);
+    }
+
+    &.col-2 {
+      width: calc(100% - (100% - 40px)/3*1 - 20px);
+    }
+
+    &.col-3 {
+      width: 100%;
+    }
+
+    &:nth-child(3n-1),
+    &:nth-child(3n-2) {
+      margin-right: 20px;
+
+      &.col-3 {
+        margin-right: 0px;
+      }
+
+      &.col-2 {
+        margin-right: 0px;
+      }
+    }
+
+    .text {
+      white-space: nowrap;
+
+    }
+  }
+}

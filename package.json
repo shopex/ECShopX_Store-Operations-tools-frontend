@@ -15,6 +15,7 @@
     "build:alipay": "taro build --type alipay",
     "build:tt": "taro build --type tt",
     "build:h5": "taro build --type h5",
+    "build:h5:sandbox": "BUILD_ENV=sandbox taro build --type h5",
     "build:rn": "taro build --type rn",
     "build:qq": "taro build --type qq",
     "build:jd": "taro build --type jd",
@@ -24,16 +25,13 @@
     "dev:alipay": "npm run build:alipay -- --watch",
     "dev:tt": "npm run build:tt -- --watch",
     "dev:h5": "npm run build:h5 -- --watch",
+    "dev:h5:sandbox": "BUILD_ENV=sandbox npm run build:h5 -- --watch",
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
+    "precommit": "lint-staged",
     "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "**/*.{js,jsx}": [
@@ -52,7 +50,10 @@
     "@tarojs/react": "3.2.9",
     "@tarojs/runtime": "3.2.9",
     "@tarojs/taro": "3.2.9",
+    "aws-sdk": "^2.933.0",
+    "axios": "^0.21.1",
     "lodash": "^4.17.21",
+    "qiniu-js": "^3.3.1",
     "qrcode": "^1.4.4",
     "qs": "^6.10.1",
     "react": "^17.0.0",
@@ -61,9 +62,11 @@
     "redux": "^4.1.0",
     "redux-create-reducer": "^2.0.1",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "stylenames": "^1.1.6",
-    "taro-ui": "^2.3.4"
+    "taro-ui": "^3.0.0-alpha.10",
+    "vconsole": "^3.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
@@ -81,6 +84,9 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^6.0.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.3.0",
+    "prettier-eslint-cli": "^5.0.1",
     "stylelint": "9.3.0"
   }
 }

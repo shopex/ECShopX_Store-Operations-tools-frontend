@@ -1,0 +1,31 @@
+$searchInputHeight:70px;
+
+$tabbarHeight:100px;
+
+$filterHeight:100px;
+
+.page-order-list {
+
+  background: #F9FAFB;
+  //background: #fff;
+  min-height: 100vh;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &-input {
+    padding: 10px 20px;
+  }
+ 
+
+  &-orderList {
+    @include page-scroll($searchInputHeight+$tabbarHeight+$filterHeight+20, 0);
+    z-index:100;
+
+    &.show-buttonsaction{
+      transform: none;
+    }
+  }
+
+}

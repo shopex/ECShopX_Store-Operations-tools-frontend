@@ -1,8 +1,9 @@
-const path = require( 'path' )
+const path = require('path')
 const chalk = require('chalk')
 const dotenvFlow = require('dotenv-flow')
-const pkg = require( '../package.json' )
-const { resolveConsts, resolveEnvs } = require( './utils' )
+const pkg = require('../package.json')
+const { resolveConsts, resolveEnvs } = require('./utils')
+
 const BUILD_ENV = process.env.BUILD_ENV
 const TARO_ENV = process.env.TARO_ENV
 const BUILD_TARGET = process.env.npm_config_target
@@ -10,7 +11,7 @@ const BUILD_TARGET = process.env.npm_config_target
 console.log(chalk.green(`mode: ${BUILD_ENV} `, `TARO_ENV: ${TARO_ENV}`))
 dotenvFlow.config({
   node_env: BUILD_ENV
-} )
+})
 
 const APP_ENVS = resolveEnvs()
 const CONSTS = {
@@ -36,20 +37,19 @@ const config = {
   alias: {
     '@': path.join(__dirname, '../src')
   },
+  sass: {
+    resource: path.resolve(__dirname, '..', 'src/style/imports.scss')
+  },
   copy: {
-    patterns: [
-    ],
-    options: {
-    }
+    patterns: [{ from: 'src/files/', to: `dist/` }],
+    options: {}
   },
   framework: 'react',
   mini: {
     postcss: {
       pxtransform: {
         enable: true,
-        config: {
-
-        }
+        config: {}
       },
       url: {
         enable: true,
@@ -69,11 +69,24 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    output: {
+      filename: 'js/[name].[hash:8].js',
+      chunkFilename: 'js/[name].[chunkhash:8].js'
+    },
+    miniCssExtractPluginOption: {
+      filename: 'css/[name].[hash:8].css',
+      chunkFilename: 'css/[id].[chunkhash:8].css'
+    },
+    router: {
+      mode: 'browser'
+    },
+    devServer: {
+      overlay: false
+    },
     postcss: {
       autoprefixer: {
         enable: true,
-        config: {
-        }
+        config: {}
       },
       cssModules: {
         enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true

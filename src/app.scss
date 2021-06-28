@@ -1,6 +1,7 @@
 @import "./style/theme.scss";
 @import "./style/variables.scss";
 @import "./style/yyk-icon.scss";
+@import "./style/zyk-icon.scss";
 
 
 $font-size-base: $font-size;
@@ -11,11 +12,12 @@ $color-brand-dark: $color-brand-accent-light;
 $color-text-base: $color-primary-text;
 $at-button-border-color-secondary: $color-border-gray;
 
+
 @import "~taro-ui/dist/style/index.scss";
 @import "./style/taro-ui-mod.scss";
 
 body, view {
-  font-family: $font-family;
+  // font-family: $font-family;
   font-size: $font-size;
 }
 
@@ -135,4 +137,23 @@ switch, .weui-switch {
     padding: 0;
     height: auto;
   }
+}
+
+.marginTop24{
+  margin-top: 24px;
+}
+
+.marginTop20{
+  margin-top: 20px;
+}
+
+.marginTop16{
+  margin-top: 16px;
+}
+
+// .taro-tabbar__tabbar{
+//   background: pink;
+// }
+.taro-tabbar__container {
+  background: #FFF;
 }
