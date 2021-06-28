@@ -20,30 +20,24 @@ export default class ChangeWL extends PureComponent {
     }
   }
 
-  seletedHanle(item) {
+  seletedHanle(item, index) {
     let el = document.getElementsByClassName('wrap')
-    for (let index = 0; index < el.length; index++) {
-      el[index].style.display = 'none'
+    for (let i = 0; i < el.length; i++) {
+      el[i].style.display = 'none'
     }
-    // console.log(item)
-    this.setState({
-      province: item.label,
-      cityList: item.children
-    })
-    el[1].style.display = 'block'
-  }
-  seletedCityHanle(item) {
-    let el = document.getElementsByClassName('wrap')
-    for (let index = 0; index < el.length; index++) {
-      el[index].style.display = 'none'
+    if (index == 1) {
+      this.setState({
+        province: item.label,
+        cityList: item.children
+      })
+    } else if (index == 2) {
+      this.setState({
+        city: item.label,
+        areaList: item.children
+      })
     }
-    this.setState({
-      city: item.label,
-      areaList: item.children
-    })
-    el[2].style.display = 'block'
+    el[index].style.display = 'block'
   }
-
   seletedAreaHanle(item) {
     this.setState({
       area: item.label,
@@ -135,7 +129,7 @@ export default class ChangeWL extends PureComponent {
                     <View
                       key={item.label}
                       className={'item ' + (item.label == province && 'active')}
-                      onClick={(e) => this.seletedHanle(item, 0)}
+                      onClick={(e) => this.seletedHanle(item, 1)}
                     >
                       {item.label}
                     </View>
@@ -149,7 +143,7 @@ export default class ChangeWL extends PureComponent {
                     <View
                       key={item.label}
                       className={'item ' + (item.label == city && 'active')}
-                      onClick={(e) => this.seletedCityHanle(item)}
+                      onClick={(e) => this.seletedHanle(item, 2)}
                     >
                       {item.label}
                     </View>
