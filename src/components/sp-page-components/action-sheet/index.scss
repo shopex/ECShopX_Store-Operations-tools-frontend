@@ -37,5 +37,15 @@
       color: #111A34;
     }
   }
- 
+  .at-textarea{
+    padding-left:40px;
+    padding-right:40px;
+
+    display: flex;
+    flex-direction: column;
+
+    &__textarea{
+      flex:1;
+    }
+  }
 }

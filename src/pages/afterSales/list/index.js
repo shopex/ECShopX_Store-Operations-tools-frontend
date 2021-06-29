@@ -312,7 +312,7 @@ export default class List extends PureComponent {
           {loading && <SpLoading>正在加载...</SpLoading>}
 
           {!page.isLoading && !page.hasNext && !orderList.length && (
-            <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
+            <SpNote img='no_order.png'>赶快去添加吧~</SpNote>
           )}
 
           {!page.hasNext && <SpTips msg={'没有更多了哦~'}></SpTips>}

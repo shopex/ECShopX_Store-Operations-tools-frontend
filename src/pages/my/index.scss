@@ -3,13 +3,12 @@
     border: none !important;
   }
   .top {
-    height: 350px;
+    height: 280px;
     background: linear-gradient(180deg, #4980ff 0%, rgba(73, 128, 255, 0.15) 100%);
-    padding-top: 50px;
+    padding-top: 30px;
     box-sizing: border-box;
     .info {
-      position: relative;
-      margin-top: 50px;
+      position: relative; 
       padding-left: 60px;
       padding-top: 150px;
       box-sizing: border-box;
@@ -22,6 +21,7 @@
         height: 130px;
         border-radius: 8px;
         border: 1px solid #e2e4ea;
+        overflow: hidden;
 
         taro-image-core {
           width: 130px;
@@ -34,6 +34,7 @@
           max-width: 450px;
           font-size: 32px;
           line-height: 60px;
+          font-weight: 500;
         }
         .tag {
           margin-top: 10px;
@@ -51,7 +52,7 @@
     .switch-shop{
       font-size: 28px;
       position: absolute;
-      bottom: 75px;
+      bottom: 90px;
       right: 70px;
       color: #4980ff;
       .icon-qiehuan1{
@@ -99,6 +100,7 @@
         input{
           text-align: right;
           border: none;
+          font-size: 1em;
           &:hover{
             border: none;
           }

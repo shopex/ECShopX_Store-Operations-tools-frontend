@@ -8,6 +8,7 @@ import './index.scss'
 import Taro from '@tarojs/taro'
 import { connect } from 'react-redux'
 const logo = require('../../assets/imgs/1.jpg')
+const defaultshop = require('@/assets/imgs/defaultshop.png')
 @connect(({ planSelection }) => ({
   planSelection
 }))
@@ -147,7 +148,7 @@ export default class My extends Component {
         <View className='top'>
           <View className='info'>
             <View className='photo'>
-              <Image src={distributors && distributors.logo}></Image>
+              <Image src={(distributors && distributors.logo) || defaultshop}></Image>
             </View>
             <View className='content'>
               <View className='title'>{distributors && distributors.name}</View>

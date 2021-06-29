@@ -10,7 +10,7 @@ class SpFilterDrawer extends PureComponent {
     super(props)
     this.state = {
       query: {},
-      isSubmit: false
+      isSubmit: true
     }
   }
 

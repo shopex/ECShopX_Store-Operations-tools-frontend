@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { View, Image, Input } from '@tarojs/components'
+import { View, Image, Text } from '@tarojs/components'
 import { classNames } from '@/utils'
 import { SpGoodPrice } from '@/components'
 import './index.scss'
@@ -57,7 +57,7 @@ class SpGoodItem extends PureComponent {
   renderNumberExtra = () => {
     const { pageType = 'orderList' } = this.props
     if (pageType === 'orderList' || pageType === 'afterSalesList') {
-      return `X`
+      return <Text className='number-prefix'>X</Text>
     } else {
       return '数量：'
     }
@@ -147,9 +147,11 @@ class SpGoodItem extends PureComponent {
           )}
           <View className='sp-good-item-rightextra-goodnumber'>
             {this.renderNumberExtra()}{' '}
-            {pageType === 'orderDelivery'
-              ? goodInfo.num - Number(goodInfo.delivery_item_num)
-              : goodInfo.num}
+            <Text className='number'>
+              {pageType === 'orderDelivery'
+                ? goodInfo.num - Number(goodInfo.delivery_item_num)
+                : goodInfo.num}
+            </Text>
           </View>
         </View>
       </View>

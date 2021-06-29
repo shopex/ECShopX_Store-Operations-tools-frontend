@@ -15,8 +15,12 @@
             flex:1;
             font-size: 28px;
             font-weight: 500;
-            color: #111A34;
+            color: #858B9C;
             @include flexbox();
+
+            &.active{
+                color: #111A34;
+            }
 
             &.left{
                 margin-right:21px;
@@ -59,9 +63,11 @@
         @include hairline();
 
         &-item{
+ 
 
             display: flex;
             align-items: flex-start;
+            line-height: 42px;
 
             .title{
                 font-size: 24px;
@@ -69,6 +75,7 @@
                 color: #666F83;
                 width:146px;
                 flex-shrink: 0;
+                
             }
             .value{
                 font-size: 24px;
@@ -87,9 +94,11 @@
             font-size: 28px;
             font-weight: 500;
             color:var(--color-primary);
+            display: flex;
+            align-items: center;
 
             .iconfont{
-                font-size: 28px;
+                font-size: 36px;
             }
             .text{
                 font-size: 28px;

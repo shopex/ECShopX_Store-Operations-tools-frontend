@@ -5,7 +5,7 @@ import { getThemeStyle } from '@/utils'
 import FilterBlock from './comps/filterblock'
 import { ORDER_LIST_CANCEL_REASON, ORDER_LIST_STATUS } from '@/consts'
 import { withPager, withBackToTop } from '@/hocs'
-import { SpLoading, SpNote, SpOrderItem, SpToast, SpTips } from '@/components'
+import { SpLoading, SpNote, SpOrderItem, SpTips, SpToast } from '@/components'
 import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-components'
 import { calculateTimestamp } from '@/utils/time'
 import { classNames } from '@/utils'
@@ -238,6 +238,8 @@ export default class List extends PureComponent {
 
   //点击操作按钮
   handleClickActionButtons = (e) => {
+    console.log('handleClickActionButtons')
+
     this.setState({
       buttonsActionVisible: true
     })
@@ -262,6 +264,8 @@ export default class List extends PureComponent {
       pageType,
       buttonsActionVisible
     } = this.state
+
+    console.log('buttonsActionVisible', buttonsActionVisible)
 
     return (
       <View className='page-order-list' style={getThemeStyle()}>
@@ -322,7 +326,7 @@ export default class List extends PureComponent {
           {loading && <SpLoading>正在加载...</SpLoading>}
 
           {!page.isLoading && !page.hasNext && !orderList.length && (
-            <SpNote img='trades_empty.png'>赶快去添加吧~</SpNote>
+            <SpNote img='no_order.png'>赶快去添加吧~</SpNote>
           )}
 
           {!page.hasNext && <SpTips msg={'没有更多了哦~'}></SpTips>}
