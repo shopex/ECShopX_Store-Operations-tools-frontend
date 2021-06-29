@@ -1,6 +1,8 @@
 import { PureComponent } from 'react'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import { classNames } from '@/utils'
+
+const selected_img = require('../../assets/imgs/selected.png')
 
 export default class Block extends PureComponent {
   constructor(props) {
@@ -35,7 +37,7 @@ export default class Block extends PureComponent {
         onClick={onClick}
       >
         <Text className='text'>{text}</Text>
-        <Text className='iconfont icon-xuanzhongbiaoqian-01'></Text>
+        <Image src={selected_img} className='selected_img' />
       </View>
     )
   }

@@ -57,8 +57,6 @@ function doHandleMonth(month) {
 
 //得出时间戳
 function getTimetampFrom(day) {
-  console.log('getTimetampFrom', day)
-
   if (!day) {
     return new Date().getTime()
   }
@@ -67,8 +65,6 @@ function getTimetampFrom(day) {
     //IOS不兼容new Date()
     day = day.replace(/\-/g, '/')
   }
-
-  console.log('getTimetampFrom2', day, new Date(day))
 
   return new Date(day).getTime()
 }

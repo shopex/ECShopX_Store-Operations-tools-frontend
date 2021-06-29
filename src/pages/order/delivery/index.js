@@ -12,7 +12,6 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
 import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
-import qs from 'qs'
 import './index.scss'
 
 class OrderDelivery extends Component {

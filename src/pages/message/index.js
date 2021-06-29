@@ -145,7 +145,7 @@ export default class Message extends PureComponent {
             })}
           </ScrollView>
         )}
-        {is_empty == 1 && <SpNote img='trades_empty.png'>暂无消息哦~</SpNote>}
+        {is_empty == 1 && <SpNote img='no_order.png'>暂无消息哦~</SpNote>}
       </View>
     )
   }

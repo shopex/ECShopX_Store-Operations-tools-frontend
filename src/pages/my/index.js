@@ -9,6 +9,7 @@ import UploadUtil from '@/utils/UploadUtil'
 import './index.scss'
 
 const logo = require('../../assets/imgs/1.jpg')
+const defaultshop = require('@/assets/imgs/defaultshop.png')
 @connect(({ planSelection }) => ({
   planSelection
 }))
@@ -155,7 +156,7 @@ export default class My extends Component {
         <View className='top'>
           <View className='info'>
             <View className='photo'>
-              <Image src={distributors && distributors.logo}></Image>
+              <Image src={(distributors && distributors.logo) || defaultshop}></Image>
             </View>
             <View className='content'>
               <View className='title'>{distributors && distributors.name}</View>
@@ -169,12 +170,11 @@ export default class My extends Component {
         </View>
         <View className='joker'></View>
         <View className='formBox'>
-          {/* <AtForm
-            > */}
+          {/* <Form onSubmit={this.formSubmit.bind(this)}> */}
           <View className='photoBox'>
             <View className='title'>
               <Text className='iconfont icon-zu1684'></Text>
-              <Text>头像</Text>
+              <Text>我的头像</Text>
             </View>
             <View className='photo' onClick={(e) => this.handleAvatar()}>
               <Image src={head_portrait}></Image>
@@ -204,13 +204,6 @@ export default class My extends Component {
               <Text>我的昵称</Text>
             </View>
             <View className='value'>
-              {/* <input
-                  type='text'
-                  maxLength={10}
-                  value={username}
-                  onChange={(e) => this.usernameChange(e)}
-                  onBlur={(e) => this.usernameBlur(e)}
-                ></input> */}
               <AtInput
                 name='value'
                 type='text'
@@ -221,7 +214,7 @@ export default class My extends Component {
               />
             </View>
           </View>
-          {/* </AtForm> */}
+          {/* </Form> */}
         </View>
         {/* <Button className='btn'>修改密码</Button>
         <Button className='btn'>退出登录</Button> */}

@@ -5,6 +5,9 @@
     box-sizing: border-box;
 
     &.error{
+
+        margin-bottom:26px;
+        
         &::before{
             height: 2px;
             background: $danger-color;
@@ -15,7 +18,7 @@
         .tips{
             color:$danger-color;
             position: absolute;
-            bottom: -40px;
+            bottom: -50px;
             font-size: 28px;
             font-weight: 400;
         }

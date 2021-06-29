@@ -17,18 +17,18 @@ $md-white: #fff;
 .page-index {
   background: #fff;
   .top {
-    height: 350px;
+    height: 230px;
     background: linear-gradient(180deg, #4980ff 0%, rgba(73, 128, 255, 0.15) 100%);
     overflow: hidden;
     .shop-title {
-      margin-top: 118px;
+      margin-top: 30px;
       margin-left: 32px;
       margin-right: 32px;
       width: fit-content;
       height: 90px;
       background: rgba(0, 0, 0, 0.12);
       display: flex;
-      border-radius: 40px;
+      border-radius: 45px;
       align-items: center;
       box-sizing: border-box;
       .avatar {
@@ -58,7 +58,7 @@ $md-white: #fff;
   .current-status {
     margin: 0 auto;
     margin-top: -100px;
-    width: 702px;
+    width: 750px;
     background: url('~@/assets/imgs/index/bg.png') center no-repeat;
     background-size: 100% 100%;
     padding: 54px 58px 80px 58px;
@@ -76,8 +76,8 @@ $md-white: #fff;
       font-size: 28px;
       color: $md-white;
       .icon-gaikuang {
-        font-size: 38px;
-        margin-right: 18px;
+        font-size: 54px;
+        margin-right: 10px;
       }
     }
     .spend-money {
@@ -130,7 +130,8 @@ $md-white: #fff;
     box-sizing: border-box;
     .title {
       font-size: 40px;
-      color: #666;
+      color: #666F83;
+      font-weight: 600;
     }
     .list {
       margin-top: 30px;
@@ -148,7 +149,7 @@ $md-white: #fff;
           text-align: right;
         }
         .img {
-          width: 60px;
+          width: 70px;
           height: 80px;
           margin: 0 auto;
         }

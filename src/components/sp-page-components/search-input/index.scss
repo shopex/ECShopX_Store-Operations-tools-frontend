@@ -33,8 +33,9 @@ $searchInputHeight:70px;
         }
 
         .iconfont{
-            font-size: 14px;
+            font-size: 20px;
             transition: transform all .3s;
+            color:#858B9C;
 
             &.isModalShow{
                 transform: rotate(180deg);
@@ -58,9 +59,9 @@ $searchInputHeight:70px;
             }
         }
 
-        .at-input{
+        .weui-input{
             &::-webkit-input-placeholder{
-                font-size: 24px;
+                font-size: 26px;
                 color: #C5CAD5;
             }
         }

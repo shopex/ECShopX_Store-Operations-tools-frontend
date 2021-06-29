@@ -69,11 +69,12 @@ export default class SpInputNumber extends PureComponent {
           disabled={disabled}
         />
         {placeholder && !value && value != 0 && <View className='placeholder'>{placeholder}</View>}
-        {clear && !!value && active && (
-          <View className='clear' onClick={this.clearValue}>
-            <Text className='iconfont icon-shanchu-01'></Text>
-          </View>
-        )}
+        {(clear && !!value && active) ||
+          (!!value && error && (
+            <View className='clear' onClick={this.clearValue}>
+              <Text className='iconfont icon-shanchu-01'></Text>
+            </View>
+          ))}
         {error && <View className='tips'>{error}</View>}
       </View>
     )

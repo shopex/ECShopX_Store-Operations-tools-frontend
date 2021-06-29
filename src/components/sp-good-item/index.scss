@@ -12,6 +12,7 @@
         border-radius: 8px;
         border: 1px solid #E2E4EA;
         flex-shrink: 0;
+        overflow: hidden;
 
         .img{
             width: 100%;
@@ -65,8 +66,16 @@
         }
 
         &-goodnumber{
-            font-size: 24px;
+            font-size: 30px;
             color:#111A34; 
+
+            .number-prefix{
+                font-size: 0.7em;
+            }
+
+            .number{
+                font-weight: 500;
+            }
         }
 
         &-inputnumber{

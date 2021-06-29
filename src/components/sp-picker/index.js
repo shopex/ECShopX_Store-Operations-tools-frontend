@@ -121,6 +121,8 @@ const SpPicker = (props) => {
     move(event)
 
     if (isVertical()) {
+      console.log('isVertical()')
+
       moving.current = true
       preventDefault(event, true)
     }
@@ -203,6 +205,17 @@ const SpPicker = (props) => {
   const handleCancel = () => {
     onCancel()
   }
+
+  useEffect(() => {
+    if (visible) {
+      window.document.body.style.overflow = 'hidden'
+    } else {
+      window.document.body.style.overflow = 'auto'
+    }
+    ;() => {
+      window.document.body.style.overflow = 'auto'
+    }
+  }, [visible])
 
   return (
     <AtFloatLayout

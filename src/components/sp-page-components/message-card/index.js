@@ -39,10 +39,20 @@ class MessageCard extends PureComponent {
     return (
       <View className={classNames('sp-page-message-card', className)}>
         <View className='header'>
-          <View className='item left' onClick={this.handleChange(0)}>
+          <View
+            className={classNames('item left', {
+              ['active']: active === 0
+            })}
+            onClick={this.handleChange(0)}
+          >
             <Text>{leftTitle}</Text>
           </View>
-          <View className='item right' onClick={this.handleChange(1)}>
+          <View
+            className={classNames('item right', {
+              ['active']: active === 1
+            })}
+            onClick={this.handleChange(1)}
+          >
             <Text>{rightTitle}</Text>
           </View>
           <View
