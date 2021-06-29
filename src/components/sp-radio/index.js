@@ -4,6 +4,7 @@ import './index.scss'
 import { AtTag } from 'taro-ui'
 
 const duigou = require('@/assets/imgs/zyk-duigou.png')
+const defaultshop = require('@/assets/imgs/defaultshop.png')
 
 export default class index extends PureComponent {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class index extends PureComponent {
                 <View className='radio'>
                   <View className='part1'>
                     <View className='logo'>
-                      <Image src={item.logo}></Image>
+                      <Image src={item.logo || defaultshop}></Image>
                     </View>
                     <View className='content'>
                       <View className='title'>{item.name}</View>

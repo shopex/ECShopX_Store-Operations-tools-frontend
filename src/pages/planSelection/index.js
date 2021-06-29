@@ -69,7 +69,7 @@ export default class PlanSelection extends PureComponent {
                 activeHandle={this.activeHandle}
               ></SpRadio>
             )}
-            {shopList.length <= 0 && <SpNote img='trades_empty.png'>快去添加店铺吧~</SpNote>}
+            {shopList.length <= 0 && <SpNote img='no_order.png'>快去添加店铺吧~</SpNote>}
           </View>
           <View className='logoBox'>
             <Image src={logo}></Image>
