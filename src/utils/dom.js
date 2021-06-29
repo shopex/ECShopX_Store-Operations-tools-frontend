@@ -7,6 +7,7 @@ export function preventDefault(event, isStopPropagation) {
 
   /* istanbul ignore else */
   if (typeof event.cancelable !== 'boolean' || event.cancelable) {
+    console.log('preventDefault2', event)
     event.preventDefault()
   }
 
