@@ -186,7 +186,7 @@ class Index extends PureComponent {
             <View className='list list-2'>
               <View className='pay-order'>
                 <View className='title'>客单价（元）</View>
-                <View>{this.formatA(realTimeData.real_atv / 100)} </View>
+                <View className='color-gray'>{this.formatA(realTimeData.real_atv / 100)} </View>
               </View>
               <View className='pay-order'>
                 {is_center && (

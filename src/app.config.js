@@ -14,6 +14,7 @@ export default {
     'pages/afterSales/deal', //处理售后
     'pages/auth/agreement',
     'pages/auth/bindPhone',
+    'pages/auth/bindPhoneStepTwo',
     'pages/planSelection/index',
     'pages/logisticsInfo/index',
     'pages/address/index',
