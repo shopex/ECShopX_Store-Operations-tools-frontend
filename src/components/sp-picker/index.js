@@ -206,6 +206,17 @@ const SpPicker = (props) => {
     onCancel()
   }
 
+  useEffect(() => {
+    if (visible) {
+      window.document.body.style.overflow = 'hidden'
+    } else {
+      window.document.body.style.overflow = 'auto'
+    }
+    ;() => {
+      window.document.body.style.overflow = 'auto'
+    }
+  }, [visible])
+
   return (
     <AtFloatLayout
       isOpened={visible}
