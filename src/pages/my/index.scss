@@ -32,16 +32,16 @@
         margin-left: 20px;
         .title {
           max-width: 450px;
-          font-size: 32px;
+          font-size: 36px;
           line-height: 60px;
           font-weight: 500;
         }
         .tag {
           margin-top: 10px;
-          width: 66px;
+          width: 60px;
           text-align: center;
           box-sizing: border-box;
-          padding: 3px 6px;
+          padding: 0px 6px;
           background: #d8e9ff;
           border-radius: 4px;
           font-size: 22px;
@@ -50,20 +50,20 @@
       }
     }
     .switch-shop{
-      font-size: 28px;
+      font-size: 30px;
       position: absolute;
       bottom: 90px;
       right: 70px;
       color: #4980ff;
       .icon-qiehuan1{
-        font-size: 32px;
+        font-size: 34px;
         margin-right: 10px;
       }
     }
   }
   .joker{
     background: #F9FAFB;
-    height: 220px;
+    height: 200px;
   }
   .formBox{
     padding: 0 40px;
@@ -80,8 +80,12 @@
       }
     }
     .iconfont{
-      font-size: 32px;
-      margin-right: 24px;
+      font-size: 36px;
+      margin-right: 18px;
+
+      &.icon-keai {
+        font-size: 36px;
+      }
     }
     .photoBox, .common{
       display: flex;
@@ -101,11 +105,11 @@
         }
       }
       .title{
-        font-size: 28px;
+        font-size: 30px;
         color: #666F83;
       }
       .value{
-        font-size: 28px;
+        font-size: 30px;
         color: #858B9C;
         input{
           text-align: right;

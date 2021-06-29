@@ -15,3 +15,11 @@ export function bindMobile(params) {
 export function getQwJsSdkConfig(params) {
   return req.post('/workwechat/distributor/js/config', params)
 }
+//获取图片验证码
+export function getImageVerificationCode(params) {
+  return req.get('/operator/app/image/code', params)
+}
+//获取手机验证码
+export function getPhoneCode(params) {
+  return req.post('/operator/app/sms/code', params)
+}
