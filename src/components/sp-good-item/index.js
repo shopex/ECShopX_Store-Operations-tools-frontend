@@ -24,6 +24,8 @@ class SpGoodItem extends PureComponent {
     } else {
       if (pageType === 'afterSalesList') {
         return <SpGoodPrice type='normal' price={goodInfo?.orderItem?.price} />
+      } else if (pageType === 'afterSalesDetail') {
+        return <SpGoodPrice type='normal' price={goodInfo?.orderItem?.price} />
       }
       return <SpGoodPrice price={goodInfo.price} />
     }
@@ -43,6 +45,8 @@ class SpGoodItem extends PureComponent {
       return <SpGoodPrice type='discount' point={goodInfo.point} />
     } else {
       if (pageType === 'afterSalesList') {
+        return <SpGoodPrice type='discount' price={goodInfo?.orderItem?.market_price} />
+      } else if (pageType === 'afterSalesDetail') {
         return <SpGoodPrice type='discount' price={goodInfo?.orderItem?.market_price} />
       }
       return <SpGoodPrice type='discount' size={22} price={goodInfo.market_price} />
