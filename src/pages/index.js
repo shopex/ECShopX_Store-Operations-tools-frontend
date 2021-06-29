@@ -201,7 +201,7 @@ class Index extends PureComponent {
           <View className='func-list'>
             <View className='title'>常用功能</View>
             <View className='list'>
-              {apis.order && (
+              {apis.order == 1 && (
                 <View className='item' onClick={this.goOrderPageHandle}>
                   <View>
                     <Image className='img' src={require('@/assets/imgs/index/dingdan.svg')}></Image>
@@ -209,7 +209,7 @@ class Index extends PureComponent {
                   <View className='subtitle'>订单</View>
                 </View>
               )}
-              {apis.aftersales && (
+              {apis.aftersales == 1 && (
                 <View className='item' onClick={this.goAfterSalesPageHandle}>
                   <View>
                     <Image className='img' src={require('@/assets/imgs/index/shouhou.svg')}></Image>
@@ -217,16 +217,18 @@ class Index extends PureComponent {
                   <View className='subtitle'>售后</View>
                 </View>
               )}
-
-              <View className='item' onClick={this.handleOnScanQRCode.bind(this)}>
-                <View>
-                  <Image
-                    className='img'
-                    src={require('@/assets/imgs/index/shaoyishao.svg')}
-                  ></Image>
+              {apis.order == 1 && (
+                <View className='item' onClick={this.handleOnScanQRCode.bind(this)}>
+                  <View>
+                    <Image
+                      className='img'
+                      src={require('@/assets/imgs/index/shaoyishao.svg')}
+                    ></Image>
+                  </View>
+                  <View className='subtitle'>扫一扫</View>
                 </View>
-                <View className='subtitle'>扫一扫</View>
-              </View>
+              )}
+
               {/* 
               {funcList.map((item) => {
                 return (
