@@ -166,7 +166,7 @@ export default class My extends Component {
             <View className='photoBox'>
               <View className='title'>
                 <Text className='iconfont icon-zu1684'></Text>
-                <Text>手机号</Text>
+                <Text>我的头像</Text>
               </View>
               <View className='photo' onClick={(e) => this.handleAvatar()}>
                 <Image src={head_portrait}></Image>
