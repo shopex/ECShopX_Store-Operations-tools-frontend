@@ -303,95 +303,97 @@ class OrderDetail extends Component {
       <SpLoading>正在加载...</SpLoading>
     ) : (
       <View className='page-order-detail' style={getThemeStyle()}>
-        <DetailCard
-          pageType='orderDetail'
-          status={this.renderMainStatus()}
-          subStatus={this.renderDesc()}
-          iconClassName={orderInfo?.app_info?.detail_status?.icon}
-        />
+        <View className='wrapper'>
+          <DetailCard
+            pageType='orderDetail'
+            status={this.renderMainStatus()}
+            subStatus={this.renderDesc()}
+            iconClassName={orderInfo?.app_info?.detail_status?.icon}
+          />
 
-        <View className='card-center'>
-          <View>
-            <View className='title'>{this.renderLogiticsTitle()}</View>
-            <View className='desc'>{this.renderLogiticsDesc()}</View>
-          </View>
-          <View className='right' onClick={this.viewDeliveryDetail}>
-            <Text className='iconfont icon-chakan'></Text>
-            <Text>查看详情</Text>
-          </View>
-        </View>
-
-        <MessageCard
-          leftTitle={this.renderCardLeftTitle()}
-          leftContent={leftContent}
-          rightContent={rightContent}
-          leftPhone={leftPhone}
-          rightPhone={rightPhone}
-        />
-
-        <View className='order-detail'>
-          <View className='order-detail-title'>
-            <View className='text'>{this.renderLogiticsTitle(false, true)}</View>
-            <View className='status'></View>
+          <View className='card-center'>
+            <View>
+              <View className='title'>{this.renderLogiticsTitle()}</View>
+              <View className='desc'>{this.renderLogiticsDesc()}</View>
+            </View>
+            <View className='right' onClick={this.viewDeliveryDetail}>
+              <Text className='iconfont icon-chakan'></Text>
+              <Text>查看详情</Text>
+            </View>
           </View>
 
-          <View className='order-detail-content'>
-            {orderInfo?.items?.map((goodItem, index) => (
-              <SpGoodItem
-                // onClick={onGoodItemClick}
-                goodInfo={goodItem}
-                orderInfo={orderInfo}
-                className='goodItem'
-                pageType='orderDetail'
-                key={index}
-              />
-            ))}
+          <MessageCard
+            leftTitle={this.renderCardLeftTitle()}
+            leftContent={leftContent}
+            rightContent={rightContent}
+            leftPhone={leftPhone}
+            rightPhone={rightPhone}
+          />
+
+          <View className='order-detail'>
+            <View className='order-detail-title'>
+              <View className='text'>{this.renderLogiticsTitle(false, true)}</View>
+              <View className='status'></View>
+            </View>
+
+            <View className='order-detail-content'>
+              {orderInfo?.items?.map((goodItem, index) => (
+                <SpGoodItem
+                  // onClick={onGoodItemClick}
+                  goodInfo={goodItem}
+                  orderInfo={orderInfo}
+                  className='goodItem'
+                  pageType='orderDetail'
+                  key={index}
+                />
+              ))}
+            </View>
+
+            <View className='order-detail-footer'>
+              <View className='item'>
+                <View className='field'>配送方式</View>
+                <View className='value'>{this.renderLogiticsTitle(true)}</View>
+              </View>
+              <View className='item'>
+                <View className='field'>商品总价</View>
+                <View className='value'>{this.renderTotalFee()}</View>
+              </View>
+              <View className='item'>
+                <View className='field'>优惠金额</View>
+                <View className='value'>{this.renderDiscountFee()}</View>
+              </View>
+              <View className='item'>
+                <View className='field'>运费</View>
+                <View className='value'>{this.renderFreightFee()}</View>
+              </View>
+              <View className='item'>
+                <View className='field'>实收金额</View>
+                <View className='value'>{this.renderRealFee()}</View>
+              </View>
+            </View>
           </View>
 
-          <View className='order-detail-footer'>
-            <View className='item'>
-              <View className='field'>配送方式</View>
-              <View className='value'>{this.renderLogiticsTitle(true)}</View>
-            </View>
-            <View className='item'>
-              <View className='field'>商品总价</View>
-              <View className='value'>{this.renderTotalFee()}</View>
-            </View>
-            <View className='item'>
-              <View className='field'>优惠金额</View>
-              <View className='value'>{this.renderDiscountFee()}</View>
-            </View>
-            <View className='item'>
-              <View className='field'>运费</View>
-              <View className='value'>{this.renderFreightFee()}</View>
-            </View>
-            <View className='item'>
-              <View className='field'>实收金额</View>
-              <View className='value'>{this.renderRealFee()}</View>
-            </View>
+          <View className='card-bottom'>
+            <View className='item'>下单时间：{timestampToTime(orderInfo.create_time)}</View>
+            {tradeInfo.timeExpire && (
+              <View className='item'>交易时间：{timestampToTime(tradeInfo.timeExpire)}</View>
+            )}
+            {!!logisticsList?.length && (
+              <View className='item'>
+                发货时间：{logisticsList[logisticsList?.length - 1].delivery_time}
+              </View>
+            )}
+            {terminal_info && (
+              <View className='item'>
+                {terminal_info?.msg}：{timestampToTime(terminal_info?.time)}
+              </View>
+            )}
+            <View className='item'>订单编号：{orderInfo.order_id}</View>
+            <View className='item'>交易单号：{tradeInfo.tradeId}</View>
+            {!!tradeInfo.transactionId && (
+              <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
+            )}
           </View>
-        </View>
-
-        <View className='card-bottom'>
-          <View className='item'>下单时间：{timestampToTime(orderInfo.create_time)}</View>
-          {tradeInfo.timeExpire && (
-            <View className='item'>交易时间：{timestampToTime(tradeInfo.timeExpire)}</View>
-          )}
-          {!!logisticsList?.length && (
-            <View className='item'>
-              发货时间：{logisticsList[logisticsList?.length - 1].delivery_time}
-            </View>
-          )}
-          {terminal_info && (
-            <View className='item'>
-              {terminal_info?.msg}：{timestampToTime(terminal_info?.time)}
-            </View>
-          )}
-          <View className='item'>订单编号：{orderInfo.order_id}</View>
-          <View className='item'>交易单号：{tradeInfo.tradeId}</View>
-          {!!tradeInfo.transactionId && (
-            <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
-          )}
         </View>
 
         <SpToast />
