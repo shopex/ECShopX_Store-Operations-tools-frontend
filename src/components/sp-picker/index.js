@@ -121,6 +121,8 @@ const SpPicker = (props) => {
     move(event)
 
     if (isVertical()) {
+      console.log('isVertical()')
+
       moving.current = true
       preventDefault(event, true)
     }

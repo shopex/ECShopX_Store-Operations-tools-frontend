@@ -24,12 +24,12 @@ export default class NoteIndex extends PureComponent {
         {img && (
           <Image
             className='note__img'
-            mode='aspectFill'
+            mode='aspectFit'
             // style={styleNames(imgStyle)}
             src={this.resolveUrl(img)}
           />
         )}
-        <Text calssName='note__text'>{this.props.children}</Text>
+        <Text className='note__text'>{this.props.children}</Text>
       </View>
     )
   }
