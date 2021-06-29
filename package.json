@@ -1,8 +1,9 @@
 {
   "name": "ecshopx-dianwu",
-  "app_name": "云店店务",
-  "version": "1.0.0",
+  "app_name": "店务助手",
+  "version": "1.0.3",
   "private": true,
+  "repository": "https://git.ishopex.cn/onex/ecshopx-dianwu.git",
   "description": "",
   "templateInfo": {
     "name": "default",
@@ -50,7 +51,7 @@
     "@tarojs/react": "3.2.9",
     "@tarojs/runtime": "3.2.9",
     "@tarojs/taro": "3.2.9",
-    "aws-sdk": "^2.933.0",
+    "aws-sdk": "^2.936.0",
     "axios": "^0.21.1",
     "lodash": "^4.17.21",
     "qiniu-js": "^3.3.1",
@@ -87,6 +88,7 @@
     "lint-staged": "^10.2.11",
     "prettier": "^2.3.0",
     "prettier-eslint-cli": "^5.0.1",
+    "standard-version": "^9.3.0",
     "stylelint": "9.3.0"
   }
 }

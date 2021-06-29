@@ -1,12 +1,13 @@
+import Taro from '@tarojs/taro'
 import { Component, createElement } from 'react'
 import { View, Image, Form, Input, Button, Text } from '@tarojs/components'
 import { showToast, strLength } from '@/utils'
+import { AtForm, AtInput, AtButton } from 'taro-ui'
+import { connect } from 'react-redux'
 import api from '@/api'
 import UploadUtil from '@/utils/UploadUtil'
-
 import './index.scss'
-import Taro from '@tarojs/taro'
-import { connect } from 'react-redux'
+
 const logo = require('../../assets/imgs/1.jpg')
 const defaultshop = require('@/assets/imgs/defaultshop.png')
 @connect(({ planSelection }) => ({
@@ -16,7 +17,7 @@ export default class My extends Component {
   constructor() {
     super()
     this.state = {
-      username: '法外狂徒张三',
+      username: '',
       mobile: '', // 手机
       head_portrait: '', // 个人头像
       work_userid: '', // 企业微信id
@@ -60,26 +61,6 @@ export default class My extends Component {
         }
       )
     }
-  }
-
-  formSubmit() {}
-  usernameChange(event) {
-    console.log(event.target.value)
-    let str = strLength(event.target.value)
-    if (str > 20) {
-      showToast('最多输入10个字符喔')
-      return
-    }
-
-    this.setState({
-      username: event.target.value
-    })
-  }
-  async usernameBlur() {
-    const result = await api.my.updateInfo({
-      username: this.state.username
-    })
-    console.log(result)
   }
 
   notUpdate(message) {
@@ -135,10 +116,37 @@ export default class My extends Component {
       input.remove()
     })
   }
+
   switchShopHandle() {
     Taro.redirectTo({
       url: '/pages/planSelection/index'
     })
+  }
+
+  usernameChange(value) {
+    let str = strLength(value)
+    if (str > 20) {
+      showToast('最多输入10个字符喔')
+      return
+    }
+    this.setState({
+      username: value
+    })
+  }
+
+  async usernameBlur() {
+    const result = await api.my.updateInfo({
+      username: this.state.username
+    })
+    console.log(result)
+  }
+
+  onSubmit(event) {
+    console.log(this.state.username)
+
+    showToast(event)
+    event.preventDefault()
+    return false
   }
 
   render() {
@@ -162,50 +170,51 @@ export default class My extends Component {
         </View>
         <View className='joker'></View>
         <View className='formBox'>
-          <Form onSubmit={this.formSubmit.bind(this)}>
-            <View className='photoBox'>
-              <View className='title'>
-                <Text className='iconfont icon-zu1684'></Text>
-                <Text>我的头像</Text>
-              </View>
-              <View className='photo' onClick={(e) => this.handleAvatar()}>
-                <Image src={head_portrait}></Image>
-              </View>
+          {/* <Form onSubmit={this.formSubmit.bind(this)}> */}
+          <View className='photoBox'>
+            <View className='title'>
+              <Text className='iconfont icon-zu1684'></Text>
+              <Text>我的头像</Text>
             </View>
-            <View className='common'>
-              <View className='title'>
-                <Text className='iconfont icon-shoujihao'></Text>
-                <Text>手机号</Text>
-              </View>
-              <View className='value' onClick={(e) => this.notUpdate('手机号')}>
-                {mobile}
-              </View>
+            <View className='photo' onClick={(e) => this.handleAvatar()}>
+              <Image src={head_portrait}></Image>
             </View>
-            <View className='common'>
-              <View className='title'>
-                <Text className='iconfont icon-id'></Text>
-                <Text>企业微信ID</Text>
-              </View>
-              <View className='value' onClick={(e) => this.notUpdate('企业微信ID')}>
-                {work_userid}
-              </View>
+          </View>
+          <View className='common'>
+            <View className='title'>
+              <Text className='iconfont icon-shoujihao'></Text>
+              <Text>手机号</Text>
             </View>
-            <View className='common borderNone'>
-              <View className='title'>
-                <Text className='iconfont icon-keai'></Text>
-                <Text>我的昵称</Text>
-              </View>
-              <View className='value'>
-                <input
-                  type='text'
-                  maxLength={10}
-                  value={username}
-                  onChange={(e) => this.usernameChange(e)}
-                  onBlur={(e) => this.usernameBlur(e)}
-                ></input>
-              </View>
+            <View className='value' onClick={(e) => this.notUpdate('手机号')}>
+              {mobile}
             </View>
-          </Form>
+          </View>
+          <View className='common'>
+            <View className='title'>
+              <Text className='iconfont icon-id'></Text>
+              <Text>企业微信ID</Text>
+            </View>
+            <View className='value' onClick={(e) => this.notUpdate('企业微信ID')}>
+              {work_userid}
+            </View>
+          </View>
+          <View className='common borderNone'>
+            <View className='title'>
+              <Text className='iconfont icon-keai'></Text>
+              <Text>我的昵称</Text>
+            </View>
+            <View className='value'>
+              <AtInput
+                name='value'
+                type='text'
+                placeholder='售后联系人姓名'
+                value={username}
+                onChange={this.usernameChange.bind(this)}
+                onBlur={this.usernameBlur.bind(this)}
+              />
+            </View>
+          </View>
+          {/* </Form> */}
         </View>
         {/* <Button className='btn'>修改密码</Button>
         <Button className='btn'>退出登录</Button> */}
