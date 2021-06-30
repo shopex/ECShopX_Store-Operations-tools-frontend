@@ -206,7 +206,7 @@ class Index extends Component {
               {apis.order == 1 && (
                 <View className='item' onClick={this.goOrderPageHandle}>
                   <View>
-                    <Image className='img' src={require('@/assets/imgs/index/dingdan.svg')}></Image>
+                    <Image className='img' src={require('@/assets/imgs/index/dingdan.png')}></Image>
                   </View>
                   <View className='subtitle'>订单</View>
                 </View>
@@ -214,7 +214,7 @@ class Index extends Component {
               {apis.aftersales == 1 && (
                 <View className='item' onClick={this.goAfterSalesPageHandle}>
                   <View>
-                    <Image className='img' src={require('@/assets/imgs/index/shouhou.svg')}></Image>
+                    <Image className='img' src={require('@/assets/imgs/index/shouhou.png')}></Image>
                   </View>
                   <View className='subtitle'>售后</View>
                 </View>
@@ -224,7 +224,7 @@ class Index extends Component {
                   <View>
                     <Image
                       className='img'
-                      src={require('@/assets/imgs/index/shaoyishao.svg')}
+                      src={require('@/assets/imgs/index/shaoyishao.png')}
                     ></Image>
                   </View>
                   <View className='subtitle'>扫一扫</View>
