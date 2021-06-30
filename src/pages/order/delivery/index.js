@@ -14,6 +14,11 @@ import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
 import './index.scss'
 
+//计算剩余发货数量
+function computedDeliveryNumber(item) {
+  return Number(item.num) - Number(item.delivery_item_num)
+}
+
 class OrderDelivery extends Component {
   constructor(props) {
     super(props)
@@ -66,7 +71,7 @@ class OrderDelivery extends Component {
       tradeInfo,
       goodPrice: orderInfo?.items?.map((order, index) => ({
         num: 0,
-        max: Number(order.num) - Number(order.delivery_item_num),
+        max: computedDeliveryNumber(order),
         index: index
       })),
       goodItems: orderInfo?.items
@@ -221,7 +226,7 @@ class OrderDelivery extends Component {
     const { isWhole, goodPrice, goodItems, error } = this.state
     //如果是整单发货
     if (isWhole) {
-      return goodItems.map((item) => ({ ...item, delivery_num: item.num }))
+      return goodItems.map((item) => ({ ...item, delivery_num: computedDeliveryNumber(item) }))
     } else {
       //如果是拆分发货
       const totalNum = goodPrice.reduce((total, current, currentIndex) => total + current.num, 0)
@@ -329,6 +334,7 @@ class OrderDelivery extends Component {
     if (!delivery_code) {
       return
     }
+
     requestCallback(
       async () => {
         const data = await api.order.delivery({
@@ -395,7 +401,7 @@ class OrderDelivery extends Component {
             {orderInfo?.items?.map((goodItem, index) => (
               <SpGoodItem
                 // onClick={onGoodItemClick}
-                goodInfo={goodItem}
+                goodInfo={{ ...goodItem, deliveryNum: computedDeliveryNumber(goodItem) }}
                 errorGoodIds={error.itemError}
                 orderInfo={orderInfo}
                 className='goodItem'
