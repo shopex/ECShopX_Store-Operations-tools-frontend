@@ -1,6 +1,6 @@
 .cpn-radio {
-  padding-bottom: 30px;
-  margin-bottom: 30px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
   border-bottom: 1px solid #e2e4ea;
   .radio {
     display: flex;
@@ -15,8 +15,9 @@
     .logo {
       width: 88px;
       height: 88px;
-      border-radius: 8px;
+      border-radius: 12px;
       border: 1px solid #e2e4ea;
+      overflow: hidden;
       taro-image-core {
         width: 88px;
         height: 88px;
