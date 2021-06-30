@@ -71,7 +71,7 @@ export default class OrderDeal extends PureComponent {
       price: {
         price,
         point,
-        maxPrice: price,
+        maxPrice: Number(price),
         maxPoint: point,
         priceError: false,
         pointError: false
@@ -280,6 +280,7 @@ export default class OrderDeal extends PureComponent {
   //验证输入
   handleValidInput = () => {
     const { status, isApprove, refuseReason, price, afterSalesInfo } = this.state
+
     if (status === 'ONLY_REFUND' || (status === 'REFUND_GOODS' && afterSalesInfo.progress === 2)) {
       //如果是同意
       if (isApprove) {

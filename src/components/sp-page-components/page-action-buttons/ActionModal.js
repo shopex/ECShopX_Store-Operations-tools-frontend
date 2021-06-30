@@ -107,6 +107,13 @@ export default class ActionModal extends PureComponent {
           <View className='item item2'>确认取消该客户的订单吗？</View>
         </View>
       )
+    } else if (type === 'confirmDelivery') {
+      childrenNode = (
+        <View className='confirmContent confirmDelivery'>
+          <View className='item item1'>确认收货？</View>
+          <View className='item item2'>收货后将决定是否退款</View>
+        </View>
+      )
     } else if (type === 'confirmGetOrder') {
       childrenNode = (
         <View className='confirmContent'>
@@ -158,7 +165,7 @@ export default class ActionModal extends PureComponent {
       <View
         className={classNames('content', {
           [`cancelOrder`]: type === 'cancelOrder',
-          [`confirmContent`]: type === 'confirmGetOrder',
+          [`confirmContent`]: type === 'confirmGetOrder' || type === 'confirmDelivery',
           [`verification`]: type === 'verification'
         })}
       >
@@ -181,6 +188,17 @@ export default class ActionModal extends PureComponent {
   handleClose = () => {
     const { onClose } = this.props
     onClose && onClose()
+  }
+
+  //点击确认收货
+  handleConfirmDelivery = () => {
+    const { orderInfo, maxOrderInfo } = this.props
+    //处理售后
+    Taro.navigateTo({
+      url: `/pages/afterSales/deal?aftersalesNo=${
+        orderInfo.aftersales_bn || maxOrderInfo.aftersales_bn
+      }`
+    })
   }
 
   //取消订单
@@ -254,6 +272,17 @@ export default class ActionModal extends PureComponent {
           </View>
           <View className='item confirmitem2' onClick={this.handleGetOrder}>
             接单
+          </View>
+        </View>
+      )
+    } else if (type === 'confirmDelivery') {
+      childrenNode = (
+        <View className='actionContent'>
+          <View className='item confirmitem1' onClick={this.handleClose}>
+            取消
+          </View>
+          <View className='item confirmitem2' onClick={this.handleConfirmDelivery}>
+            确认并处理
           </View>
         </View>
       )
