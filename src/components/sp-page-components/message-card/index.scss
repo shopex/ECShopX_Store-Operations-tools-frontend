@@ -13,13 +13,13 @@
         
         .item{
             flex:1;
-            font-size: 28px;
-            font-weight: 500;
+            font-size: 28px; 
             color: #858B9C;
             @include flexbox();
 
             &.active{
                 color: #111A34;
+                font-weight: 500;
             }
 
             &.left{
@@ -31,7 +31,7 @@
                     display: block;
                     position: absolute;
                     right:-21px;
-                    width: 3px;
+                    width: 1px;
                     height: 52px;
                     background-color: #E2E4EA;
                 }
@@ -60,7 +60,8 @@
 
     .content{
         padding:24px 0;
-        @include hairline();
+        // @include hairline();
+        border-bottom: 1px solid #E2E4EA;
 
         &-item{
  

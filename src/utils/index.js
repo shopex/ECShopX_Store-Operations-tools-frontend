@@ -178,6 +178,10 @@ function isNull(value) {
   return !value && value !== 0
 }
 
+function hundred(number) {
+  return Number(number) * 100
+}
+
 export {
   classNames,
   log,
@@ -190,5 +194,6 @@ export {
   qwsdk,
   isIos,
   toFixed,
-  isNull
+  isNull,
+  hundred
 }

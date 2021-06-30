@@ -8,10 +8,10 @@ $md-white: #fff;
 .color-white {
   color: $md-white;
   margin-top: 28px;
-  margin-bottom: 72px;
+  margin-bottom: 56px;
 }
 .color-gray {
-  margin-top: 24px;
+  margin-top: 28px;
   margin-bottom: 56px;
   color: rgba(255, 255, 255, 0.6);
 }
@@ -19,8 +19,9 @@ $md-white: #fff;
 .page-index {
   background: #fff;
   .top {
-    height: 280px;
-    background: linear-gradient(180deg, #4980ff 0%, rgba(73, 128, 255, 0.15) 100%);
+    height: 270px;
+    background: linear-gradient(180deg, #6E9AFF 0%, rgba(73, 128, 255, 0.15) 100%);
+
     overflow: hidden;
     .shop-title {
       margin-top: 30px;
@@ -70,7 +71,8 @@ $md-white: #fff;
     // box-shadow: 2px 8px 32px 0px rgba(73, 128, 255, 0.3);
     // border-radius: 16px;
     .big-title {
-      margin-top: 26px;
+      margin-top: 36px;
+      margin-bottom: 56px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -82,8 +84,7 @@ $md-white: #fff;
       }
     }
     .spend-money {
-      margin-top: 56px;
-      margin-bottom: 34px;
+      margin-bottom: 28px;
       color: rgba(255, 255, 255, 0.6);
       .title {
         font-size: 24px;
@@ -97,15 +98,12 @@ $md-white: #fff;
         }
       }
       .money {
-        margin-top: 28px;
-        height: 59px;
         font-size: 42px;
         color: $md-white;
       }
     }
     .list {
-      @include listStyle;
-      padding: 28px 0 12px 0;
+      @include listStyle;   
       color: rgba(255, 255, 255, 0.6);
       .pay-order {
         flex: 1;
@@ -115,6 +113,7 @@ $md-white: #fff;
         }
         .color-white {
           font-size: 42px;
+          // margin-bottom: px;
         }
       }
     }

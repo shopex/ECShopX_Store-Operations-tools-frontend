@@ -4,6 +4,7 @@
     padding:64px 32px;
     padding-top: 30px;
     padding-right: 85px;
+    padding-bottom:50px;
     display: flex;
     position: relative;
     z-index:0;
@@ -20,7 +21,7 @@
         .sub{
             font-size: 28px;
             font-weight: 300;
-            margin-top: 28px;
+            margin-top: 10px;
         }
     }
 
@@ -28,7 +29,8 @@
         position: absolute;
         font-size: 80px;
         color:white;
-        right: 64px;
+        right: 74px;
         top:40px;
+        opacity: .5;
     }
 }

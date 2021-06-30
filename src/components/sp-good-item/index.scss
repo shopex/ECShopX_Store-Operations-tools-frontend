@@ -8,7 +8,7 @@
     &-image{
         width: 160px;
         height: 160px;
-        box-shadow: 0px 2px 4px 0px #E2E4EA;
+        //box-shadow: 0px 2px 4px 0px #E2E4EA;
         border-radius: 8px;
         border: 1px solid #E2E4EA;
         flex-shrink: 0;
@@ -18,6 +18,7 @@
             width: 100%;
             height:100%;
         }
+        
     }
 
     &-content{
@@ -47,7 +48,7 @@
             font-weight: 400;
             color: #858B9C; 
             font-size: 24px;
-            margin-top: 26px;
+            margin-top: 42px;
             // text-shadow: 0px 2px 4px #E2E4EA;
         }
 
@@ -59,14 +60,14 @@
         flex-direction: column;
         align-items: flex-end;
         justify-content: space-between;
-        padding-bottom:16px;
+        // padding-bottom:16px;
 
         &.renderInputNumber{
             justify-content: flex-end;
         }
 
         &-goodnumber{
-            font-size: 30px;
+            font-size: 24px;
             color:#111A34; 
 
             .number-prefix{

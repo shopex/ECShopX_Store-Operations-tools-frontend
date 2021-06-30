@@ -36,10 +36,10 @@ class PageActionButtons extends PureComponent {
         height = 60
         break
       case 'orderDetail':
-        height = 80
+        height = 70
         break
       case 'afterSalesDetail':
-        height = 80
+        height = 70
         break
       default:
         height = 60
@@ -127,11 +127,20 @@ class PageActionButtons extends PureComponent {
   }
 
   handleClickCheck = () => {
+    const {
+      orderInfo,
+      maxOrderInfo: { progress }
+    } = this.props
     this.handleNavigationDeal()
+    //this.handleNavigationDeal()
   }
 
   handleConfirm = () => {
-    this.handleNavigationDeal()
+    this.setState({
+      actionVisible: true,
+      actionType: 'confirmDelivery'
+    })
+    // this.handleNavigationDeal()
   }
 
   //点击发货按钮
@@ -237,7 +246,7 @@ class PageActionButtons extends PureComponent {
   }
 
   render() {
-    const { className, orderInfo, mainStatus, onRefresh = () => {} } = this.props
+    const { className, orderInfo, maxOrderInfo, mainStatus, onRefresh = () => {} } = this.props
     const { cancelVisible, cancelReasonVisible, actionVisible, actionType, noteVisible } =
       this.state
 
@@ -262,6 +271,7 @@ class PageActionButtons extends PureComponent {
           onClose={this.handleCloseActionModal}
           onRefresh={onRefresh}
           orderInfo={orderInfo}
+          maxOrderInfo={maxOrderInfo}
           mainStatus={mainStatus}
         />
 
