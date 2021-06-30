@@ -127,10 +127,7 @@ class PageActionButtons extends PureComponent {
   }
 
   handleClickCheck = () => {
-    const {
-      orderInfo,
-      maxOrderInfo: { progress }
-    } = this.props
+    const { orderInfo } = this.props
     this.handleNavigationDeal()
     //this.handleNavigationDeal()
   }
