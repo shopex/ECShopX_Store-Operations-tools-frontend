@@ -24,9 +24,14 @@ export default class My extends Component {
       distributors: null
     }
   }
+
+  componentDidMount() {
+    this.getMyInfoHandle()
+  }
   componentDidShow() {
     this.getMyInfoHandle()
   }
+
   async getMyInfoHandle() {
     const obj = {
       is_app: 1
@@ -207,7 +212,7 @@ export default class My extends Component {
               <AtInput
                 name='value'
                 type='text'
-                placeholder='售后联系人姓名'
+                placeholder='昵称'
                 value={username}
                 onChange={this.usernameChange.bind(this)}
                 onBlur={this.usernameBlur.bind(this)}
