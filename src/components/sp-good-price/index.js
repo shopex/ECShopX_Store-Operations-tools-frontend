@@ -23,9 +23,13 @@ class SpGoodPrice extends PureComponent {
   }
 
   renderPrice = (isNone) => {
-    const { price, symbol = '¥', isSame, color, type } = this.props
+    const { price, point, symbol = '¥', isSame, color, type } = this.props
 
     const priceArr = (Number(price) / 100).toFixed(2).split('.')
+
+    if (isNone && point == 0) {
+      return 0
+    }
 
     return (
       <View
