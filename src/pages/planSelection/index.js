@@ -57,11 +57,11 @@ export default class PlanSelection extends PureComponent {
     const { isActive, shopList, loading } = this.state
     return (
       <View className='page-planSelection'>
-        <ScrollView className='welcome-scrollview' scrollY scrollWithAnimation>
+        <View className='welcome-scrollview' scrollY scrollWithAnimation>
           <View className='title'>选择您的店铺工作台</View>
           <View className='tips'>没有找到？请联系您的超级管理员</View>
 
-          <View className='box'>
+          <ScrollView className='box'>
             {loading && <SpLoading>正在加载...</SpLoading>}
             {shopList.length > 0 && (
               <SpRadio
@@ -71,9 +71,8 @@ export default class PlanSelection extends PureComponent {
               ></SpRadio>
             )}
             {shopList.length <= 0 && <SpNote img='no_order.png'>快去添加店铺吧~</SpNote>}
-          </View>
-        </ScrollView>
-
+          </ScrollView>
+        </View>
         <ShopxLogo />
       </View>
     )

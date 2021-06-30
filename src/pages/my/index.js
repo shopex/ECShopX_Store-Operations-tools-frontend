@@ -5,10 +5,12 @@ import { showToast, strLength } from '@/utils'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
 import { connect } from 'react-redux'
 import api from '@/api'
+import S from '@/spx'
 import UploadUtil from '@/utils/UploadUtil'
 import './index.scss'
+import { SpToast } from '@/components'
 
-const logo = require('../../assets/imgs/1.jpg')
+const head = require('../../assets/imgs/my/head.png')
 const defaultshop = require('@/assets/imgs/defaultshop.png')
 @connect(({ planSelection }) => ({
   planSelection
@@ -69,7 +71,7 @@ export default class My extends Component {
   }
 
   notUpdate(message) {
-    showToast(`${message}暂不支持修改！`)
+    S.toast(`${message}暂不支持修改！`)
   }
 
   // 上传头像
@@ -103,7 +105,7 @@ export default class My extends Component {
     const resultConfig = await api.my.updateInfo({
       head_portrait: this.state.head_portrait
     })
-    showToast('修改成功')
+    // showToast('修改成功')
   }
 
   photoUpdate() {
@@ -131,8 +133,7 @@ export default class My extends Component {
   usernameChange(value) {
     let str = strLength(value)
     if (str > 20) {
-      showToast('最多输入10个字符喔')
-      return
+      return S.toast(`最多输入10个字符喔`)
     }
     this.setState({
       username: value
@@ -182,7 +183,7 @@ export default class My extends Component {
               <Text>我的头像</Text>
             </View>
             <View className='photo' onClick={(e) => this.handleAvatar()}>
-              <Image src={head_portrait}></Image>
+              <Image src={head_portrait || head}></Image>
             </View>
           </View>
           <View className='common'>
@@ -221,6 +222,7 @@ export default class My extends Component {
           </View>
           {/* </Form> */}
         </View>
+        <SpToast></SpToast>
         {/* <Button className='btn'>修改密码</Button>
         <Button className='btn'>退出登录</Button> */}
       </View>
