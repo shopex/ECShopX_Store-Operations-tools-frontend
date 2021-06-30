@@ -140,7 +140,7 @@ export default class BindPhone extends Component {
                   clear
                   name='imgcode'
                   maxLength={11}
-                  type='tel'
+                  type='text'
                   value={info.imgcode}
                   placeholder='请输入右侧图形验证码'
                   onChange={this.handleInputChange.bind(this, 'imgcode')}
