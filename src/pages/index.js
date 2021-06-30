@@ -1,7 +1,6 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component, PureComponent } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import { SpLoading } from '@/components'
 import { withLogin } from '@/hocs'
 import api from '@/api'
 import { requestCallback, formatNum, qwsdk } from '@/utils'
@@ -12,20 +11,20 @@ import './index.scss'
   planSelection: planSelection.activeShop
 }))
 @withLogin()
-class Index extends PureComponent {
+class Index extends Component {
   constructor(props) {
     super(props)
     console.log(props)
     this.state = {
       moneyShow: true,
       realTimeData: {
-        real_payed_fee: 1, //  实付金额
-        real_payed_orders: 2, // 支付订单数
-        real_payed_members: 3, // 实付会员数
-        real_atv: 4, // 客单价
-        real_refunded_fee: 5, //退款金额
-        real_aftersale_count: 6, //售后订单数
-        real_deposit: 7 // 新增储蓄
+        real_payed_fee: 0, //  实付金额
+        real_payed_orders: 0, // 支付订单数
+        real_payed_members: 0, // 实付会员数
+        real_atv: 0, // 客单价
+        real_refunded_fee: 0, //退款金额
+        real_aftersale_count: 0, //售后订单数
+        real_deposit: 0 // 新增储蓄
       },
       loading: true,
       apis: {
@@ -45,11 +44,13 @@ class Index extends PureComponent {
       })
     }
   }
+
   componentDidMount() {
     const { href } = window.location
     qwsdk.init({
       url: href
     })
+    this.getConfig()
   }
   componentDidShow() {
     this.getConfig()
@@ -187,7 +188,7 @@ class Index extends PureComponent {
             <View className='list list-2'>
               <View className='pay-order'>
                 <View className='title'>客单价（元）</View>
-                <View>{this.formatA(realTimeData.real_atv / 100)} </View>
+                <View className='color-gray'>{this.formatA(realTimeData.real_atv / 100)} </View>
               </View>
               <View className='pay-order'>
                 {is_center && (
@@ -205,7 +206,7 @@ class Index extends PureComponent {
               {apis.order == 1 && (
                 <View className='item' onClick={this.goOrderPageHandle}>
                   <View>
-                    <Image className='img' src={require('@/assets/imgs/index/dingdan.svg')}></Image>
+                    <Image className='img' src={require('@/assets/imgs/index/dingdan.png')}></Image>
                   </View>
                   <View className='subtitle'>订单</View>
                 </View>
@@ -213,7 +214,7 @@ class Index extends PureComponent {
               {apis.aftersales == 1 && (
                 <View className='item' onClick={this.goAfterSalesPageHandle}>
                   <View>
-                    <Image className='img' src={require('@/assets/imgs/index/shouhou.svg')}></Image>
+                    <Image className='img' src={require('@/assets/imgs/index/shouhou.png')}></Image>
                   </View>
                   <View className='subtitle'>售后</View>
                 </View>
@@ -223,7 +224,7 @@ class Index extends PureComponent {
                   <View>
                     <Image
                       className='img'
-                      src={require('@/assets/imgs/index/shaoyishao.svg')}
+                      src={require('@/assets/imgs/index/shaoyishao.png')}
                     ></Image>
                   </View>
                   <View className='subtitle'>扫一扫</View>

@@ -23,7 +23,7 @@ class SpGoodPrice extends PureComponent {
   }
 
   renderPrice = (isNone) => {
-    const { price, symbol = '¥', isSame, color } = this.props
+    const { price, symbol = '¥', isSame, color, type } = this.props
 
     const priceArr = (Number(price) / 100).toFixed(2).split('.')
 
@@ -37,6 +37,7 @@ class SpGoodPrice extends PureComponent {
         {symbol}
         <View className='integer'>{isNone ? '0.' : `${priceArr[0]}.`}</View>
         {isNone ? '00' : `${priceArr[1]}`}
+        {type === 'discount' && <View className='underline'></View>}
       </View>
     )
   }
@@ -65,10 +66,12 @@ class SpGoodPrice extends PureComponent {
   render() {
     const { className, type = 'normal', price, size = '28', point, prefix } = this.props
 
+    const isDiscount = type === 'discount'
+
     return (
       <View
         className={classNames('sp-good-item-price', className, {
-          [`discount`]: type === 'discount'
+          [`discount`]: isDiscount
         })}
         style={{
           fontSize: Taro.pxTransform(size)

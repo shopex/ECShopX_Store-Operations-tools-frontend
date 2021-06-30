@@ -16,6 +16,8 @@ $filterHeight:100px;
 
   &-input {
     padding: 10px 20px;
+    padding-top:20px;
+    background-color: #fff;
   }
  
 
@@ -25,6 +27,10 @@ $filterHeight:100px;
 
     &.show-buttonsaction{
       transform: none;
+      -webkit-transform: none;
+      -moz-transform: none;
+      -o-transform: none;
+      -ms-transform: none;
     }
   }
 

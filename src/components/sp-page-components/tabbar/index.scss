@@ -11,6 +11,19 @@ $tabbarHeight:100px;
     width: 40px;
     top: 0;
     bottom: 0;
+    z-index: 200;
+    
+    // &:after{
+    //   position: absolute;
+    //   content: '';
+    //   display: block;
+    //   width:1px;
+    //   height:38px;
+    //   top:31px;
+    //   right:5px;
+    //   // box-shadow: -3px 0 3px 0 #E2E4EA;
+    //   box-shadow: 2px 0 3px 0 #ced0d4;
+    // }
   }
 
   .right {
@@ -18,8 +31,20 @@ $tabbarHeight:100px;
     right: 0;
     width: 40px;
     top: 0;
-    bottom: 0;
-    box-shadow: 0px 3px 5px 0px #E2E4EA;
+    bottom: 0; 
+    z-index: 200;
+
+    &:after{
+      position: absolute;
+      content: '';
+      display: block;
+      width:1px;
+      height:38px;
+      top:31px;
+      left:5px;
+      // box-shadow: -3px 0 3px 0 #E2E4EA;
+      box-shadow: -2px 0 3px 0 #ced0d4;
+    }
   }
 
   .at-tabs {
@@ -37,8 +62,16 @@ $tabbarHeight:100px;
     font-weight: 400;
     color: #666F83;
     font-size: 28px;
-    margin: 0 20px;
+    margin: 0 24px;
+    font-weight: 500;
 
+    &:nth-child(1){
+      margin-left: 0;
+    }
+
+    &:last-child{
+      margin-right: 48px;
+    }
     &--active {
       color: var(--color-primary);
     }
@@ -47,6 +80,7 @@ $tabbarHeight:100px;
       background-color: var(--color-primary);
       width: 100%;
       left: 0%;
+      height:6px;
     }
   }
 } 

@@ -1,5 +1,5 @@
-import Taro from '@tarojs/taro'
-import React, { PureComponent } from 'react'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
+import React, { Component, PureComponent } from 'react'
 import { View, ScrollView } from '@tarojs/components'
 import { SptitleBar, SpMessage, SpLoading, SpNote } from '@/components'
 import './index.scss'
@@ -41,7 +41,7 @@ const SpMessageData = [
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
-export default class Message extends PureComponent {
+export default class Message extends Component {
   constructor() {
     super()
     this.state = {
@@ -49,7 +49,13 @@ export default class Message extends PureComponent {
       loading: false
     }
   }
+  // 浏览器后退请求
+  componentDidMount() {
+    this.getConfig()
+  }
+
   componentDidShow() {
+    console.log('componentDidShow message page...')
     this.getConfig()
   }
   // 滑动事件
@@ -145,7 +151,7 @@ export default class Message extends PureComponent {
             })}
           </ScrollView>
         )}
-        {is_empty == 1 && <SpNote img='trades_empty.png'>暂无消息哦~</SpNote>}
+        {is_empty == 1 && <SpNote img='no_order.png'>暂无消息哦~</SpNote>}
       </View>
     )
   }

@@ -2,6 +2,9 @@ import { PureComponent } from 'react'
 import Taro from '@tarojs/taro'
 import { AtToast } from 'taro-ui'
 import { isObject } from '@/utils'
+import './index.scss'
+
+const tips = require('@/assets/imgs/tips.png')
 
 function resolveState(props = {}, state = {}) {
   const ret = {
@@ -64,7 +67,7 @@ export default class SpToast extends PureComponent {
     } else {
       newText = text
     }
-    const { icon, image, status, duration, hasMask } = resolveState(this.props, this.state)
+    const { icon, image = tips, status, duration, hasMask } = resolveState(this.props, this.state)
 
     return (
       <AtToast
@@ -76,6 +79,7 @@ export default class SpToast extends PureComponent {
         isOpened={showToast}
         onClose={this.handleClose}
         text={newText}
+        className='customToast'
       />
     )
   }

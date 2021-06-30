@@ -4,6 +4,7 @@ import api from '@/api'
 import './index.scss'
 import Taro from '@tarojs/taro'
 import { SpRadio, SpLoading, SpNote } from '@/components'
+import { ShopxLogo } from '@/components/sp-page-components'
 import { connect } from 'react-redux'
 
 const logo = require('@/assets/imgs/shopex-logo.png')
@@ -69,12 +70,11 @@ export default class PlanSelection extends PureComponent {
                 activeHandle={this.activeHandle}
               ></SpRadio>
             )}
-            {shopList.length <= 0 && <SpNote img='trades_empty.png'>快去添加店铺吧~</SpNote>}
-          </View>
-          <View className='logoBox'>
-            <Image src={logo}></Image>
+            {shopList.length <= 0 && <SpNote img='no_order.png'>快去添加店铺吧~</SpNote>}
           </View>
         </ScrollView>
+
+        <ShopxLogo />
       </View>
     )
   }

@@ -14,6 +14,7 @@ export default {
     'pages/afterSales/deal', //处理售后
     'pages/auth/agreement',
     'pages/auth/bindPhone',
+    'pages/auth/bindPhoneStepTwo',
     'pages/planSelection/index',
     'pages/logisticsInfo/index',
     'pages/address/index',
@@ -45,7 +46,7 @@ export default {
   },
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
+    navigationBarBackgroundColor: '#f5f5f5',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
   }

@@ -4,7 +4,10 @@ $detail-card-height:200px;
 .page-order-detail{
 
     overflow-x: hidden;
-    padding-bottom:200px;
+    
+    .wrapper{
+        padding-bottom:200px;
+    }
 
     .card-center{
         @include detail-card();

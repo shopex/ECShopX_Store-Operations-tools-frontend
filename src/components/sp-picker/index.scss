@@ -73,9 +73,20 @@ $danger-color:#FF5257;
             height: 100px;
             @include flexbox;
 
+            .text{
+              font-size: 32px;
+              color:#41485D;
+              opacity: 0.7;
+            }
+
             &.selected{
               color:var(--color-primary);
               position: relative;
+
+              .text{
+                color:var(--color-primary);
+                opacity: 1;
+              }
 
               &::after{
                 display: block;
@@ -86,7 +97,7 @@ $danger-color:#FF5257;
                 -moz-osx-font-smoothing: grayscale;
                 content: "\e836";
                 position: absolute;  
-                right:200px;
+                right:180px;
               }
             }
           }

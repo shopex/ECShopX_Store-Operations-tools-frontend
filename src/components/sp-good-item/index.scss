@@ -12,6 +12,7 @@
         border-radius: 8px;
         border: 1px solid #E2E4EA;
         flex-shrink: 0;
+        overflow: hidden;
 
         .img{
             width: 100%;
@@ -29,7 +30,7 @@
             // text-shadow: 0px 2px 4px #E2E4EA;
             font-weight: 500;
             color: #111A34;
-            font-size: 28px;
+            font-size: $font-size-default;
             @include multi-ellipsis(1);
         }
 
@@ -39,14 +40,14 @@
             color: #858B9C;
             min-height: 36px;
             // text-shadow: 0px 2px 4px #E2E4EA;
-            margin-top: 6px;
+            // margin-top: 6px;
         }
 
         &_number{
             font-weight: 400;
             color: #858B9C; 
             font-size: 24px;
-            margin-top: 28px;
+            margin-top: 26px;
             // text-shadow: 0px 2px 4px #E2E4EA;
         }
 
@@ -65,8 +66,16 @@
         }
 
         &-goodnumber{
-            font-size: 24px;
+            font-size: 30px;
             color:#111A34; 
+
+            .number-prefix{
+                font-size: 0.7em;
+            }
+
+            .number{
+                font-weight: 500;
+            }
         }
 
         &-inputnumber{
