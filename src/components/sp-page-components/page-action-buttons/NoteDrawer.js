@@ -81,8 +81,6 @@ export default class NoteDrawer extends PureComponent {
             maxLength={150}
             placeholder='请输入你的备注...'
             autoFocus
-            focus
-            ref={(ref) => (this.textRef = ref)}
           />
         </View>
       </ActionSheet>
