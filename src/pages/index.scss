@@ -7,11 +7,13 @@ $md-white: #fff;
 }
 .color-white {
   color: $md-white;
-  line-height: 80px;
+  margin-top: 28px;
+  margin-bottom: 72px;
 }
 .color-gray {
+  margin-top: 24px;
+  margin-bottom: 56px;
   color: rgba(255, 255, 255, 0.6);
-  line-height: 80px;
 }
 
 .page-index {
@@ -61,15 +63,14 @@ $md-white: #fff;
     width: 750px;
     background: url('~@/assets/imgs/index/bg.png') center no-repeat;
     background-size: 100% 100%;
-    padding: 54px 58px 80px 58px;
+    padding: 36px 58px 80px 58px;
     box-sizing: border-box;
     font-size: 28px;
     color: $md-white;
     // box-shadow: 2px 8px 32px 0px rgba(73, 128, 255, 0.3);
     // border-radius: 16px;
     .big-title {
-      height: 80px;
-      line-height: 80px;
+      margin-top: 26px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -81,7 +82,7 @@ $md-white: #fff;
       }
     }
     .spend-money {
-      margin-top: 34px;
+      margin-top: 56px;
       margin-bottom: 34px;
       color: rgba(255, 255, 255, 0.6);
       .title {
@@ -96,16 +97,15 @@ $md-white: #fff;
         }
       }
       .money {
-        margin-top: 12px;
+        margin-top: 28px;
         height: 59px;
-        line-height: 59px;
         font-size: 42px;
         color: $md-white;
       }
     }
     .list {
       @include listStyle;
-      padding: 30px 0;
+      padding: 28px 0 12px 0;
       color: rgba(255, 255, 255, 0.6);
       .pay-order {
         flex: 1;
@@ -132,6 +132,7 @@ $md-white: #fff;
       font-size: 40px;
       color: #666F83;
       font-weight: 600;
+      margin-bottom: 40px;
     }
     .list {
       margin-top: 30px;
@@ -149,14 +150,14 @@ $md-white: #fff;
           text-align: right;
         }
         .img {
-          width: 70px;
-          height: 80px;
+          width: 57px;
+          height: 57px;
           margin: 0 auto;
         }
         .subtitle {
           font-size: 24px;
           color: #4a4a4a;
-          line-height: 33px;
+          margin-top: 4px;
           // text-align: center;
         }
       }
