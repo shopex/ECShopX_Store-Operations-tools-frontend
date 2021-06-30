@@ -20,10 +20,13 @@ export default class SpOrderItem extends PureComponent {
         items
       }
     } = this.props
+
+    const totalNum = items.reduce((total, current) => total + Number(current.num), 0)
+
     if (main_status === 'shipping') {
       return `实收款：`
     } else {
-      return `共${items.length}件商品 应收（含运费）：`
+      return `共${totalNum}件商品 应收（含运费）：`
     }
   }
 
