@@ -152,9 +152,7 @@ class SpGoodItem extends PureComponent {
           <View className='sp-good-item-rightextra-goodnumber'>
             {this.renderNumberExtra()}{' '}
             <Text className='number'>
-              {pageType === 'orderDelivery'
-                ? goodInfo.num - Number(goodInfo.delivery_item_num)
-                : goodInfo.num}
+              {pageType === 'orderDelivery' ? goodInfo.deliveryNum : goodInfo.num}
             </Text>
           </View>
         </View>
