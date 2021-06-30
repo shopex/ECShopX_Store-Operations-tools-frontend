@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { getThemeStyle, requestCallback, toFixed, isNull } from '@/utils'
+import { getThemeStyle, requestCallback, toFixed, isNull, hundred } from '@/utils'
 import { SpLoading, SpFormItem, SpInputNumber, SpToast } from '@/components'
 import RefuseTextarea from './comps/RefuseTextarea'
 import S from '@/spx'
@@ -9,7 +9,6 @@ import { OrderRadio, FixedAction, CommonButton } from '@/components/sp-page-comp
 import api from '@/api'
 import { connect } from 'react-redux'
 import './index.scss'
-
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
@@ -72,7 +71,7 @@ export default class OrderDeal extends PureComponent {
       price: {
         price,
         point,
-        maxPrice: price,
+        maxPrice: Number(price),
         maxPoint: point,
         priceError: false,
         pointError: false
@@ -236,7 +235,7 @@ export default class OrderDeal extends PureComponent {
           ...params,
           is_approved: isApprove ? 1 : 0,
           refuse_reason: isApprove ? undefined : refuseReason,
-          refund_fee: price.price,
+          refund_fee: hundred(price.price),
           refund_point: price.point
         }
       } else if (isValid.status === 'REFUND_GOODS0') {
@@ -251,7 +250,7 @@ export default class OrderDeal extends PureComponent {
           ...params,
           check_refund: isApprove ? 1 : 0,
           refund_memo: isApprove ? undefined : refuseReason,
-          refund_fee: price.price,
+          refund_fee: hundred(price.price),
           refund_point: price.point
         }
       }
@@ -281,6 +280,7 @@ export default class OrderDeal extends PureComponent {
   //验证输入
   handleValidInput = () => {
     const { status, isApprove, refuseReason, price, afterSalesInfo } = this.state
+
     if (status === 'ONLY_REFUND' || (status === 'REFUND_GOODS' && afterSalesInfo.progress === 2)) {
       //如果是同意
       if (isApprove) {

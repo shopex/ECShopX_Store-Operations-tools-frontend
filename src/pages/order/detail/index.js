@@ -243,12 +243,12 @@ class OrderDetail extends Component {
     } = this.state
     //金额订单
     if (point == 0) {
-      return <SpGoodPrice price={item_fee} isSame />
+      return <SpGoodPrice size={24} price={item_fee} isSame />
       //积分订单
     } else if (item_fee == 0) {
-      return <SpGoodPrice point={point} />
+      return <SpGoodPrice size={24} point={point} isSame />
     } else {
-      return <SpGoodPrice price={item_fee} point={point} />
+      return <SpGoodPrice size={24} price={item_fee} point={point} isSame />
     }
   }
 
@@ -257,7 +257,7 @@ class OrderDetail extends Component {
     const {
       orderInfo: { discount_fee }
     } = this.state
-    return <SpGoodPrice height={24} prefix='-' price={discount_fee} isSame />
+    return <SpGoodPrice size={24} prefix='-' price={discount_fee} isSame />
   }
 
   //渲染运费
@@ -265,7 +265,7 @@ class OrderDetail extends Component {
     const {
       orderInfo: { freight_fee }
     } = this.state
-    return <SpGoodPrice height={24} prefix='+' price={freight_fee} isSame />
+    return <SpGoodPrice size={24} prefix='+' price={freight_fee} isSame />
   }
 
   //渲染实价
@@ -273,7 +273,7 @@ class OrderDetail extends Component {
     const {
       tradeInfo: { totalFee }
     } = this.state
-    return <SpGoodPrice height={24} price={totalFee} isSame color='red' />
+    return <SpGoodPrice size={24} price={totalFee} isSame color='red' />
   }
 
   //查看物流详情
@@ -323,6 +323,7 @@ class OrderDetail extends Component {
           </View>
 
           <MessageCard
+            className='message-card'
             leftTitle={this.renderCardLeftTitle()}
             leftContent={leftContent}
             rightContent={rightContent}

@@ -1,12 +1,14 @@
 
 $detail-card-height:200px;
+$margin-top:-10px;
+$padding-bottom:150px;
 
 .page-order-detail{
 
     overflow-x: hidden;
     
     .wrapper{
-        padding-bottom:200px;
+        padding-bottom:$padding-bottom;
     }
 
     .card-center{
@@ -26,19 +28,24 @@ $detail-card-height:200px;
             font-size: 28px;
             font-weight: 400;
             color: #111A34;
+            margin-top:4px;
         }
         .right{
             font-size: 28px;
             font-weight: 400;
             color:var(--color-primary); 
+            display: inline-flex;
 
             .iconfont{
-                font-size: 30px;
+                font-size: 36px;
+                margin-top:6px;
                 color:var(--color-primary);
             }
         }
     }
-
+    .message-card{
+        margin-top:$margin-top ;
+    }
     .render-bottom{
 
         display: flex;

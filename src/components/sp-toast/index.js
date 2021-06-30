@@ -62,8 +62,8 @@ export default class SpToast extends PureComponent {
   render() {
     const { showToast, text } = this.state
     let newText = ''
-    if (text.length > 11) {
-      newText = text.substring(0, 11) + '\n' + text.substring(11)
+    if (text.length > 13) {
+      newText = text.substring(0, 13) + '\n' + text.substring(13)
     } else {
       newText = text
     }
