@@ -11,7 +11,7 @@ import './index.scss'
   planSelection: planSelection.activeShop
 }))
 @withLogin()
-class Index extends PureComponent {
+class Index extends Component {
   constructor(props) {
     super(props)
     console.log(props)
@@ -44,11 +44,13 @@ class Index extends PureComponent {
       })
     }
   }
+
   componentDidMount() {
     const { href } = window.location
     qwsdk.init({
       url: href
     })
+    this.getConfig()
   }
   componentDidShow() {
     this.getConfig()
