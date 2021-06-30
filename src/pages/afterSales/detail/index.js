@@ -131,6 +131,7 @@ class OrderDetail extends Component {
             buttons={detail?.app_info?.buttons}
             pageType={pageType}
             orderInfo={{ ...detail?.order_info, aftersales_bn: detail?.aftersales_bn }}
+            maxOrderInfo={detail}
           />
         </FixedAction>
       </View>
