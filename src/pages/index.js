@@ -221,7 +221,7 @@ class Index extends Component {
               )}
               {apis.order == 1 && (
                 <View className='item' onClick={this.handleOnScanQRCode.bind(this)}>
-                  <View>
+                  <View className='img_'>
                     <Image
                       className='img'
                       src={require('@/assets/imgs/index/shaoyishao.png')}
