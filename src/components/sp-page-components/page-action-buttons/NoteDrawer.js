@@ -52,6 +52,13 @@ export default class NoteDrawer extends PureComponent {
     )
   }
 
+  componentDidMount() {
+    console.log('this.textRef', this.textRef)
+    if (this.textRef) {
+      this.textRef
+    }
+  }
+
   render() {
     const { visible, onClose } = this.props
 
@@ -73,6 +80,7 @@ export default class NoteDrawer extends PureComponent {
             onChange={this.handleChangeNote}
             maxLength={150}
             placeholder='请输入你的备注...'
+            autoFocus
           />
         </View>
       </ActionSheet>

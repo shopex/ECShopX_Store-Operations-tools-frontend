@@ -97,7 +97,7 @@ export default class MessageDetail extends PureComponent {
             </View>
             <View className='item'>
               <View className='title'>{titleList[2]}</View>
-              <View className='content'>{orderId}</View>
+              <View className='content'>{orderId || afterSalesBn}</View>
             </View>
           </View>
         </View>

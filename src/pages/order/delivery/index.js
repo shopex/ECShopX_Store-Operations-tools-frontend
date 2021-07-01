@@ -208,7 +208,7 @@ class OrderDelivery extends Component {
   }
 
   handleNoConfirm = (number) => {
-    if (!/^[a-zZ-z0-9]*$/.test(number)) {
+    if (!/^[a-zA-Z0-9]*$/.test(number)) {
       return
     }
     this.handleCloseNo()
