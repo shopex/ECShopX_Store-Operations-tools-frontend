@@ -50,9 +50,13 @@ class SearchInput extends PureComponent {
 
   handleSubmit = (e) => {
     console.log('e', e)
-    //苹果回车键which=13 完成键=55
+    //苹果回车键which=13 完成键=55/88
     if (
-      (e.code === 'Enter' || e.key === 'Enter' || e.which === 13 || e.which === 55) &&
+      (e.code === 'Enter' ||
+        e.key === 'Enter' ||
+        e.which === 13 ||
+        e.which === 55 ||
+        e.which === 88) &&
       this.props.onInputConfirm
     ) {
       this.props.onInputConfirm({ isResetList: true })

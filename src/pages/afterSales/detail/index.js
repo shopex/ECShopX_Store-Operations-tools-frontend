@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { getThemeStyle, timestampToTime } from '@/utils'
+import { getThemeStyle, timestampToTime, classNames } from '@/utils'
 import { SpGoodItem, SpGoodPrice, SpToast, SpLoading } from '@/components'
 import { DetailCard, FixedAction, PageActionButtons } from '@/components/sp-page-components'
 import { View, Text, Image } from '@tarojs/components'
@@ -83,7 +83,7 @@ class OrderDetail extends Component {
           </View>
           <View className='item'>
             <View className='label'>图片信息</View>
-            <View className='value'>
+            <View className={classNames('value', { ['picwrapper']: true })}>
               {detail?.evidence_pic?.map((pic) => (
                 <View className='pic'>
                   <Image src={pic} className='image' />

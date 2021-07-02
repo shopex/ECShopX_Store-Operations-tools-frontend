@@ -439,6 +439,7 @@ class OrderDelivery extends Component {
           onConfirm={this.handleConfirm}
           onClose={this.handleClose}
           onCancel={this.handleClose}
+          type='number'
         />
 
         <View className='card-bottom'>
