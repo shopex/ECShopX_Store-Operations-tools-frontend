@@ -7,11 +7,11 @@ $md-white: #fff;
 }
 .color-white {
   color: $md-white;
-  margin-top: 28px;
+  margin-top:3px;
   margin-bottom: 56px;
 }
 .color-gray {
-  margin-top: 28px;
+  margin-top: 6px;
   margin-bottom: 56px;
   color: rgba(255, 255, 255, 0.6);
 }
@@ -142,11 +142,24 @@ $md-white: #fff;
         float: left;
         text-align: left;
         width: 33.333%;
+        .subtitle{
+          margin-left: 0px;
+        }
         &:nth-child(2){
           text-align: center;
+          .subtitle{
+            margin-left: 0px;
+          }
+
         }
         &:nth-child(3){
+          margin-right: 0px;
+          box-sizing: border-box;
           text-align: right;
+          .img_{
+            margin-right: 6px;
+          }
+          // margin-right: 10px;
         }
         .img {
           width: 57px;
