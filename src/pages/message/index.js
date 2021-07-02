@@ -107,7 +107,7 @@ export default class Message extends Component {
             {SpMessageData.map((item, index) => {
               if (index == 0) {
                 return (
-                  <>
+                  <View key={item.title}>
                     {date_type_1 && (
                       <SpMessage
                         SpMessageData={item}
@@ -117,11 +117,11 @@ export default class Message extends Component {
                         onclickHander={(e) => this.onclickHander(item)}
                       ></SpMessage>
                     )}
-                  </>
+                  </View>
                 )
               } else if (index == 1) {
                 return (
-                  <>
+                  <View key={item.title}>
                     {date_type_2 && (
                       <SpMessage
                         date={date_type_2}
@@ -131,11 +131,11 @@ export default class Message extends Component {
                         onclickHander={(e) => this.onclickHander(item)}
                       ></SpMessage>
                     )}
-                  </>
+                  </View>
                 )
               } else {
                 return (
-                  <>
+                  <View key={item.title}>
                     {date_type_3 && (
                       <SpMessage
                         date={date_type_3}
@@ -145,7 +145,7 @@ export default class Message extends Component {
                         onclickHander={(e) => this.onclickHander(item)}
                       ></SpMessage>
                     )}
-                  </>
+                  </View>
                 )
               }
             })}
