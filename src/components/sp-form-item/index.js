@@ -20,11 +20,17 @@ export default class SpFormItem extends PureComponent {
       children,
       wrap,
       className,
-      tip
+      tip,
+      labelbold
     } = this.props
 
     return (
-      <View className={classNames('sp-component-form-item', className, { ['wrap']: wrap })}>
+      <View
+        className={classNames('sp-component-form-item', className, {
+          ['wrap']: wrap,
+          ['labelbold']: labelbold
+        })}
+      >
         <View className='label'>{label}</View>
         {wrap && tip && (
           <View className='tip' onClick={onClickTip}>

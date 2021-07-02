@@ -1,7 +1,7 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import './index.scss'
-import { View } from '@tarojs/components'
+import { View, Textarea } from '@tarojs/components'
 import { AtFloatLayout, AtTextarea } from 'taro-ui'
 import { requestCallback } from '@/utils'
 import { ActionSheet } from '@/components/sp-page-components'
@@ -56,17 +56,9 @@ export default class NoteDrawer extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps.visible !== this.props.visible && this.props.visible) {
-      console.log('this.noteRef', this.noteRef)
-      console.log(
-        'content',
-        document.getElementById('content').getElementsByClassName('taro-textarea')[0]
-      )
-      console.log(
-        '.focus()',
-        document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus
-      )
-      document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
-      //this.noteRef.handleFocus()
+      setTimeout(() => {
+        document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+      }, 300)
     }
   }
 
@@ -89,16 +81,15 @@ export default class NoteDrawer extends PureComponent {
         title='订单备注'
       >
         <View className='content' id='content'>
+          {/* <Textarea ref={(ref) => (this.noteRef = ref)} /> */}
           <AtTextarea
             count
             value={noteContent}
             onChange={this.handleChangeNote}
             maxLength={150}
             placeholder='请输入你的备注...'
-            autoFocus
-            focus
-            ref={(ref) => (this.noteRef = ref)}
             onFocus={this.handleFocus}
+            ref={(ref) => (this.noteRef = ref)}
             id='textarea'
           />
         </View>

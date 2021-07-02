@@ -25,6 +25,12 @@ $filterHeight:100px;
     @include page-scroll($searchInputHeight+$tabbarHeight+$filterHeight+20, 0);
     z-index:100;
 
+    transform: none;
+
+    > div, > view {
+      transform: none;
+    }
+
     &.show-buttonsaction{
       transform: none;
     }

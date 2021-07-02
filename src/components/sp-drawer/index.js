@@ -35,7 +35,8 @@ class SpDrawer extends PureComponent {
       onConfirmText = '确定',
       onCancel = () => {},
       className,
-      placeholder = '请输入你的备注...'
+      placeholder = '请输入你的备注...',
+      type
     } = this.props
 
     const { content } = this.state
@@ -55,14 +56,19 @@ class SpDrawer extends PureComponent {
             {onConfirmText}
           </View>
         </View>
-        <View className='content'>
-          <AtTextarea
-            count
-            value={content}
-            onChange={this.handleChange}
-            maxLength={150}
-            placeholder={placeholder}
-          />
+        <View className='content' id='content'>
+          {type === 'number' ? (
+            <AtInput />
+          ) : (
+            <AtTextarea
+              count
+              value={content}
+              onChange={this.handleChange}
+              maxLength={150}
+              autoFocus
+              placeholder={placeholder}
+            />
+          )}
         </View>
       </AtFloatLayout>
     )

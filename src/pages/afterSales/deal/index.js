@@ -361,7 +361,7 @@ export default class OrderDeal extends PureComponent {
       <SpLoading>正在加载...</SpLoading>
     ) : (
       <View className='page-order-deal' style={getThemeStyle()}>
-        <SpFormItem label='处理结果'>
+        <SpFormItem labelbold label='处理结果' className='box-shadow-common'>
           <OrderRadio
             leftTitle='拒绝'
             rightTitle='同意'
@@ -373,9 +373,9 @@ export default class OrderDeal extends PureComponent {
         {(status === 'ONLY_REFUND' ||
           (status === 'REFUND_GOODS' && afterSalesInfo.progress === 2) ||
           fromOrderList) && (
-          <View className='marginTop24'>
+          <View className='marginTop24 box-shadow-common'>
             {isApprove && (
-              <SpFormItem label='处理方案' className='formItemPrice' wrap>
+              <SpFormItem labelbold label='处理方案' className='formItemPrice' wrap>
                 <View className='page-order-deal-comps-writepricearea'>
                   <View className='form-price'>
                     <View className='labelc'>退款金额（元）</View>
@@ -410,10 +410,11 @@ export default class OrderDeal extends PureComponent {
         )}
 
         {status === 'REFUND_GOODS' && afterSalesInfo.progress === 0 && (
-          <View className='marginTop24'>
+          <View className='marginTop24 box-shadow-common'>
             {isApprove && (
               <SpFormItem
                 label='回寄地址'
+                labelbold
                 placeholder='请选择售后地址'
                 wrap={selectAddress}
                 tip='修改售后地址'
@@ -442,7 +443,12 @@ export default class OrderDeal extends PureComponent {
         )}
 
         {!isApprove && (
-          <SpFormItem label='拒绝原因' className='formItemRefuse marginTop24' wrap>
+          <SpFormItem
+            label='拒绝原因'
+            labelbold
+            className='formItemRefuse marginTop24 box-shadow-common'
+            wrap
+          >
             <RefuseTextarea onChange={this.handleChangeRefuseReason} />
           </SpFormItem>
         )}
