@@ -68,13 +68,25 @@ export default class SpOrderItem extends PureComponent {
           <View className='item'>
             <View className='start'>{`进度：${orderInfo?.app_info?.progress_msg}`}</View>
             <View className='end'>
-              <SpGoodPrice size={24} price={orderInfo?.refund_fee} isSame prefix='应退总金额：' />
+              <SpGoodPrice
+                size={24}
+                bold
+                price={orderInfo?.refund_fee}
+                isSame
+                prefix='应退总金额：'
+              />
             </View>
           </View>
           <View className='item'>
             <View className='start grey'>{`订单号：${orderInfo?.order_id}`}</View>
             <View className='end'>
-              <SpGoodPrice size={24} point={orderInfo?.refund_point} isSame prefix='应退总积分：' />
+              <SpGoodPrice
+                size={24}
+                bold
+                point={orderInfo?.refund_point}
+                isSame
+                prefix='应退总积分：'
+              />
             </View>
           </View>
         </View>

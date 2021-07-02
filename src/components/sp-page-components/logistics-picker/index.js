@@ -36,6 +36,7 @@ export default class LogisticsPicker extends PureComponent {
         onCancel={onClose}
         onClose={onClose}
         onConfirm={this.handlePickerConfirm}
+        startIndex={3}
       />
     )
   }

@@ -52,11 +52,26 @@ export default class NoteDrawer extends PureComponent {
     )
   }
 
-  componentDidMount() {
-    console.log('this.textRef', this.textRef)
-    if (this.textRef) {
-      this.textRef
+  componentDidMount() {}
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.visible !== this.props.visible && this.props.visible) {
+      console.log('this.noteRef', this.noteRef)
+      console.log(
+        'content',
+        document.getElementById('content').getElementsByClassName('taro-textarea')[0]
+      )
+      console.log(
+        '.focus()',
+        document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus
+      )
+      document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+      //this.noteRef.handleFocus()
     }
+  }
+
+  handleFocus = (e) => {
+    console.log('handleFocus', e)
   }
 
   render() {
@@ -73,7 +88,7 @@ export default class NoteDrawer extends PureComponent {
         className='note-drawer'
         title='订单备注'
       >
-        <View className='content'>
+        <View className='content' id='content'>
           <AtTextarea
             count
             value={noteContent}
@@ -81,6 +96,10 @@ export default class NoteDrawer extends PureComponent {
             maxLength={150}
             placeholder='请输入你的备注...'
             autoFocus
+            focus
+            ref={(ref) => (this.noteRef = ref)}
+            onFocus={this.handleFocus}
+            id='textarea'
           />
         </View>
       </ActionSheet>
