@@ -23,11 +23,26 @@ export default class MessageDetail extends PureComponent {
     }
   }
   componentDidMount() {
-    // this.getConfig(this.state.page)
-    this.nextPage()
-  }
-  componentDidShow() {
     this.routerConfig()
+  }
+  async componentDidShow() {
+    await this.init()
+  }
+
+  init() {
+    console.log(this.state)
+    this.resetPage(() => {
+      this.setState(
+        {
+          ...this.state,
+          detailList: []
+        },
+        () => {
+          console.log(this.state)
+          this.nextPage()
+        }
+      )
+    })
   }
   routerConfig() {
     const { type } = getCurrentInstance().router.params
@@ -92,7 +107,6 @@ export default class MessageDetail extends PureComponent {
 
   render() {
     const { loading, page } = this.state
-    console.log(this.state)
     return (
       <ScrollView
         className='page-messageDetail'
