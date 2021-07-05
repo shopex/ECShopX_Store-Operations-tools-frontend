@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import './index.scss'
 import { View, Textarea } from '@tarojs/components'
 import { AtFloatLayout, AtTextarea } from 'taro-ui'
-import { requestCallback } from '@/utils'
+import { requestCallback, isIos } from '@/utils'
 import { ActionSheet } from '@/components/sp-page-components'
 import api from '@/api'
 
@@ -56,9 +56,13 @@ export default class NoteDrawer extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps.visible !== this.props.visible && this.props.visible) {
-      setTimeout(() => {
+      if (isIos()) {
         document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
-      }, 300)
+      } else {
+        setTimeout(() => {
+          document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+        }, 300)
+      }
     }
   }
 

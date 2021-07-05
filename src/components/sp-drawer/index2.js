@@ -87,7 +87,12 @@ export default class NoteDrawer extends PureComponent {
         <View className='content' id='content'>
           {/* <Textarea ref={(ref) => (this.noteRef = ref)} /> */}
           {isNumberInput ? (
-            <AtInput className='custom-input' placeholder={placeholder} />
+            <AtInput
+              className='custom-input'
+              value={content}
+              onChange={this.handleChangeNote}
+              placeholder={placeholder}
+            />
           ) : (
             <AtTextarea
               count
