@@ -56,13 +56,13 @@ export default class NoteDrawer extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps.visible !== this.props.visible && this.props.visible) {
-      if (isIos()) {
+      // if (isIos()) {
+      //   document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+      // } else {
+      setTimeout(() => {
         document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
-      } else {
-        setTimeout(() => {
-          document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
-        }, 300)
-      }
+      }, 300)
+      // }
     }
   }
 
