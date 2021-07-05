@@ -274,6 +274,19 @@
 
   .note-drawer{ 
     .content{
+
+
+      .count{
+        position: absolute;
+        right:10px;
+        bottom: 10px;
+        color:#666F83;
+
+        &.error{
+          color:$danger-color;
+        }
+      }
+
         .at-textarea{
             border:none;
             height:500px 

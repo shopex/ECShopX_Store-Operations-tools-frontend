@@ -10,6 +10,11 @@ export function remarks({ orderId, ...params }) {
   return req.put(`/remarks/${orderId}`, params)
 }
 
+//售后订单备注
+export function afterremarks(params) {
+  return req.put(`/remark`, params)
+}
+
 //扫一扫
 export function code(params) {
   return req.post(`/ziticode`, params)

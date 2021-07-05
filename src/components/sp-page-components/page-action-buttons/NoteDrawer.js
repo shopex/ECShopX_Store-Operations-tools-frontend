@@ -1,9 +1,10 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import './index.scss'
-import { View, Textarea } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { AtFloatLayout, AtTextarea } from 'taro-ui'
-import { requestCallback, isIos } from '@/utils'
+import { requestCallback, classNames } from '@/utils'
+import S from '@/spx'
 import { ActionSheet } from '@/components/sp-page-components'
 import api from '@/api'
 
@@ -11,7 +12,8 @@ export default class NoteDrawer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      noteContent: ''
+      noteContent: '',
+      maxLength: 150
     }
   }
 
@@ -29,9 +31,19 @@ export default class NoteDrawer extends PureComponent {
     onClose && onClose()
   }
 
+  //验证数量
+  validateNum = () => {
+    return this.state.noteContent.length > this.state.maxLength
+  }
+
   async handleConfirm(e) {
-    const { onClose, orderInfo } = this.props
+    const { onClose, orderInfo, onRefresh } = this.props
     const { noteContent } = this.state
+
+    if (this.validateNum()) {
+      S.toast('字数请不要超过150字！')
+      return
+    }
 
     requestCallback(
       async () => {
@@ -48,11 +60,19 @@ export default class NoteDrawer extends PureComponent {
           noteContent: ''
         })
         onClose && onClose()
+        onRefresh?.()
       }
     )
   }
 
-  componentDidMount() {}
+  setDefaultNote = () => {
+    const { pageType } = this.props
+    if (pageType === 'orderList') {
+      this.setState({
+        noteContent: this.props.orderInfo.distributor_remark
+      })
+    }
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.visible !== this.props.visible && this.props.visible) {
@@ -63,6 +83,8 @@ export default class NoteDrawer extends PureComponent {
         document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
       }, 300)
       // }
+
+      this.setDefaultNote()
     }
   }
 
@@ -71,9 +93,11 @@ export default class NoteDrawer extends PureComponent {
   }
 
   render() {
-    const { visible, onClose } = this.props
+    const { visible, onClose, pageType } = this.props
 
-    const { noteContent } = this.state
+    const { noteContent, maxLength } = this.state
+
+    console.log('noteContent', noteContent)
 
     return (
       <ActionSheet
@@ -87,15 +111,19 @@ export default class NoteDrawer extends PureComponent {
         <View className='content' id='content'>
           {/* <Textarea ref={(ref) => (this.noteRef = ref)} /> */}
           <AtTextarea
-            count
+            count={false}
             value={noteContent}
             onChange={this.handleChangeNote}
-            maxLength={150}
             placeholder='请输入你的备注...'
             onFocus={this.handleFocus}
             ref={(ref) => (this.noteRef = ref)}
             id='textarea'
           />
+          <View className={classNames('count', { ['error']: this.validateNum() })}>
+            <Text>{noteContent.length}</Text>
+            <Text>/</Text>
+            <Text>{maxLength}</Text>
+          </View>
         </View>
       </ActionSheet>
     )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle, timestampToTime, calcTimer } from '@/utils'
-import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpNote } from '@/components'
+import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpRemarkItem } from '@/components'
 import {
   DetailCard,
   MessageCard,
@@ -11,6 +11,7 @@ import {
 import { View, Text } from '@tarojs/components'
 import { AtCountdown } from 'taro-ui'
 import api from '@/api'
+import S from '@/spx'
 import './index.scss'
 
 class OrderDetail extends Component {
@@ -330,6 +331,8 @@ class OrderDetail extends Component {
             leftPhone={leftPhone}
             rightPhone={rightPhone}
           />
+
+          <SpRemarkItem />
 
           <View className='order-detail'>
             <View className='order-detail-title'>

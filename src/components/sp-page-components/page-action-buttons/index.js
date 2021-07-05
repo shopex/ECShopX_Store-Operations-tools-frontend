@@ -243,7 +243,14 @@ class PageActionButtons extends PureComponent {
   }
 
   render() {
-    const { className, orderInfo, maxOrderInfo, mainStatus, onRefresh = () => {} } = this.props
+    const {
+      className,
+      orderInfo,
+      maxOrderInfo,
+      mainStatus,
+      onRefresh = () => {},
+      pageType
+    } = this.props
     const { cancelVisible, cancelReasonVisible, actionVisible, actionType, noteVisible } =
       this.state
 
@@ -273,7 +280,13 @@ class PageActionButtons extends PureComponent {
         />
 
         {/* 备注弹框 */}
-        <NoteDrawer visible={noteVisible} orderInfo={orderInfo} onClose={this.handleNoteClose} />
+        <NoteDrawer
+          visible={noteVisible}
+          pageType={pageType}
+          onRefresh={onRefresh}
+          orderInfo={orderInfo}
+          onClose={this.handleNoteClose}
+        />
       </View>
     )
   }

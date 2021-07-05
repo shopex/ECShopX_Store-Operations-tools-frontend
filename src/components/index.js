@@ -26,5 +26,6 @@ export { default as SpInputNumber } from './sp-inputnumber'
 export { default as SpAddress } from './sp-address'
 export { default as SpEditForm } from './sp-editForm'
 export { default as SpTips } from './sp-tips'
+export { default as SpRemarkItem } from './sp-remark-item'
 
 export default {}
