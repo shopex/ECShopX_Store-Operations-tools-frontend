@@ -2,13 +2,14 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import './index.scss'
 import { View, Text } from '@tarojs/components'
-import { AtFloatLayout, AtTextarea } from 'taro-ui'
+import { AtTextarea } from 'taro-ui'
 import { requestCallback, classNames } from '@/utils'
 import S from '@/spx'
 import { ActionSheet } from '@/components/sp-page-components'
 import api from '@/api'
 
-export default class NoteDrawer extends PureComponent {
+
+export default class SpRemarkDrawer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,7 +38,7 @@ export default class NoteDrawer extends PureComponent {
   }
 
   async handleConfirm(e) {
-    const { onClose, orderInfo, onRefresh } = this.props
+    const { onClose, orderInfo, onRefresh, pageType, afterSalesInfo } = this.props
     const { noteContent } = this.state
 
     if (this.validateNum()) {
@@ -47,11 +48,19 @@ export default class NoteDrawer extends PureComponent {
 
     requestCallback(
       async () => {
-        const data = await api.order.remarks({
-          orderId: orderInfo.order_id,
-          remark: noteContent,
-          is_distribution: '1'
-        })
+        let data
+        if (pageType === 'orderList' || pageType === 'orderDetail') {
+          data = await api.order.remarks({
+            orderId: orderInfo.order_id,
+            remark: noteContent,
+            is_distribution: '1'
+          })
+        } else if (pageType === 'afterSalesList' || pageType === 'afterSalesDetail') {
+          data = await api.afterSales.remark({
+            aftersales_bn: afterSalesInfo?.aftersales_bn || orderInfo.aftersales_bn,
+            remark: noteContent
+          })
+        }
         return data
       },
       '修改备注成功',
@@ -67,9 +76,13 @@ export default class NoteDrawer extends PureComponent {
 
   setDefaultNote = () => {
     const { pageType } = this.props
-    if (pageType === 'orderList') {
+    if (pageType === 'orderList' || pageType === 'orderDetail' || pageType === 'afterSalesDetail') {
       this.setState({
         noteContent: this.props.orderInfo.distributor_remark
+      })
+    } else if (pageType === 'afterSalesList') {
+      this.setState({
+        noteContent: this.props.afterSalesInfo.distributor_remark
       })
     }
   }
@@ -93,11 +106,9 @@ export default class NoteDrawer extends PureComponent {
   }
 
   render() {
-    const { visible, onClose, pageType } = this.props
+    const { visible, onClose } = this.props
 
     const { noteContent, maxLength } = this.state
-
-    console.log('noteContent', noteContent)
 
     return (
       <ActionSheet
@@ -105,7 +116,7 @@ export default class NoteDrawer extends PureComponent {
         onClose={onClose}
         onCancel={this.handleClose}
         onConfirm={this.handleConfirm.bind(this)}
-        className='note-drawer'
+        className={classNames('sp-component-remark-drawer')}
         title='订单备注'
       >
         <View className='content' id='content'>

@@ -27,5 +27,7 @@ export { default as SpAddress } from './sp-address'
 export { default as SpEditForm } from './sp-editForm'
 export { default as SpTips } from './sp-tips'
 export { default as SpRemarkItem } from './sp-remark-item'
+export { default as SpIconFooter } from './sp-icon-footer'
+export { default as SpRemarkDrawer } from './sp-remark-drawer'
 
 export default {}

@@ -37,6 +37,17 @@ class OrderDetail extends Component {
   }
 
   async componentDidShow() {
+    await this.getDetail(true)
+    this.calcTimer()
+    await this.renderLeftContent()
+    await this.renderRightContent()
+    this.setState({
+      loading: false
+    })
+    this.getLogistics()
+  }
+
+  getDetail = async (init) => {
     const {
       router: {
         params: { order_id }
@@ -50,13 +61,11 @@ class OrderDetail extends Component {
       orderInfo,
       tradeInfo
     })
-    this.calcTimer()
-    await this.renderLeftContent()
-    await this.renderRightContent()
-    this.setState({
-      loading: false
-    })
-    this.getLogistics()
+    if (!init) {
+      this.setState({
+        loading: false
+      })
+    }
   }
 
   //得出发货时间
@@ -285,6 +294,11 @@ class OrderDetail extends Component {
     Taro.navigateTo({ url: `/pages/logisticsInfo/index?order_id=${order_id}` })
   }
 
+  //刷新
+  handleRefresh = () => {
+    this.getDetail()
+  }
+
   render() {
     const {
       orderInfo,
@@ -332,7 +346,7 @@ class OrderDetail extends Component {
             rightPhone={rightPhone}
           />
 
-          <SpRemarkItem />
+          <SpRemarkItem pageType={pageType} orderInfo={orderInfo} onRefresh={this.handleRefresh} />
 
           <View className='order-detail'>
             <View className='order-detail-title'>

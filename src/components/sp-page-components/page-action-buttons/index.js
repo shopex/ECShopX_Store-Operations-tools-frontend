@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { CommonButton } from '@/components/sp-page-components'
+import { SpRemarkDrawer } from '@/components'
 import { classNames } from '@/utils'
 import CancelAction from './CancelAction'
 import ActionModal from './ActionModal'
-import NoteDrawer from './NoteDrawer'
 import qs from 'qs'
 import './index.scss'
 
@@ -249,7 +249,8 @@ class PageActionButtons extends PureComponent {
       maxOrderInfo,
       mainStatus,
       onRefresh = () => {},
-      pageType
+      pageType,
+      afterSalesInfo
     } = this.props
     const { cancelVisible, cancelReasonVisible, actionVisible, actionType, noteVisible } =
       this.state
@@ -280,11 +281,12 @@ class PageActionButtons extends PureComponent {
         />
 
         {/* 备注弹框 */}
-        <NoteDrawer
+        <SpRemarkDrawer
           visible={noteVisible}
           pageType={pageType}
           onRefresh={onRefresh}
           orderInfo={orderInfo}
+          afterSalesInfo={afterSalesInfo}
           onClose={this.handleNoteClose}
         />
       </View>

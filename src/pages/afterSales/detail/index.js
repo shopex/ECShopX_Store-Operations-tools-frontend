@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle, timestampToTime, classNames } from '@/utils'
-import { SpGoodItem, SpGoodPrice, SpToast, SpLoading } from '@/components'
+import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpRemarkItem } from '@/components'
 import { DetailCard, FixedAction, PageActionButtons } from '@/components/sp-page-components'
 import { View, Text, Image } from '@tarojs/components'
 import { afterSales } from '@/consts'
@@ -16,22 +16,16 @@ class OrderDetail extends Component {
       orderInfo: {},
       pageType: 'afterSalesDetail',
       detail: {},
-      timer: {
-        mm: 0,
-        ss: 0
-      },
-      tradeInfo: {},
-      userInfo: {},
-      leftContent: [],
-      rightContent: [],
-      logisticsList: [],
-      leftPhone: '',
-      rightPhone: '',
       loading: false
     }
   }
 
   async componentDidShow() {
+    this.getDetail()
+  }
+
+  //获取详情
+  getDetail = async () => {
     const {
       router: {
         params: { aftersalesNo }
@@ -49,21 +43,12 @@ class OrderDetail extends Component {
     })
   }
 
-  render() {
-    const {
-      orderInfo,
-      pageType,
-      tradeInfo,
-      leftContent,
-      rightContent,
-      leftPhone,
-      rightPhone,
-      logisticsList,
-      loading,
-      detail
-    } = this.state
+  handleRefresh = () => {
+    this.getDetail()
+  }
 
-    let terminal_info = orderInfo?.app_info?.terminal_info
+  render() {
+    const { orderInfo, pageType, loading, detail } = this.state
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
@@ -92,6 +77,13 @@ class OrderDetail extends Component {
             </View>
           </View>
         </View>
+
+        <SpRemarkItem
+          pageType={pageType}
+          orderInfo={detail}
+          onRefresh={this.handleRefresh}
+          className='remark-component'
+        />
 
         <View className='good-detail'>
           <View className='good-detail-content'>
