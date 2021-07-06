@@ -72,11 +72,14 @@ $detail-card-height:200px;
             flex-shrink: 0;
         }
     }
+    .remark-component{
+        margin-top:-34px;
+    }
     .good-detail{
 
         box-shadow: 0px 3px 5px 0px #E2E4EA;
         background-color: #fff; 
-        margin-top:-10px;
+        margin-top:24px;
 
         &-content{
             .goodItem{

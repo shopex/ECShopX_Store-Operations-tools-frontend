@@ -1,99 +1,70 @@
-import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
-import { View, Image, ScrollView } from '@tarojs/components'
+import { View, Image } from '@tarojs/components'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
-import { getThemeStyle, validate, showToast, getCurrentRoute, requestCallback } from '@/utils'
+import { SpTimer, SpToast } from '@/components'
+import { getThemeStyle, validate, getCurrentRoute, requestCallback } from '@/utils'
+import LOGO from '@/assets/imgs/shopex-logo.png'
 import api from '@/api'
 import S from '@/spx'
-import FtLogo from './comps/ft-logo'
-import './bindPhone.scss'
+import './login.scss'
 
-export default class BindPhone extends Component {
+export default class Login extends Component {
   state = {
     info: {
       mobile: '',
       vcode: '',
-      imgcode: ''
+      type: 'login'
     },
-    rightImgcode: {},
     loginType: 0 // 0:验证码登录；1:密码登录
   }
 
-  getImgCode = async () => {
-    const rightImgcode = await api.auth.getImageVerificationCode({
-      type: 'login'
-    })
-    this.setState({
-      rightImgcode
-    })
-  }
-
-  async componentDidShow() {
-    await this.getImgCode()
-  }
+  componentDidMount() {}
 
   async handleSubmit() {
-    const {
-      info: { mobile, imgcode },
-      rightImgcode: { imageData, imageToken }
-    } = this.state
+    const { mobile, vcode } = this.state.info
     const { work_userid, check_token } = getCurrentRoute().params
     if (!validate.isMobileNum(mobile)) {
-      showToast('请输入正确的手机号')
+      S.toast('请输入正确的手机号')
       return
     }
-    if (!imgcode) {
-      showToast('请输入图形验证码')
+    if (validate.isRequired(vcode)) {
+      S.toast('请输入验证码')
       return
     }
+
     requestCallback(
       async () => {
-        const data = await api.auth.getPhoneCode({
-          mobile: mobile,
-          token: imageToken,
-          yzm: imgcode,
-          type: 'login'
+        const data = await api.operator.bindPhone({
+          work_userid,
+          check_token,
+          mobile,
+          vcode
         })
         return data
       },
-      '',
-      ({ order_id }) => {
-        Taro.navigateTo({
-          url: `/pages/auth/bindPhoneStepTwo?phone=${mobile}&work_userid=${work_userid}&check_token=${check_token}`
-        })
-      },
-      () => {
-        this.getImgCode()
+      '核销订单成功',
+      async ({ token }) => {
+        if (token) {
+          S.setAuthToken(token)
+          const userInfo = await api.operator.getUserInfo()
+          S.set('user_info', userInfo, true)
+          Taro.redirectTo({ url: `/pages/planSelection/index` })
+        } else {
+          S.toast('登录失败')
+        }
       }
     )
-
-    // Taro.navigateTo({
-    //   url:`/pages/auth/bindPhoneStepTwo?phone=${mobile}&imgtoken=${rightImgcode.imageToken}`
-    // })
-
-    // const { status, token } = await api.auth.bindMobile({
-    //   work_userid,
-    //   check_token,
-    //   mobile
-    // })
-    // if (token) {
-    //   S.setAuthToken(token)
-    //   const userInfo = await api.operator.getUserInfo()
-    //   S.set('user_info', userInfo, true)
-    //   Taro.redirectTo({ url: `/pages/planSelection/index` })
-    // } else {
-    //   showToast('登录失败')
-    // }
   }
 
   async handleTimerStart() {
-    const { mobile } = this.state.info
+    const { mobile, type } = this.state.info
     if (!validate.isMobileNum(mobile)) {
-      showToast('请输入正确的手机号')
+      S.toast('请输入正确的手机号')
       return
     }
     await api.operator.sendCode({
-      mobile
+      mobile,
+      type
     })
   }
 
@@ -107,64 +78,59 @@ export default class BindPhone extends Component {
     })
   }
 
-  //刷新验证码
-  handleRefreshImgCode = () => {
-    this.getImgCode()
-  }
-
   render() {
-    const { info, rightImgcode } = this.state
+    const { info } = this.state
     return (
-      <View className='page-auth-bindphone' style={getThemeStyle()}>
-        <ScrollView className='bindphone-scrollview' scrollY scrollWithAnimation>
-          <View className='auth-hd'>
-            <View className='title'>绑定手机号</View>
-            <View className='desc'>请输入云店后台已注册手机号</View>
-          </View>
-          <View className='auth-bd'>
-            <View className='form-title'>中国大陆 +86</View>
-            <AtForm className='form'>
-              <View className='form-field'>
+      <View className='page-auth-login' style={getThemeStyle()}>
+        <View className='auth-hd'>
+          <View className='title'>欢迎登录商派</View>
+          <View className='desc'>未注册的手机号验证后自动创建商派账号</View>
+        </View>
+        <View className='auth-bd'>
+          <View className='form-title'>中国大陆 +86</View>
+          <AtForm className='form'>
+            <View className='form-field'>
+              <AtInput
+                clear
+                name='mobile'
+                maxLength={11}
+                type='tel'
+                value={info.mobile}
+                placeholder='请输入您的手机号码'
+                onChange={this.handleInputChange.bind(this, 'mobile')}
+              />
+            </View>
+            <View className='form-field'>
+              <View className='input-field'>
                 <AtInput
                   clear
-                  name='mobile'
-                  maxLength={11}
-                  type='tel'
-                  value={info.mobile}
-                  placeholder='请输入您的手机号码'
-                  onChange={this.handleInputChange.bind(this, 'mobile')}
+                  name='vcode'
+                  value={info.vcode}
+                  placeholder='请输入验证码'
+                  onChange={this.handleInputChange.bind(this, 'vcode')}
                 />
               </View>
-              <View className='form-field'>
-                <AtInput
-                  clear
-                  name='imgcode'
-                  maxLength={11}
-                  type='text'
-                  value={info.imgcode}
-                  placeholder='请输入右侧图形验证码'
-                  onChange={this.handleInputChange.bind(this, 'imgcode')}
-                />
-                <Image
-                  className='img-code'
-                  src={rightImgcode.imageData}
-                  onClick={this.handleRefreshImgCode}
-                />
+              <View className='btn-field'>
+                <SpTimer onStart={this.handleTimerStart.bind(this)} onStop={this.handleTimerStop} />
               </View>
-              <View className='form-submit'>
-                <AtButton
-                  circle
-                  className='btn-submit'
-                  type='primary'
-                  onClick={this.handleSubmit.bind(this)}
-                >
-                  发送验证码
-                </AtButton>
-              </View>
-            </AtForm>
-          </View>
-        </ScrollView>
-        <FtLogo />
+            </View>
+            {/* <View className='btn-text'>密码登录</View> */}
+            <View className='form-submit'>
+              <AtButton
+                circle
+                className='btn-submit'
+                type='primary'
+                onClick={this.handleSubmit.bind(this)}
+              >
+                登录
+              </AtButton>
+            </View>
+          </AtForm>
+        </View>
+        <SpToast />
+        <View className='auth-ft'>
+          <Image className='logo' mode='widthFix' src={LOGO} />
+        </View>
       </View>
     )
   }
