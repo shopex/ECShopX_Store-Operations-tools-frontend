@@ -29,5 +29,6 @@ export { default as SpTips } from './sp-tips'
 export { default as SpRemarkItem } from './sp-remark-item'
 export { default as SpIconFooter } from './sp-icon-footer'
 export { default as SpRemarkDrawer } from './sp-remark-drawer'
+export { default as SpAutoFocusDrawer } from './sp-autofocus-drawer'
 
 export default {}

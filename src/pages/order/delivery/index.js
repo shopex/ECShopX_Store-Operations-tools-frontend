@@ -9,7 +9,15 @@ import {
   LogisticsPicker
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
+import {
+  SpGoodItem,
+  SpDrawer,
+  SpGoodPrice,
+  SpFormItem,
+  SpToast,
+  SpLoading,
+  SpAutoFocusDrawer
+} from '@/components'
 import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
 import './index.scss'
@@ -465,13 +473,21 @@ class OrderDelivery extends Component {
           onConfirm={this.handleDeliverySubmit}
         />
 
-        <SpDrawer
+        {/* <SpDrawer
           title='物流单号'
           placeholder='请填写有效的物流单号'
           visible={deliveryNoVisible}
           onConfirm={this.handleNoConfirm}
           onClose={this.handleCloseNo}
           onCancel={this.handleCloseNo}
+        /> */}
+
+        <SpAutoFocusDrawer
+          title='物流单号'
+          visible={deliveryNoVisible}
+          onClose={this.handleCloseNo}
+          onCancel={this.handleCloseNo}
+          onConfirm={this.handleNoConfirm}
         />
 
         <SpToast />
