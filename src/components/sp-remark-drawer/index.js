@@ -8,7 +8,6 @@ import S from '@/spx'
 import { ActionSheet } from '@/components/sp-page-components'
 import api from '@/api'
 
-
 export default class SpRemarkDrawer extends PureComponent {
   constructor(props) {
     super(props)
@@ -93,16 +92,13 @@ export default class SpRemarkDrawer extends PureComponent {
       //   document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
       // } else {
       setTimeout(() => {
+        console.log('this.noteRef', this.noteRef)
         document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
       }, 300)
       // }
 
       this.setDefaultNote()
     }
-  }
-
-  handleFocus = (e) => {
-    console.log('handleFocus', e)
   }
 
   render() {
@@ -121,15 +117,16 @@ export default class SpRemarkDrawer extends PureComponent {
       >
         <View className='content' id='content'>
           {/* <Textarea ref={(ref) => (this.noteRef = ref)} /> */}
-          <AtTextarea
-            count={false}
-            value={noteContent}
-            onChange={this.handleChangeNote}
-            placeholder='请输入你的备注...'
-            onFocus={this.handleFocus}
-            ref={(ref) => (this.noteRef = ref)}
-            id='textarea'
-          />
+          {visible && (
+            <AtTextarea
+              count={false}
+              value={noteContent}
+              onChange={this.handleChangeNote}
+              placeholder='请输入你的备注...'
+              ref={(ref) => (this.noteRef = ref)}
+              id='textarea'
+            />
+          )}
           <View className={classNames('count', { ['error']: this.validateNum() })}>
             <Text>{noteContent.length}</Text>
             <Text>/</Text>
