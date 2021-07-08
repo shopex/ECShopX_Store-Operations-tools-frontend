@@ -80,10 +80,15 @@ class UploadUtil {
   qiNiuInit(tokenRes) {
     this.client.upload = (flie, key) => {
       console.log('qiNiuInit', tokenRes)
+      const config = {
+        retryCount: 10
+      }
       return new Promise((resolve, reject) => {
-        const observable = QiNiu.upload(flie, key, tokenRes.token)
+        const observable = QiNiu.upload(flie, key, tokenRes.token, {}, config)
         observable.subscribe({
-          next: () => {},
+          next: (res) => {
+            console.log('next', res, res?.uploadInfo, res?.chunks, res?.total)
+          },
           error: (err) => reject(err),
           complete: (res) => resolve(res)
         })
