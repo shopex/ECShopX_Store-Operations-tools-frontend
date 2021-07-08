@@ -45,6 +45,7 @@ export default class SpRemarkItem extends PureComponent {
 
   render() {
     const { remarkVisible } = this.state
+
     const { pageType, onRefresh = () => {}, orderInfo } = this.props
     return (
       <View className={classNames('sp-component-remark-item', 'box-shadow-common')}>

@@ -473,22 +473,22 @@ class OrderDelivery extends Component {
           onConfirm={this.handleDeliverySubmit}
         />
 
-        {/* <SpDrawer
+        <SpDrawer
           title='物流单号'
           placeholder='请填写有效的物流单号'
           visible={deliveryNoVisible}
           onConfirm={this.handleNoConfirm}
           onClose={this.handleCloseNo}
           onCancel={this.handleCloseNo}
-        /> */}
+        />
 
-        <SpAutoFocusDrawer
+        {/* <SpAutoFocusDrawer
           title='物流单号'
           visible={deliveryNoVisible}
           onClose={this.handleCloseNo}
           onCancel={this.handleCloseNo}
           onConfirm={this.handleNoConfirm}
-        />
+        /> */}
 
         <SpToast />
 

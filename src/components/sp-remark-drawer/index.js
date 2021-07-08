@@ -116,17 +116,14 @@ export default class SpRemarkDrawer extends PureComponent {
         title='订单备注'
       >
         <View className='content' id='content'>
-          {/* <Textarea ref={(ref) => (this.noteRef = ref)} /> */}
-          {visible && (
-            <AtTextarea
-              count={false}
-              value={noteContent}
-              onChange={this.handleChangeNote}
-              placeholder='请输入你的备注...'
-              ref={(ref) => (this.noteRef = ref)}
-              id='textarea'
-            />
-          )}
+          <AtTextarea
+            count={false}
+            value={noteContent}
+            onChange={this.handleChangeNote}
+            placeholder='请输入你的备注...'
+            id='textarea'
+          />
+
           <View className={classNames('count', { ['error']: this.validateNum() })}>
             <Text>{noteContent.length}</Text>
             <Text>/</Text>

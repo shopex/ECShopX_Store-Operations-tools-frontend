@@ -200,7 +200,6 @@ export default class List extends PureComponent {
 
   //提交筛选状态
   handleSubmitParams = (params) => {
-    console.log('handleSubmitParams')
     this.setState({
       filterParams: params
     })

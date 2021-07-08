@@ -1,4 +1,5 @@
 import { AtFloatLayout } from 'taro-ui'
+import React from 'react'
 import { classNames } from '@/utils'
 import { View } from '@tarojs/components'
 import Textarea from './Textarea'
@@ -35,4 +36,4 @@ const SpAutoFocusDrawer = (props) => {
     </AtFloatLayout>
   )
 }
-export default SpAutoFocusDrawer
+export default React.memo(SpAutoFocusDrawer)
