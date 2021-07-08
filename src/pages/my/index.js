@@ -81,6 +81,9 @@ export default class My extends Component {
     })
     console.log('tempFiles', tempFiles)
     const upload = new UploadUtil()
+
+    console.log('upload', upload)
+
     const result = await upload.uploadImg(
       tempFiles[0].originalFileObj,
       tempFiles[0].originalFileObj.name
