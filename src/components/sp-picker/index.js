@@ -46,7 +46,8 @@ const SpPicker = (props) => {
     type = 'normal',
     //确定按钮的类型
     confirmType,
-    onChange = () => {}
+    onChange = () => {},
+    startIndex = 0
   } = props
 
   const { move, start, isVertical, deltaY } = useTouch()
@@ -55,7 +56,7 @@ const SpPicker = (props) => {
 
   const [duration, setDuration] = useState(0)
 
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(startIndex)
 
   const count = () => columns.length
 
@@ -201,6 +202,12 @@ const SpPicker = (props) => {
   useEffect(() => {
     onChange(currentIndex, columns[currentIndex])
   }, [currentIndex, columns])
+
+  useEffect(() => {
+    if (currentIndex !== 0) {
+      setOffset(-itemHeight * currentIndex)
+    }
+  }, [])
 
   const handleCancel = () => {
     onCancel()

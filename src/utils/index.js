@@ -123,7 +123,7 @@ async function requestCallback(
 
   try {
     res = await func()
-    if (res) {
+    if (res && successText) {
       S.toast(successText)
     }
   } catch (e) {

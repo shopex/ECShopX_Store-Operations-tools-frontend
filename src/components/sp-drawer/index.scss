@@ -69,6 +69,15 @@
       font-size: $textarea-placeholder-font-size;
       color: #C5CAD5;
     }
+
+    .weui-input{
+      resize:none;
+        font-size: $textarea-font-size;
+    }
+    .weui-input::-webkit-input-placeholder{
+        font-size: $textarea-placeholder-font-size;
+        color: #C5CAD5;
+    }
   }
 
 }

@@ -35,6 +35,7 @@ export default function withPager(Component) {
 
       const { page_no, page_size } = page
       const curPage = page_no + 1
+
       const { total } = await this.fetch({
         page_no: curPage,
         page_size

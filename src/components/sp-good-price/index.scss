@@ -5,6 +5,10 @@
     align-items: center;
     justify-content: flex-end;
 
+    &.bold{
+        font-weight: 500;
+    }
+
     .prefix{
         margin-right: 10px;
         // line-height: 1;

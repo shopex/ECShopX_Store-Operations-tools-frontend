@@ -170,6 +170,9 @@ export default class ActionModal extends PureComponent {
         })}
       >
         {childrenNode}
+        {type === 'verification' && (
+          <View className='iconfont icon-guanbi' onClick={this.handleClose}></View>
+        )}
       </View>
     )
   }

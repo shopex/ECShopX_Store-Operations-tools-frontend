@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { getThemeStyle, timestampToTime } from '@/utils'
-import { SpGoodItem, SpGoodPrice, SpToast, SpLoading } from '@/components'
+import { getThemeStyle, timestampToTime, classNames } from '@/utils'
+import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpRemarkItem } from '@/components'
 import { DetailCard, FixedAction, PageActionButtons } from '@/components/sp-page-components'
 import { View, Text, Image } from '@tarojs/components'
 import { afterSales } from '@/consts'
@@ -16,22 +16,17 @@ class OrderDetail extends Component {
       orderInfo: {},
       pageType: 'afterSalesDetail',
       detail: {},
-      timer: {
-        mm: 0,
-        ss: 0
-      },
-      tradeInfo: {},
-      userInfo: {},
-      leftContent: [],
-      rightContent: [],
-      logisticsList: [],
-      leftPhone: '',
-      rightPhone: '',
-      loading: false
+      loading: false,
+      emptyTip: '无'
     }
   }
 
   async componentDidShow() {
+    this.getDetail()
+  }
+
+  //获取详情
+  getDetail = async () => {
     const {
       router: {
         params: { aftersalesNo }
@@ -49,21 +44,12 @@ class OrderDetail extends Component {
     })
   }
 
-  render() {
-    const {
-      orderInfo,
-      pageType,
-      tradeInfo,
-      leftContent,
-      rightContent,
-      leftPhone,
-      rightPhone,
-      logisticsList,
-      loading,
-      detail
-    } = this.state
+  handleRefresh = () => {
+    this.getDetail()
+  }
 
-    let terminal_info = orderInfo?.app_info?.terminal_info
+  render() {
+    const { emptyTip, pageType, loading, detail } = this.state
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
@@ -75,23 +61,34 @@ class OrderDetail extends Component {
           <View className='title'>申请信息</View>
           <View className='item'>
             <View className='label'>退货理由</View>
-            <View className='value'>{detail?.reason}</View>
+            <View className='value'>{detail?.reason || emptyTip}</View>
           </View>
           <View className='item'>
             <View className='label'>退货描述</View>
-            <View className='value'>{detail?.description}</View>
+            <View className='value'>{detail?.description || emptyTip}</View>
           </View>
           <View className='item'>
             <View className='label'>图片信息</View>
-            <View className='value'>
-              {detail?.evidence_pic?.map((pic) => (
-                <View className='pic'>
-                  <Image src={pic} className='image' />
-                </View>
-              ))}
-            </View>
+            {detail?.evidence_pic?.length ? (
+              <View className={classNames('value', { ['picwrapper']: true })}>
+                {detail?.evidence_pic?.map((pic) => (
+                  <View className='pic'>
+                    <Image src={pic} className='image' />
+                  </View>
+                ))}
+              </View>
+            ) : (
+              <View className='value'>{emptyTip}</View>
+            )}
           </View>
         </View>
+
+        <SpRemarkItem
+          pageType={pageType}
+          orderInfo={detail}
+          onRefresh={this.handleRefresh}
+          className='remark-component'
+        />
 
         <View className='good-detail'>
           <View className='good-detail-content'>

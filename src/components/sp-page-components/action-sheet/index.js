@@ -45,7 +45,7 @@ class SpActionSheet extends PureComponent {
             {onConfirmText}
           </View>
         </View>
-        <View className='content'>{children}</View>
+        <View className='content'>{visible && children}</View>
       </AtFloatLayout>
     )
   }

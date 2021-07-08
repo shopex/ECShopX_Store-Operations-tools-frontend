@@ -1,0 +1,73 @@
+import { PureComponent } from 'react'
+import { View, Image } from '@tarojs/components'
+import { SpFormItem, SpIconFooter, SpRemarkDrawer } from '@/components'
+import { classNames } from '@/utils'
+import './index.scss'
+
+export default class SpRemarkItem extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      remarkVisible: false
+    }
+  }
+
+  //是否有备注
+  hasRemark = () => {
+    const { pageType, orderInfo } = this.props
+    if (pageType === 'orderDetail' || pageType === 'afterSalesDetail') {
+      return !!orderInfo.distributor_remark
+    }
+    return false
+  }
+
+  remarkContent = () => {
+    const { pageType, orderInfo } = this.props
+    if (pageType === 'orderDetail' || pageType === 'afterSalesDetail') {
+      return orderInfo.distributor_remark
+    }
+    return ''
+  }
+
+  //关闭备注
+  handleRemarkClose = () => {
+    this.setState({
+      remarkVisible: false
+    })
+  }
+
+  //打开备注
+  handleShowRemark = () => {
+    this.setState({
+      remarkVisible: true
+    })
+  }
+
+  render() {
+    const { remarkVisible } = this.state
+
+    const { pageType, onRefresh = () => {}, orderInfo } = this.props
+    return (
+      <View className={classNames('sp-component-remark-item', 'box-shadow-common')}>
+        <SpFormItem label='商家备注' wrap={this.hasRemark()} className='remark-component'>
+          {this.hasRemark() ? (
+            <View>
+              <View className='content'>{this.remarkContent()}</View>
+              <SpIconFooter type='remark' onContentClick={this.handleShowRemark} />
+            </View>
+          ) : (
+            <View onClick={this.handleShowRemark}>添加</View>
+          )}
+        </SpFormItem>
+
+        <SpRemarkDrawer
+          visible={remarkVisible}
+          pageType={pageType}
+          onRefresh={onRefresh}
+          orderInfo={orderInfo}
+          onClose={this.handleRemarkClose}
+        />
+      </View>
+    )
+  }
+}

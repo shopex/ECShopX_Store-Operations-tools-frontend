@@ -1,7 +1,7 @@
 .com-message {
   padding: 20px 0;
   display: flex;
-  align-items: center;
+  // align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e2e4ea;
   .left {
@@ -27,7 +27,7 @@
       .title {
         font-size: 32px;
         color: #111a34;
-        margin-bottom: 3px;
+        margin-bottom: 12px;
         font-weight: 500;
       }
       .subtitle {
@@ -37,17 +37,20 @@
     }
   }
   .right {
-    padding-right: 30px;
+    // padding-right: 30px;
     .date {
       font-size: 24px;
       color: #111a34;
-      margin-bottom: 17px;
+      padding-top: 10px;
+      margin-bottom: 12px;
     }
     .messageNum {
+      margin-top: 10px;
       box-sizing: border-box;
       color: #fff;
       height: 30px;
-      min-width:50px;
+      // min-width:50px;
+      padding: 0 9px;
       line-height: 33px;
       font-size: 24px;
       text-align: center;
