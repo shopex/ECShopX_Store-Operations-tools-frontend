@@ -35,7 +35,7 @@ export default class Login extends Component {
     })
   }
 
-  async handleTimerStart() {
+  handleTimerStart = async (resolve) => {
     const { mobile } = this.state.info
     if (!validate.isMobileNum(mobile)) {
       showToast('请输入正确的手机号')
@@ -44,6 +44,8 @@ export default class Login extends Component {
     await api.operator.sendCode({
       mobile
     })
+    showToast('验证码已发送')
+    resolve()
   }
 
   handleTimerStop() {}

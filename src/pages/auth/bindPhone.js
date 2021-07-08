@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { View, Image } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
 import { SpTimer, SpToast } from '@/components'
 import { getThemeStyle, validate, getCurrentRoute, requestCallback } from '@/utils'
@@ -42,7 +43,7 @@ export default class Login extends Component {
         })
         return data
       },
-      '核销订单成功',
+      '',
       async ({ token }) => {
         if (token) {
           S.setAuthToken(token)
@@ -56,7 +57,7 @@ export default class Login extends Component {
     )
   }
 
-  async handleTimerStart() {
+  async handleTimerStart(resolve) {
     const { mobile, type } = this.state.info
     if (!validate.isMobileNum(mobile)) {
       S.toast('请输入正确的手机号')
@@ -66,6 +67,8 @@ export default class Login extends Component {
       mobile,
       type
     })
+    S.toast('验证码已发送')
+    resolve()
   }
 
   handleTimerStop() {}
