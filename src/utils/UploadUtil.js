@@ -32,6 +32,7 @@ class UploadUtil {
 
   // 阿里云
   aliInit(tokenRes) {
+    console.log('aliInit', tokenRes)
     this.client.upload = (file) => AliUpload(tokenRes, file)
   }
 
@@ -78,6 +79,7 @@ class UploadUtil {
   // 七牛
   qiNiuInit(tokenRes) {
     this.client.upload = (flie, key) => {
+      console.log('qiNiuInit', tokenRes)
       return new Promise((resolve, reject) => {
         const observable = QiNiu.upload(flie, key, tokenRes.token)
         observable.subscribe({
@@ -101,10 +103,11 @@ class UploadUtil {
     // 初始化
     try {
       const tokenRes = await getOssToken({ filetype: this.fileType })
-      console.log(tokenRes)
+      console.log('uploadImg tokenRes', tokenRes)
       const data = tokenRes.token
       this.init(data, tokenRes.driver)
       const res = await this.client.upload(file, data.key).catch((e) => console.error(e))
+      console.log('this.client.upload', res)
       if (res.data || res.key) {
         if (res.data && res.data.data) {
           return {
