@@ -90,16 +90,18 @@ class UploadUtil {
         // maxWidth: 1000,
         // maxHeight: 618
       }
-      return qiniu.compressImage(flie, options).then((data) => {
-        console.log('data', data)
-        const observable = qiniu.upload(data.dist, key, token, {}, config)
-        // const subscription = observable.subscribe(observer) // 上传开始
-        observable.subscribe({
-          next: (res) => {
-            console.log('next', res, res?.uploadInfo, res?.chunks, res?.total)
-          },
-          error: (err) => reject(err),
-          complete: (res) => resolve(res)
+      return new Promise((resolve, reject) => {
+        QiNiu.compressImage(flie, options).then((data) => {
+          console.log('data', data)
+          const observable = QiNiu.upload(data.dist, key, tokenRes.token, {}, config)
+          // const subscription = observable.subscribe(observer) // 上传开始
+          observable.subscribe({
+            next: (res) => {
+              console.log('next', res, res?.uploadInfo, res?.chunks, res?.total)
+            },
+            error: (err) => reject(err),
+            complete: (res) => resolve(res)
+          })
         })
       })
       // return new Promise((resolve, reject) => {
