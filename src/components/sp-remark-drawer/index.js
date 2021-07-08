@@ -91,10 +91,10 @@ export default class SpRemarkDrawer extends PureComponent {
       // if (isIos()) {
       //   document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
       // } else {
-      // setTimeout(() => {
-      //   console.log('this.noteRef', this.noteRef)
-      //   document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
-      // }, 300)
+      setTimeout(() => {
+        console.log('this.noteRef', this.noteRef)
+        document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+      }, 300)
       // }
 
       this.setDefaultNote()
