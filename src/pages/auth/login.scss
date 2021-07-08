@@ -6,14 +6,18 @@
   bottom: 0;
   left: 0;
   padding: 0 32px;
+  display: flex;
+  flex-direction: column;
 
 
   .page-auth-wrapper{
-    position: absolute;
-    top:0;
-    left:32px;
-    right:32px;
-    bottom:90px;
+    // position: absolute;
+    // top:0;
+    // left:32px;
+    // right:32px;
+    // bottom:90px;
+    // max-height:1000px;
+    flex:1;
   }
 
   .auth-hd {
@@ -72,7 +76,7 @@
     left: 0;
     right: 0;
     bottom: 40px;
-    
+    // height:90px;
     text-align: center;
     .logo {
       width: 240px;
