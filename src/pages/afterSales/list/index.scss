@@ -23,10 +23,11 @@ $filterHeight:100px;
 
   &-orderList {
     @include page-scroll($searchInputHeight+$tabbarHeight+$filterHeight+20, 0);
-    z-index:100;
-
+    z-index:100;   
+    
     &.show-buttonsaction{
       transform: none;
+      position: fixed;
     }
   }
 

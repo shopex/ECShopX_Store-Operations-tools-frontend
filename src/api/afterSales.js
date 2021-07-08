@@ -24,3 +24,8 @@ export function confirm(params) {
 export function address(params) {
   return req.get(`/distributors/aftersalesaddress`, params)
 }
+
+//售后列表添加备注功能
+export function remark(params) {
+  return req.put(`/aftersales/remark`, params)
+}

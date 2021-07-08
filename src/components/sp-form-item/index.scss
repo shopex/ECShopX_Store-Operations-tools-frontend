@@ -7,6 +7,12 @@
     align-items: center;
     justify-content: space-between;
 
+    &.labelbold{
+        .label{
+            font-weight: 500;
+        }
+    }
+
     &.wrap{
         flex-direction: column;
         padding:28px 32px;

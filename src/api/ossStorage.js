@@ -41,7 +41,7 @@ export function LocalUpload(tokenRes, file, filetype = 'image') {
 }
 
 export const AliUpload = (tokenRes, file) => {
-  console.log(tokenRes, file)
+  console.log('tokenRes', tokenRes, file)
   const token = S.getAuthToken()
   return Taro.uploadFile({
     url: tokenRes.host,

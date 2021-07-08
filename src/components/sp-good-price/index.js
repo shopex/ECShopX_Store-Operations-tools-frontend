@@ -47,12 +47,13 @@ class SpGoodPrice extends PureComponent {
   }
 
   renderPoint = () => {
-    const { point, pointText = '积分' } = this.props
+    const { point, pointText = '积分', type } = this.props
 
     return (
       <View className='point'>
         <View className='number'>{point}</View>
         <View className='symbol'>{pointText}</View>
+        {type === 'discount' && <View className='underline'></View>}
       </View>
     )
   }
@@ -68,14 +69,15 @@ class SpGoodPrice extends PureComponent {
   }
 
   render() {
-    const { className, type = 'normal', price, size = '28', point, prefix } = this.props
+    const { className, type = 'normal', bold, price, size = '28', point, prefix } = this.props
 
     const isDiscount = type === 'discount'
 
     return (
       <View
         className={classNames('sp-good-item-price', className, {
-          [`discount`]: isDiscount
+          [`discount`]: isDiscount,
+          ['bold']: bold
         })}
         style={{
           fontSize: Taro.pxTransform(size)

@@ -22,19 +22,24 @@ $detail-card-height:200px;
         .item{
 
             display: flex;
-            margin-top:6px;
+            margin-top:6px; 
 
             .label{
                 font-size: 28px;
                 color:#666F83;
                 font-weight: 400;
-                width:200px;
+                width:150px;
             }
 
             .value{
                 color:#111A34;
                 font-size: 28px;
                 font-weight: 400;
+
+                &.picwrapper{
+                    margin-top:8px;
+                }
+
             }
 
             .pic{
@@ -42,6 +47,10 @@ $detail-card-height:200px;
                 height: 110px;
                 border-radius: 8px;
                 border: 1px solid #E2E4EA;
+                display: inline-block;
+                &:not(:nth-child(4n+1)){
+                    margin-left: 12px;
+                }
 
                 .image{
                     width: 100%;
@@ -63,11 +72,14 @@ $detail-card-height:200px;
             flex-shrink: 0;
         }
     }
+    .remark-component{
+        margin-top:-34px;
+    }
     .good-detail{
 
         box-shadow: 0px 3px 5px 0px #E2E4EA;
         background-color: #fff; 
-        margin-top:-10px;
+        margin-top:24px;
 
         &-content{
             .goodItem{

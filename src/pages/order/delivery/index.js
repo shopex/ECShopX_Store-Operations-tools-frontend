@@ -9,7 +9,15 @@ import {
   LogisticsPicker
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
+import {
+  SpGoodItem,
+  SpDrawer,
+  SpGoodPrice,
+  SpFormItem,
+  SpToast,
+  SpLoading,
+  SpAutoFocusDrawer
+} from '@/components'
 import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
 import './index.scss'
@@ -208,7 +216,7 @@ class OrderDelivery extends Component {
   }
 
   handleNoConfirm = (number) => {
-    if (!/^[a-zZ-z0-9]*$/.test(number)) {
+    if (!/^[a-zA-Z0-9]*$/.test(number)) {
       return
     }
     this.handleCloseNo()
@@ -439,6 +447,7 @@ class OrderDelivery extends Component {
           onConfirm={this.handleConfirm}
           onClose={this.handleClose}
           onCancel={this.handleClose}
+          type='number'
         />
 
         <View className='card-bottom'>
@@ -472,6 +481,14 @@ class OrderDelivery extends Component {
           onClose={this.handleCloseNo}
           onCancel={this.handleCloseNo}
         />
+
+        {/* <SpAutoFocusDrawer
+          title='物流单号'
+          visible={deliveryNoVisible}
+          onClose={this.handleCloseNo}
+          onCancel={this.handleCloseNo}
+          onConfirm={this.handleNoConfirm}
+        /> */}
 
         <SpToast />
 

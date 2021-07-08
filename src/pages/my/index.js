@@ -79,17 +79,21 @@ export default class My extends Component {
     const { tempFiles = [] } = await Taro.chooseImage({
       count: 1
     })
+    console.log('tempFiles', tempFiles)
     const upload = new UploadUtil()
+
+    console.log('upload', upload)
+
     const result = await upload.uploadImg(
       tempFiles[0].originalFileObj,
       tempFiles[0].originalFileObj.name
     )
-    console.log(result)
+    console.log('result', result)
     this.handleAvatarSuccess(result, tempFiles[0].originalFileObj)
   }
 
   async handleAvatarSuccess(res, file) {
-    console.log(res)
+    console.log('handleAvatarSuccess', res)
     let uploadParams = {
       image_cat_id: 2, //图片分类必填,必须为整数
       image_name: file.name, //图片名称必填,不能超过50个字符

@@ -56,6 +56,15 @@
 
         &.verification {
           height: 450px;
+          position: relative;
+
+          .icon-guanbi{
+            position: absolute;
+            font-size: 32px;
+            top:28px;
+            right:28px;
+            color:#858B9C;
+          }
         }
 
         .phoneContent {
@@ -109,6 +118,10 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+
+          .icon-guanbi{
+
+          }
 
           .item1 {
             font-size: 40px;
@@ -217,12 +230,17 @@
             width: 100%;
             display: flex;
             justify-content: flex-end;
-            margin-top: 48px;
+            margin-top: 38px;
             padding: 0 60px;
+            align-items: center;
 
             .wrapper-bottom {
+
+              display: flex;
+              align-items: center;
+
               .iconfont {
-                font-size: 28px;
+                font-size: 28px*1.4;
                 color: #4980FF;
               }
 
@@ -271,24 +289,5 @@
       }
     }
   }
-
-  .note-drawer{ 
-    .content{
-        .at-textarea{
-            border:none;
-            height:500px 
-        }
-        .at-textarea__textarea{
-            height:70%;       
-        }
-        .taro-textarea{
-            resize:none;
-            font-size: $textarea-font-size;
-        }
-        .taro-textarea::-webkit-input-placeholder{
-            font-size: $textarea-placeholder-font-size;
-            color: #C5CAD5;
-        }
-    }
-}
+ 
 }
