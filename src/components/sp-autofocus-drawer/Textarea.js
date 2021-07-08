@@ -10,7 +10,9 @@ const Textarea = (props) => {
   const textareaRef = useRef(null)
 
   useEffect(() => {
+    // setTimeout(()=>{
     console.log('textRef', textareaRef.current.focus())
+    // },200)
   }, [])
 
   return <textarea autoFocus ref={textareaRef} />
