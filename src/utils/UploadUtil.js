@@ -79,20 +79,41 @@ class UploadUtil {
   // 七牛
   qiNiuInit(tokenRes) {
     this.client.upload = (flie, key) => {
-      console.log('qiNiuInit', tokenRes)
+      console.log('qiNiuInit', flie)
       const config = {
         retryCount: 10
       }
+      console.log('qiNiuInit config', config)
+      const options = {
+        quality: 0.1,
+        noCompressIfLarger: true
+        // maxWidth: 1000,
+        // maxHeight: 618
+      }
       return new Promise((resolve, reject) => {
-        const observable = QiNiu.upload(flie, key, tokenRes.token, {}, config)
-        observable.subscribe({
-          next: (res) => {
-            console.log('next', res, res?.uploadInfo, res?.chunks, res?.total)
-          },
-          error: (err) => reject(err),
-          complete: (res) => resolve(res)
+        QiNiu.compressImage(flie, options).then((data) => {
+          console.log('data', data)
+          const observable = QiNiu.upload(data.dist, key, tokenRes.token, {}, config)
+          // const subscription = observable.subscribe(observer) // 上传开始
+          observable.subscribe({
+            next: (res) => {
+              console.log('next', res, res?.uploadInfo, res?.chunks, res?.total)
+            },
+            error: (err) => reject(err),
+            complete: (res) => resolve(res)
+          })
         })
       })
+      // return new Promise((resolve, reject) => {
+      //   const observable = QiNiu.upload(flie, key, tokenRes.token, {}, config)
+      //   observable.subscribe({
+      //     next: (res) => {
+      //       console.log('next', res, res?.uploadInfo, res?.chunks, res?.total)
+      //     },
+      //     error: (err) => reject(err),
+      //     complete: (res) => resolve(res)
+      //   })
+      // })
     }
   }
 
