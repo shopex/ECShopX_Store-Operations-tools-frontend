@@ -87,8 +87,6 @@ class UploadUtil {
       const options = {
         quality: 0.1,
         noCompressIfLarger: true
-        // maxWidth: 1000,
-        // maxHeight: 618
       }
       return new Promise((resolve, reject) => {
         QiNiu.compressImage(flie, options).then((data) => {

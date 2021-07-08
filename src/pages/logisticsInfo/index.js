@@ -111,6 +111,7 @@ export default class Logistics extends PureComponent {
       delivery_list: data
     })
   }
+
   editItemHandle(id) {
     console.log(id)
     this.updateOddNumbersIsShowHandle(id)
