@@ -16,7 +16,8 @@ export default class Login extends Component {
       vcode: '',
       type: 'login'
     },
-    loginType: 0 // 0:验证码登录；1:密码登录
+    loginType: 0, // 0:验证码登录；1:密码登录
+    showLogo: true
   }
 
   componentDidMount() {}
@@ -81,10 +82,25 @@ export default class Login extends Component {
     })
   }
 
+  handleFocus = () => {
+    console.log('handleFocus')
+    this.setState({
+      showLogo: false
+    })
+  }
+
+  handleBlur = () => {
+    console.log('handleBlur')
+    this.setState({
+      showLogo: true
+    })
+  }
+
   render() {
-    const { info } = this.state
+    const { info, showLogo } = this.state
     return (
       <View className='page-auth-login' style={getThemeStyle()}>
+        {/* <View className='page-auth-wrapper'> */}
         <View className='auth-hd'>
           <View className='title'>欢迎登录商派</View>
           <View className='desc'>未注册的手机号验证后自动创建商派账号</View>
@@ -101,6 +117,8 @@ export default class Login extends Component {
                 value={info.mobile}
                 placeholder='请输入您的手机号码'
                 onChange={this.handleInputChange.bind(this, 'mobile')}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
               />
             </View>
             <View className='form-field'>
@@ -111,6 +129,8 @@ export default class Login extends Component {
                   value={info.vcode}
                   placeholder='请输入验证码'
                   onChange={this.handleInputChange.bind(this, 'vcode')}
+                  onFocus={this.handleFocus}
+                  onBlur={this.handleBlur}
                 />
               </View>
               <View className='btn-field'>
@@ -130,10 +150,13 @@ export default class Login extends Component {
             </View>
           </AtForm>
         </View>
+        {/* </View> */}
         <SpToast />
-        <View className='auth-ft'>
-          <Image className='logo' mode='widthFix' src={LOGO} />
-        </View>
+        {showLogo && (
+          <View className='auth-ft'>
+            <Image className='logo' mode='widthFix' src={LOGO} />
+          </View>
+        )}
       </View>
     )
   }
