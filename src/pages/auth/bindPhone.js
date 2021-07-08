@@ -85,50 +85,55 @@ export default class Login extends Component {
     const { info } = this.state
     return (
       <View className='page-auth-login' style={getThemeStyle()}>
-        <View className='auth-hd'>
-          <View className='title'>欢迎登录商派</View>
-          <View className='desc'>未注册的手机号验证后自动创建商派账号</View>
-        </View>
-        <View className='auth-bd'>
-          <View className='form-title'>中国大陆 +86</View>
-          <AtForm className='form'>
-            <View className='form-field'>
-              <AtInput
-                clear
-                name='mobile'
-                maxLength={11}
-                type='tel'
-                value={info.mobile}
-                placeholder='请输入您的手机号码'
-                onChange={this.handleInputChange.bind(this, 'mobile')}
-              />
-            </View>
-            <View className='form-field'>
-              <View className='input-field'>
+        <View className='page-auth-wrapper'>
+          <View className='auth-hd'>
+            <View className='title'>欢迎登录商派</View>
+            <View className='desc'>未注册的手机号验证后自动创建商派账号</View>
+          </View>
+          <View className='auth-bd'>
+            <View className='form-title'>中国大陆 +86</View>
+            <AtForm className='form'>
+              <View className='form-field'>
                 <AtInput
                   clear
-                  name='vcode'
-                  value={info.vcode}
-                  placeholder='请输入验证码'
-                  onChange={this.handleInputChange.bind(this, 'vcode')}
+                  name='mobile'
+                  maxLength={11}
+                  type='tel'
+                  value={info.mobile}
+                  placeholder='请输入您的手机号码'
+                  onChange={this.handleInputChange.bind(this, 'mobile')}
                 />
               </View>
-              <View className='btn-field'>
-                <SpTimer onStart={this.handleTimerStart.bind(this)} onStop={this.handleTimerStop} />
+              <View className='form-field'>
+                <View className='input-field'>
+                  <AtInput
+                    clear
+                    name='vcode'
+                    value={info.vcode}
+                    placeholder='请输入验证码'
+                    onChange={this.handleInputChange.bind(this, 'vcode')}
+                  />
+                </View>
+                <View className='btn-field'>
+                  <SpTimer
+                    onStart={this.handleTimerStart.bind(this)}
+                    onStop={this.handleTimerStop}
+                  />
+                </View>
               </View>
-            </View>
-            {/* <View className='btn-text'>密码登录</View> */}
-            <View className='form-submit'>
-              <AtButton
-                circle
-                className='btn-submit'
-                type='primary'
-                onClick={this.handleSubmit.bind(this)}
-              >
-                登录
-              </AtButton>
-            </View>
-          </AtForm>
+              {/* <View className='btn-text'>密码登录</View> */}
+              <View className='form-submit'>
+                <AtButton
+                  circle
+                  className='btn-submit'
+                  type='primary'
+                  onClick={this.handleSubmit.bind(this)}
+                >
+                  登录
+                </AtButton>
+              </View>
+            </AtForm>
+          </View>
         </View>
         <SpToast />
         <View className='auth-ft'>
