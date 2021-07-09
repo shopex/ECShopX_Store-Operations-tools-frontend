@@ -100,11 +100,18 @@ export default class SpEditForm extends Component {
     // const a = this.formatArr(this.state.Cityinfo.path.split(','))
     // console.log(a);
   }
-
-  async openPicker() {
+  // 获取所有地区数据
+  async GET_areaList() {
     const result = await api.address.areaList()
     this.setState({
-      selectList: result,
+      selectList: result
+    })
+    console.log(result)
+  }
+
+  // 打开弹窗
+  openPicker() {
+    this.setState({
       isShow: true
     })
   }
@@ -125,7 +132,9 @@ export default class SpEditForm extends Component {
     })
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.GET_areaList()
+  }
   render() {
     const { province, city, area, username, phone, addressDetail, isShow, Cityinfo } = this.state
     return (
@@ -180,13 +189,15 @@ export default class SpEditForm extends Component {
             新增并选择
           </View>
         </View>
-        <AtFloatLayout isOpened={this.state.isShow}>
-          <SpPickerZ
-            getCityHandle={this.getCityHandle.bind(this)}
-            isShowHandle={(e) => this.isShowHandle()}
-            selectList={this.state.selectList}
-          ></SpPickerZ>
-        </AtFloatLayout>
+        {this.state.selectList && (
+          <AtFloatLayout isOpened={this.state.isShow}>
+            <SpPickerZ
+              getCityHandle={this.getCityHandle.bind(this)}
+              isShowHandle={(e) => this.isShowHandle()}
+              selectList={this.state.selectList}
+            ></SpPickerZ>
+          </AtFloatLayout>
+        )}
       </View>
     )
   }
