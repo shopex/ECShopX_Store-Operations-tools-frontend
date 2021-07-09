@@ -16,27 +16,26 @@ export default class ChangeWL extends PureComponent {
       cityList: null,
       areaList: null,
       seletedItem: null
-      // selectList:props.selectList
     }
   }
 
   seletedHanle(item, index) {
-    let el = document.getElementsByClassName('wrap')
+    let el = document.getElementsByClassName('wrap_area')
     for (let i = 0; i < el.length; i++) {
       el[i].style.display = 'none'
     }
-    if (index == 1) {
+    if (index == 0) {
       this.setState({
         province: item.label,
         cityList: item.children
       })
-    } else if (index == 2) {
+    } else if (index == 1) {
       this.setState({
         city: item.label,
         areaList: item.children
       })
     }
-    el[index].style.display = 'block'
+    el[index + 1].style.display = 'block'
   }
   seletedAreaHanle(item) {
     this.setState({
@@ -46,8 +45,7 @@ export default class ChangeWL extends PureComponent {
   }
 
   seletedprimary(id) {
-    let el = document.getElementsByClassName('wrap')
-    console.log(el)
+    let el = document.getElementsByClassName('wrap_area')
     for (let index = 0; index < el.length; index++) {
       el[index].style.display = 'none'
     }
@@ -63,7 +61,6 @@ export default class ChangeWL extends PureComponent {
         area: ''
       })
     }
-
     el[id].style.display = 'block'
   }
 
@@ -132,13 +129,27 @@ export default class ChangeWL extends PureComponent {
                 ) : null}
               </View>
             </View>
-            <ScrollView className='wrap show'>
+            <ScrollView className='wrap_area show'>
               {selectList &&
                 selectList.map((item) => {
                   return (
                     <View
                       key={item.label}
                       className={'item ' + (item.label == province && 'active')}
+                      onClick={(e) => this.seletedHanle(item, 0)}
+                    >
+                      {item.label}
+                    </View>
+                  )
+                })}
+            </ScrollView>
+            <ScrollView className='wrap_area'>
+              {cityList &&
+                cityList.map((item) => {
+                  return (
+                    <View
+                      key={item.label}
+                      className={'item ' + (item.label == city && 'active')}
                       onClick={(e) => this.seletedHanle(item, 1)}
                     >
                       {item.label}
@@ -146,21 +157,7 @@ export default class ChangeWL extends PureComponent {
                   )
                 })}
             </ScrollView>
-            <ScrollView className='wrap'>
-              {cityList &&
-                cityList.map((item) => {
-                  return (
-                    <View
-                      key={item.label}
-                      className={'item ' + (item.label == city && 'active')}
-                      onClick={(e) => this.seletedHanle(item, 2)}
-                    >
-                      {item.label}
-                    </View>
-                  )
-                })}
-            </ScrollView>
-            <ScrollView className='wrap'>
+            <ScrollView className='wrap_area'>
               {areaList &&
                 areaList.map((item) => {
                   return (
