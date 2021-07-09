@@ -52,16 +52,16 @@
         border-bottom: 1px solid #E2E4EA;
         box-sizing: border-box;
         .primaryBox{
-          min-width: 120px;
+          flex: 1;
+          max-width: 200px;
+          text-align: center;
           @include text-overflow;
           // min-width: 100px;
           .select{
-            text-align: center;
             color: #2F86F6;
             border-bottom: 5px solid #4980ff;
           }
           .seleted{
-            text-align: left;
             @include text-overflow;
             color: #41485D;
             border: none;
@@ -69,6 +69,8 @@
               color: #2F86F6;
               border-bottom: 5px solid #4980ff;
             }
+           
+            
           }
         }
       }
