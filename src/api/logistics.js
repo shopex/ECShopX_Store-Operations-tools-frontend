@@ -12,7 +12,7 @@ export function getCourierCompanyList() {
 }
 
 // 修改物流信息
-export function uodateLogistics(orders_delivery_id, data) {
+export function updateLogistics(orders_delivery_id, data) {
   return req.put(`/delivery/${orders_delivery_id}`, data)
 }
 

@@ -25,6 +25,19 @@ export default class ActionModal extends PureComponent {
         url: href
       })
     }
+    if (prevProps.visible !== this.props.visible && this.props.visible && type === 'verification') {
+      // if (isIos()) {
+      //   document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+      // } else {
+      setTimeout(() => {
+        //document.getElementById('inputwrapper').getElementsByClassName('taro-input')[0].focus()
+        console.log(
+          "document.getElementById('inputwrapper')",
+          document.getElementById('inputwrapper').getElementsByClassName('weui-input')[0].focus()
+        )
+      }, 300)
+      // }
+    }
   }
 
   handleChangeInputVericode = (e) => {
@@ -126,7 +139,7 @@ export default class ActionModal extends PureComponent {
         <View className='verificationContent'>
           <View className='item item1'>自提订单核销</View>
           <View className='item item2'>请输入6位数的核销码</View>
-          <View className='inputwrapper'>
+          <View className='inputwrapper' id='inputwrapper'>
             <Input
               className='input'
               type='number'

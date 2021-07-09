@@ -5,17 +5,29 @@ import { Textarea as TaroTextarea } from '@tarojs/components'
 import './index.scss'
 
 const Textarea = (props) => {
-  const {} = props
+  const { placeholder, value, onChange = () => {} } = props
 
   const textareaRef = useRef(null)
 
   useEffect(() => {
-    // setTimeout(()=>{
-    console.log('textRef', textareaRef.current.focus())
-    // },200)
+    setTimeout(() => {
+      // let pos = textareaRef.current.textContent.indexOf(`\n`);
+      // textareaRef.current.setSelectionRange(pos+1, pos+1);
+      textareaRef.current.focus()
+      textareaRef.current.click()
+    }, 200)
   }, [])
 
-  return <textarea autoFocus ref={textareaRef} />
+  return (
+    <textarea
+      className='h5-textarea'
+      autoFocus
+      ref={textareaRef}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
+  )
 }
 
 export default Textarea

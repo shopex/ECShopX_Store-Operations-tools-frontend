@@ -74,6 +74,18 @@ export default class CancelAction extends PureComponent {
     )
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.reasonVisible !== this.props.reasonVisible && this.props.reasonVisible) {
+      // if (isIos()) {
+      //   document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+      // } else {
+      setTimeout(() => {
+        document.getElementById('content').getElementsByClassName('taro-textarea')[0].focus()
+      }, 300)
+      // }
+    }
+  }
+
   render() {
     const { visible, onCancel = () => {}, reasonVisible } = this.props
 
@@ -100,7 +112,7 @@ export default class CancelAction extends PureComponent {
           className='note'
           title='其他原因备注'
         >
-          <View className='content'>
+          <View className='content' id='content'>
             <AtTextarea
               count
               value={note}
