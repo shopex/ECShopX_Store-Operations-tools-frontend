@@ -10,7 +10,7 @@ import './index.scss'
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
-@withLogin()
+// @withLogin()
 class Index extends Component {
   constructor(props) {
     super(props)
