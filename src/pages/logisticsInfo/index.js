@@ -75,7 +75,6 @@ export default class Logistics extends PureComponent {
     const findIndex = deliveryList.findIndex(
       (item) => item.orders_delivery_id === current.orders_delivery_id
     )
-
     deliveryList.splice(findIndex, 1, { ...deliveryList[findIndex], ...fieldObj })
     this.setState({
       deliveryList,

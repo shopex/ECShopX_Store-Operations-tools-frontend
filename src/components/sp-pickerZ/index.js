@@ -92,7 +92,11 @@ export default class ChangeWL extends PureComponent {
             <View className='primary'>
               <View className='primaryBox'>
                 {province ? (
-                  <View className='seleted' onClick={(e) => this.seletedprimary(0)}>
+                  <View
+                    className='seleted'
+                    style={{ textAlign: 'left' }}
+                    onClick={(e) => this.seletedprimary(0)}
+                  >
                     {province}
                   </View>
                 ) : (
@@ -103,7 +107,11 @@ export default class ChangeWL extends PureComponent {
               <View className='primaryBox'>
                 {province ? (
                   city ? (
-                    <View className='seleted' onClick={(e) => this.seletedprimary(1)}>
+                    <View
+                      className='seleted'
+                      style={{ textAlign: 'center' }}
+                      onClick={(e) => this.seletedprimary(1)}
+                    >
                       {city}
                     </View>
                   ) : (
@@ -115,7 +123,9 @@ export default class ChangeWL extends PureComponent {
               <View className='primaryBox'>
                 {city ? (
                   area ? (
-                    <View className='seleted'>{area}</View>
+                    <View className='seleted' style={{ textAlign: 'right' }}>
+                      {area}
+                    </View>
                   ) : (
                     <View className='select'>请选择</View>
                   )
