@@ -1,12 +1,12 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import api from '@/api'
-import { View, Text, ScrollView } from '@tarojs/components'
-import { SpMessageDetail, SpLoading, SpTips } from '@/components'
+import { ScrollView } from '@tarojs/components'
+import { SpMessageDetail, SpLoading, SpTips, SpToast } from '@/components'
 import { timestampToTime } from '@/utils'
-import './index.scss'
 import { connect } from 'react-redux'
-import { withPager, withBackToTop } from '@/hocs'
+import { withPager } from '@/hocs'
+import './index.scss'
 
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
@@ -129,6 +129,7 @@ export default class MessageDetail extends PureComponent {
           })}
         {loading && <SpLoading>正在加载...</SpLoading>}
         {!page.hasNext && <SpTips msg={'没有更多了哦~'}></SpTips>}
+        <SpToast />
       </ScrollView>
     )
   }

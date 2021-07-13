@@ -91,10 +91,11 @@ export function strLength(val) {
 }
 
 export function showToast(title) {
-  Taro.showToast({
-    title,
-    icon: 'none'
-  })
+  S.toast(title)
+  // Taro.showToast({
+  //   title,
+  //   icon: 'none'
+  // })
 }
 
 // 复制到粘贴板

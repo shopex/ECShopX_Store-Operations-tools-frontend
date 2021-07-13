@@ -9,15 +9,7 @@ import {
   LogisticsPicker
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import {
-  SpGoodItem,
-  SpDrawer,
-  SpGoodPrice,
-  SpFormItem,
-  SpToast,
-  SpLoading,
-  SpAutoFocusDrawer
-} from '@/components'
+import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
 import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
 import './index.scss'

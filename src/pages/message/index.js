@@ -1,12 +1,11 @@
-import Taro, { getCurrentInstance } from '@tarojs/taro'
-import React, { Component, PureComponent } from 'react'
+import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View, ScrollView } from '@tarojs/components'
-import { SptitleBar, SpMessage, SpLoading, SpNote } from '@/components'
-import './index.scss'
+import { SpMessage, SpLoading, SpNote, SpToast } from '@/components'
 import { showToast } from '@/utils'
 import { connect } from 'react-redux'
-
 import api from '@/api'
+import './index.scss'
 
 const SpMessageData = [
   {
@@ -152,6 +151,7 @@ export default class Message extends Component {
           </ScrollView>
         )}
         {is_empty == 1 && <SpNote img='no_order.png'>暂无消息哦~</SpNote>}
+        <SpToast />
       </View>
     )
   }

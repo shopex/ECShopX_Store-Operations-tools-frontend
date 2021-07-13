@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { View, Image, Text, ScrollView } from '@tarojs/components'
-import { SpBackToTop } from '@/components'
-import { ShopxLogo } from '@/components/sp-page-components'
-import Drawer from './comps/drawer'
-import LinegradientButton from './comps/linegradient-button'
+import { View, Image, Text } from '@tarojs/components'
+import { SpBackToTop, SpToast } from '@/components'
+import Drawer from '../comps/drawer'
+import LinegradientButton from '../comps/linegradient-button'
 import { useBackToTop } from '@/hooks'
 import { getThemeStyle } from '@/utils'
 import api from '@/api'
-import './agreement.scss'
+import './index.scss'
 
 const AgreeMent = () => {
   const [visible, setVisible] = useState(false)
 
-  const { showBackToTop, scrollTop, handleScroll, scrollBackToTop } = useBackToTop()
+  const { showBackToTop, scrollBackToTop } = useBackToTop()
 
   const handleShow = () => {
     setVisible(true)
@@ -48,6 +47,8 @@ const AgreeMent = () => {
 
       {/* 返回顶部 */}
       <SpBackToTop show={showBackToTop} onClick={scrollBackToTop} />
+
+      <SpToast />
     </View>
   )
 }

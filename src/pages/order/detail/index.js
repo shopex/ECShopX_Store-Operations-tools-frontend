@@ -11,7 +11,6 @@ import {
 import { View, Text } from '@tarojs/components'
 import { AtCountdown } from 'taro-ui'
 import api from '@/api'
-import S from '@/spx'
 import './index.scss'
 
 class OrderDetail extends Component {
