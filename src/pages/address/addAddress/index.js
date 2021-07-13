@@ -23,7 +23,7 @@ export default class Add_Address extends Component {
   render() {
     return (
       <View className='page-addAddress'>
-        <SpEditForm seletedAddress={this.seletedAddress}></SpEditForm>
+        <SpEditForm></SpEditForm>
       </View>
     )
   }
