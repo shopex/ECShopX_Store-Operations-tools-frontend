@@ -1,9 +1,9 @@
-import Taro, { getCurrentInstance } from '@tarojs/taro'
-import React, { Component, PureComponent } from 'react'
+import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import { withLogin } from '@/hocs'
 import api from '@/api'
-import { requestCallback, formatNum, qwsdk } from '@/utils'
+import { requestCallback, qwsdk } from '@/utils'
+import { SpToast } from '@/components'
 import { connect } from 'react-redux'
 import './index.scss'
 
@@ -231,6 +231,7 @@ class Index extends Component {
                 </View>
               )}
 
+              <SpToast />
               {/* 
               {funcList.map((item) => {
                 return (

@@ -1,10 +1,11 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
-import { View, Image, Text, ScrollView } from '@tarojs/components'
+import { View, Image, ScrollView } from '@tarojs/components'
 import api from '@/api'
 import { showToast } from '@/utils'
 import S from '@/spx'
-import FtLogo from './comps/ft-logo'
+import FtLogo from '../comps/ft-logo'
+import { SpToast } from '@/components'
 import './index.scss'
 
 export default class Index extends Component {
@@ -73,6 +74,7 @@ export default class Index extends Component {
           </View>
         </ScrollView>
         <FtLogo />
+        <SpToast />
       </View>
     )
   }

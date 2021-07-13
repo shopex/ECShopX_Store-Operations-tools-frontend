@@ -1,14 +1,11 @@
 import { PureComponent } from 'react'
-import { View, Image, ScrollView } from '@tarojs/components'
+import { View, ScrollView } from '@tarojs/components'
 import api from '@/api'
-import './index.scss'
 import Taro from '@tarojs/taro'
-import { SpRadio, SpLoading, SpNote } from '@/components'
+import { SpRadio, SpLoading, SpNote, SpToast } from '@/components'
 import { ShopxLogo } from '@/components/sp-page-components'
 import { connect } from 'react-redux'
-
-const logo = require('@/assets/imgs/shopex-logo.png')
-
+import './index.scss'
 @connect(
   ({ planSelection }) => ({
     planSelection
@@ -74,6 +71,7 @@ export default class PlanSelection extends PureComponent {
           </ScrollView>
         </View>
         <ShopxLogo />
+        <SpToast />
       </View>
     )
   }

@@ -1,12 +1,12 @@
 import { PureComponent } from 'react'
 import { View } from '@tarojs/components'
+import { getCurrentInstance } from '@tarojs/taro'
 import api from '@/api'
-import { SpLoading, SpLogisticsDrawer } from '@/components'
+import { SpLoading, SpLogisticsDrawer, SpToast } from '@/components'
 import { LogisticsPicker } from '@/components/sp-page-components'
 import ChangeWL from './comps/changeWL'
 import { timestampToTime, getThemeStyle } from '@/utils'
 import './index.scss'
-import Taro, { getCurrentInstance } from '@tarojs/taro'
 
 import { AtTimeline } from 'taro-ui'
 
@@ -135,6 +135,8 @@ export default class Logistics extends PureComponent {
         <View className='timeline'>
           {this.state.logs && <AtTimeline items={this.formatLogs(this.state.logs)}></AtTimeline>}
         </View>
+
+        <SpToast />
       </View>
     )
   }

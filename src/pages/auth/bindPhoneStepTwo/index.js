@@ -1,12 +1,13 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
-import { View, Image, ScrollView } from '@tarojs/components'
+import { View, ScrollView } from '@tarojs/components'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
-import { getThemeStyle, validate, showToast, getCurrentRoute } from '@/utils'
+import { SpToast } from '@/components'
+import { getThemeStyle, validate, showToast } from '@/utils'
 import api from '@/api'
 import S from '@/spx'
-import FtLogo from './comps/ft-logo'
-import './bindPhone.scss'
+import FtLogo from '../comps/ft-logo'
+import './index.scss'
 
 export default class BindPhone extends Component {
   state = {
@@ -124,6 +125,7 @@ export default class BindPhone extends Component {
           </View>
         </ScrollView>
         <FtLogo />
+        <SpToast />
       </View>
     )
   }

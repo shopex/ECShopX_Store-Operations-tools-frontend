@@ -1,12 +1,11 @@
-import { Component, createElement } from 'react'
-import { View, Image, Form, Input, Button, Picker, ScrollView } from '@tarojs/components'
+import { Component } from 'react'
+import Taro from '@tarojs/taro'
+import { View, ScrollView } from '@tarojs/components'
 import { showToast } from '@/utils'
 import api from '@/api'
-import { SpAddress, SpEditForm, SpLoading } from '@/components'
-import './index.scss'
-import { AtButton, AtFloatLayout } from 'taro-ui'
-import Taro from '@tarojs/taro'
+import { SpAddress, SpLoading } from '@/components'
 import { connect } from 'react-redux'
+import './index.scss'
 
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
