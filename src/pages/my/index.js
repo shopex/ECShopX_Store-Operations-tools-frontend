@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
-import { Component, createElement } from 'react'
-import { View, Image, Form, Input, Button, Text } from '@tarojs/components'
+import { Component } from 'react'
+import { View, Image, Text } from '@tarojs/components'
 import { showToast, strLength } from '@/utils'
-import { AtForm, AtInput, AtButton } from 'taro-ui'
+import { AtInput } from 'taro-ui'
 import { connect } from 'react-redux'
 import api from '@/api'
 import S from '@/spx'
@@ -226,7 +226,7 @@ export default class My extends Component {
           </View>
           {/* </Form> */}
         </View>
-        <SpToast></SpToast>
+        <SpToast />
         {/* <Button className='btn'>修改密码</Button>
         <Button className='btn'>退出登录</Button> */}
       </View>

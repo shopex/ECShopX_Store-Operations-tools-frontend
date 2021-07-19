@@ -1,13 +1,24 @@
 .page-auth-bindphone {
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
 
 
-  .bindphone-scrollview {
-    @include page-scroll(0, 120px);
-    background: #fff;
-    right: 0;
-    width: auto;
-    padding: 0 32px;
-  }
+  .page-auth-wrapper{
+    // position: absolute;
+    // top:0;
+    // left:32px;
+    // right:32px;
+    // bottom:90px;
+    // max-height:1000px;
+    flex:1;
+  } 
   .auth-hd {
     margin-top: 200px;
     .title {
@@ -31,10 +42,6 @@
       display: flex;
       align-items: center;
       border-bottom: 1PX solid #E2E4EA;
-      .img-code{
-        width:150px;
-        height:60px;
-      }
       .at-input {
         padding: 25px 0 !important;
         margin-bottom: 0;
@@ -68,7 +75,7 @@
     left: 0;
     right: 0;
     bottom: 40px;
-    
+    // height:90px;
     text-align: center;
     .logo {
       width: 240px;

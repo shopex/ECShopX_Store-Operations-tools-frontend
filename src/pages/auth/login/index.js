@@ -1,74 +1,50 @@
 import { Component } from 'react'
 import { View, Image } from '@tarojs/components'
-import Taro from '@tarojs/taro'
 import { AtForm, AtInput, AtButton } from 'taro-ui'
 import { SpTimer, SpToast } from '@/components'
-import { getThemeStyle, validate, getCurrentRoute, requestCallback } from '@/utils'
+import { getThemeStyle, validate, showToast } from '@/utils'
 import LOGO from '@/assets/imgs/shopex-logo.png'
 import api from '@/api'
-import S from '@/spx'
-import './login.scss'
+import './index.scss'
 
 export default class Login extends Component {
   state = {
     info: {
       mobile: '',
-      vcode: '',
-      type: 'login'
+      vcode: ''
     },
-    loginType: 0, // 0:验证码登录；1:密码登录
-    showLogo: true
+    loginType: 0 // 0:验证码登录；1:密码登录
   }
 
   componentDidMount() {}
 
   async handleSubmit() {
-    const { mobile, vcode } = this.state.info
-    const { work_userid, check_token } = getCurrentRoute().params
+    const { mobile, code } = this.state.info
     if (!validate.isMobileNum(mobile)) {
-      S.toast('请输入正确的手机号')
+      showToast('请输入正确的手机号')
       return
     }
-    if (validate.isRequired(vcode)) {
-      S.toast('请输入验证码')
+    if (!validate.isRequired(mobile)) {
+      showToast('请输入验证码')
       return
     }
-
-    requestCallback(
-      async () => {
-        const data = await api.operator.bindPhone({
-          work_userid,
-          check_token,
-          mobile,
-          vcode
-        })
-        return data
-      },
-      '',
-      async ({ token }) => {
-        if (token) {
-          S.setAuthToken(token)
-          const userInfo = await api.operator.getUserInfo()
-          S.set('user_info', userInfo, true)
-          Taro.redirectTo({ url: `/pages/planSelection/index` })
-        } else {
-          S.toast('登录失败')
-        }
-      }
-    )
+    await api.operator.smsLogin({
+      mobile,
+      code,
+      logintype: 'smsstaff'
+    })
   }
 
-  async handleTimerStart(resolve) {
-    const { mobile, type } = this.state.info
+  handleTimerStart = async (resolve) => {
+    const { mobile } = this.state.info
     if (!validate.isMobileNum(mobile)) {
-      S.toast('请输入正确的手机号')
+      showToast('请输入正确的手机号')
       return
     }
     await api.operator.sendCode({
-      mobile,
-      type
+      mobile
     })
-    S.toast('验证码已发送')
+    showToast('验证码已发送')
     resolve()
   }
 
@@ -82,25 +58,10 @@ export default class Login extends Component {
     })
   }
 
-  handleFocus = () => {
-    console.log('handleFocus')
-    this.setState({
-      showLogo: false
-    })
-  }
-
-  handleBlur = () => {
-    console.log('handleBlur')
-    this.setState({
-      showLogo: true
-    })
-  }
-
   render() {
-    const { info, showLogo } = this.state
+    const { info } = this.state
     return (
       <View className='page-auth-login' style={getThemeStyle()}>
-        {/* <View className='page-auth-wrapper'> */}
         <View className='auth-hd'>
           <View className='title'>欢迎登录商派</View>
           <View className='desc'>未注册的手机号验证后自动创建商派账号</View>
@@ -117,8 +78,6 @@ export default class Login extends Component {
                 value={info.mobile}
                 placeholder='请输入您的手机号码'
                 onChange={this.handleInputChange.bind(this, 'mobile')}
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
               />
             </View>
             <View className='form-field'>
@@ -129,15 +88,13 @@ export default class Login extends Component {
                   value={info.vcode}
                   placeholder='请输入验证码'
                   onChange={this.handleInputChange.bind(this, 'vcode')}
-                  onFocus={this.handleFocus}
-                  onBlur={this.handleBlur}
                 />
               </View>
               <View className='btn-field'>
                 <SpTimer onStart={this.handleTimerStart.bind(this)} onStop={this.handleTimerStop} />
               </View>
             </View>
-            {/* <View className='btn-text'>密码登录</View> */}
+            <View className='btn-text'>密码登录</View>
             <View className='form-submit'>
               <AtButton
                 circle
@@ -150,13 +107,10 @@ export default class Login extends Component {
             </View>
           </AtForm>
         </View>
-        {/* </View> */}
+        <View className='auth-ft'>
+          <Image className='logo' mode='widthFix' src={LOGO} />
+        </View>
         <SpToast />
-        {showLogo && (
-          <View className='auth-ft'>
-            <Image className='logo' mode='widthFix' src={LOGO} />
-          </View>
-        )}
       </View>
     )
   }
