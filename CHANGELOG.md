@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.13](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.0.9...v1.0.13) (2021-07-19)
+
+
+### Bug Fixes
+
+* add cmd ([7cbceb2](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/7cbceb2264864be8f92e3cd6db0be475dd19853c))
+
 ### [1.0.9](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.0.8...v1.0.9) (2021-07-08)
 
 ### [1.0.8](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.0.6...v1.0.8) (2021-07-08)
