@@ -62,6 +62,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-redux": "^7.2.4",
+    "react-wx-images-viewer": "^1.0.6",
     "redux": "^4.1.0",
     "redux-create-reducer": "^2.0.1",
     "redux-logger": "^3.0.6",
