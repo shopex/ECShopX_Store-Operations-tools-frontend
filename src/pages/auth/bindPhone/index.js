@@ -103,7 +103,7 @@ export default class Login extends Component {
         {/* <View className='page-auth-wrapper'> */}
         <View className='auth-hd'>
           <View className='title'>欢迎登录商派</View>
-          <View className='desc'>未注册的手机号验证后自动创建商派账号</View>
+          <View className='desc'>请输入云店后台所关联手机号</View>
         </View>
         <View className='auth-bd'>
           <View className='form-title'>中国大陆 +86</View>
