@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
+import WxImageViewer from 'react-wx-images-viewer'
 import { getThemeStyle, timestampToTime, classNames } from '@/utils'
 import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpRemarkItem } from '@/components'
 import { DetailCard, FixedAction, PageActionButtons } from '@/components/sp-page-components'
@@ -17,7 +18,11 @@ class OrderDetail extends Component {
       pageType: 'afterSalesDetail',
       detail: {},
       loading: false,
-      emptyTip: '无'
+      emptyTip: '无',
+      viewImage: {
+        index: 0,
+        open: false
+      }
     }
   }
 
@@ -48,8 +53,28 @@ class OrderDetail extends Component {
     this.getDetail()
   }
 
+  /** 打开预览图片 */
+  handleOpenView = (index) => {
+    console.log('handleOpenView', index)
+    this.setState({
+      viewImage: {
+        index,
+        open: true
+      }
+    })
+  }
+
+  handleCloseView = () => {
+    this.setState({
+      viewImage: {
+        index: 0,
+        open: false
+      }
+    })
+  }
+
   render() {
-    const { emptyTip, pageType, loading, detail } = this.state
+    const { emptyTip, pageType, loading, detail, viewImage } = this.state
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
@@ -71,8 +96,8 @@ class OrderDetail extends Component {
             <View className='label'>图片信息</View>
             {detail?.evidence_pic?.length ? (
               <View className={classNames('value', { ['picwrapper']: true })}>
-                {detail?.evidence_pic?.map((pic) => (
-                  <View className='pic'>
+                {detail?.evidence_pic?.map((pic, index) => (
+                  <View className='pic' onClick={this.handleOpenView.bind(this, index)}>
                     <Image src={pic} className='image' />
                   </View>
                 ))}
@@ -131,6 +156,14 @@ class OrderDetail extends Component {
             maxOrderInfo={detail}
           />
         </FixedAction>
+
+        {viewImage.open && (
+          <WxImageViewer
+            onClose={this.handleCloseView}
+            urls={detail?.evidence_pic || []}
+            index={viewImage.index}
+          />
+        )}
       </View>
     )
   }
