@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
 import '@/muiApp/index.scss'
+import 'default-passive-events'
 // import VConsole from 'vconsole'
 
 import './app.scss'
