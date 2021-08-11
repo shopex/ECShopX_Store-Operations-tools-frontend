@@ -30,7 +30,6 @@ export default class MessageDetail extends PureComponent {
   }
 
   init() {
-    console.log(this.state)
     this.resetPage(() => {
       this.setState(
         {
@@ -117,7 +116,7 @@ export default class MessageDetail extends PureComponent {
       obj.is_all_read = false
     }
     await api.message.clearUnread(obj)
-    this.init()
+    if (obj.is_all_read) this.init()
   }
 
   render() {
