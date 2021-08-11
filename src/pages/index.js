@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import api from '@/api'
 import { requestCallback, qwsdk } from '@/utils'
-import { SpToast } from '@/components'
+import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
 import './index.scss'
 
@@ -31,7 +31,9 @@ class Index extends Component {
         aftersales: '',
         order: ''
       },
-      is_center: false
+      is_center: false,
+      visible: false,
+      status: ''
     }
   }
   async getConfig() {
@@ -94,7 +96,6 @@ class Index extends Component {
 
   handleOnScanQRCode = async () => {
     const res = await qwsdk.scanQRCode()
-
     requestCallback(
       async () => {
         const data = await api.order.qrwriteoff({
@@ -112,10 +113,44 @@ class Index extends Component {
         })
       }
     )
+    // const res = await qwsdk.scanQRCode()
+    // const res = 'excode:29-123456789'
+    // const str = 'excode:';
+    // if (res.indexOf(str)==-1) {
+    //   console.log('没有');
+    //   requestCallback(
+    //     async () => {
+    //       const data = await api.order.qrwriteoff({
+    //         code: res.replace('ZT_', '')
+    //       })
+    //       return data
+    //     },
+    //     '核销订单成功',
+    //     ({ order_id }) => {
+    //       Taro.navigateTo({ url: `/pages/order/detail?order_id=${order_id}` })
+    //     },
+    //     () => {
+    //       this.setState({
+    //         veriError: '核销码不存在或有误，请检查！'
+    //       })
+    //     }
+    //   )
+    // }else{
+    //   console.log('you');
+    //   const result = await api.home.checkCode({
+    //     code:res
+    //   })
+    //   console.log(result);
+    // }
+  }
+  handleVisible = (status) => {
+    this.setState({
+      visible: status
+    })
   }
 
   render() {
-    const { moneyShow, realTimeData, loading, apis, is_center } = this.state
+    const { moneyShow, realTimeData, loading, apis, is_center, visible, status } = this.state
 
     const { name, logo } = this.props.planSelection
     return (
@@ -232,19 +267,9 @@ class Index extends Component {
               )}
 
               <SpToast />
-              {/* 
-              {funcList.map((item) => {
-                return (
-                  <View className='item' key={item.title}>
-                    <View>
-                      <Image className='img' src={item.icon}></Image>
-                    </View>
-                    <View className='subtitle'>{item.title}</View>
-                  </View>
-                )
-              })} */}
             </View>
           </View>
+          <SpModal visible={visible} status={status} handleCancel={this.handleVisible}></SpModal>
         </>
       </View>
     )

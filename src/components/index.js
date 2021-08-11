@@ -29,5 +29,6 @@ export { default as SpIconFooter } from './sp-icon-footer'
 export { default as SpRemarkDrawer } from './sp-remark-drawer'
 export { default as SpAutoFocusDrawer } from './sp-autofocus-drawer'
 export { default as SpLogisticsDrawer } from './sp-logistics-drawer'
+export { default as SpModal } from './sp-modal'
 
 export default {}
