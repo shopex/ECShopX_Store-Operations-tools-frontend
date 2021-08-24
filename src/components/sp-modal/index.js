@@ -24,12 +24,13 @@ export default class MessageDetail extends PureComponent {
 
   render() {
     console.log(this.props)
-    const { visible, status, handleCancel } = this.props
+    const { status, visible, shopList, order_info } = this.props.currentModal
+    const { handleCancel, orderInfoHandle } = this.props
     return (
       <View className='cpn-modal'>
         {visible && (
           <AtModal isOpened={visible}>
-            <AtModalHeader className='header'>
+            <AtModalHeader className={'header' + (status == 'fail' ? ' fail_header' : '')}>
               <View className='imgBox'>
                 <Image className='img' src={flag[status].img}></Image>
               </View>
@@ -38,25 +39,26 @@ export default class MessageDetail extends PureComponent {
                 {status == 'fail' && <View className='tips'>{flag[status].tips || 1222}</View>}
               </View>
             </AtModalHeader>
-            <AtModalContent className='content'>
-              <View className='list'>
+            <AtModalContent className='content_'>
+              <View className={'list' + (status == 'fail' ? ' fail' : '')}>
                 <View className='nav'>
                   <Image className='img' src={require('@/assets/imgs/index/book.png')}></Image>
                   <View className='detail'>
                     {status == 'success' ? (
                       <View className='successBox'>
                         <View className='imgBox'>
-                          <Image className='img' src={require('../../assets/imgs/1.jpg')}></Image>
+                          <Image className='img' src={order_info[0].pic}></Image>
                         </View>
-                        <View className='title'>
-                          我是一段倒奶事件哎肯定奶萨尽可能大神金口难开的那家电脑卡凯
-                        </View>
-                        <View className='type'>规格</View>
-                        <View className='num type'>数量：1</View>
+                        <View className='title'>{order_info[0].item_name}</View>
+                        <View className='type'>规格：{order_info[0].item_spec_desc}</View>
+                        <View className='num type'>数量：{order_info[0].num}</View>
                       </View>
                     ) : (
                       <View className='failBox'>
                         <View className='title'>推荐可选门店：</View>
+                        <ScrollView className='box'>
+                          <SpRadio SpRadioData={shopList} activeHandle={() => {}}></SpRadio>
+                        </ScrollView>
                       </View>
                     )}
                   </View>
@@ -64,8 +66,12 @@ export default class MessageDetail extends PureComponent {
               </View>
             </AtModalContent>
             <AtModalAction className='bottom'>
-              <Button onclick={() => handleCancel(false)}>关闭</Button>
-              {status == 'success' && <Button className='btn'>查看详情</Button>}
+              <Button onclick={() => handleCancel()}>关闭</Button>
+              {status == 'success' && (
+                <Button className='btn' onClick={() => orderInfoHandle(order_info[0].order_id)}>
+                  查看详情
+                </Button>
+              )}
             </AtModalAction>
           </AtModal>
         )}

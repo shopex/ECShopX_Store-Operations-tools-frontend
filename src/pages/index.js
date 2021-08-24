@@ -32,8 +32,12 @@ class Index extends Component {
         order: ''
       },
       is_center: false,
-      visible: false,
-      status: ''
+      currentModal: {
+        visible: '',
+        status: '',
+        shopList: [],
+        order_info: {}
+      }
     }
   }
   async getConfig() {
@@ -96,61 +100,73 @@ class Index extends Component {
 
   handleOnScanQRCode = async () => {
     const res = await qwsdk.scanQRCode()
-    requestCallback(
-      async () => {
-        const data = await api.order.qrwriteoff({
-          code: res.replace('ZT_', '')
+    const str = 'excode:'
+    if (res && res.indexOf(str) == -1) {
+      requestCallback(
+        async () => {
+          const data = await api.order.qrwriteoff({
+            code: res.replace('ZT_', '')
+          })
+          return data
+        },
+        '核销订单成功',
+        ({ order_id }) => {
+          Taro.navigateTo({ url: `/pages/order/detail?order_id=${order_id}` })
+        },
+        () => {
+          this.setState({
+            veriError: '核销码不存在或有误，请检查！'
+          })
+        }
+      )
+    } else if (res && res.indexOf(str) != -1) {
+      let { distributor_id } = this.props.planSelection
+      try {
+        const result = await api.home.checkCode({
+          code: res.slice(7),
+          distributor_id
         })
-        return data
-      },
-      '核销订单成功',
-      ({ order_id }) => {
-        Taro.navigateTo({ url: `/pages/order/detail?order_id=${order_id}` })
-      },
-      () => {
+        if (!result.status) {
+          this.setState({
+            currentModal: {
+              visible: true,
+              status: 'fail',
+              shopList: result.distributors.list
+            }
+          })
+        } else {
+          this.setState({
+            currentModal: {
+              visible: true,
+              status: 'success',
+              order_info: result.order_info.items
+            }
+          })
+        }
+      } catch (error) {
         this.setState({
           veriError: '核销码不存在或有误，请检查！'
         })
       }
-    )
-    // const res = await qwsdk.scanQRCode()
-    // const res = 'excode:29-123456789'
-    // const str = 'excode:';
-    // if (res.indexOf(str)==-1) {
-    //   console.log('没有');
-    //   requestCallback(
-    //     async () => {
-    //       const data = await api.order.qrwriteoff({
-    //         code: res.replace('ZT_', '')
-    //       })
-    //       return data
-    //     },
-    //     '核销订单成功',
-    //     ({ order_id }) => {
-    //       Taro.navigateTo({ url: `/pages/order/detail?order_id=${order_id}` })
-    //     },
-    //     () => {
-    //       this.setState({
-    //         veriError: '核销码不存在或有误，请检查！'
-    //       })
-    //     }
-    //   )
-    // }else{
-    //   console.log('you');
-    //   const result = await api.home.checkCode({
-    //     code:res
-    //   })
-    //   console.log(result);
-    // }
+    }
   }
-  handleVisible = (status) => {
+  handleCancel = () => {
     this.setState({
-      visible: status
+      currentModal: {
+        visible: '',
+        status: '',
+        shopList: [],
+        order_info: {}
+      }
     })
+  }
+  // 查看订单详情
+  orderInfoHandle = (order_id) => {
+    Taro.navigateTo({ url: `/pages/order/detail?order_id=${order_id}` })
   }
 
   render() {
-    const { moneyShow, realTimeData, loading, apis, is_center, visible, status } = this.state
+    const { moneyShow, realTimeData, loading, apis, is_center, currentModal } = this.state
 
     const { name, logo } = this.props.planSelection
     return (
@@ -269,7 +285,11 @@ class Index extends Component {
               <SpToast />
             </View>
           </View>
-          <SpModal visible={visible} status={status} handleCancel={this.handleVisible}></SpModal>
+          <SpModal
+            currentModal={currentModal}
+            handleCancel={this.handleCancel}
+            orderInfoHandle={this.orderInfoHandle}
+          ></SpModal>
         </>
       </View>
     )
