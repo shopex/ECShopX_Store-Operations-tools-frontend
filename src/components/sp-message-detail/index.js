@@ -32,13 +32,19 @@ export default class MessageDetail extends PureComponent {
       spec
     } = JSON.parse(this.props.SpMessageDetailData.content)
     const { is_read, operator_id } = this.props.SpMessageDetailData
-    const { date, msgType, titleList, OrderHandle } = this.props
+    const { date, msgType, titleList, OrderHandle, clearUnread } = this.props
 
     return (
       <View className='cpn-messageDetail'>
         <View className='date'>{date}</View>
         <View className='box'>
-          <View className='top' onClick={(e) => OrderHandle(orderId, msgType, afterSalesBn)}>
+          <View
+            className='top'
+            onClick={(e) => {
+              OrderHandle(orderId, msgType, afterSalesBn)
+              clearUnread(orderId, afterSalesBn)
+            }}
+          >
             {msgType === '1' && (
               <>
                 <View className='titleBox'>

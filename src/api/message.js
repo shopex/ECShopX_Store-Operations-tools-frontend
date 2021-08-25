@@ -10,3 +10,8 @@ export function getMessageList(params) {
 export function getMessageDetail(params) {
   return req.get('/order/message/list', params)
 }
+
+// 清除已读消息
+export function clearUnread(params) {
+  return req.post('/order/message/update', params)
+}
