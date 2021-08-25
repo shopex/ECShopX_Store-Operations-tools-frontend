@@ -1,5 +1,5 @@
 import { PureComponent } from 'react'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, ScrollView } from '@tarojs/components'
 import './index.scss'
 import { AtTag } from 'taro-ui'
 
@@ -12,15 +12,16 @@ export default class index extends PureComponent {
   }
   render() {
     const { SpRadioData, isActive, activeHandle } = this.props
+    console.log(this.props)
     return (
       SpRadioData && (
-        <View>
+        <View className='cpn-radio_warp'>
           {SpRadioData.map((item, index) => {
             return (
               <View
                 key={item.distributor_id}
                 className='cpn-radio'
-                onClick={(e) => activeHandle(item)}
+                onClick={() => activeHandle(item)}
               >
                 <View className='radio'>
                   <View className='part1'>
