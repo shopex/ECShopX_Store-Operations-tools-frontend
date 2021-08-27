@@ -100,6 +100,8 @@ class Index extends Component {
 
   handleOnScanQRCode = async () => {
     const res = await qwsdk.scanQRCode()
+    // const res = 'excode:65796-2124869866'
+    console.log('code', res)
     const str = 'excode:'
     if (res && res.indexOf(str) == -1) {
       requestCallback(
