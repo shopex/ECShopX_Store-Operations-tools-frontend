@@ -5,11 +5,11 @@ import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
 import '@/muiApp/index.scss'
 import 'default-passive-events'
-import VConsole from 'vconsole'
+// import VConsole from 'vconsole'
 
 import './app.scss'
 
-new VConsole()
+// new VConsole()
 
 const { store } = configStore()
 
