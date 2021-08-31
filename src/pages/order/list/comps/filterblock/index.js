@@ -8,6 +8,7 @@ import {
   ORDER_LIST_FILTER_ITEM
 } from '@/consts'
 import './index.scss'
+import log from '../../../../../muiApp/utils'
 
 const filterListData = Object.keys(ORDER_LIST_FILTER_ITEM).map((filterItem) => {
   let itemLabel = ORDER_LIST_FILTER_ITEM[filterItem]
@@ -92,6 +93,7 @@ export default class FilterBlock extends PureComponent {
     const { showFilter } = this.state
 
     const { pageType, onOrderClick = () => {} } = this.props
+    console.log(this.props)
 
     return (
       <View className='filterContent'>

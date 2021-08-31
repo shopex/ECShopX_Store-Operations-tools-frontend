@@ -51,6 +51,7 @@ class SpFilterDrawer extends PureComponent {
 
   render() {
     const { visible, onCloseDrawer = () => {}, filterData = [], filterTitle } = this.props
+    console.log(this.props)
 
     const { query, isSubmit } = this.state
 

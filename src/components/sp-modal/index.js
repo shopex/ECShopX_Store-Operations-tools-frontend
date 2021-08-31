@@ -8,7 +8,7 @@ import './index.scss'
 const flag = {
   success: {
     img: require('@/assets/imgs/index/success.png'),
-    text: '兑换券订单核销成功'
+    text: '兑换券订单核销成功，请尽快交付！'
   },
   fail: {
     img: require('@/assets/imgs/index/fail.png'),
