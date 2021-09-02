@@ -34,7 +34,8 @@ export const ORDER_LIST_FILTER_CLASS = {
   'crossborder': '跨境订单',
   'bargain': '助力订单',
   'community': '社区订单',
-  'normal': '普通订单'
+  'normal': '普通订单',
+  'excard': '兑换券订单'
 }
 
 //订单筛选配送方式

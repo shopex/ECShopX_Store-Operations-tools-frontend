@@ -12,6 +12,7 @@ import { View, Text } from '@tarojs/components'
 import { AtCountdown } from 'taro-ui'
 import api from '@/api'
 import './index.scss'
+import log from '../../../muiApp/utils'
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -195,6 +196,7 @@ class OrderDetail extends Component {
     const {
       orderInfo: { receipt_type }
     } = this.state
+    console.log(this.state)
     if (receipt_type === 'dada') {
       if (desc) {
         return '同城配送'
@@ -312,7 +314,6 @@ class OrderDetail extends Component {
     } = this.state
 
     let terminal_info = orderInfo?.app_info?.terminal_info
-
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
     ) : (
@@ -349,7 +350,9 @@ class OrderDetail extends Component {
 
           <View className='order-detail'>
             <View className='order-detail-title'>
-              <View className='text'>{this.renderLogiticsTitle(false, true)}</View>
+              {/* <View className='text'>{this.renderLogiticsTitle(false, true)}</View> */}
+              <View className='text'>{orderInfo?.app_info?.order_class_name}</View>
+
               <View className='status'></View>
             </View>
 

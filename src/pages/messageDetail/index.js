@@ -1,7 +1,7 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import api from '@/api'
-import { ScrollView } from '@tarojs/components'
+import { ScrollView, View, Text } from '@tarojs/components'
 import { SpMessageDetail, SpLoading, SpTips, SpToast } from '@/components'
 import { timestampToTime } from '@/utils'
 import { connect } from 'react-redux'
@@ -30,7 +30,6 @@ export default class MessageDetail extends PureComponent {
   }
 
   init() {
-    console.log(this.state)
     this.resetPage(() => {
       this.setState(
         {
@@ -104,6 +103,21 @@ export default class MessageDetail extends PureComponent {
       })
     }
   }
+  clearUnread = async (order_id, after_sales_bn) => {
+    const { type } = getCurrentInstance().router.params
+    const obj = {
+      distributor_id: this.props.planSelection.distributor_id,
+      msg_type: type,
+      is_all_read: true,
+      order_id,
+      after_sales_bn
+    }
+    if (order_id || after_sales_bn) {
+      obj.is_all_read = false
+    }
+    await api.message.clearUnread(obj)
+    if (obj.is_all_read) this.init()
+  }
 
   render() {
     const { loading, page } = this.state
@@ -114,6 +128,16 @@ export default class MessageDetail extends PureComponent {
         scrollWithAnimation
         onScrollToLower={this.nextPage}
       >
+        <View className='tips'>
+          <View className='tip'>
+            <Text className='iconfont icon-shaixuan1'></Text>
+            <Text>消息时间由近及远</Text>
+          </View>
+          <View className='clearRead'>
+            <Text className='iconfont icon-qingchu'></Text>
+            <Text onClick={() => this.clearUnread()}>清除未读</Text>
+          </View>
+        </View>
         {this.state.detailList &&
           this.state.detailList.map((item) => {
             return (
@@ -124,6 +148,7 @@ export default class MessageDetail extends PureComponent {
                 msgType={item.msg_type}
                 titleList={this.state.titleList}
                 OrderHandle={this.OrderHandle}
+                clearUnread={this.clearUnread}
               />
             )
           })}
