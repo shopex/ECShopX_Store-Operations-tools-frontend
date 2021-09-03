@@ -180,7 +180,7 @@ function isNull(value) {
 }
 
 function hundred(number) {
-  return Number(number) * 100
+  return parseInt(Number(number) * 100)
 }
 
 export {
