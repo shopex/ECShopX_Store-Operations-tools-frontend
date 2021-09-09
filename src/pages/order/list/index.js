@@ -12,6 +12,7 @@ import { classNames } from '@/utils'
 import api from '@/api'
 import { connect } from 'react-redux'
 import './index.scss'
+let isMounted = false
 
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
@@ -128,6 +129,7 @@ export default class List extends PureComponent {
     } = getCurrentInstance()
 
     await this.searchFilter({ isCMD: true })
+    isMounted = true
   }
 
   handleTabClick = (activeIndex) => {
@@ -191,6 +193,9 @@ export default class List extends PureComponent {
     this.setState({
       mainStatus: status
     })
+    if (!isMounted) {
+      return
+    }
     this.searchFilter({ isResetList: true })
   }
 
