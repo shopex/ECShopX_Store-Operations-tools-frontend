@@ -55,7 +55,7 @@ export default class SpRemarkItem extends PureComponent {
       <>
         {label == '客户留言' ? (
           <View className={classNames('sp-component-remark-item', 'box-shadow-common')}>
-            <SpFormItem label={label} wrap={this.hasRemark()} className='remark-component'>
+            <SpFormItem label={label} wrap className='remark-component'>
               <View>
                 <View className='content'>{this.remarkContent()}</View>
               </View>
