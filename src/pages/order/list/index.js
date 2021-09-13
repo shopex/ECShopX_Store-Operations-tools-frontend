@@ -12,8 +12,8 @@ import { classNames } from '@/utils'
 import api from '@/api'
 import { connect } from 'react-redux'
 import './index.scss'
-let isMounted = false
 
+let isMounted = false
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
