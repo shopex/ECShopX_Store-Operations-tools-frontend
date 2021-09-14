@@ -347,12 +347,7 @@ class OrderDetail extends Component {
           />
           {/* 客户留言 */}
           {orderInfo?.remark && (
-            <SpRemarkItem
-              pageType={pageType}
-              label='客户留言'
-              orderInfo={orderInfo}
-              onRefresh={this.handleRefresh}
-            />
+            <SpRemarkItem pageType={pageType} label='客户留言' orderInfo={orderInfo} />
           )}
           {/* 商家备注 */}
           <SpRemarkItem pageType={pageType} orderInfo={orderInfo} onRefresh={this.handleRefresh} />
