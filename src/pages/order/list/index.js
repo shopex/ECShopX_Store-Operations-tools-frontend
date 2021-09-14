@@ -13,7 +13,7 @@ import api from '@/api'
 import { connect } from 'react-redux'
 import './index.scss'
 
-let isMounted = false
+var isMounted
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
@@ -127,7 +127,7 @@ export default class List extends PureComponent {
     const {
       router: { params }
     } = getCurrentInstance()
-
+    var isMounted = false
     await this.searchFilter({ isCMD: true })
     isMounted = true
   }
@@ -196,6 +196,7 @@ export default class List extends PureComponent {
     if (!isMounted) {
       return
     }
+    debugger
     this.searchFilter({ isResetList: true })
   }
 
