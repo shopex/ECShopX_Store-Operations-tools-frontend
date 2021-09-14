@@ -346,7 +346,7 @@ class OrderDetail extends Component {
             rightPhone={rightPhone}
           />
           {/* 客户留言 */}
-          {orderInfo.remark && (
+          {orderInfo?.remark && (
             <SpRemarkItem
               pageType={pageType}
               label='客户留言'
