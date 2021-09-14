@@ -13,7 +13,6 @@ import api from '@/api'
 import { connect } from 'react-redux'
 import './index.scss'
 
-var isMounted
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
@@ -96,8 +95,12 @@ export default class List extends PureComponent {
     return params
   }
 
-  searchFilter = async ({ isCMD, isResetList }) => {
+  searchFilter = async ({ isCMD, isResetList, isFirst }) => {
     let query = {}
+
+    if (isFirst) {
+      return
+    }
 
     if (isCMD) {
       //如果是初始化
@@ -127,9 +130,8 @@ export default class List extends PureComponent {
     const {
       router: { params }
     } = getCurrentInstance()
-    var isMounted = false
-    await this.searchFilter({ isCMD: true })
-    isMounted = true
+
+    await this.searchFilter({ isCMD: true, isFirst: true })
   }
 
   handleTabClick = (activeIndex) => {
@@ -193,10 +195,6 @@ export default class List extends PureComponent {
     this.setState({
       mainStatus: status
     })
-    if (!isMounted) {
-      return
-    }
-    debugger
     this.searchFilter({ isResetList: true })
   }
 
