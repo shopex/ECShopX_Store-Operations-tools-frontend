@@ -269,8 +269,6 @@ export default class List extends PureComponent {
     } = this.state
 
     console.log('buttonsActionVisible', buttonsActionVisible)
-    console.log('111111111111111111')
-
     return (
       <View className='page-order-list' style={getThemeStyle()}>
         <View className='page-order-list-input'>
