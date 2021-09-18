@@ -95,8 +95,12 @@ export default class List extends PureComponent {
     return params
   }
 
-  searchFilter = async ({ isCMD, isResetList }) => {
+  searchFilter = async ({ isCMD, isResetList, isFirst }) => {
     let query = {}
+
+    if (isFirst) {
+      return
+    }
 
     if (isCMD) {
       //如果是初始化
@@ -127,7 +131,7 @@ export default class List extends PureComponent {
       router: { params }
     } = getCurrentInstance()
 
-    await this.searchFilter({ isCMD: true })
+    await this.searchFilter({ isCMD: true, isFirst: true })
   }
 
   handleTabClick = (activeIndex) => {
@@ -265,7 +269,6 @@ export default class List extends PureComponent {
     } = this.state
 
     console.log('buttonsActionVisible', buttonsActionVisible)
-
     return (
       <View className='page-order-list' style={getThemeStyle()}>
         <View className='page-order-list-input'>

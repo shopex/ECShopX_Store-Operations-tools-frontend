@@ -345,7 +345,11 @@ class OrderDetail extends Component {
             leftPhone={leftPhone}
             rightPhone={rightPhone}
           />
-
+          {/* 客户留言 */}
+          {orderInfo?.remark && (
+            <SpRemarkItem pageType={pageType} label='客户留言' orderInfo={orderInfo} />
+          )}
+          {/* 商家备注 */}
           <SpRemarkItem pageType={pageType} orderInfo={orderInfo} onRefresh={this.handleRefresh} />
 
           <View className='order-detail'>

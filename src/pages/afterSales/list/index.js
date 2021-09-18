@@ -11,6 +11,7 @@ import { classNames } from '@/utils'
 import api from '@/api'
 import { connect } from 'react-redux'
 import './index.scss'
+
 @connect(({ planSelection }) => ({
   planSelection: planSelection.activeShop
 }))
@@ -49,8 +50,6 @@ export default class List extends PureComponent {
   getOrderParams = () => {
     const { inputParams, inputValue, mainStatus, filterParams, orderBy } = this.state
 
-    console.log('mainStatus', mainStatus)
-
     let params = {}
 
     if (inputParams && inputValue) {
@@ -86,8 +85,12 @@ export default class List extends PureComponent {
     return params
   }
 
-  searchFilter = async ({ isCMD, isResetList }) => {
+  searchFilter = async ({ isCMD, isResetList, isFirst }) => {
     let query = {}
+
+    if (isFirst) {
+      return
+    }
 
     if (isCMD) {
       //如果是初始化
@@ -117,8 +120,7 @@ export default class List extends PureComponent {
     const {
       router: { params }
     } = getCurrentInstance()
-
-    await this.searchFilter({ isCMD: true })
+    await this.searchFilter({ isCMD: true, isFirst: true })
   }
 
   handleTabClick = (activeIndex) => {
@@ -184,7 +186,6 @@ export default class List extends PureComponent {
 
   //提交筛选状态
   handleSubmitParams = (params) => {
-    console.log('handleSubmitParams')
     this.setState({
       filterParams: params
     })
