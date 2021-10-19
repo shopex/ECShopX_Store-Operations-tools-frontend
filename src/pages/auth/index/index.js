@@ -18,7 +18,7 @@ export default class Index extends Component {
     const { params } = getCurrentInstance().router
     const { code, company_id, token, entryCode } = params
     if (token) {
-      await this.getUserInfo(token)
+      this.getUserInfo(token)
     } else {
       if (code) {
         this.workwechatOauthLogin(code, company_id)
@@ -40,7 +40,7 @@ export default class Index extends Component {
       code
     })
     if (status == 'success') {
-      await this.getUserInfo(token)
+      this.getUserInfo(token)
       // S.setAuthToken(token)
       // const userInfo = await api.operator.getUserInfo()
 
