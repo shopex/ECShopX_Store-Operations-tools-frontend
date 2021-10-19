@@ -10,16 +10,25 @@ import './index.scss'
 
 export default class Index extends Component {
   state = {
-    OAuthUrl: ''
+    OAuthUrl: '',
+    par: ''
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { params } = getCurrentInstance().router
-    const { code, company_id } = params
-    if (code) {
-      this.workwechatOauthLogin(code, company_id)
+    const { code, company_id, token, entryCode } = params
+    if (token) {
+      S.setAuthToken(token)
+      const userInfo = await api.operator.getUserInfo()
+
+      S.set('user_info', userInfo, true)
+      Taro.redirectTo({ url: `/pages/planSelection/index` })
     } else {
-      this.getAuthorizeUrl()
+      if (code) {
+        this.workwechatOauthLogin(code, company_id)
+      } else {
+        this.getAuthorizeUrl()
+      }
     }
   }
 
@@ -31,6 +40,7 @@ export default class Index extends Component {
     if (status == 'success') {
       S.setAuthToken(token)
       const userInfo = await api.operator.getUserInfo()
+
       S.set('user_info', userInfo, true)
       Taro.redirectTo({ url: `/pages/planSelection/index` })
     } else if (status == 'unbound') {
@@ -58,7 +68,7 @@ export default class Index extends Component {
     return (
       <View className='page-auth-index'>
         <ScrollView className='welcome-scrollview' scrollY scrollWithAnimation>
-          <View className='title'>欢迎登录</View>
+          <View className='title'>欢迎登录3333</View>
           <View className='sub-title'>数据透视·智慧赋能·全渠道管理</View>
           <View className='logo-con'>
             <Image className='m-bk' mode='widthFix' src={require('@/assets/imgs/login-bk.png')} />
