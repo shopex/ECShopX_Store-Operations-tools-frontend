@@ -71,7 +71,7 @@ export default class Index extends Component {
     return (
       <View className='page-auth-index'>
         <ScrollView className='welcome-scrollview' scrollY scrollWithAnimation>
-          <View className='title'>欢迎登录3333</View>
+          <View className='title'>欢迎登录</View>
           <View className='sub-title'>数据透视·智慧赋能·全渠道管理</View>
           <View className='logo-con'>
             <Image className='m-bk' mode='widthFix' src={require('@/assets/imgs/login-bk.png')} />
