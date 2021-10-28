@@ -53,6 +53,7 @@ class Index extends Component {
 
   componentDidMount() {
     const { href } = window.location
+    console.log('page_index:componentDidMount:qwsdk.init', href)
     qwsdk.init({
       url: href
     })
