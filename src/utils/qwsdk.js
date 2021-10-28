@@ -7,6 +7,10 @@ class QWSDK {
   }
   async init({ url }) {
     console.log('QWSDK:init:url', url)
+    const testData = await api.auth.getQwJsSdkConfig({
+      url
+    })
+    console.log('QWSDK:init:testData', testData)
     const { appId, timestamp, nonceStr, signature } = await api.auth.getQwJsSdkConfig({
       url
     })
