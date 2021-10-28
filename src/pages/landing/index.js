@@ -1,12 +1,13 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View } from '@tarojs/components'
-import { ShareUrl, Tracker } from '@/service'
 import S from '@/spx'
-
+import Entry from '@/utils/entry'
 import { Loading } from '@/components'
-import { liveTrackerLastChannel } from '@/utils/entry'
+import { isIos } from '@/utils'
 
 export default class LandingIndex extends Component {
+  router = getCurrentInstance()
   constructor(props) {
     super(props)
 
@@ -16,25 +17,24 @@ export default class LandingIndex extends Component {
   }
 
   componentWillMount() {
-    let _params = this.$router.params
-    console.log('原始路径：', _params)
+    Taro.setStorageSync('isWebView', true)
+    ;(!isIos() && Taro.setStorageSync('wxConfigSignUrl', location.href.split('#')[0])) ||
+      Taro.setStorageSync('wxConfigSignUrl', '')
+    let _params = this.router.params || getCurrentInstance().router.params
 
+    console.log('原始路径：', this.router)
+    console.log('原始路径：_params', _params)
+
+    // Entry.runHooks()
     // 处理转义字符
-    let params = {}
-    for (let _key in _params) {
-      let key = _key.replace(/amp;/g, '')
-      params[key] = _params[_key]
-    }
-
-    console.log('landing willmount')
-    console.log(params)
-    // const rt = params.rt
-    // if (rt === 'pages%2Foversea%2Findex') {
-    //   S.set('isOversea', 1)
+    // let params = {}
+    // for (let _key in _params) {
+    //   let key = _key.replace(/amp;/g, '')
+    //   params[key] = _params[_key]
     // }
 
-    liveTrackerLastChannel()
-    ShareUrl.resolveLanding(params)
+    console.log('landing willmount')
+    // console.log(params)
   }
 
   componentDidShow() {}

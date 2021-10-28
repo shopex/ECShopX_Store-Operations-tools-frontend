@@ -2,7 +2,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
 import { View, Image, ScrollView } from '@tarojs/components'
 import api from '@/api'
-import { showToast } from '@/utils'
+import { showToast , isIos } from '@/utils'
 import S from '@/spx'
 import FtLogo from '../comps/ft-logo'
 import { SpToast } from '@/components'
@@ -18,6 +18,9 @@ export default class Index extends Component {
     const { params } = getCurrentInstance().router
     const { code, company_id, token, entryCode } = params
     if (token) {
+      Taro.setStorageSync('isWebView', true)
+      ;(!isIos() && Taro.setStorageSync('wxConfigSignUrl', location.href.split('#')[0])) ||
+        Taro.setStorageSync('wxConfigSignUrl', '')
       this.getUserInfo(token)
     } else {
       if (code) {
