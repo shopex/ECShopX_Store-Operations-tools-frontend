@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.1.8...v1.2.0) (2021-10-28)
+
+
+### Features
+
+* 增加导购小程序业务域名配置文件; ([3bb0870](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/3bb0870f0d5da856512d7f3a123f4a6e92f31f2b))
+* 增加导购小程序生产环境业务域名配置文件; ([7154493](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/7154493ad439c23306f320fb0b3c08a767a720c3))
+* 店务端接收导购助手参数 ([c719072](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/c71907292cc7cafcf4c5fc47ee54eb5ef11145ef))
+* 店务端接收导购助手参数 ([24eb241](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/24eb241129a619a947b92f591e1e365b189f9891))
+* 店务端接收导购助手参数 ([19a9fe7](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/19a9fe7856c74d7e91ff9fffc2e57111ee6b638c))
+
+
+### Bug Fixes
+
+* jssdk debug ([cbc39ae](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/cbc39ae620f26af8967441d73f2096a6334a48be))
+* 开启jssdk 企微小程序webView嵌套环境debug ([8cc4551](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/8cc45518d367e1f0ef8aeb41e1a280fafe6deeef))
+* 开启测试环境首页扫码debug; ([f774e60](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/f774e60491050dd8930003dfeb5b1149e9048f94))
+* 开启测试环境首页扫码debug; ([2ed567e](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/2ed567eb0f74b71cfdf37c8660cf788d11ca98d6))
+
 ### [1.1.8](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.1.7...v1.1.8) (2021-09-17)
 
 ### [1.1.7](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.1.6...v1.1.7) (2021-09-02)

@@ -10,17 +10,28 @@ import './index.scss'
 
 export default class Index extends Component {
   state = {
+    ...this.state,
     OAuthUrl: ''
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { params } = getCurrentInstance().router
-    const { code, company_id } = params
-    if (code) {
-      this.workwechatOauthLogin(code, company_id)
+    const { code, company_id, token, entryCode } = params
+    if (token) {
+      this.getUserInfo(token)
     } else {
-      this.getAuthorizeUrl()
+      if (code) {
+        this.workwechatOauthLogin(code, company_id)
+      } else {
+        this.getAuthorizeUrl()
+      }
     }
+  }
+  async getUserInfo(token) {
+    S.setAuthToken(token)
+    const userInfo = await api.operator.getUserInfo()
+    S.set('user_info', userInfo, true)
+    Taro.redirectTo({ url: `/pages/planSelection/index` })
   }
 
   async workwechatOauthLogin(code, company_id) {
@@ -29,10 +40,12 @@ export default class Index extends Component {
       code
     })
     if (status == 'success') {
-      S.setAuthToken(token)
-      const userInfo = await api.operator.getUserInfo()
-      S.set('user_info', userInfo, true)
-      Taro.redirectTo({ url: `/pages/planSelection/index` })
+      this.getUserInfo(token)
+      // S.setAuthToken(token)
+      // const userInfo = await api.operator.getUserInfo()
+
+      // S.set('user_info', userInfo, true)
+      // Taro.redirectTo({ url: `/pages/planSelection/index` })
     } else if (status == 'unbound') {
       Taro.redirectTo({
         url: `/pages/auth/bindPhone?work_userid=${work_userid}&check_token=${check_token}`
