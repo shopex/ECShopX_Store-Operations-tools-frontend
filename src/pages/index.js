@@ -99,6 +99,7 @@ class Index extends Component {
   }
 
   handleOnScanQRCode = async () => {
+    console.log('clicl:handleOnScanQRCode')
     const res = await qwsdk.scanQRCode()
     // const res = 'excode:65796-2124869866'
     console.log('code', res)
