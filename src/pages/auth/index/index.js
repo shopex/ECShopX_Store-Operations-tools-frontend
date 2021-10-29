@@ -2,7 +2,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
 import { View, Image, ScrollView } from '@tarojs/components'
 import api from '@/api'
-import { showToast, isIos } from '@/utils'
+import { showToast, isIos, qwsdk } from '@/utils'
 import S from '@/spx'
 import FtLogo from '../comps/ft-logo'
 import { SpToast } from '@/components'
@@ -15,6 +15,15 @@ export default class Index extends Component {
   }
 
   async componentDidMount() {
+    const { href } = window.location
+
+    console.log('page_index:componentDidMount:qwsdk.register', href)
+    qwsdk.register({
+      url: href
+    })
+    console.log('auto:handleOnScanQRCode1')
+    const res = await qwsdk.scanQRCode()
+    console.log('auto:handleOnScanQRCode2', res)
     const { params } = getCurrentInstance().router
     const { code, company_id, token, entryCode } = params
     if (token) {
