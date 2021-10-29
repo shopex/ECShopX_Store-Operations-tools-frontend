@@ -63,7 +63,7 @@ export default class Index extends Component {
     S.setAuthToken(token)
     const userInfo = await api.operator.getUserInfo()
     S.set('user_info', userInfo, true)
-    // Taro.redirectTo({ url: `/pages/planSelection/index` })
+    Taro.redirectTo({ url: `/pages/planSelection/index` })
   }
 
   async workwechatOauthLogin(code, company_id) {
