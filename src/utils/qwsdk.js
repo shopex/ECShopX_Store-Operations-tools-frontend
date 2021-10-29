@@ -2,6 +2,11 @@ import api from '@/api'
 import { reject } from 'lodash'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { isIos } from '@/utils'
+/**
+ * 安卓端兼容webView 相关文档:
+ * https://developers.weixin.qq.com/community/develop/doc/0004ac1eb98950c61c3b073985ec00?_at=1616587626673
+ * https://blog.csdn.net/Gage__/article/details/105820461
+ *  */
 
 class QWSDK {
   static getQwsdk() {
@@ -16,18 +21,19 @@ class QWSDK {
   }
   set(key, val) {
     this[key] = val
+    console.log('QWSDK.set', this)
   }
   init() {
     this._isWebView = false
     this._url = ''
     this._isAndroid = !isIos()
   }
-  async register({ url, isWebView }) {
-    console.log('QWSDK:register:url', isWebView, url)
+  async register({ url }) {
+    console.log('QWSDK:register:url', url)
     console.log('QWSDK:register:webView-url', this._url)
     console.log('this._isWebView && this._isAndroid', this._isWebView, this._isAndroid)
     if (this._isWebView && this._isAndroid) url = this._url //location.href.split('#')[0]
-    console.log('QWSDK:register:jssdkConfig1', url)
+    console.log('QWSDK:register:post-url', url)
     const jssdkConfig = await api.auth.getQwJsSdkConfig({
       url
     })
