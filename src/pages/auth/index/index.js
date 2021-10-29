@@ -2,7 +2,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
 import { View, Image, ScrollView } from '@tarojs/components'
 import api from '@/api'
-import { showToast } from '@/utils'
+import { showToast, isIos, qwsdk } from '@/utils'
 import S from '@/spx'
 import FtLogo from '../comps/ft-logo'
 import { SpToast } from '@/components'
@@ -15,8 +15,16 @@ export default class Index extends Component {
   }
 
   async componentDidMount() {
+    const { href } = window.location
+    const that = this
     const { params } = getCurrentInstance().router
-    const { code, company_id, token, entryCode } = params
+    if (params.isWebView) {
+      qwsdk.set('_isWebView', true)
+      if (!isIos()) qwsdk.set('_url', location.href.split('#')[0])
+    }
+    that.init(params)
+  }
+  init({ code, company_id, token, entryCode }) {
     if (token) {
       this.getUserInfo(token)
     } else {
@@ -27,6 +35,7 @@ export default class Index extends Component {
       }
     }
   }
+
   async getUserInfo(token) {
     S.setAuthToken(token)
     const userInfo = await api.operator.getUserInfo()

@@ -41,7 +41,6 @@ class App extends Component {
     })
   }
   onLaunch(options) {
-    console.log(1)
     // this.getDeviceSize().then(res => {
     //   const {bottomLift} = res
     //   console.log('bottomLift:'+ bottomLift);
@@ -57,7 +56,6 @@ class App extends Component {
       Taro.getSystemInfo({
         success: function (res) {
           console.log(res)
-          console.log(1111111111111111111111)
           const { screenHeight, safeArea } = res
           const { bottom } = safeArea
           const bottomLift = screenHeight - bottom

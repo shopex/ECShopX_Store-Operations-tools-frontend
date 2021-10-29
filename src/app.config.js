@@ -18,7 +18,8 @@ export default {
     'pages/planSelection/index',
     'pages/logisticsInfo/index',
     'pages/address/index',
-    'pages/address/addAddress/index'
+    'pages/address/addAddress/index',
+    'pages/landing/index'
   ],
   tabBar: {
     list: [
