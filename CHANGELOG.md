@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.2.0...v1.3.0) (2021-10-29)
+
+
+### Features
+
+* 安卓端webView兼容jssdk ([9dfaa81](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/9dfaa818b81c5eccb8bf72df4a71c78ffcecebaf))
+* 安卓端webView兼容jssdk ([8f38c2b](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/8f38c2b8668d4c1ee8e9b53a5f663a6b1e12623b))
+* 安卓端webView兼容jssdk ([b5f112f](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/b5f112f4328a6cac3044579fd17a4a1134067ce5))
+* 安卓端webView兼容jssdk ([7a1e18e](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/7a1e18e0982b78bbb75a0970890952d869d674d2))
+
+### [1.1.4](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.0.13...v1.1.4) (2021-08-05)
+
+### [1.0.7](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.0.6...v1.0.7) (2021-06-30)
+
 ## [1.2.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.1.8...v1.2.0) (2021-10-28)
 
 
