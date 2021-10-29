@@ -18,16 +18,18 @@ class QWSDK {
     this._isWebView = Taro.getStorageSync('isWebView') || false
     this._isAndroid = !isIos()
   }
-  async register({ url }) {
-    console.log('QWSDK:register:url', url)
+  async register({ url, isWebView }) {
+    this._isWebView = this._isWebView || isWebView
+    console.log('QWSDK:register:url', isWebView, url)
 
     console.log('QWSDK:register:webView-url', Taro.getStorageSync('wxConfigSignUrl'))
     console.log('this._isWebView && this._isAndroid', this._isWebView, this._isAndroid)
     if (this._isWebView && this._isAndroid) url = Taro.getStorageSync('wxConfigSignUrl') //location.href.split('#')[0]
+    console.log('QWSDK:register:jssdkConfig1', url)
     const jssdkConfig = await api.auth.getQwJsSdkConfig({
       url
     })
-    console.log('QWSDK:register:jssdkConfig', jssdkConfig)
+    console.log('QWSDK:register:jssdkConfig2', jssdkConfig)
     const { appId, timestamp, nonceStr, signature } = jssdkConfig
     wx.config({
       beta: true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
