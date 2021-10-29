@@ -21,7 +21,7 @@ export default class ActionModal extends PureComponent {
 
     if (type === 'verification') {
       console.log('componentDidUpdate', type)
-      qwsdk.init({
+      qwsdk.register({
         url: href
       })
     }
