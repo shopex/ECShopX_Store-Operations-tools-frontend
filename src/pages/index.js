@@ -55,8 +55,7 @@ class Index extends Component {
     const { href } = window.location
     console.log('page_index:componentDidMount:qwsdk.register', href)
     qwsdk.register({
-      url: href,
-      isWebView: true
+      url: href
     })
     this.getConfig()
   }

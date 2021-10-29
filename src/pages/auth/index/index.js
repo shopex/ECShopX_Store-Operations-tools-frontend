@@ -18,37 +18,14 @@ export default class Index extends Component {
     const { href } = window.location
     const that = this
     const { params } = getCurrentInstance().router
-    that.init(params)
-    Taro.setStorageSync('isWebView', true)
-    console.log('page_auth_index:href', href)
-    console.log('page_auth_index:params', params)
-    console.log('auto:handleOnScanQRCode1')
-    try {
-      console.log('auto:handleOnScanQRCode2')
-      setTimeout(async () => {
-        console.log('auto:handleOnScanQRCode3')
-        qwsdk.register({
-          url: href,
-          isWebView: true
-        })
-        console.log('auto:handleOnScanQRCode4')
-        const res = await qwsdk.scanQRCode()
-        console.log('auto:handleOnScanQRCode5', res)
-      }, 500)
-      console.log('auto:handleOnScanQRCode55')
-      // setTimeout(() => that.init(params), 600)
-    } catch (e) {
-      console.log('auth :componentDidMount:catch', e)
+    if (params.isWebView) {
+      qwsdk.set('_isWebView', true)
+      if (!isIos()) qwsdk.set('_url', location.href.split('#')[0])
     }
+    that.init(params)
   }
   init({ code, company_id, token, entryCode }) {
-    console.log('isIos()6', isIos())
     if (token) {
-      if (!isIos()) {
-        Taro.setStorageSync('wxConfigSignUrl', location.href.split('#')[0])
-      } else {
-        Taro.setStorageSync('wxConfigSignUrl', '')
-      }
       this.getUserInfo(token)
     } else {
       if (code) {

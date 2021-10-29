@@ -14,17 +14,19 @@ class QWSDK {
   constructor() {
     this.init()
   }
+  set(key, val) {
+    this[key] = val
+  }
   init() {
-    this._isWebView = Taro.getStorageSync('isWebView') || false
+    this._isWebView = false
+    this._url = ''
     this._isAndroid = !isIos()
   }
   async register({ url, isWebView }) {
-    this._isWebView = this._isWebView || isWebView
     console.log('QWSDK:register:url', isWebView, url)
-
-    console.log('QWSDK:register:webView-url', Taro.getStorageSync('wxConfigSignUrl'))
+    console.log('QWSDK:register:webView-url', this._url)
     console.log('this._isWebView && this._isAndroid', this._isWebView, this._isAndroid)
-    if (this._isWebView && this._isAndroid) url = Taro.getStorageSync('wxConfigSignUrl') //location.href.split('#')[0]
+    if (this._isWebView && this._isAndroid) url = this._url //location.href.split('#')[0]
     console.log('QWSDK:register:jssdkConfig1', url)
     const jssdkConfig = await api.auth.getQwJsSdkConfig({
       url
@@ -33,7 +35,7 @@ class QWSDK {
     const { appId, timestamp, nonceStr, signature } = jssdkConfig
     wx.config({
       beta: true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
-      debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
       appId, // 必填，企业微信的corpID
       timestamp, // 必填，生成签名的时间戳
       nonceStr, // 必填，生成签名的随机串
@@ -43,12 +45,12 @@ class QWSDK {
 
     wx.ready(function () {
       console.log('wx sdk ready')
-      console.log('wx sdk ready:wx', wx)
+      // console.log('wx sdk ready:wx', wx)
     })
 
     wx.error(function (res) {
       console.log('wx sdk error:', res)
-      console.log('wx sdk error:wx', wx)
+      // console.log('wx sdk error:wx', wx)
     })
   }
   scanQRCode() {
