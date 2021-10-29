@@ -16,14 +16,24 @@ export default class Index extends Component {
 
   async componentDidMount() {
     const { href } = window.location
-
+    const that = this
     console.log('page_index:componentDidMount:qwsdk.register', href)
     qwsdk.register({
       url: href
     })
     console.log('auto:handleOnScanQRCode1')
-    const res = await qwsdk.scanQRCode()
-    console.log('auto:handleOnScanQRCode2', res)
+    try {
+      setTimeout(async () => {
+        const res = await qwsdk.scanQRCode()
+        console.log('auto:handleOnScanQRCode2', res)
+      }, 500)
+
+      setTimeout(() => that.init(), 300)
+    } catch (e) {
+      console.log('auth :componentDidMount:catch', e)
+    }
+  }
+  init() {
     const { params } = getCurrentInstance().router
     const { code, company_id, token, entryCode } = params
     if (token) {
@@ -43,6 +53,7 @@ export default class Index extends Component {
       }
     }
   }
+
   async getUserInfo(token) {
     S.setAuthToken(token)
     const userInfo = await api.operator.getUserInfo()

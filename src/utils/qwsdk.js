@@ -19,23 +19,16 @@ class QWSDK {
     this._isAndroid = !isIos()
   }
   async register({ url }) {
-    console.log('QWSDK:init:url', url)
-    console.log('QWSDK:init:webView-url', Taro.getStorageSync('wxConfigSignUrl'))
+    console.log('QWSDK:register:url', url)
+
+    console.log('QWSDK:register:webView-url', Taro.getStorageSync('wxConfigSignUrl'))
+    console.log('this._isWebView && this._isAndroid', this._isWebView, this._isAndroid)
     if (this._isWebView && this._isAndroid) url = Taro.getStorageSync('wxConfigSignUrl') //location.href.split('#')[0]
-    const testData = await api.auth.getQwJsSdkConfig({
+    const jssdkConfig = await api.auth.getQwJsSdkConfig({
       url
     })
-    console.log('QWSDK:init:testData', testData)
-    const { appId, timestamp, nonceStr, signature } = await api.auth.getQwJsSdkConfig({
-      url
-    })
-    console.log(
-      'QWSDK:init:appId, timestamp, nonceStr, signature',
-      appId,
-      timestamp,
-      nonceStr,
-      signature
-    )
+    console.log('QWSDK:register:jssdkConfig', jssdkConfig)
+    const { appId, timestamp, nonceStr, signature } = jssdkConfig
     wx.config({
       beta: true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
       debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -48,10 +41,12 @@ class QWSDK {
 
     wx.ready(function () {
       console.log('wx sdk ready')
+      console.log('wx sdk ready:wx', wx)
     })
 
     wx.error(function (res) {
       console.log('wx sdk error:', res)
+      console.log('wx sdk error:wx', wx)
     })
   }
   scanQRCode() {
