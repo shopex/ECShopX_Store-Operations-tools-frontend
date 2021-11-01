@@ -20,9 +20,17 @@ class MessageCard extends PureComponent {
 
   handleCallPhone = () => {
     const { leftPhone, rightPhone } = this.props
-    Taro.makePhoneCall({
-      phoneNumber: this.state.active === 0 ? leftPhone : rightPhone
-    })
+    const phone = this.state.active === 0 ? leftPhone : rightPhone
+    if (phone && phone.indexOf('*') == -1) {
+      Taro.makePhoneCall({
+        phoneNumber: phone
+      })
+    }
+  }
+
+  checkPhone = (info) => {
+    let flag
+    return (flag = info.length && info[0].value.indexOf('*') != -1 ? true : false)
   }
 
   render() {
@@ -83,9 +91,18 @@ class MessageCard extends PureComponent {
           </View>
         )}
         <View className='footer'>
-          <View className='content' onClick={this.handleCallPhone}>
-            <Text className='iconfont icon-shoujihao'></Text>
-            <Text className='text'>拨打电话</Text>
+          <View
+            className={classNames('content', { disabled: this.checkPhone(rightContent) })}
+            onClick={this.handleCallPhone}
+          >
+            <Text
+              className={classNames('iconfont', 'icon-shoujihao', {
+                disabled: this.checkPhone(rightContent)
+              })}
+            ></Text>
+            <Text className={classNames('text', { disabled: this.checkPhone(rightContent) })}>
+              拨打电话
+            </Text>
           </View>
         </View>
       </View>
