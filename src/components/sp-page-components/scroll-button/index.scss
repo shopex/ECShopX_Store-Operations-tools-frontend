@@ -41,7 +41,7 @@
     top: 0;
     bottom: 0;  
     border-radius: inherit;
-    transition:all .2s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition:left .2s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
     &.active-0{
       left:0;
