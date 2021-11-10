@@ -21,7 +21,40 @@ class QWSDK {
   }
   set(key, val) {
     this[key] = val
+    // 更新本地持久化
+    this.setImage('set')
     console.log('QWSDK.set', this)
+  }
+  getState() {
+    const state = {}
+    for (let i in this) {
+      state[i] = this[i]
+    }
+    return state
+  }
+  // 写入SDK状态景象
+  setImage(Scenes = '默认') {
+    const stateImage = this.getState()
+    console.log('写入SDK状态景象:Scenes', Scenes)
+    Taro.setStorageSync('QWSDKImage', stateImage)
+  }
+  // 读取SDK状态景象
+  getImage(Scenes = '默认') {
+    const stateImage = Taro.getStorageSync('QWSDKImage')
+    console.log('读取SDK状态景象:Scenes', Scenes)
+    console.log('getImage', stateImage)
+    if (stateImage) {
+      for (let i in stateImage) {
+        this[i] = this.set(i, stateImage[i])
+      }
+    } else {
+      console.log('本地无镜像记录')
+    }
+  }
+  // 清除持久化记录
+  clearImage(Scenes = '默认') {
+    console.log('清除持久化记录:Scenes', Scenes)
+    Taro.removeStorageSync('QWSDKImage')
   }
   init() {
     this._isWebView = false
@@ -69,9 +102,6 @@ class QWSDK {
         success: function (res) {
           console.log('scanQRCode:success:res', res)
           if (that._isWebView && that._isAndroid) {
-            setTimeout(function () {
-              window.location.reload(false)
-            }, 5000)
           }
           if (res.errMsg == 'scanQRCode:ok') {
             resolve(res.resultStr)

@@ -98,9 +98,20 @@ class Index extends Component {
     }
     return s_x
   }
-
+  componentDidShow() {
+    console.log('componentDidShow:sanCode')
+    const qwsdkState = qwsdk.getState()
+    console.log('componentDidShow:qwsdk', qwsdkState)
+    if (qwsdkState._isAndroid && qwsdkState._isWebView) {
+      setTimeout(function () {
+        window.location.reload(false)
+      }, 6000)
+    }
+    qwsdk.getImage('扫码:componentDidShow')
+  }
   handleOnScanQRCode = async () => {
     console.log('clicl:handleOnScanQRCode')
+
     const res = await qwsdk.scanQRCode()
     // const res = 'excode:65796-2124869866'
     console.log('code', res)

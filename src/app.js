@@ -3,6 +3,7 @@ import { Component } from 'react'
 import { Provider } from 'react-redux'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
+import { qwsdk } from '@/utils'
 import '@/muiApp/index.scss'
 import 'default-passive-events'
 // import VConsole from 'vconsole'
@@ -29,6 +30,7 @@ class App extends Component {
   }
   componentDidMount() {
     console.log('App', getCurrentInstance())
+    // qwsdk.clearImage('app componentDidMount')
     console.log('app componentDidMount')
     SAPP.onReady(() => {
       console.log('INIT_START', SAPP.Plus.storage.getItem('INIT_START'))
