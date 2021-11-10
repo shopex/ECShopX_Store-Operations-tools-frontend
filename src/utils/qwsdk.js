@@ -1,7 +1,8 @@
 import api from '@/api'
 import { reject } from 'lodash'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { isIos } from '@/utils'
+import { isIos, log } from '@/utils'
+
 /**
  * 安卓端兼容webView 相关文档:
  * https://developers.weixin.qq.com/community/develop/doc/0004ac1eb98950c61c3b073985ec00?_at=1616587626673
@@ -22,8 +23,8 @@ class QWSDK {
   set(key, val) {
     this[key] = val
     // 更新本地持久化
-    this.setImage('set')
-    console.log('QWSDK.set', this)
+    // this.setImage('set')
+    log('QWSDK.set', this)
   }
   getState() {
     const state = {}
@@ -35,25 +36,27 @@ class QWSDK {
   // 写入SDK状态景象
   setImage(Scenes = '默认') {
     const stateImage = this.getState()
-    console.log('写入SDK状态景象:Scenes', Scenes)
+    log('写入SDK状态景象:Scenes', Scenes)
     Taro.setStorageSync('QWSDKImage', stateImage)
   }
   // 读取SDK状态景象
   getImage(Scenes = '默认') {
     const stateImage = Taro.getStorageSync('QWSDKImage')
-    console.log('读取SDK状态景象:Scenes', Scenes)
-    console.log('getImage', stateImage)
+    log('读取SDK状态景象:Scenes', Scenes)
+    log('getImage', stateImage)
     if (stateImage) {
       for (let i in stateImage) {
         this[i] = this.set(i, stateImage[i])
       }
     } else {
-      console.log('本地无镜像记录')
+      log('本地无镜像记录')
     }
   }
+  // 调用sdk状态
+
   // 清除持久化记录
   clearImage(Scenes = '默认') {
-    console.log('清除持久化记录:Scenes', Scenes)
+    log('清除持久化记录:Scenes', Scenes)
     Taro.removeStorageSync('QWSDKImage')
   }
   init() {
@@ -62,15 +65,15 @@ class QWSDK {
     this._isAndroid = !isIos()
   }
   async register({ url }) {
-    console.log('QWSDK:register:url', url)
-    console.log('QWSDK:register:webView-url', this._url)
-    console.log('this._isWebView && this._isAndroid', this._isWebView, this._isAndroid)
+    log('QWSDK:register:url', url)
+    log('QWSDK:register:webView-url', this._url)
+    log('this._isWebView && this._isAndroid', this._isWebView, this._isAndroid)
     if (this._isWebView && this._isAndroid) url = this._url //location.href.split('#')[0]
-    console.log('QWSDK:register:post-url', url)
+    log('QWSDK:register:post-url', url)
     const jssdkConfig = await api.auth.getQwJsSdkConfig({
       url
     })
-    console.log('QWSDK:register:jssdkConfig2', jssdkConfig)
+    log('QWSDK:register:jssdkConfig2', jssdkConfig)
     const { appId, timestamp, nonceStr, signature } = jssdkConfig
     wx.config({
       beta: true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
@@ -83,24 +86,25 @@ class QWSDK {
     })
 
     wx.ready(function () {
-      console.log('wx sdk ready')
-      // console.log('wx sdk ready:wx', wx)
+      log('wx sdk ready')
+      // log('wx sdk ready:wx', wx)
     })
 
     wx.error(function (res) {
-      console.log('wx sdk error:', res)
-      // console.log('wx sdk error:wx', wx)
+      log('wx sdk error:', res)
+      // log('wx sdk error:wx', wx)
     })
   }
   scanQRCode() {
     const that = this
+    that.set('_isRun', true)
     return new Promise((resolve, reject) => {
       wx.scanQRCode({
         desc: 'scanQRCode desc',
         needResult: 1, // 默认为0，扫描结果由企业微信处理，1则直接返回扫描结果，
         scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是条形码（一维码），默认二者都有
         success: function (res) {
-          console.log('scanQRCode:success:res', res)
+          log('scanQRCode:success:res', res)
           if (that._isWebView && that._isAndroid) {
           }
           if (res.errMsg == 'scanQRCode:ok') {
@@ -110,7 +114,7 @@ class QWSDK {
           }
         },
         error: function (res) {
-          console.log('scanQRCode:error:res', res)
+          log('scanQRCode:error:res', res)
           if (res.errMsg.indexOf('function_not_exist') > 0) {
             alert('版本过低请升级')
           }

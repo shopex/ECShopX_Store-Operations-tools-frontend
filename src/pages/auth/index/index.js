@@ -20,7 +20,10 @@ export default class Index extends Component {
     const { params } = getCurrentInstance().router
     if (params.isWebView) {
       qwsdk.set('_isWebView', true)
-      if (!isIos()) qwsdk.set('_url', location.href.split('#')[0])
+      if (!isIos()) {
+        qwsdk.set('_url', location.href.split('#')[0])
+        qwsdk.setImage('授权页')
+      }
     }
     that.init(params)
   }
