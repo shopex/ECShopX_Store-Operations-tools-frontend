@@ -39,7 +39,8 @@ class MessageCard extends PureComponent {
       leftTitle,
       rightTitle = '买家信息',
       leftContent = [],
-      rightContent = []
+      rightContent = [],
+      user_delete //  会员注销
     } = this.props
 
     const { active } = this.state
@@ -92,15 +93,21 @@ class MessageCard extends PureComponent {
         )}
         <View className='footer'>
           <View
-            className={classNames('content', { disabled: this.checkPhone(rightContent) })}
+            className={classNames('content', {
+              disabled: user_delete || this.checkPhone(leftContent)
+            })}
             onClick={this.handleCallPhone}
           >
             <Text
               className={classNames('iconfont', 'icon-shoujihao', {
-                disabled: this.checkPhone(rightContent)
+                disabled: user_delete || this.checkPhone(leftContent)
               })}
             ></Text>
-            <Text className={classNames('text', { disabled: this.checkPhone(rightContent) })}>
+            <Text
+              className={classNames('text', {
+                disabled: user_delete || this.checkPhone(leftContent)
+              })}
+            >
               拨打电话
             </Text>
           </View>

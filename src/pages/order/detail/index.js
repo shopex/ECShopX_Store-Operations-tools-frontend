@@ -344,6 +344,7 @@ class OrderDetail extends Component {
             rightContent={rightContent}
             leftPhone={leftPhone}
             rightPhone={rightPhone}
+            user_delete={orderInfo?.user_delete} // 是否为注销用户
           />
           {/* 客户留言 */}
           {orderInfo?.remark && (
