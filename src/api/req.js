@@ -86,6 +86,7 @@ class API {
     const options = {
       company_id: Taro.getStorageSync('company_id')
     }
+    console.log('API.options', options)
     if (isWeixin || isAlipay) {
       const extConfig = Taro.getExtConfigSync ? Taro.getExtConfigSync() : {}
       options.appid = extConfig.appid

@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import api from '@/api'
@@ -53,6 +53,13 @@ class Index extends Component {
 
   componentDidMount() {
     const { href } = window.location
+
+    const { params } = getCurrentInstance().router
+    console.log('首页:componentDidMount:params', params)
+    const { company_id } = params
+    if (company_id) {
+      Taro.setStorageSync('company_id', company_id)
+    }
     console.log('page_index:componentDidMount:qwsdk.register', href)
     qwsdk.register({
       url: href

@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { Provider } from 'react-redux'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
-import { qwsdk } from '@/utils'
+// import { qwsdk } from '@/utils'
 import '@/muiApp/index.scss'
 import 'default-passive-events'
 // import VConsole from 'vconsole'
@@ -42,7 +42,8 @@ class App extends Component {
       }
     })
   }
-  onLaunch(options) {
+  onLaunch() {
+    // console.log('onLaunch:options',options)
     // this.getDeviceSize().then(res => {
     //   const {bottomLift} = res
     //   console.log('bottomLift:'+ bottomLift);
@@ -68,6 +69,7 @@ class App extends Component {
   }
 
   componentDidShow(options) {
+    console.log('componentOnShow:options', options)
     const { company_id } = options
     if (company_id) {
       Taro.setStorageSync('company_id', company_id)
