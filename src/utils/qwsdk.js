@@ -73,7 +73,8 @@ class QWSDK {
     const jssdkConfig = await api.auth.getQwJsSdkConfig({
       url
     })
-    // console.log('QWSDK:register:jssdkConfig2', jssdkConfig)
+    console.log('QWSDK:register:jssdkConfig2', jssdkConfig)
+
     const { appId, timestamp, nonceStr, signature } = jssdkConfig
     // eslint-disable-next-line no-undef
     wx.config({

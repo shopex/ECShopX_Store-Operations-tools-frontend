@@ -182,7 +182,14 @@ function isNull(value) {
 function hundred(number) {
   return parseInt(Number(number) * 100)
 }
+/** 在支付宝平台 */
+export const isAlipay = Taro.getEnv() == Taro.ENV_TYPE.ALIPAY
 
+/** 在微信平台 */
+export const isWeixin = Taro.getEnv() == Taro.ENV_TYPE.WEAPP
+
+/** 在H5平台 */
+export const isWeb = true
 export {
   classNames,
   log,

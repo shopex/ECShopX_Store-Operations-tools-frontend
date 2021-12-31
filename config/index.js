@@ -2,25 +2,24 @@ const path = require('path')
 const chalk = require('chalk')
 const dotenvFlow = require('dotenv-flow')
 const pkg = require('../package.json')
-const { resolveConsts, resolveEnvs } = require('./utils')
+const { getEnvs, getDefineConstants, getCacheIdentifier } = require('./utils')
 
 const BUILD_ENV = process.env.BUILD_ENV
 const TARO_ENV = process.env.TARO_ENV
 const BUILD_TARGET = process.env.npm_config_target
 
-console.log(chalk.green(`mode: ${BUILD_ENV} `, `TARO_ENV: ${TARO_ENV}`))
 dotenvFlow.config({
   node_env: BUILD_ENV
 })
 
-const APP_ENVS = resolveEnvs()
+const APP_ENVS = getEnvs()
 const CONSTS = {
   APP_NAME: pkg.app_name,
   APP_VERSION: pkg.version,
   APP_AUTH_PAGE: '/pages/auth/login',
   ...APP_ENVS
 }
-
+console.log(chalk.green(`mode: ${BUILD_ENV} `, `TARO_ENV: ${getDefineConstants(CONSTS)}`))
 const config = {
   projectName: CONSTS.APP_NAME,
   date: '2021-5-24',
@@ -33,7 +32,7 @@ const config = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: [],
-  defineConstants: resolveConsts(CONSTS),
+  defineConstants: getDefineConstants(CONSTS),
   alias: {
     '@': path.join(__dirname, '../src')
   },

@@ -15,8 +15,8 @@ import './app.scss'
 const { store } = configStore()
 
 SAPP.init(Taro, store)
-
-if (APP_DEBUG == 'true') {
+console.log('process.env.APP_DEBUG', process.env.APP_DEBUG)
+if (process.env.APP_DEBUG == 'true') {
   import('vconsole').then((VConsole) => {
     new VConsole.default()
   })
