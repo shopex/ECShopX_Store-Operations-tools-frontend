@@ -18,6 +18,7 @@ export default class Index extends Component {
     const { href } = window.location
     const that = this
     const { params } = getCurrentInstance().router
+    console.log('auth:params', params)
     if (params.isWebView) {
       qwsdk.set('_isWebView', true)
       if (!isIos()) {

@@ -84,7 +84,7 @@ class API {
     this.baseURL = baseURL
 
     const options = {
-      company_id: process.env.APP_COMPANY_ID
+      company_id: Taro.getStorageSync('company_id')
     }
     if (isWeixin || isAlipay) {
       const extConfig = Taro.getExtConfigSync ? Taro.getExtConfigSync() : {}
@@ -178,7 +178,7 @@ class API {
   intereptorRes(res) {
     const { data, statusCode, config } = res
     const { showError = true } = config
-
+    console.log('intereptorRes.UNAUTHORIZED：res', res)
     if (statusCode == HTTP_STATUS.SUCCESS) {
       const { status_code } = data.data
       if (!status_code) {
@@ -193,7 +193,7 @@ class API {
     }
 
     if (statusCode === HTTP_STATUS.UNAUTHORIZED) {
-      console.log('intereptorRes.UNAUTHORIZED', data)
+      console.log('intereptorRes.UNAUTHORIZED:res.data', data)
       if ((data.data && data.data.status_code) === HTTP_STATUS.USER_FORBIDDEN) {
         if (showError) {
           this.errorToast(data)
