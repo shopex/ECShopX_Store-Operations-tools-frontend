@@ -326,9 +326,9 @@ class API {
   }
 
   reqError(res, msg = '') {
-    console.log('reqError.res', res)
-    console.log('reqError.msg', msg)
-    if (res && res.statusCode) Taro.navigateTo('pages/auth/login')
+    // console.log('reqError.res', res)
+    // console.log('reqError.msg', msg)
+    // if (res && res.statusCode) Taro.navigateTo('pages/auth/login')
     const errMsg = (res.data && res.data.data.message) || msg
     const err = new Error(errMsg)
     err.res = res
