@@ -120,7 +120,7 @@ class API {
     this.isRefreshingToken = false
     S.logout()
     setTimeout(() => {
-      Taro.redirectTo({ url: '/subpages/member/index' })
+      Taro.redirectTo({ url: '/pages/auth/login' })
     }, 300)
   }
 
@@ -192,7 +192,8 @@ class API {
     }
 
     if (statusCode === HTTP_STATUS.UNAUTHORIZED) {
-      if ((data.data && data.data.code) === HTTP_STATUS.USER_FORBIDDEN) {
+      console.log('intereptorRes.UNAUTHORIZED', data)
+      if ((data.data && data.data.status_code) === HTTP_STATUS.USER_FORBIDDEN) {
         if (showError) {
           this.errorToast(data)
         }
@@ -327,6 +328,7 @@ class API {
   reqError(res, msg = '') {
     console.log('reqError.res', res)
     console.log('reqError.msg', msg)
+    if (res && res.statusCode) Taro.navigateTo('pages/auth/login')
     const errMsg = (res.data && res.data.data.message) || msg
     const err = new Error(errMsg)
     err.res = res
