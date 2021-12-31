@@ -147,10 +147,10 @@ class Spx {
   login(ctx, isRedirect = false) {
     const { path, fullPath } = getCurrentRoute()
     const encodedRedirect = encodeURIComponent(fullPath)
-    if (path === APP_AUTH_PAGE) {
+    if (path === process.env.APP_AUTH_PAGE) {
       return
     }
-    const authUrl = APP_AUTH_PAGE
+    const authUrl = process.env.APP_AUTH_PAGE
     Taro[isRedirect ? 'redirectTo' : 'navigateTo']({
       url: authUrl
     })

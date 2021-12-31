@@ -120,7 +120,8 @@ class API {
     this.isRefreshingToken = false
     S.logout()
     setTimeout(() => {
-      Taro.redirectTo({ url: '/pages/auth/login' })
+      S.login()
+      // Taro.redirectTo({ url: '/pages/auth/login' })
     }, 300)
   }
 
