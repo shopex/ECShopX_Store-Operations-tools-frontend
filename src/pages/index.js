@@ -55,12 +55,12 @@ class Index extends Component {
     const { href } = window.location
 
     const { params } = getCurrentInstance().router
-    console.log('首页:componentDidMount:params', params)
+    console.log('首页:componentDidMount:params1111112', params)
     const { company_id } = params
     if (company_id) {
       Taro.setStorageSync('company_id', company_id)
     }
-    console.log('page_index:componentDidMount:qwsdk.register', href)
+    console.log('page_index:componentDidMount:qwsdk.register1', href)
     qwsdk.register({
       url: href
     })
