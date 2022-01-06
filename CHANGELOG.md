@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.3.2...v1.3.3) (2022-01-06)
+
+
+### Bug Fixes
+
+* req ([3069cde](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/3069cde4cab417a7f9905b6728107d8412aa4b14))
+* 修复company_id首次访问缓存问题; ([30313be](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/30313be96ac80ecae8812ef8f0c323e7e8d5afc8))
+* 修复req ([c69f737](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/c69f7377e1ceaa49172d27be5a2eb0857df1c3c8))
+* 排查测试环境sdk失效问题 ([e1eca37](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/e1eca372aa9be56ab390936e8c7b3bf92c56c099))
+
 ### [1.3.2](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.3.1...v1.3.2) (2021-12-31)
 
 
