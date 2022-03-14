@@ -145,6 +145,7 @@ class Spx {
   }
 
   login(ctx, isRedirect = false) {
+    console.log('===login==>')
     const { path, fullPath } = getCurrentRoute()
     const encodedRedirect = encodeURIComponent(fullPath)
     if (path === process.env.APP_AUTH_PAGE) {
