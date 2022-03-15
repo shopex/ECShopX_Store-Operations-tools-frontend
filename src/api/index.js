@@ -9,6 +9,7 @@ import * as logistics from './logistics'
 import * as address from './address'
 import * as afterSales from './afterSales'
 import * as qiniu from './qiniu'
+import * as weapp from './weapp'
 
 export default {
   auth,
@@ -21,5 +22,6 @@ export default {
   logistics,
   address,
   afterSales,
-  qiniu
+  qiniu,
+  weapp
 }

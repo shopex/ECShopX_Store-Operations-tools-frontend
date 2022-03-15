@@ -19,7 +19,10 @@ export default {
     'pages/logisticsInfo/index',
     'pages/address/index',
     'pages/address/addAddress/index',
-    'pages/landing/index'
+    'pages/landing/index',
+    'pages/weapp/login', //微信登陆页
+    'pages/good/list', //商品列表
+    'pages/good/form' //商品编辑
   ],
   tabBar: {
     list: [

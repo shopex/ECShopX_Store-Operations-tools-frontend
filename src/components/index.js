@@ -30,5 +30,7 @@ export { default as SpRemarkDrawer } from './sp-remark-drawer'
 export { default as SpAutoFocusDrawer } from './sp-autofocus-drawer'
 export { default as SpLogisticsDrawer } from './sp-logistics-drawer'
 export { default as SpModal } from './sp-modal'
+export { default as SpTab } from './sp-tab'
+export { default as SpMultilevelPicker } from './sp-multilevel-picker'
 
 export default {}

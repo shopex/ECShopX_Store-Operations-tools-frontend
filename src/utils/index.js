@@ -45,6 +45,16 @@ export function getCurrentRoute() {
     params
   }
 }
+/** 判断是否从webapp跳转而来 */
+export function isFromWebapp() {
+  const { params: webappParams } = getCurrentInstance().router || { params: {} }
+  return webappParams.in_shop_wechat === 'true' || localStorage.getItem('X')
+}
+/** 设置webapp相关 */
+export function setWebappConfig() {
+  const { params: webappParams } = getCurrentInstance().router
+  S.set('WEBAPP_CONFIG', webappParams, true)
+}
 
 export function getThemeStyle() {
   let systemTheme = S.get('SYSTEM_THEME')
@@ -179,6 +189,22 @@ function isNull(value) {
   return !value && value !== 0
 }
 
+//依次按顺序执行一些函数
+function createChainedFunction(...funcs) {
+  return funcs.reduce(
+    (acc, func) => {
+      if (func == null) {
+        return acc
+      }
+      return function chainedFunction(...args) {
+        acc.apply(this, args)
+        func.apply(this, args)
+      }
+    },
+    () => {}
+  )
+}
+
 function hundred(number) {
   return parseInt(Number(number) * 100)
 }
@@ -203,5 +229,6 @@ export {
   isIos,
   toFixed,
   isNull,
-  hundred
+  hundred,
+  createChainedFunction
 }

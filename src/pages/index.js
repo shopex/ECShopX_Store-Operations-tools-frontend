@@ -2,9 +2,10 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import api from '@/api'
-import { requestCallback, qwsdk } from '@/utils'
+import { requestCallback, qwsdk, isFromWebapp, navigateTo } from '@/utils'
 import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
+import S from '@/spx'
 import './index.scss'
 
 @connect(({ planSelection }) => ({
@@ -29,7 +30,8 @@ class Index extends Component {
       loading: true,
       apis: {
         aftersales: '',
-        order: ''
+        order: '',
+        items: undefined
       },
       is_center: false,
       currentModal: {
@@ -52,21 +54,45 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    const { href } = window.location
+    if (isFromWebapp()) {
+    } else {
+      const { href } = window.location
 
-    const { params } = getCurrentInstance().router
-    console.log('首页:componentDidMount:params1111112', params)
-    const { company_id } = params
-    if (company_id) {
-      Taro.setStorageSync('company_id', company_id)
+      const { params } = getCurrentInstance().router
+      console.log('首页:componentDidMount:params1111112', params)
+      const { company_id } = params
+      if (company_id) {
+        Taro.setStorageSync('company_id', company_id)
+      }
+      console.log('page_index:componentDidMount:qwsdk.register1', href)
+      qwsdk.register({
+        url: href
+      })
+      this.getConfig()
     }
-    console.log('page_index:componentDidMount:qwsdk.register1', href)
-    qwsdk.register({
-      url: href
-    })
-    this.getConfig()
   }
-  componentDidShow() {
+  async componentDidShow() {
+    console.log('==componentDidShow==', isFromWebapp())
+    if (isFromWebapp()) {
+      const {
+        params: { app_id, app_type, company_id, openid, unionid }
+      } = getCurrentInstance().router
+      let data
+      if (!S.getAuthToken()) {
+        data = await api.weapp.is_bind({
+          app_id,
+          app_type,
+          company_id,
+          openid,
+          unionid
+        })
+        if (data.token) {
+          S.setAuthToken(data.token)
+          Taro.redirectTo({ url: `/pages/planSelection/index` })
+        }
+      }
+    } else {
+    }
     this.getConfig()
   }
 
@@ -105,17 +131,7 @@ class Index extends Component {
     }
     return s_x
   }
-  componentDidShow() {
-    // console.log('componentDidShow:sanCode')
-    // const qwsdkState = qwsdk.getState()
-    // console.log('componentDidShow:qwsdk', qwsdkState)
-    // if (qwsdkState._isRun && qwsdkState._isAndroid && qwsdkState._isWebView) {
-    //   setTimeout(function () {
-    //     window.location.reload(false)
-    //   }, 6000)
-    // }
-    // qwsdk.getImage('扫码:componentDidShow')
-  }
+
   handleOnScanQRCode = async () => {
     console.log('clicl:handleOnScanQRCode')
 
@@ -276,12 +292,20 @@ class Index extends Component {
           <View className='func-list'>
             <View className='title'>常用功能</View>
             <View className='list'>
+              {apis.items == 1 && (
+                <View className='item' onClick={() => navigateTo('/pages/good/list')}>
+                  <View>
+                    <Image className='img' src={require('@/assets/imgs/index/good.png')}></Image>
+                  </View>
+                  <View className='subtitle'>商品管理</View>
+                </View>
+              )}
               {apis.order == 1 && (
                 <View className='item' onClick={this.goOrderPageHandle}>
                   <View>
                     <Image className='img' src={require('@/assets/imgs/index/dingdan.png')}></Image>
                   </View>
-                  <View className='subtitle'>订单</View>
+                  <View className='subtitle'>订单管理</View>
                 </View>
               )}
               {apis.aftersales == 1 && (
@@ -289,7 +313,7 @@ class Index extends Component {
                   <View>
                     <Image className='img' src={require('@/assets/imgs/index/shouhou.png')}></Image>
                   </View>
-                  <View className='subtitle'>售后</View>
+                  <View className='subtitle'>售后管理</View>
                 </View>
               )}
               {apis.order == 1 && (
@@ -300,7 +324,7 @@ class Index extends Component {
                       src={require('@/assets/imgs/index/shaoyishao.png')}
                     ></Image>
                   </View>
-                  <View className='subtitle'>扫一扫</View>
+                  <View className='subtitle'>扫码核销</View>
                 </View>
               )}
 

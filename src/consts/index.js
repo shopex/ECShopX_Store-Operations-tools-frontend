@@ -1,4 +1,5 @@
 import * as afterSales from './afterSales'
+import * as good from './good'
 
 //订单列表主状态
 export const ORDER_LIST_STATUS = {
@@ -81,4 +82,4 @@ export const ORDER_DETAIL_ICON = {
   'cancel': 'icon-quxiaodingdan-01'
 }
 
-export { afterSales }
+export { afterSales, good }

@@ -1,0 +1,77 @@
+$searchInputHeight:70px;
+
+$tabbarHeight:100px; 
+
+$buttonHeight:120px;
+
+.page-good-list {
+
+  background: #F9FAFB;
+  //background: #fff;
+  min-height: 100vh;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &-input {
+    padding: 10px 20px;
+    padding-top:20px;
+    background-color: #fff;
+  }
+ 
+  &-tab{
+    height:$tabbarHeight;
+  }
+
+  &-list {
+    @include page-scroll($searchInputHeight+$tabbarHeight+30, $buttonHeight);
+    z-index:100;
+
+    &.show-buttonsaction{
+      transform: none;
+      -webkit-transform: none;
+      -moz-transform: none;
+      -o-transform: none;
+      -ms-transform: none;
+    }
+
+    .comp-item{
+      margin-top: 24px;
+    }
+
+    .common-button{
+      display: inline-flex;
+      height: 60px!important;
+
+      &:last-child{
+        margin-left: 20px;
+      }
+    }
+    
+  }
+  &-addbutton{
+    position: absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.14);
+    border-radius: 0px 2px 2px 0px;
+    background-color: white;
+    height:$buttonHeight;
+    @include flex-center;
+
+    .iconfont{
+      font-size:40px;
+      color:var(--color-primary);
+    }
+    .text{
+      margin-left:16px;
+      font-weight: 500;
+      color: #4980FF;
+      font-size: 36px;
+      text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.14);
+    }
+  }
+
+}

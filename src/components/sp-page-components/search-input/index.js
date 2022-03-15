@@ -4,7 +4,7 @@ import { AtForm, AtInput } from 'taro-ui'
 import { classNames } from '@/utils'
 import { FieldSelect } from '@/components/sp-page-components'
 import './index.scss'
-import { ORDER_LIST_FIELDS, afterSales } from '@/consts'
+import { ORDER_LIST_FIELDS, afterSales, good } from '@/consts'
 
 const getListAboutPage = (pageType) => {
   let returnArr = []
@@ -17,6 +17,11 @@ const getListAboutPage = (pageType) => {
     returnArr = Object.keys(afterSales.LIST_FIELDS).map((key) => ({
       value: key,
       label: afterSales.LIST_FIELDS[key]
+    }))
+  } else if (pageType === 'goodList') {
+    returnArr = Object.keys(good.LIST_FIELDS).map((key) => ({
+      value: key,
+      label: good.LIST_FIELDS[key]
     }))
   }
   return returnArr
