@@ -4,6 +4,7 @@ import styleNames from 'stylenames'
 import qs from 'qs'
 import S from '@/spx'
 import _pickBy from 'lodash/pickBy'
+import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import log from './log'
@@ -16,13 +17,38 @@ const isPrimitiveType = (val, type) => Object.prototype.toString.call(val) === t
 export function isFunction(val) {
   return isPrimitiveType(val, '[object Function]')
 }
-
+export function isString(val) {
+  return isPrimitiveType(val, '[object String]')
+}
 export function isNumber(val) {
   return isPrimitiveType(val, '[object Number]')
 }
 
+export function isArray(val) {
+  return isPrimitiveType(val, '[object Array]')
+}
+
 export function isObject(val) {
   return isPrimitiveType(val, '[object Object]')
+}
+
+export function isUndefined(val) {
+  return isPrimitiveType(val, '[object Undefined]')
+}
+
+export function transformData(data, obj) {
+  let list = []
+  data.forEach((item) => {
+    let currentItem = {}
+    for (let key in obj) {
+      currentItem[obj[key]] = item[key]
+    }
+    if (item.children) {
+      currentItem.children = transformData(item.children, obj)
+    }
+    list.push(currentItem)
+  })
+  return list
 }
 
 export function navigateTo(url, isRedirect) {
@@ -45,15 +71,17 @@ export function getCurrentRoute() {
     params
   }
 }
+export function setWeapp() {
+  const { params: webappParams } = getCurrentInstance().router || { params: {} }
+  if (webappParams && webappParams.in_shop_wechat) {
+    S.set('WEBAPP', webappParams, true)
+  }
+}
 /** 判断是否从webapp跳转而来 */
 export function isFromWebapp() {
-  const { params: webappParams } = getCurrentInstance().router || { params: {} }
-  return webappParams.in_shop_wechat === 'true' || localStorage.getItem('X')
-}
-/** 设置webapp相关 */
-export function setWebappConfig() {
-  const { params: webappParams } = getCurrentInstance().router
-  S.set('WEBAPP_CONFIG', webappParams, true)
+  const webappParams = S.get('WEBAPP', true)
+  console.log('===isFromWebapp', webappParams)
+  return webappParams.in_shop_wechat === 'true'
 }
 
 export function getThemeStyle() {
@@ -204,7 +232,33 @@ function createChainedFunction(...funcs) {
     () => {}
   )
 }
+export function pickBy(arr = [], keyMaps = {}) {
+  const picker = (item) => {
+    const ret = {}
 
+    Object.keys(keyMaps).forEach((key) => {
+      const val = keyMaps[key]
+
+      if (isString(val)) {
+        ret[key] = _get(item, val)
+      } else if (isFunction(val)) {
+        ret[key] = val(item)
+      } else if (isObject(val)) {
+        ret[key] = _get(item, val.key) || val.default
+      } else {
+        ret[key] = val
+      }
+    })
+
+    return ret
+  }
+
+  if (isArray(arr)) {
+    return arr.map(picker)
+  } else {
+    return picker(arr)
+  }
+}
 function hundred(number) {
   return parseInt(Number(number) * 100)
 }
@@ -216,6 +270,8 @@ export const isWeixin = Taro.getEnv() == Taro.ENV_TYPE.WEAPP
 
 /** 在H5平台 */
 export const isWeb = true
+
+export * from './sku'
 export {
   classNames,
   log,

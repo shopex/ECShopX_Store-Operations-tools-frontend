@@ -2,7 +2,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import api from '@/api'
-import { requestCallback, qwsdk, isFromWebapp, navigateTo } from '@/utils'
+import { requestCallback, qwsdk, setWeapp, isFromWebapp, navigateTo } from '@/utils'
 import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
 import S from '@/spx'
@@ -31,7 +31,8 @@ class Index extends Component {
       apis: {
         aftersales: '',
         order: '',
-        items: undefined
+        items: undefined,
+        order_ziti: undefined
       },
       is_center: false,
       currentModal: {
@@ -72,11 +73,10 @@ class Index extends Component {
     }
   }
   async componentDidShow() {
-    console.log('==componentDidShow==', isFromWebapp())
+    setWeapp()
+
     if (isFromWebapp()) {
-      const {
-        params: { app_id, app_type, company_id, openid, unionid }
-      } = getCurrentInstance().router
+      const { app_id, app_type, company_id, openid, unionid } = S.get('WEBAPP', true)
       let data
       if (!S.getAuthToken()) {
         data = await api.weapp.is_bind({
@@ -327,7 +327,14 @@ class Index extends Component {
                   <View className='subtitle'>扫码核销</View>
                 </View>
               )}
-
+              {apis.order_ziti == 1 && (
+                <View className='item' onClick={() => navigateTo('/pages/order/ziti-list')}>
+                  <View className='img_'>
+                    <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+                  </View>
+                  <View className='subtitle'>自提订单</View>
+                </View>
+              )}
               <SpToast />
             </View>
           </View>

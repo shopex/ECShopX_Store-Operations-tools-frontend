@@ -5,7 +5,7 @@
     align-items: center;
     padding-left:19px;
     position: relative;
-
+ 
     &:after{
         display: block;
         content:'';
@@ -73,6 +73,12 @@
                 color:#C5CAD5;
                 font-size: 1;
                 display: none;
+            }
+            .at-switch{
+                padding: 0;
+                .weui-switch{
+                    transform: scale(1);
+                }
             }
         }
     }

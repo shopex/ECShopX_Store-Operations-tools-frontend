@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from '@tarojs/components'
-import { SpTab } from '@/components'
+import { SpTab, SpNote } from '@/components'
 import { SelectInput, CommonButton } from '@/components/sp-page-components'
-import { getThemeStyle } from '@/utils'
+import { getThemeStyle, pickBy } from '@/utils'
 import { navigateToGoodForm } from './util'
+import { useSelector } from 'react-redux'
 import { useImmer } from 'use-immer'
+import { usePage, useDepChange } from '@/hooks'
+import FilterBlock from '../order/list/comps/filterblock'
+import doc from '@/doc'
 import { Item as GoodItem } from './comps'
+import api from '@/api'
 import './list.scss'
 
 //页面类型
@@ -16,17 +21,26 @@ const TAB_LIST = [
   { value: 'pingtai', label: '平台商品' }
 ]
 
-const ACTION_LIST = [{ label: '编辑', plain: true }, { label: '上架' }]
+const ACTION_LIST = [{ label: '编辑', plain: true, type: 'edit' }]
 
+const SHELVES = [{ label: '上架', type: 'onsale' }]
+const DIFF_SHELVES = [{ label: '下架', type: 'instock' }]
 const initState = {
   //搜索框选择的参数  类型为对象
   inputParams: null,
   //搜索框输入的值
-  inputValue: ''
+  inputValue: undefined,
+  list: [],
+  //tab切换
+  activeIndex: 0,
+  //筛选参数
+  filterParams: null
 }
 
 const List = () => {
   const [state, setState] = useImmer(initState)
+
+  const { inputParams, inputValue, list, activeIndex, filterParams } = state
 
   const handleParamChange = (inputParams) => {
     setState((_val) => {
@@ -34,15 +48,88 @@ const List = () => {
     })
   }
 
+  const {
+    activeShop: { distributor_id }
+  } = useSelector((state) => state.planSelection)
+
+  const fetch = async ({ pageIndex, pageSize }) => {
+    let synthetic = {}
+    if (inputParams && inputValue) {
+      synthetic[inputParams.value] = inputValue
+    }
+    const params = {
+      page: pageIndex,
+      pageSize,
+      item_type: 'normal',
+      is_warning: 0,
+      is_gift: false,
+      type: 0,
+      distributor_id,
+      ...(filterParams || {}),
+      ...synthetic
+    }
+    const { list, total_count } = await api.weapp.good_list(params)
+
+    await setState((_val) => {
+      _val.list = _val.list.concat(pickBy(list, doc.good.GOOD_LIST))
+    })
+
+    return { total: total_count }
+  }
+
+  const { page, getTotal, nextPage, resetPage } = usePage({
+    fetch,
+    auto: true
+  })
+
   const handleValueChange = (inputValue) => {
     setState((_val) => {
       _val.inputValue = inputValue
     })
   }
 
-  const handleSearchFilter = () => {}
+  const handleChangeTab = async (active) => {
+    await setState((_val) => {
+      _val.activeIndex = active
+    })
+  }
 
-  const { inputParams, inputValue } = state
+  const handleSearchFilter = async () => {
+    await setState((draft) => {
+      draft.list = []
+    })
+    resetPage()
+  }
+
+  const handleSubmitParams = async (params) => {
+    console.log('==params==', params)
+    await setState((_val) => {
+      _val.filterParams = params
+    })
+  }
+
+  useDepChange(() => {
+    if (filterParams) {
+      handleSearchFilter()
+    }
+  }, [filterParams])
+
+  const handleAction = async (info, type) => {
+    if (type === 'edit') {
+      navigateToGoodForm(info.goods_id)
+    } else {
+      await api.weapp.update_status({
+        status: type,
+        items: [{ goods_id: info.goods_id }]
+      })
+      handleSearchFilter()
+    }
+  }
+
+  //是否是门店
+  const isStore = activeIndex === 0
+
+  console.log('==inputParams==', inputParams, inputValue)
 
   return (
     <View className='page-good-list' style={getThemeStyle()}>
@@ -56,31 +143,47 @@ const List = () => {
           onInputConfirm={handleSearchFilter}
         />
       </View>
+
+      <FilterBlock pageType={PAGE_TYPE} onSubmitParams={handleSubmitParams} />
+
       <View className='page-good-list-tab'>
-        <SpTab dataSource={TAB_LIST} />
+        <SpTab dataSource={TAB_LIST} onChange={handleChangeTab} />
       </View>
       <View className='page-good-list-list'>
-        <GoodItem>
-          {ACTION_LIST.map((item, index) => {
+        {isStore && list.length > 0 ? (
+          list.map((goodInfo) => {
+            let onSale = goodInfo.approve_status === 'onsale'
+            let actions = onSale ? ACTION_LIST.concat(DIFF_SHELVES) : ACTION_LIST.concat(SHELVES)
             return (
-              <CommonButton
-                text={item.label}
-                size='small'
-                type='primary'
-                plain={item.plain}
-                key={index}
-                className='common-button'
-              />
+              <GoodItem info={goodInfo}>
+                {actions.map((item, index) => {
+                  return (
+                    <CommonButton
+                      text={item.label}
+                      size='small'
+                      type='primary'
+                      plain={item.plain}
+                      key={index}
+                      className='common-button'
+                      onClick={() => handleAction(goodInfo, item.type)}
+                    />
+                  )
+                })}
+              </GoodItem>
             )
-          })}
-        </GoodItem>
+          })
+        ) : (
+          <SpNote img='empty.png'>暂无数据～</SpNote>
+        )}
       </View>
-      <View className='page-good-list-addbutton'>
-        <View className='iconfont icon-tianjia'></View>
-        <View className='text' onClick={navigateToGoodForm}>
-          添加商品
+      {isStore && (
+        <View className='page-good-list-addbutton'>
+          <View className='iconfont icon-tianjia'></View>
+          <View className='text' onClick={() => navigateToGoodForm()}>
+            添加商品
+          </View>
         </View>
-      </View>
+      )}
     </View>
   )
 }

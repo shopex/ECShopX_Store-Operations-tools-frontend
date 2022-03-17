@@ -6,7 +6,6 @@ import log from '@/utils/log'
 import { HTTP_STATUS } from './consts'
 
 const isWeb = true
-console.log('isWeb', isWeb)
 
 function addQuery(url, query) {
   return url + (url.indexOf('?') >= 0 ? '&' : '?') + query
@@ -86,7 +85,6 @@ class API {
     const options = {
       company_id: Taro.getStorageSync('company_id')
     }
-    console.log('API.options', options)
     if (isWeixin || isAlipay) {
       const extConfig = Taro.getExtConfigSync ? Taro.getExtConfigSync() : {}
       options.appid = extConfig.appid
@@ -179,7 +177,6 @@ class API {
   intereptorRes(res) {
     const { data, statusCode, config } = res
     const { showError = true } = config
-    console.log('intereptorRes.UNAUTHORIZED：res', res)
     if (statusCode == HTTP_STATUS.SUCCESS) {
       const { status_code } = data.data
       if (!status_code) {
@@ -194,7 +191,6 @@ class API {
     }
 
     if (statusCode === HTTP_STATUS.UNAUTHORIZED) {
-      console.log('intereptorRes.UNAUTHORIZED:res.data', data)
       if ((data.data && data.data.status_code) === HTTP_STATUS.USER_FORBIDDEN) {
         if (showError) {
           this.errorToast(data)
@@ -368,10 +364,6 @@ class API {
 if (process.env.NODE_ENV === 'production' && !isWeb) {
   Taro.addInterceptor(Taro.interceptors.logInterceptor)
 }
-
-console.log('===> process.env.APP_BASE_URL', process.env.APP_BASE_URL)
-
-console.log('===> process.env.APP_MAP_KEY', process.env.APP_MAP_KEY)
 
 export default new API({
   baseURL: process.env.APP_BASE_URL

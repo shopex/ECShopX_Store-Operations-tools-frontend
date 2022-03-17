@@ -22,7 +22,8 @@ export default {
     'pages/landing/index',
     'pages/weapp/login', //微信登陆页
     'pages/good/list', //商品列表
-    'pages/good/form' //商品编辑
+    'pages/good/form', //商品编辑
+    'pages/order/ziti-list' //自提列表
   ],
   tabBar: {
     list: [

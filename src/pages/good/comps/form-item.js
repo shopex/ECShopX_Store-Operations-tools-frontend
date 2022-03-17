@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { View, Image } from '@tarojs/components'
 import { SpTab, SpGoodPrice } from '@/components'
 import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-components'
-import { getThemeStyle, classNames } from '@/utils'
+import { getThemeStyle, classNames, isUndefined } from '@/utils'
 import { useImmer } from 'use-immer'
-import { AtInput } from 'taro-ui'
+import { AtInput, AtSwitch, AtInputNumber } from 'taro-ui'
 import './form-item.scss'
 
 const initState = {
@@ -19,10 +19,17 @@ const FormItem = (props) => {
     placeholder,
     onClick = () => {},
     value: valueProp,
-    onChange: onChangeProp = () => {}
+    onChange: onChangeProp = () => {},
+    className,
+    type = 'text',
+    editable
   } = props
 
   const isSelector = mode == 'selector'
+
+  const isInput = mode === 'input'
+
+  const isSwitch = mode === 'switch'
 
   const [state, setState] = useImmer(initState)
 
@@ -34,19 +41,25 @@ const FormItem = (props) => {
         _val.value = valueProp
       })
     }
+    if (!valueProp && isSwitch) {
+      setState((_val) => {
+        _val.value = valueProp
+      })
+    }
   }, [valueProp])
 
   return (
-    <View className='form-item'>
+    <View className={classNames('form-item', className)}>
       {required && <View className='form-item-required'>*</View>}
       <View className='form-item-label'>{label}</View>
       <View className='form-item-main' onClick={onClick}>
         <AtInput
-          editable={!isSelector}
+          editable={isUndefined(editable) ? isInput : editable}
           className='input'
           placeholder={placeholder}
-          value={value}
+          value={isSwitch ? '' : value}
           onChange={onChangeProp}
+          type={type}
         />
 
         <View
@@ -55,6 +68,7 @@ const FormItem = (props) => {
           })}
         >
           <View className='iconfont icon-jiantou'></View>
+          {isSwitch && <AtSwitch border={false} checked={!!value} onChange={onChangeProp} />}
         </View>
       </View>
     </View>

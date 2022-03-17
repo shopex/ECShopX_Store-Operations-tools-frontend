@@ -1,0 +1,28 @@
+ .spec-item{
+   background-color: white;
+   padding:0 32px;
+
+   &.has-good-spec{
+    background-color: transparent;
+    padding: 0;
+
+    .common-form{
+      background: #FFFFFF;
+      border-radius: 8px;
+      margin:0 16px;
+      padding:0 16px;
+
+      // &:last-child{
+        margin-bottom: 16px;
+      // }
+    }
+   }
+
+    .spec-good-item{
+      padding:0 32px 0 32px+19px;
+
+      &:after{
+        height: 0;
+      }
+    }
+  }

@@ -1,5 +1,6 @@
 import Item from './item'
-import Form from './form'
 import FormItem from './form-item'
+import SpecItem from './spec-item'
+import FormImageItem from './form-image-item'
 
-export { Item, Form, FormItem }
+export { Item, FormItem, SpecItem, FormImageItem }

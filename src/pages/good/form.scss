@@ -6,15 +6,21 @@ $buttonHeight:110px;
   position: relative;
   height: 100vh;
   box-sizing: border-box;
+  background-color: #F5F6F7;
 
   &-scrolllist {
-    @include page-scroll(0, $buttonHeight); 
-    box-sizing: border-box;
-    padding:0 32px;
+    // @include page-scroll(0, 0); 
+    box-sizing: border-box; 
+    padding-bottom:$buttonHeight+30px;
+
+    .top-block,.bottom-block{
+      padding:0 32px;
+      background-color: white;
+    } 
   }
 
   &-button{
-    position: absolute;
+    position: fixed;
     bottom:0;
     left:0;
     right:0;
@@ -23,6 +29,7 @@ $buttonHeight:110px;
     background-color: white;
     height:$buttonHeight; 
     padding:4px 50px;
+    z-index: 100;
 
     .sp-page-common-button{
       height: 100px!important;

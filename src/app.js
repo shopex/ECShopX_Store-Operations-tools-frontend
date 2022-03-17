@@ -15,7 +15,6 @@ import './app.scss'
 const { store } = configStore()
 
 SAPP.init(Taro, store)
-console.log('process.env.APP_DEBUG', process.env.APP_DEBUG)
 if (process.env.APP_DEBUG == 'true') {
   import('vconsole').then((VConsole) => {
     new VConsole.default()
@@ -29,9 +28,6 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    console.log('App', getCurrentInstance())
-    // qwsdk.clearImage('app componentDidMount')
-    console.log('app componentDidMount')
     SAPP.onReady(() => {
       console.log('INIT_START', SAPP.Plus.storage.getItem('INIT_START'))
       if (!SAPP.Plus.storage.getItem('INIT_START')) {
@@ -69,7 +65,6 @@ class App extends Component {
   }
 
   componentDidShow(options) {
-    console.log('componentOnShow:options', options)
     const { company_id } = options
     if (company_id) {
       Taro.setStorageSync('company_id', company_id)

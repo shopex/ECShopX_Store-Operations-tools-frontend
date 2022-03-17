@@ -10,7 +10,7 @@ const initialState = {
 }
 
 const SpTab = (props) => {
-  const { dataSource: tabList } = props
+  const { dataSource: tabList, onChange = () => {} } = props
 
   const handleClickTab = (activeIndex) => () => {
     setState((_state) => {
@@ -23,7 +23,7 @@ const SpTab = (props) => {
   const { activeIndex } = state
 
   useDepChange(() => {
-    console.log('index===', activeIndex)
+    onChange(activeIndex)
   }, [activeIndex])
 
   return (
