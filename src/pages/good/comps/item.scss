@@ -23,7 +23,7 @@
 
         &-center{
 
-            width: 280px;
+            width: 300px;
             margin-left:24px;
 
             .good-name{
@@ -41,6 +41,7 @@
                 font-size: 24px;
                 font-weight: 400;
                 margin-top: 16px;
+                @include multi-ellipsis(1);
             }
         }
 
