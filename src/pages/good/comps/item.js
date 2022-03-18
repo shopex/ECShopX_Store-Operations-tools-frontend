@@ -19,7 +19,7 @@ const Item = (props) => {
     <View className='comp-item'>
       <View className='comp-item-good'>
         <View className='comp-item-good-pic'>
-          <Image className='img' src={pic} mode='aspectFit' />
+          <Image className='img' src={pic} />
         </View>
         <View className='comp-item-good-center'>
           <View className='good-name'>{name}</View>
