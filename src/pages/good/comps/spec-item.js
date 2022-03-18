@@ -120,6 +120,8 @@ const SpecItem = (props) => {
 
   const prevOpenSpec = usePrevious(openSpec)
 
+  console.log('==prevOpenSpec==', prevOpenSpec)
+
   //选择的规格
 
   const [state, setState] = useImmer(initState)
@@ -150,6 +152,7 @@ const SpecItem = (props) => {
   }
 
   useEffect(() => {
+    console.log('==valueProp==', valueProp)
     if (valueProp.length > 0) {
       setState((_val) => {
         _val.selectSpecs = [...valueProp]
@@ -165,7 +168,7 @@ const SpecItem = (props) => {
         })
       }
     }
-    if (!openSpec && prevOpenSpec == true) {
+    if (!openSpec && prevOpenSpec === true) {
       setState((_val) => {
         _val.selectSpecs = [SINGLE_OBJ]
       })

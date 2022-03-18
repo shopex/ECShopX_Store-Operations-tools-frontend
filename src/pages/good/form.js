@@ -85,8 +85,11 @@ const Detail = () => {
       custom_item_spec_desc,
       spec_items,
       intro,
-      price = 0
+      price = 0,
+      approve_status,
+      store
     } = await api.weapp.good_detail(id)
+    const isMulti = nospec === false
     await setState((_val) => {
       _val.mainCategory = {
         id: item_category_main[0]?.children?.[0]?.children?.[0].id,
@@ -107,19 +110,30 @@ const Detail = () => {
         label: templates_name,
         id: templates_id
       }
-      _val.openSpec = nospec === false
+      _val.openSpec = isMulti
       _val.pics = pics
       _val.custom_item_spec_desc = custom_item_spec_desc
-      _val.selectSpec = spec_items.reverse().map((item) => ({
-        ...item,
-        price: item.price / 100,
-        approve_status: {
-          label: STATUS_LIST.find((_item) => _item.value === item.approve_status)?.label,
-          value: item.approve_status
-        },
-        sku_id: item.custom_spec_id,
-        sku_name: item.custom_spec_name
-      }))
+      _val.selectSpec = isMulti
+        ? spec_items.reverse().map((item) => ({
+            ...item,
+            price: item.price / 100,
+            approve_status: {
+              label: STATUS_LIST.find((_item) => _item.value === item.approve_status)?.label,
+              value: item.approve_status
+            },
+            sku_id: item.custom_spec_id,
+            sku_name: item.custom_spec_name
+          }))
+        : [
+            {
+              approve_status: {
+                label: STATUS_LIST.find((_item) => _item.value === approve_status)?.label,
+                value: approve_status
+              },
+              store,
+              price
+            }
+          ]
       _val.detail = intro
         .replace(/<img[^>]*src=['"]([^'"]+)[^>]*>/, (...args) => `${args[1]}==`)
         .split('==')

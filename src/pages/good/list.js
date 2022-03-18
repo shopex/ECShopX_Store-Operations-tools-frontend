@@ -87,7 +87,10 @@ const List = () => {
     auto: false
   })
 
-  useDidShow(() => {
+  useDidShow(async () => {
+    await setState((draft) => {
+      draft.list = []
+    })
     resetPage()
   })
 
