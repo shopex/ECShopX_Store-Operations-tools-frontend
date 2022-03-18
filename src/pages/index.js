@@ -62,7 +62,6 @@ class Index extends Component {
   }
   async componentDidShow() {
     setWeapp()
-
     if (isFromWebapp()) {
       const { app_id, app_type, company_id, openid, unionid } = S.get('WEBAPP', true)
       let data
@@ -74,6 +73,9 @@ class Index extends Component {
           openid,
           unionid
         })
+        if (company_id) {
+          Taro.setStorageSync('company_id', company_id)
+        }
         if (data.token) {
           S.setAuthToken(data.token)
           Taro.redirectTo({ url: `/pages/planSelection/index` })
@@ -89,10 +91,11 @@ class Index extends Component {
         Taro.setStorageSync('company_id', company_id)
       }
       console.log('page_index:componentDidMount:qwsdk.register1', href)
-      qwsdk.register({
-        url: href
-      })
     }
+    const { href } = window.location
+    qwsdk.register({
+      url: href
+    })
     this.getConfig()
   }
 

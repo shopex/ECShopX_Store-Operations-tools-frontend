@@ -1,4 +1,5 @@
 import req from './req'
+import { isFromWebapp } from '@/utils'
 
 export function getAuthorizeUrl(params) {
   return req.get('/operator/workwechat/authorizeurl', params)
@@ -13,7 +14,11 @@ export function bindMobile(params) {
 }
 
 export function getQwJsSdkConfig(params) {
-  return req.post('/workwechat/distributor/js/config', params)
+  if (isFromWebapp()) {
+    return req.post('/operator/wechat/distributor/js/config', params)
+  } else {
+    return req.post('/workwechat/distributor/js/config', params)
+  }
 }
 //获取图片验证码
 export function getImageVerificationCode(params) {

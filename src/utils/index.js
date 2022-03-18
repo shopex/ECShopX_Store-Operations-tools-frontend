@@ -77,6 +77,9 @@ export function setWeapp() {
   console.log('===setWeapp', webappParams)
   if (webappParams && webappParams.in_shop_wechat) {
     S.set('WEBAPP', webappParams, true)
+    if (webappParams.company_id) {
+      Taro.setStorageSync('company_id', webappParams.company_id)
+    }
   }
 }
 //清除信息
