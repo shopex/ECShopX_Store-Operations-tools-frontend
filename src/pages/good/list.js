@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { ScrollView, View } from '@tarojs/components'
+import { useDidShow } from '@tarojs/taro'
 import { SpTab, SpNote } from '@/components'
 import { SelectInput, CommonButton } from '@/components/sp-page-components'
 import { getThemeStyle, pickBy } from '@/utils'
@@ -79,7 +80,11 @@ const List = () => {
 
   const { page, getTotal, nextPage, resetPage } = usePage({
     fetch,
-    auto: true
+    auto: false
+  })
+
+  useDidShow(() => {
+    resetPage()
   })
 
   const handleValueChange = (inputValue) => {
