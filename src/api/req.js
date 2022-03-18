@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import qs from 'qs'
 import S from '@/spx'
-import { isAlipay, isWeixin } from '@/utils'
+import { isAlipay, isWeixin, isFromWebapp } from '@/utils'
 import log from '@/utils/log'
 import { HTTP_STATUS } from './consts'
 
@@ -130,7 +130,7 @@ class API {
     const methodIsGet = method.toLowerCase() === 'get'
 
     const reqUrl = this.getReqUrl(url)
-    const query = !data || typeof data === 'string' ? qs.parse(data) : data
+    let query = !data || typeof data === 'string' ? qs.parse(data) : data
     if (company_id) {
       query.company_id = company_id
     }
@@ -154,6 +154,12 @@ class API {
 
     if ((isWeixin || isAlipay) && appid) {
       header['authorizer-appid'] = appid
+    }
+
+    if (isFromWebapp()) {
+      if (!query.company_id) {
+        query.company_id = S.get('WEBAPP', true).company_id
+      }
     }
 
     const config = {

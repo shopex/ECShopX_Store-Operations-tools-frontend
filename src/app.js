@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { Provider } from 'react-redux'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
-import { cleanWeapp } from '@/utils'
+import { cleanWeapp, isFromWebapp } from '@/utils'
 import '@/muiApp/index.scss'
 import 'default-passive-events'
 // import VConsole from 'vconsole'
@@ -66,7 +66,7 @@ class App extends Component {
 
   componentDidShow(options) {
     const { company_id } = options
-    if (company_id) {
+    if (company_id && !isFromWebapp()) {
       Taro.setStorageSync('company_id', company_id)
     }
   }
