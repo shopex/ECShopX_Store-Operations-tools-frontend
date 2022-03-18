@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { ScrollView, View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
-import { SpTab, SpNote } from '@/components'
+import { SpTab, SpNote, SpToast } from '@/components'
 import { SelectInput, CommonButton } from '@/components/sp-page-components'
-import { getThemeStyle, pickBy } from '@/utils'
+import { getThemeStyle, pickBy, showToast } from '@/utils'
 import { navigateToGoodForm } from './util'
 import { useSelector } from 'react-redux'
 import { useImmer } from 'use-immer'
@@ -26,6 +26,10 @@ const ACTION_LIST = [{ label: '编辑', plain: true, type: 'edit' }]
 
 const SHELVES = [{ label: '上架', type: 'onsale' }]
 const DIFF_SHELVES = [{ label: '下架', type: 'instock' }]
+
+const AUDIT_PEROCESS = [{ label: '审核中', type: 'processing' }]
+const AUDIT_REJECTED = [{ label: '审核驳回', type: 'rejected' }]
+
 const initState = {
   //搜索框选择的参数  类型为对象
   inputParams: null,
@@ -119,15 +123,17 @@ const List = () => {
     }
   }, [filterParams])
 
-  const handleAction = async (info, type) => {
+  const handleAction = async (info, { type, label }) => {
     if (type === 'edit') {
       navigateToGoodForm(info.goods_id)
-    } else {
+    } else if (type === 'onsale' || type === 'instock') {
       await api.weapp.update_status({
         status: type,
         items: [{ goods_id: info.goods_id }]
       })
       handleSearchFilter()
+    } else {
+      showToast(`${label}，无法上下架！`)
     }
   }
 
@@ -163,9 +169,18 @@ const List = () => {
         {isStore && list.length > 0 ? (
           list.map((goodInfo) => {
             let onSale = goodInfo.approve_status === 'onsale'
-            let actions = onSale ? ACTION_LIST.concat(DIFF_SHELVES) : ACTION_LIST.concat(SHELVES)
+            let auditSuccess = goodInfo.audit_status === 'approved'
+            let actions = []
+            if (auditSuccess) {
+              actions = onSale ? ACTION_LIST.concat(DIFF_SHELVES) : ACTION_LIST.concat(SHELVES)
+            } else {
+              actions =
+                goodInfo.audit_status === 'processing'
+                  ? ACTION_LIST.concat(AUDIT_PEROCESS)
+                  : ACTION_LIST.concat(AUDIT_REJECTED)
+            }
             return (
-              <GoodItem info={goodInfo}>
+              <GoodItem info={goodInfo} key={goodInfo.goods_id}>
                 {actions.map((item, index) => {
                   return (
                     <CommonButton
@@ -175,7 +190,7 @@ const List = () => {
                       plain={item.plain}
                       key={index}
                       className='common-button'
-                      onClick={() => handleAction(goodInfo, item.type)}
+                      onClick={() => handleAction(goodInfo, item)}
                     />
                   )
                 })}
@@ -194,6 +209,8 @@ const List = () => {
           </View>
         </View>
       )}
+
+      <SpToast />
     </View>
   )
 }
