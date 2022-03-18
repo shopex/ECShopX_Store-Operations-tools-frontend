@@ -73,9 +73,9 @@ class Index extends Component {
           openid,
           unionid
         })
-        if (company_id) {
-          Taro.setStorageSync('company_id', company_id)
-        }
+        // if (company_id) {
+        //   Taro.setStorageSync('company_id', company_id)
+        // }
         if (data.token) {
           S.setAuthToken(data.token)
           Taro.redirectTo({ url: `/pages/planSelection/index` })
