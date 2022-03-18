@@ -124,6 +124,7 @@ class UploadUtil {
 
   // 上传
   async uploadImg(file) {
+    console.log('push tag')
     // 初始化
     try {
       const tokenRes = await getOssToken({ filetype: this.fileType })
