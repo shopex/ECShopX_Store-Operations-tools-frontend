@@ -2,7 +2,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import api from '@/api'
-import { requestCallback, qwsdk, setWeapp, isFromWebapp, navigateTo } from '@/utils'
+import { requestCallback, qwsdk, setWeapp, isFromWebapp, navigateTo, cleanWeapp } from '@/utils'
 import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
 import S from '@/spx'
@@ -54,26 +54,10 @@ class Index extends Component {
     }
   }
 
-  componentWillUnmount() {
-    cleanWeapp()
-  }
-
-  componentDidMount() {
+  async componentDidMount() {
     if (isFromWebapp()) {
     } else {
-      const { href } = window.location
-
-      const { params } = getCurrentInstance().router
-      console.log('首页:componentDidMount:params1111112', params)
-      const { company_id } = params
-      if (company_id) {
-        Taro.setStorageSync('company_id', company_id)
-      }
-      console.log('page_index:componentDidMount:qwsdk.register1', href)
-      qwsdk.register({
-        url: href
-      })
-      this.getConfig()
+      // this.getConfig()
     }
   }
   async componentDidShow() {
@@ -96,6 +80,18 @@ class Index extends Component {
         }
       }
     } else {
+      const { href } = window.location
+
+      const { params } = getCurrentInstance().router
+      console.log('首页:componentDidMount:params1111112', params)
+      const { company_id } = params
+      if (company_id) {
+        Taro.setStorageSync('company_id', company_id)
+      }
+      console.log('page_index:componentDidMount:qwsdk.register1', href)
+      qwsdk.register({
+        url: href
+      })
     }
     this.getConfig()
   }

@@ -140,6 +140,7 @@ class API {
     }
 
     const token = S.getAuthToken()
+
     if (token) {
       header['Authorization'] = `Bearer ${token}`
     }

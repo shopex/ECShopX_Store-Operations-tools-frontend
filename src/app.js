@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { Provider } from 'react-redux'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
-// import { qwsdk } from '@/utils'
+import { cleanWeapp } from '@/utils'
 import '@/muiApp/index.scss'
 import 'default-passive-events'
 // import VConsole from 'vconsole'
@@ -73,6 +73,7 @@ class App extends Component {
 
   componentDidHide() {
     console.log('app componentDidHide')
+    cleanWeapp()
   }
 
   componentDidCatchError() {}

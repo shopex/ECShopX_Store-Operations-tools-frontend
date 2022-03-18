@@ -74,6 +74,7 @@ export function getCurrentRoute() {
 //设置微信
 export function setWeapp() {
   const { params: webappParams } = getCurrentInstance().router || { params: {} }
+  console.log('===setWeapp', webappParams)
   if (webappParams && webappParams.in_shop_wechat) {
     S.set('WEBAPP', webappParams, true)
   }

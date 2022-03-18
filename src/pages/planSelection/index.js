@@ -6,6 +6,7 @@ import { SpRadio, SpLoading, SpNote, SpToast } from '@/components'
 import { ShopxLogo } from '@/components/sp-page-components'
 import { connect } from 'react-redux'
 import './index.scss'
+import S from '@/spx'
 @connect(
   ({ planSelection }) => ({
     planSelection
@@ -38,6 +39,7 @@ export default class PlanSelection extends PureComponent {
     let data = {
       is_app: 1
     }
+    console.log('===', S.getAuthToken())
     const result = await api.planSelection.getShopList(data)
     console.log(result)
     this.setState({
