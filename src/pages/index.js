@@ -54,6 +54,10 @@ class Index extends Component {
     }
   }
 
+  componentWillUnmount() {
+    cleanWeapp()
+  }
+
   componentDidMount() {
     if (isFromWebapp()) {
     } else {

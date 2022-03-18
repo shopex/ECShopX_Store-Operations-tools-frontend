@@ -95,6 +95,16 @@ $prefixCls:'sp-multilevel-picker';
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
+
+            .selected_img{
+                width:24px;
+                height: 24px;
+                position: absolute;
+                right: -3px;
+                top:-5px;
+                opacity: 0;
+            }
 
             &.active{
                 color:var(--color-primary);

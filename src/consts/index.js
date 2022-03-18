@@ -10,6 +10,15 @@ export const ORDER_LIST_STATUS = {
   'shipping': '已发货',
   'finish': '已完成'
 }
+
+export const ZITI_ORDER_LIST_STATUS = {
+  'all': '全部',
+  'cancel': '已取消',
+  'notpay': '待支付',
+  'ziti': '待自提',
+  'finish': '已完成'
+}
+
 //订单列表搜索字段
 export const ORDER_LIST_FIELDS = {
   'order_id': '订单号',
@@ -50,6 +59,10 @@ export const ORDER_LIST_FILTER_ITEM = {
   'orderTime': '下单时间',
   'orderClass': '订单类型',
   'receiptType': '配送类型'
+}
+
+export const ZITI_ORDER_LIST_FILTER_ITEM = {
+  'orderTime': '下单时间'
 }
 
 export const ORDER_LIST_CANCEL_REASON = {

@@ -71,16 +71,21 @@ export function getCurrentRoute() {
     params
   }
 }
+//设置微信
 export function setWeapp() {
   const { params: webappParams } = getCurrentInstance().router || { params: {} }
   if (webappParams && webappParams.in_shop_wechat) {
     S.set('WEBAPP', webappParams, true)
   }
 }
+//清除信息
+export function cleanWeapp() {
+  S.delete('WEBAPP', true)
+  S.logout()
+}
 /** 判断是否从webapp跳转而来 */
 export function isFromWebapp() {
   const webappParams = S.get('WEBAPP', true)
-  console.log('===isFromWebapp', webappParams)
   return webappParams.in_shop_wechat === 'true'
 }
 

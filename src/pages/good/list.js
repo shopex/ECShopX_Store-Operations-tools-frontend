@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View } from '@tarojs/components'
+import { ScrollView, View } from '@tarojs/components'
 import { SpTab, SpNote } from '@/components'
 import { SelectInput, CommonButton } from '@/components/sp-page-components'
 import { getThemeStyle, pickBy } from '@/utils'
@@ -149,7 +149,12 @@ const List = () => {
       <View className='page-good-list-tab'>
         <SpTab dataSource={TAB_LIST} onChange={handleChangeTab} />
       </View>
-      <View className='page-good-list-list'>
+      <ScrollView
+        className='page-good-list-list'
+        scrollY
+        scrollWithAnimation
+        onScrollToLower={nextPage}
+      >
         {isStore && list.length > 0 ? (
           list.map((goodInfo) => {
             let onSale = goodInfo.approve_status === 'onsale'
@@ -175,7 +180,7 @@ const List = () => {
         ) : (
           <SpNote img='empty.png'>暂无数据～</SpNote>
         )}
-      </View>
+      </ScrollView>
       {isStore && (
         <View className='page-good-list-addbutton'>
           <View className='iconfont icon-tianjia'></View>

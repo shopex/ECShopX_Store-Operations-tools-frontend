@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { ActionSheet } from '@/components/sp-page-components'
 import { SpLoading, SpFilterButton } from '@/components'
-import { View, ScrollView } from '@tarojs/components'
+import { View, ScrollView, Image } from '@tarojs/components'
 import { useImmer } from 'use-immer'
-import { transformData, isUndefined, isArray , expandSpecs } from '@/utils'
-
+import { transformData, isUndefined, isArray, expandSpecs } from '@/utils'
 import './index.scss'
 import { classNames } from '../../utils'
+
+const selected_img = require('../../assets/imgs/selected.png')
 
 const initState = {
   //key 为 '${parent_id}_${parent_name}' value为子数组
@@ -95,6 +96,7 @@ const SpSpecSelector = (props) => {
                       key={item.attribute_value}
                     >
                       {item.attribute_value}
+                      <Image src={selected_img} className='selected_img' />
                     </View>
                   ))}
                 </View>

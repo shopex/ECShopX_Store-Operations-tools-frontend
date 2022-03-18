@@ -5,12 +5,12 @@ import {
   ORDER_LIST_FILTER_TIME,
   ORDER_LIST_FILTER_CLASS,
   ORDER_LIST_RECEIPT_TYPE,
-  ORDER_LIST_FILTER_ITEM
+  ZITI_ORDER_LIST_FILTER_ITEM
 } from '@/consts'
 import './index.scss'
 
-const filterListData = Object.keys(ORDER_LIST_FILTER_ITEM).map((filterItem) => {
-  let itemLabel = ORDER_LIST_FILTER_ITEM[filterItem]
+const filterListData = Object.keys(ZITI_ORDER_LIST_FILTER_ITEM).map((filterItem) => {
+  let itemLabel = ZITI_ORDER_LIST_FILTER_ITEM[filterItem]
   let itemValue = filterItem
   let dataSource = []
   if (itemValue === 'orderTime') {

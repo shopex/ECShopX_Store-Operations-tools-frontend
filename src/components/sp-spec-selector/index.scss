@@ -56,10 +56,29 @@ $prefixCls:'sp-spec-selector';
                     margin-bottom:20px;
                     box-sizing: border-box;
                     border:1px solid transparent;
+                    position: relative;
+
+                    .selected_img{
+                        width:24px;
+                        height: 24px;
+                        position: absolute;
+                        right: -3px;
+                        top:-5px;
+                        opacity: 0;
+                    }        
 
                     &.active{
                         color:var(--color-primary);
                         border-color:var(--color-primary);
+
+                        .selected_img{
+                            width:24px;
+                            height: 24px;
+                            position: absolute;
+                            right: -3px;
+                            top:-5px;
+                            opacity: 1;
+                        }      
                     }
                 }
             }
