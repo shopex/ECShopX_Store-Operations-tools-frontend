@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import useDepChange from './useDepChange'
 import { useImmer } from 'use-immer'
 
 const initialState = {
@@ -15,7 +16,7 @@ export default (props) => {
 
   const [hasNext, setHasNext] = useState(true)
 
-  useEffect(() => {
+  useDepChange(() => {
     if (auto) {
       excluteFetch()
     }
@@ -49,6 +50,20 @@ export default (props) => {
     }
   }
 
+  const nextPageForce = async () => {
+    const curPage = page.pageIndex + 1
+    if (!totalRef.current || curPage > Math.ceil(+totalRef.current / page.pageSize)) {
+      await setPage((v) => {
+        v.hasMore = false
+      })
+      return
+    } else {
+      await setPage((v) => {
+        v.pageIndex = curPage
+      })
+    }
+  }
+
   const getTotal = () => {
     return totalRef.current
   }
@@ -71,6 +86,7 @@ export default (props) => {
     page,
     getTotal,
     nextPage,
-    resetPage
+    resetPage,
+    nextPageForce
   }
 }

@@ -61,10 +61,6 @@ class Index extends Component {
     } else {
       // this.getConfig()
     }
-    const { href } = window.location
-    qwsdk.register({
-      url: href
-    })
   }
   async componentDidShow() {
     setWeapp()
@@ -85,6 +81,10 @@ class Index extends Component {
         // }
         if (data.token) {
           S.setAuthToken(data.token)
+          const { href } = window.location
+          qwsdk.register({
+            url: href
+          })
           Taro.redirectTo({ url: `/pages/planSelection/index` })
         }
       }

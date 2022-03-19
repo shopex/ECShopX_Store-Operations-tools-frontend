@@ -85,9 +85,8 @@ const List = () => {
     return { total: total_count }
   }
 
-  const { page, getTotal, nextPage, resetPage } = usePage({
-    fetch,
-    auto: false
+  const { page, getTotal, nextPage, resetPage, nextPageForce } = usePage({
+    fetch
   })
 
   useDidShow(async () => {
@@ -170,7 +169,7 @@ const List = () => {
         className='page-good-list-list'
         scrollY
         scrollWithAnimation
-        onScrollToLower={nextPage}
+        onScrollToLower={nextPageForce}
       >
         {isStore && list.length > 0 ? (
           list.map((goodInfo) => {
