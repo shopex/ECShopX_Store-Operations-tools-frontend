@@ -105,9 +105,10 @@ $filterHeight:100px;
       display: inline-flex;
       height: 60px!important;
 
-      &:last-child{
-        margin-left: 20px;
+      &:not(:last-child){
+        margin-right: 20px;
       }
+       
     }
     
   }

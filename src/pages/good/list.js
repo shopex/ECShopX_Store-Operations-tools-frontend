@@ -3,6 +3,7 @@ import { ScrollView, View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
 import { SpTab, SpNote, SpToast } from '@/components'
 import { SelectInput, CommonButton } from '@/components/sp-page-components'
+import ActionModal from '@/components/sp-page-components/page-action-buttons/ActionModal'
 import { getThemeStyle, pickBy, showToast } from '@/utils'
 import { navigateToGoodForm } from './util'
 import { useSelector } from 'react-redux'
@@ -23,7 +24,10 @@ const TAB_LIST = [
   { value: 'pingtai', label: '平台商品' }
 ]
 
-const ACTION_LIST = [{ label: '编辑', plain: true, type: 'edit' }]
+const ACTION_LIST = [
+  { label: '删除', plain: true, type: 'delete' },
+  { label: '编辑', plain: true, type: 'edit' }
+]
 
 const SHELVES = [{ label: '上架', type: 'onsale' }]
 const DIFF_SHELVES = [{ label: '下架', type: 'instock' }]
@@ -40,13 +44,14 @@ const initState = {
   //tab切换
   activeIndex: 0,
   //筛选参数
-  filterParams: null
+  filterParams: null,
+  visible: false
 }
 
 const List = () => {
   const [state, setState] = useImmer(initState)
 
-  const { inputParams, inputValue, list, activeIndex, filterParams } = state
+  const { inputParams, inputValue, list, activeIndex, filterParams, visible } = state
 
   const handleParamChange = (inputParams) => {
     setState((_val) => {
@@ -137,6 +142,15 @@ const List = () => {
         items: [{ goods_id: info.goods_id }]
       })
       handleSearchFilter()
+    } else if (type === 'delete') {
+      const { confirm } = await Taro.showModal({
+        title: '确定删除？',
+        content: ''
+      })
+      if (confirm) {
+        await api.weapp.delete_good(info.goods_id)
+        handleSearchFilter()
+      }
     } else {
       showToast(`${label}，无法上下架！`)
     }
@@ -191,7 +205,7 @@ const List = () => {
                     <CommonButton
                       text={item.label}
                       size='small'
-                      type='primary'
+                      type={item.type === 'delete' ? 'danger' : 'primary'}
                       plain={item.plain}
                       key={index}
                       className='common-button'
@@ -206,6 +220,7 @@ const List = () => {
           <SpNote img='empty.png'>暂无数据～</SpNote>
         )}
       </ScrollView>
+
       {isStore && (
         <View className='page-good-list-addbutton'>
           <View className='iconfont icon-tianjia'></View>

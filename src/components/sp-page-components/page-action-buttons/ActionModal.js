@@ -120,6 +120,13 @@ export default class ActionModal extends PureComponent {
           <View className='item item2'>确认取消该客户的订单吗？</View>
         </View>
       )
+    } else if (type === 'deleteGood') {
+      childrenNode = (
+        <View className='cancelContent'>
+          <View className='item item1'>删除商品</View>
+          <View className='item item2'>确认删除该商品吗？</View>
+        </View>
+      )
     } else if (type === 'confirmDelivery') {
       childrenNode = (
         <View className='confirmContent confirmDelivery'>
@@ -217,6 +224,21 @@ export default class ActionModal extends PureComponent {
     })
   }
 
+  handleGoodDelete = () => {
+    const { goodInfo, onRefresh } = this.props
+    requestCallback(
+      async () => {
+        const data = await api.weapp.delete_good(goodInfo.goods_id)
+        return data
+      },
+      '删除商品成功',
+      () => {
+        this.handleClose()
+        onRefresh?.()
+      }
+    )
+  }
+
   //取消订单
   handleCancelOrder = () => {
     const { orderInfo, onRefresh } = this.props
@@ -277,6 +299,17 @@ export default class ActionModal extends PureComponent {
           </View>
           <View className='item cancelitem2' onClick={this.handleCancelOrder}>
             确认取消
+          </View>
+        </View>
+      )
+    } else if (type === 'deleteGood') {
+      childrenNode = (
+        <View className='actionContent'>
+          <View className='item cancelitem1' onClick={this.handleClose}>
+            取消
+          </View>
+          <View className='item cancelitem2' onClick={this.handleGoodDelete}>
+            确认删除
           </View>
         </View>
       )

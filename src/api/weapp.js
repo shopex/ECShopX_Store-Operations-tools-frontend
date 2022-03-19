@@ -70,3 +70,8 @@ export function edit_good({ id, ...params }) {
 export function update_status(params) {
   return req.put(`/goods/itemstatusupdate`, params)
 }
+
+//删除接口
+export function delete_good(id) {
+  return req.delete(`/goods/items/${id}`)
+}

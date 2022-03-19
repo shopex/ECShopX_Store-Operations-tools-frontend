@@ -89,7 +89,6 @@ const CommonForm = (props) => {
       />
       <FormItem
         label='商品货号'
-        required
         mode='input'
         type='text'
         placeholder='请输入商品货号'
