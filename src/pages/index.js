@@ -5,6 +5,7 @@ import api from '@/api'
 import { requestCallback, qwsdk, setWeapp, isFromWebapp, navigateTo, cleanWeapp } from '@/utils'
 import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
+
 import S from '@/spx'
 import './index.scss'
 
@@ -65,6 +66,7 @@ class Index extends Component {
     if (isFromWebapp()) {
       const { app_id, app_type, company_id, openid, unionid } = S.get('WEBAPP', true)
       let data
+      console.log
       if (!S.getAuthToken()) {
         data = await api.weapp.is_bind({
           app_id,

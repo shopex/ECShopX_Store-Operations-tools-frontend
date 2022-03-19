@@ -34,6 +34,8 @@ export const STORE = 'store'
 //商品销售价
 export const SALE_PRICE = 'sale_price'
 
+export const ITEM_BN = 'item_bn'
+
 export const SHOW_SEPC = 'show_spec'
 
 export const CAT_MAP = {

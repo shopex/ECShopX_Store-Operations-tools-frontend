@@ -87,7 +87,8 @@ const Detail = () => {
       intro,
       price = 0,
       approve_status,
-      store
+      store,
+      item_bn
     } = await api.weapp.good_detail(id)
     const isMulti = nospec === false
     await setState((_val) => {
@@ -105,6 +106,7 @@ const Detail = () => {
         id: brand_id,
         label: goods_brand
       }
+      _val.item_bn = item_bn
       _val.price = price / 100
       _val.template = {
         label: templates_name,
@@ -131,7 +133,8 @@ const Detail = () => {
                 value: approve_status
               },
               store,
-              price: price / 100
+              price: price / 100,
+              item_bn: item_bn
             }
           ]
       _val.detail = intro

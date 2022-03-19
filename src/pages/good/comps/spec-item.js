@@ -6,7 +6,7 @@ import { classNames } from '@/utils'
 import { useImmer } from 'use-immer'
 import FormItem from './form-item'
 import { computeSpecs, usePrevious } from '../util'
-import { STATUS_LIST, STATUS, STORE, SALE_PRICE, SHOW_SEPC } from '../const'
+import { STATUS_LIST, STATUS, STORE, SALE_PRICE, ITEM_BN } from '../const'
 import './spec-item.scss'
 
 const initCommonState = {
@@ -33,6 +33,9 @@ const CommonForm = (props) => {
         break
       case SALE_PRICE:
         onChange({ price: item })
+        break
+      case ITEM_BN:
+        onChange({ item_bn: item })
         break
     }
   }
@@ -84,6 +87,15 @@ const CommonForm = (props) => {
         onChange={handleChangeForm(SALE_PRICE)}
         value={info.price}
       />
+      <FormItem
+        label='商品货号'
+        required
+        mode='input'
+        type='text'
+        placeholder='请输入商品货号'
+        onChange={handleChangeForm(ITEM_BN)}
+        value={info.item_bn}
+      />
       <SpPicker
         visible={statusVisible}
         title='选择售卖状态'
@@ -107,7 +119,8 @@ const CommonForm = (props) => {
 const SINGLE_OBJ = {
   approve_status: {},
   store: undefined,
-  price: undefined
+  price: undefined,
+  item_bn: undefined
 }
 
 const initState = {
