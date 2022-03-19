@@ -7,6 +7,7 @@ import {
   ORDER_LIST_RECEIPT_TYPE,
   ORDER_LIST_FILTER_ITEM
 } from '@/consts'
+import { isFromWebapp } from '@/utils'
 import './index.scss'
 
 const filterListData = Object.keys(ORDER_LIST_FILTER_ITEM).map((filterItem) => {
@@ -60,7 +61,11 @@ export default class FilterBlock extends PureComponent {
   filterData = () => {
     const { pageType } = this.props
     if (pageType === 'orderList') {
-      return filterListData
+      if (isFromWebapp()) {
+        return filterListData.filter((item) => item.itemLabel !== '订单类型')
+      } else {
+        return filterListData
+      }
     } else if (pageType === 'goodList') {
       return [
         {
