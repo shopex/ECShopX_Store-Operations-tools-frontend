@@ -218,9 +218,10 @@ const Detail = () => {
     switch (key) {
       case MAIN_CATEGORY:
         if (id) {
-          showToast('编辑时主类目无法修改')
+          showToast('商品主类目暂不支持修改！')
+          break
         }
-        break
+
         setState((val) => {
           val.mainCategoryVisible = true
         })
@@ -445,7 +446,7 @@ const Detail = () => {
             placeholder='请选择商品主类目'
             onClick={handleClickFormItem(MAIN_CATEGORY)}
             value={mainCategory.label}
-            editable={!id}
+            editable={id ? false : undefined}
           />
           <FormItem
             label='商品标题'

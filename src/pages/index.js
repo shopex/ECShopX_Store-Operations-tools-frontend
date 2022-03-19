@@ -56,17 +56,22 @@ class Index extends Component {
   }
 
   async componentDidMount() {
+    console.log('===componentDidMount==>')
     if (isFromWebapp()) {
     } else {
       // this.getConfig()
     }
+    const { href } = window.location
+    qwsdk.register({
+      url: href
+    })
   }
   async componentDidShow() {
     setWeapp()
     if (isFromWebapp()) {
       const { app_id, app_type, company_id, openid, unionid } = S.get('WEBAPP', true)
       let data
-      console.log
+
       if (!S.getAuthToken()) {
         data = await api.weapp.is_bind({
           app_id,
@@ -94,10 +99,7 @@ class Index extends Component {
       }
       console.log('page_index:componentDidMount:qwsdk.register1', href)
     }
-    const { href } = window.location
-    qwsdk.register({
-      url: href
-    })
+
     this.getConfig()
   }
 
