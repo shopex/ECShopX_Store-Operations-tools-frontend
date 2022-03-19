@@ -21,3 +21,8 @@ export function getUserInfo(params) {
 export function bindPhone(params) {
   return req.post('/operator/workwechat/bind_mobile', params)
 }
+
+//绑定店铺
+export function selectDistributor(params) {
+  return req.post('/operator/select/distributor', params)
+}

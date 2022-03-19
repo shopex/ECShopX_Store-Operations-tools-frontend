@@ -25,10 +25,13 @@ export default class PlanSelection extends PureComponent {
     }
   }
 
-  activeHandle = (activeShop) => {
+  activeHandle = async (activeShop) => {
     this.props.add(activeShop)
     this.setState({
       isActive: activeShop.distributor_id
+    })
+    await api.operator.selectDistributor({
+      set_distributor_id: activeShop.distributor_id
     })
     Taro.redirectTo({ url: `/pages/index` })
   }
