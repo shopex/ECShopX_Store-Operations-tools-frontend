@@ -114,7 +114,7 @@ const Detail = () => {
       _val.pics = pics
       _val.custom_item_spec_desc = custom_item_spec_desc
       _val.selectSpec = isMulti
-        ? spec_items.reverse().map((item) => ({
+        ? spec_items.map((item) => ({
             ...item,
             price: item.price / 100,
             approve_status: {
