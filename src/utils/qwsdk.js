@@ -1,7 +1,7 @@
 import api from '@/api'
 import { reject } from 'lodash'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { isIos } from '@/utils'
+import { isIos, isFromWebapp } from '@/utils'
 
 /**
  * 安卓端兼容webView 相关文档:
@@ -78,8 +78,8 @@ class QWSDK {
     const { appId, timestamp, nonceStr, signature } = jssdkConfig
     // eslint-disable-next-line no-undef
     wx.config({
-      beta: true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
-      debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      //beta: isFromWebapp()?undefined:true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+      debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
       appId, // 必填，企业微信的corpID
       timestamp, // 必填，生成签名的时间戳
       nonceStr, // 必填，生成签名的随机串
