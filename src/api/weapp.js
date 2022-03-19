@@ -73,5 +73,5 @@ export function update_status(params) {
 
 //删除接口
 export function delete_good(id) {
-  return req.delete(`/goods/items/${id}`)
+  return req.delete(`/goods/items/${id}/response`)
 }
