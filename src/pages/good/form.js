@@ -131,7 +131,7 @@ const Detail = () => {
                 value: approve_status
               },
               store,
-              price
+              price: price / 100
             }
           ]
       _val.detail = intro
@@ -479,7 +479,7 @@ const Detail = () => {
             onClick={handleClickFormItem(TEMPLATE)}
             value={template.label}
           />
-          {hasGoodSpec && (
+          {hasGoodSpec && !id && (
             <FormItem
               label='商品规格'
               mode='switch'
@@ -495,6 +495,7 @@ const Detail = () => {
           openSpec={openSpec}
           onChange={handleChangeForm(ITEM_SPECS)}
           value={selectSpec}
+          id={id}
         />
 
         <View className='bottom-block'>

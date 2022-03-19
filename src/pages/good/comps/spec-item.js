@@ -14,7 +14,7 @@ const initCommonState = {
 }
 
 const CommonForm = (props) => {
-  const { openSpec, info = {}, onChange = () => {} } = props
+  const { openSpec, info = {}, onChange = () => {}, id } = props
 
   const [state, setState] = useImmer(initCommonState)
 
@@ -116,7 +116,7 @@ const initState = {
 }
 
 const SpecItem = (props) => {
-  const { openSpec, goodsSpec, onChange = () => {}, value: valueProp } = props
+  const { openSpec, goodsSpec, onChange = () => {}, id, value: valueProp } = props
 
   const prevOpenSpec = usePrevious(openSpec)
 
@@ -175,7 +175,7 @@ const SpecItem = (props) => {
     }
   }, [openSpec, valueProp])
 
-  console.log('===selectSpecArr==', selectSpecs)
+  console.log('===selectSpecArr==', selectSpecs, id)
 
   return (
     <View
@@ -203,6 +203,7 @@ const SpecItem = (props) => {
             key={specIndex}
             info={specItem}
             onChange={handleChangeForm(specIndex)}
+            id={id}
           />
         )
       })}
