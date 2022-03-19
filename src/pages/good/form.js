@@ -61,6 +61,28 @@ const initData = {
 const Detail = () => {
   const [state, setState] = useImmer(initState)
 
+  const [fetchData, setFetchData] = useImmer(initData)
+
+  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec } = fetchData
+
+  const {
+    mainCategoryVisible,
+    mainCategory,
+    categoryVisible,
+    category,
+    brandVisible,
+    brand,
+    templateVisible,
+    template,
+    item_name,
+    brief,
+    selectSpec,
+    openSpec,
+    pics,
+    detail,
+    id
+  } = state
+
   useDidShow(async () => {
     const {
       params: { id }
@@ -144,8 +166,6 @@ const Detail = () => {
     })
   })
 
-  const [fetchData, setFetchData] = useImmer(initData)
-
   const {
     activeShop: { distributor_id }
   } = useSelector((state) => state.planSelection)
@@ -197,6 +217,10 @@ const Detail = () => {
   const handleClickFormItem = (key) => (item) => {
     switch (key) {
       case MAIN_CATEGORY:
+        if (id) {
+          showToast('编辑时主类目无法修改')
+        }
+        break
         setState((val) => {
           val.mainCategoryVisible = true
         })
@@ -278,26 +302,6 @@ const Detail = () => {
         break
     }
   }
-
-  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec } = fetchData
-
-  const {
-    mainCategoryVisible,
-    mainCategory,
-    categoryVisible,
-    category,
-    brandVisible,
-    brand,
-    templateVisible,
-    template,
-    item_name,
-    brief,
-    selectSpec,
-    openSpec,
-    pics,
-    detail,
-    id
-  } = state
 
   useEffect(() => {
     if (mainCategory.id) {
@@ -441,6 +445,7 @@ const Detail = () => {
             placeholder='请选择商品主类目'
             onClick={handleClickFormItem(MAIN_CATEGORY)}
             value={mainCategory.label}
+            editable={!id}
           />
           <FormItem
             label='商品标题'
