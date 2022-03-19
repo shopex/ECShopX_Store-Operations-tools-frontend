@@ -103,7 +103,7 @@ export default class FilterBlock extends PureComponent {
   render() {
     const { showFilter } = this.state
 
-    const { pageType, onOrderClick = () => {}, orderBy } = this.props
+    const { pageType, onOrderClick = () => {}, orderBy, title = '订单筛选' } = this.props
 
     return (
       <View className='filterContent'>
@@ -126,7 +126,7 @@ export default class FilterBlock extends PureComponent {
 
         <SpFilterDrawer
           pageType={pageType}
-          filterTitle='订单筛选'
+          filterTitle={title}
           filterData={this.filterData()}
           visible={showFilter}
           onCloseDrawer={this.handleCloseDrawer}

@@ -158,7 +158,7 @@ const List = () => {
         />
       </View>
 
-      <FilterBlock pageType={PAGE_TYPE} onSubmitParams={handleSubmitParams} />
+      <FilterBlock title='商品筛选' pageType={PAGE_TYPE} onSubmitParams={handleSubmitParams} />
 
       <View className='page-good-list-tab'>
         <SpTab dataSource={TAB_LIST} onChange={handleChangeTab} />
