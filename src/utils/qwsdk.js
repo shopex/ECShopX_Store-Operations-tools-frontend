@@ -84,9 +84,16 @@ class QWSDK {
       timestamp, // 必填，生成签名的时间戳
       nonceStr, // 必填，生成签名的随机串
       signature, // 必填，签名，见 附录-JS-SDK使用权限签名算法
-      jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+      jsApiList: ['scanQRCode', 'chooseImage', 'chooseImage'] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
     })
-
+    wx.checkJsApi({
+      jsApiList: ['scanQRCode', 'chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+      success: function (res) {
+        console.log('==res==', res)
+        // 以键值对的形式返回，可用的api值true，不可用为false
+        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+      }
+    })
     wx.ready(function (e) {
       console.log('wx sdk ready', e)
       console.log('wx sdk ready:wx', wx)
