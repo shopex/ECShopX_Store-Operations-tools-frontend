@@ -62,6 +62,7 @@ const List = () => {
     if (inputParams && inputValue) {
       synthetic[inputParams.value] = inputValue
     }
+    let audit_status = filterParams?.approve_status ? 'approved' : undefined
     const params = {
       page: pageIndex,
       pageSize,
@@ -70,6 +71,7 @@ const List = () => {
       is_gift: false,
       type: 0,
       distributor_id,
+      audit_status,
       ...(filterParams || {}),
       ...synthetic
     }
