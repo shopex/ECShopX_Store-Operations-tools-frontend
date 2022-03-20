@@ -15,7 +15,8 @@ export function main_category(query) {
 //查询分类
 export function category(query) {
   return req.get('/goods/category', {
-    is_show: false
+    is_show: false,
+    ...query
   })
 }
 

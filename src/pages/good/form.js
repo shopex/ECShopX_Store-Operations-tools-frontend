@@ -179,7 +179,9 @@ const Detail = () => {
   }
 
   const getCategory = async () => {
-    const category_data = await api.weapp.category()
+    const category_data = await api.weapp.category({
+      distributor_id
+    })
 
     await setFetchData((_val) => {
       _val.categoryList = transformData(category_data, CAT_MAP)
