@@ -52,6 +52,8 @@ class Index extends Component {
         realTimeData: result.today_data,
         apis: result.apis
       })
+    } else {
+      Taro.redirectTo({ url: `/pages/planSelection/index` })
     }
   }
 
@@ -79,7 +81,6 @@ class Index extends Component {
           qwsdk.register({
             url: href
           })
-          Taro.redirectTo({ url: `/pages/planSelection/index` })
         }
       }
     } else {

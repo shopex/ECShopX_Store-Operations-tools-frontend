@@ -74,10 +74,10 @@ class App extends Component {
 
   componentDidHide() {
     console.log('app componentDidHide')
-    cleanWeapp()
     if (isFromWebapp()) {
       S.logout()
     }
+    cleanWeapp()
   }
 
   componentDidCatchError() {}
