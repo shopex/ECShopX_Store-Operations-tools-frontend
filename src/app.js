@@ -6,6 +6,7 @@ import configStore from './store'
 import { cleanWeapp, isFromWebapp } from '@/utils'
 import '@/muiApp/index.scss'
 import 'default-passive-events'
+import S from '@/spx'
 // import VConsole from 'vconsole'
 
 import './app.scss'
@@ -74,6 +75,9 @@ class App extends Component {
   componentDidHide() {
     console.log('app componentDidHide')
     cleanWeapp()
+    if (isFromWebapp()) {
+      S.logout()
+    }
   }
 
   componentDidCatchError() {}
