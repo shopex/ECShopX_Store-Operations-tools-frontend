@@ -39,6 +39,10 @@
     // oScript.type = "text/javascript";
     // oScript.src = "test.js";
     oHead.appendChild(oScript); 
+
+    window.onbeforeunload = function (e) {
+      alert("bb")
+    }
   </script>
 </body>
 

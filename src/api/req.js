@@ -119,7 +119,13 @@ class API {
     this.isRefreshingToken = false
     S.logout()
     setTimeout(() => {
-      S.login()
+      if (isFromWebapp()) {
+        Taro.reLaunch({
+          url: '/pages/index'
+        })
+      } else {
+        S.login()
+      }
       // Taro.redirectTo({ url: '/pages/auth/login' })
     }, 300)
   }
