@@ -1,7 +1,7 @@
 import api from '@/api'
 import { reject } from 'lodash'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { isIos, isFromWebapp } from '@/utils'
+import { isIos } from '@/utils'
 
 /**
  * 安卓端兼容webView 相关文档:
@@ -78,22 +78,22 @@ class QWSDK {
     const { appId, timestamp, nonceStr, signature } = jssdkConfig
     // eslint-disable-next-line no-undef
     wx.config({
-      //beta: isFromWebapp()?undefined:true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
-      debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      beta: true, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+      debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
       appId, // 必填，企业微信的corpID
       timestamp, // 必填，生成签名的时间戳
       nonceStr, // 必填，生成签名的随机串
       signature, // 必填，签名，见 附录-JS-SDK使用权限签名算法
-      jsApiList: ['scanQRCode', 'chooseImage'] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+      jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
     })
-    wx.checkJsApi({
-      jsApiList: ['scanQRCode', 'chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-      success: function (res) {
-        console.log('==res==', res)
-        // 以键值对的形式返回，可用的api值true，不可用为false
-        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-      }
-    })
+    // wx.checkJsApi({
+    //   jsApiList: ['scanQRCode', 'chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+    //   success: function (res) {
+    //     console.log('==res==', res)
+    //     // 以键值对的形式返回，可用的api值true，不可用为false
+    //     // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+    //   }
+    // })
     wx.ready(function (e) {
       console.log('wx sdk ready', e)
       console.log('wx sdk ready:wx', wx)

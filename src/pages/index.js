@@ -74,6 +74,12 @@ class Index extends Component {
         // }
         if (data.token) {
           S.setAuthToken(data.token)
+
+          const { href } = window.location
+          qwsdk.register({
+            url: href
+          })
+          Taro.redirectTo({ url: `/pages/planSelection/index` })
         }
       }
     } else {
@@ -88,11 +94,6 @@ class Index extends Component {
       console.log('page_index:componentDidMount:qwsdk.register1', href)
     }
 
-    const { href } = window.location
-    qwsdk.register({
-      url: href
-    })
-    // Taro.redirectTo({ url: `/pages/planSelection/index` })
     this.getConfig()
   }
 
