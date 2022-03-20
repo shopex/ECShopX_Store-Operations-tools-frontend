@@ -120,6 +120,7 @@ class API {
     S.logout()
     setTimeout(() => {
       if (isFromWebapp()) {
+        Taro.removeStorageSync('persist:app')
         Taro.reLaunch({
           url: '/pages/index'
         })
