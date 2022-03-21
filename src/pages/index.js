@@ -57,6 +57,15 @@ class Index extends Component {
     }
   }
 
+  componentDidMount() {
+    const { href } = window.location
+    if (S.getAuthToken()) {
+      qwsdk.register({
+        url: href
+      })
+    }
+  }
+
   async componentDidShow() {
     setWeapp()
     if (isFromWebapp()) {

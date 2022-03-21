@@ -164,9 +164,9 @@ class API {
     }
 
     if (isFromWebapp()) {
-      if (!query.company_id) {
-        query.company_id = S.get('WEBAPP', true).company_id
-      }
+      // if (!query.company_id) {
+      query.company_id = S.get('WEBAPP', true).company_id
+      //}
     }
 
     const config = {
