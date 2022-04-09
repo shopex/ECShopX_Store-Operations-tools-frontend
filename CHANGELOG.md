@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.4.0...v2.5.1) (2022-04-09)
+
 ## [1.4.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v1.3.3...v1.4.0) (2022-03-21)
 
 
