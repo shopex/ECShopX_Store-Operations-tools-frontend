@@ -229,16 +229,28 @@ const Detail = () => {
         })
         break
       case CATEGORY:
+        if (categoryList.length == 0) {
+          showToast('请在PC管理端添加分类！')
+          break
+        }
         setState((val) => {
           val.categoryVisible = true
         })
         break
       case BRAND:
+        if (brandList.length == 0) {
+          showToast('请在PC管理端添加品牌！')
+          break
+        }
         setState((val) => {
           val.brandVisible = true
         })
         break
       case TEMPLATE:
+        if (templateList.length == 0) {
+          showToast('请在PC管理端添加运费模板！')
+          break
+        }
         setState((val) => {
           val.templateVisible = true
         })
