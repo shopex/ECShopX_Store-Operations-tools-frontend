@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v2.6.3...v2.7.0) (2022-05-12)
+
+
+### Features
+
+* 2.7.0 ([d51e4a3](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/d51e4a34319d6ce9677425cf5070b66463130a17))
+
+### [2.6.3](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v2.6.2...v2.6.3) (2022-05-09)
+
+### [2.6.2](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v2.6.1...v2.6.2) (2022-05-09)
+
+
+### Bug Fixes
+
+* H5阿里云上传 ([7939114](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/79391144e2b7843f7865f23163ffb6843dcdbc67))
+
 ### [2.6.1](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v2.6.0...v2.6.1) (2022-04-21)
 
 ## [2.6.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v2.5.2...v2.6.0) (2022-04-09)

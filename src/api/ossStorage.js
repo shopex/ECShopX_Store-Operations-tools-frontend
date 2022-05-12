@@ -29,6 +29,7 @@ export function LocalUpload(tokenRes, file, filetype = 'image') {
     url: `${req.baseURL}espier/upload_localimage`,
     // filePath: item.url,
     // name: 'images',
+    withCredentials: false,
     header: {
       'Authorization': `Bearer ${token}`
     },
@@ -48,6 +49,7 @@ export const AliUpload = (tokenRes, file) => {
     header: {
       'Authorization': `Bearer ${token}`
     },
+    withCredentials: false,
     formData: {
       key: tokenRes.dir,
       policy: tokenRes.policy,
