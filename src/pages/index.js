@@ -2,7 +2,15 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import api from '@/api'
-import { requestCallback, qwsdk, setWeapp, isFromWebapp, navigateTo, cleanWeapp } from '@/utils'
+import {
+  requestCallback,
+  qwsdk,
+  setWeapp,
+  isFromWebapp,
+  navigateTo,
+  cleanWeapp,
+  VERSION_PLATFORM
+} from '@/utils'
 import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
 
@@ -16,7 +24,6 @@ import './index.scss'
 class Index extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.state = {
       moneyShow: true,
       realTimeData: {
@@ -42,18 +49,6 @@ class Index extends Component {
         shopList: [],
         order_info: {}
       }
-    }
-  }
-  async getConfig() {
-    let { distributor_id } = this.props.planSelection
-    if (distributor_id != null) {
-      const result = await api.home.getStatistics({ shop_id: distributor_id, is_app: 1 })
-      this.setState({
-        realTimeData: result.today_data,
-        apis: result.apis
-      })
-    } else {
-      Taro.redirectTo({ url: `/pages/planSelection/index` })
     }
   }
 
@@ -94,10 +89,8 @@ class Index extends Component {
       }
     } else {
       const { href } = window.location
-
-      const { params } = getCurrentInstance().router
-      console.log('首页:componentDidMount:params1111112', params)
-      const { company_id } = params
+      const { company_id } = getCurrentInstance().router.params || {}
+      console.log('首页:componentDidMount:params1111112', getCurrentInstance().router, company_id)
       if (company_id) {
         Taro.setStorageSync('company_id', company_id)
       }
@@ -105,6 +98,19 @@ class Index extends Component {
     }
 
     this.getConfig()
+  }
+
+  async getConfig() {
+    let { distributor_id } = this.props.planSelection
+    if (distributor_id != null) {
+      const result = await api.home.getStatistics({ shop_id: distributor_id, is_app: 1 })
+      this.setState({
+        realTimeData: result.today_data,
+        apis: result.apis
+      })
+    } else {
+      Taro.redirectTo({ url: `/pages/planSelection/index` })
+    }
   }
 
   switchHandle() {
@@ -303,7 +309,7 @@ class Index extends Component {
           <View className='func-list'>
             <View className='title'>常用功能</View>
             <View className='list'>
-              {apis.items == 1 && (
+              {apis.items == 1 && VERSION_PLATFORM && (
                 <View className='item' onClick={() => navigateTo('/pages/good/list')}>
                   <View>
                     <Image className='img' src={require('@/assets/imgs/index/good.png')}></Image>

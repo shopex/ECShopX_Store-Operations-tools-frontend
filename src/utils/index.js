@@ -36,6 +36,10 @@ export function isUndefined(val) {
   return isPrimitiveType(val, '[object Undefined]')
 }
 
+export const VERSION_STANDARD = process.env.APP_PLATFORM == 'standard'
+// exc
+export const VERSION_PLATFORM = process.env.APP_PLATFORM == 'platform'
+
 export function transformData(data, obj) {
   let list = []
   data.forEach((item) => {

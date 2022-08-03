@@ -167,6 +167,8 @@ class API {
       // if (!query.company_id) {
       query.company_id = S.get('WEBAPP', true).company_id
       //}
+    } else {
+      query.company_id = Taro.getStorageSync('company_id')
     }
 
     const config = {
@@ -341,7 +343,7 @@ class API {
     // console.log('reqError.res', res)
     // console.log('reqError.msg', msg)
     // if (res && res.statusCode) Taro.navigateTo('pages/auth/login')
-    const errMsg = (res.data && res.data.data.message) || msg
+    const errMsg = (res.data && res.data.message) || msg
     const err = new Error(errMsg)
     err.res = res
     return err
