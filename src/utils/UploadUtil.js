@@ -38,7 +38,7 @@ class UploadUtil {
 
   // 本地
   local(tokenRes) {
-    this.client.upload = (file) => LocalUpload(tokenRes, file, this.fileType)
+    this.client.upload = async (file) => await LocalUpload(tokenRes, file, this.fileType)
   }
 
   // 亚马逊
@@ -130,8 +130,8 @@ class UploadUtil {
       const tokenRes = await getOssToken({ filetype: this.fileType })
       console.log('uploadImg tokenRes', tokenRes)
       const data = tokenRes.token
-      this.init(data, tokenRes.driver)
-      const res = await this.client.upload(file, data.key).catch((e) => console.error(e))
+      await this.init(data, tokenRes.driver)
+      const res = this.client.upload(file, data.key).catch((e) => console.error(e))
       console.log('this.client.upload', res)
       if (res.data || res.key) {
         if (res.data && res.data.data) {
@@ -142,7 +142,7 @@ class UploadUtil {
         return res
       } else {
         return {
-          key: `${data.dir}`
+          key: data?.dir || data?.key
         }
       }
     } catch (e) {
