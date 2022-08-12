@@ -130,9 +130,8 @@ class UploadUtil {
       const tokenRes = await getOssToken({ filetype: this.fileType })
       console.log('uploadImg tokenRes', tokenRes)
       const data = tokenRes.token
-      await this.init(data, tokenRes.driver)
-      const res = this.client.upload(file, data.key).catch((e) => console.error(e))
-      console.log('this.client.upload', res)
+      this.init(data, tokenRes.driver)
+      const res = await this.client.upload(file, data.key).catch((e) => console.error(e))
       if (res.data || res.key) {
         if (res.data && res.data.data) {
           return {

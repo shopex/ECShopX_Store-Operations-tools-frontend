@@ -35,10 +35,7 @@ const FormImageItem = (props) => {
       count: 1
     })
     const upload = new UploadUtil()
-    const result = await upload.uploadImg(
-      tempFiles[0].originalFileObj,
-      tempFiles[0].originalFileObj.name
-    )
+    const result = await upload.uploadImg(tempFiles[0])
     await handleUploaderSuccess(result, tempFiles[0].originalFileObj)
   }
 
