@@ -22,20 +22,18 @@ export function getOssToken(params) {
   return req.post('/espier/oss_upload_token', params)
 }
 export function LocalUpload(tokenRes, file, filetype = 'image') {
-  console.log(tokenRes)
-  console.log(file)
+  // console.log(tokenRes)
+  // console.log(file)
   const token = S.getAuthToken()
   return Taro.uploadFile({
     url: `${req.baseURL}espier/upload_localimage`,
-    // filePath: item.url,
-    // name: 'images',
-    withCredentials: false,
+    filePath: file.path,
+    name: 'images',
     header: {
       'Authorization': `Bearer ${token}`
     },
     formData: {
       ...tokenRes,
-      images: file,
       filetype
     }
   })

@@ -84,11 +84,7 @@ export default class My extends Component {
 
     console.log('upload', upload)
 
-    const result = await upload.uploadImg(
-      tempFiles[0].originalFileObj,
-      tempFiles[0].originalFileObj.name
-    )
-    console.log('result', result)
+    const result = await upload.uploadImg(tempFiles[0])
     this.handleAvatarSuccess(result, tempFiles[0].originalFileObj)
   }
 
