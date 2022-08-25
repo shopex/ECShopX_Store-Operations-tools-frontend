@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.2.0...v3.2.1) (2022-08-25)
+
+
+### Bug Fixes
+
+* 移动收银 ([6605382](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/6605382f7c812b6ac42ea6ff19b6c177c35fd364))
+* 移动收银入口 ([3fa3797](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/3fa3797e35deb77c597dbdf55693ab3610e27eed))
+
 ## [3.2.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.1.0...v3.2.0) (2022-08-03)
 
 
