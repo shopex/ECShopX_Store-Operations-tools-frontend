@@ -9,7 +9,8 @@ import {
   isFromWebapp,
   navigateTo,
   cleanWeapp,
-  VERSION_PLATFORM
+  VERSION_PLATFORM,
+  VERSION_STANDARD
 } from '@/utils'
 import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
@@ -352,32 +353,36 @@ class Index extends Component {
                   <View className='subtitle'>自提订单</View>
                 </View>
               )}
-              <View
-                className='item'
-                onClick={() => {
-                  wx.miniProgram.navigateTo({
-                    url: `/subpages/dianwu/list?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
-                  })
-                }}
-              >
-                <View className='img_'>
-                  <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+              {VERSION_STANDARD && (
+                <View
+                  className='item'
+                  onClick={() => {
+                    wx.miniProgram.navigateTo({
+                      url: `/subpages/dianwu/list?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
+                    })
+                  }}
+                >
+                  <View className='img_'>
+                    <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+                  </View>
+                  <View className='subtitle'>商品查询</View>
                 </View>
-                <View className='subtitle'>商品查询</View>
-              </View>
-              <View
-                className='item'
-                onClick={() => {
-                  wx.miniProgram.navigateTo({
-                    url: `/subpages/dianwu/cashier?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
-                  })
-                }}
-              >
-                <View className='img_'>
-                  <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+              )}
+              {VERSION_STANDARD && (
+                <View
+                  className='item'
+                  onClick={() => {
+                    wx.miniProgram.navigateTo({
+                      url: `/subpages/dianwu/cashier?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
+                    })
+                  }}
+                >
+                  <View className='img_'>
+                    <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+                  </View>
+                  <View className='subtitle'>移动收银</View>
                 </View>
-                <View className='subtitle'>移动收银</View>
-              </View>
+              )}
               {/* <View className='item' onClick={() => navigateTo('/pages/order/ziti-list')}>
                 <View className='img_'>
                   <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
