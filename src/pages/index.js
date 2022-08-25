@@ -353,7 +353,7 @@ class Index extends Component {
                   <View className='subtitle'>自提订单</View>
                 </View>
               )}
-              {VERSION_STANDARD && (
+              {/* {VERSION_STANDARD && (
                 <View
                   className='item'
                   onClick={() => {
@@ -382,7 +382,7 @@ class Index extends Component {
                   </View>
                   <View className='subtitle'>移动收银</View>
                 </View>
-              )}
+              )} */}
               {/* <View className='item' onClick={() => navigateTo('/pages/order/ziti-list')}>
                 <View className='img_'>
                   <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
