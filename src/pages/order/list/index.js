@@ -120,7 +120,9 @@ export default class List extends PureComponent {
           ...query
         },
         () => {
-          this.nextPage()
+          if (isResetList) {
+            this.nextPage()
+          }
         }
       )
     })
