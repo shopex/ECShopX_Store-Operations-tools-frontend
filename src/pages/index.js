@@ -363,7 +363,10 @@ class Index extends Component {
                   }}
                 >
                   <View className='img_'>
-                    <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+                    <Image
+                      className='img'
+                      src={require('@/assets/imgs/icon_goods_search.png')}
+                    ></Image>
                   </View>
                   <View className='subtitle'>商品查询</View>
                 </View>
@@ -378,17 +381,27 @@ class Index extends Component {
                   }}
                 >
                   <View className='img_'>
-                    <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+                    <Image className='img' src={require('@/assets/imgs/icon_cashier.png')}></Image>
                   </View>
-                  <View className='subtitle'>移动收银</View>
+                  <View className='subtitle'>收银台</View>
                 </View>
               )}
-              {/* <View className='item' onClick={() => navigateTo('/pages/order/ziti-list')}>
+              <View
+                className='item'
+                onClick={() =>
+                  wx.miniProgram.navigateTo({
+                    url: `/subpages/dianwu/pending-checkout?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
+                  })
+                }
+              >
                 <View className='img_'>
-                  <Image className='img' src={require('@/assets/imgs/ziti-order.png')}></Image>
+                  <Image
+                    className='img'
+                    src={require('@/assets/imgs/icon_fetch_order.png')}
+                  ></Image>
                 </View>
                 <View className='subtitle'>取单</View>
-              </View> */}
+              </View>
               <SpToast />
             </View>
           </View>
