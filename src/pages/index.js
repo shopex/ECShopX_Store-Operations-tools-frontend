@@ -390,7 +390,7 @@ class Index extends Component {
                 className='item'
                 onClick={() =>
                   wx.miniProgram.navigateTo({
-                    url: `/subpages/dianwu/pending-checkout?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
+                    url: `/subpages/dianwu/pending-checkout?token=${S.getAuthToken()}&distributor_id=${distributor_id}&from=home`
                   })
                 }
               >
