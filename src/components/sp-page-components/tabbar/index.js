@@ -32,7 +32,7 @@ class Tabbar extends PureComponent {
     const { pageType, mainStatus, statusChange = () => {} } = this.props
     const dataSource = getListAboutPage(pageType)
     if (!mainStatus) {
-      statusChange(dataSource[0])
+      statusChange(dataSource[0], true)
     }
     this.setState({
       dataSource

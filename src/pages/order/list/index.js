@@ -191,11 +191,13 @@ export default class List extends PureComponent {
   }
 
   //状态变化的回调
-  handleStatusChange = (status) => {
+  handleStatusChange = (status, init) => {
     this.setState({
       mainStatus: status
     })
-    this.searchFilter({ isResetList: true })
+    if (!init) {
+      this.searchFilter({ isResetList: true })
+    }
   }
 
   handleRefresh = () => {
