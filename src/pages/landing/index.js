@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 import S from '@/spx'
 import Entry from '@/utils/entry'
-import { Loading } from '@/components'
+import { SpLoading } from '@/components'
 import { isIos } from '@/utils'
 
 export default class LandingIndex extends Component {
@@ -46,6 +46,6 @@ export default class LandingIndex extends Component {
   }
   render() {
     const { loading } = this.state
-    return <View>{loading && <Loading />}</View>
+    return <View>{loading && <SpLoading>正在加载...</SpLoading>}</View>
   }
 }
