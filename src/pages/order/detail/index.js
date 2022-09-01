@@ -12,7 +12,6 @@ import { View, Text } from '@tarojs/components'
 import { AtCountdown } from 'taro-ui'
 import api from '@/api'
 import './index.scss'
-import log from '../../../muiApp/utils'
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -32,7 +31,8 @@ class OrderDetail extends Component {
       logisticsList: [],
       leftPhone: '',
       rightPhone: '',
-      loading: false
+      loading: false,
+      username: ''
     }
   }
 
@@ -45,6 +45,14 @@ class OrderDetail extends Component {
       loading: false
     })
     this.getLogistics()
+    this.getMyinfo()
+  }
+
+  getMyinfo = async () => {
+    const result = await api.my.getMyinfo({ is_app: 1 })
+    this.setState({
+      username: result.username
+    })
   }
 
   getDetail = async (init) => {
@@ -98,7 +106,8 @@ class OrderDetail extends Component {
         receiver_city,
         receiver_district,
         receiver_address,
-        mobile
+        mobile,
+        username
       }
     } = this.state
     let leftContent
@@ -106,7 +115,7 @@ class OrderDetail extends Component {
       leftContent = [
         {
           label: '提货人',
-          value: receiver_name
+          value: username
         },
         {
           label: '手机号',

@@ -153,7 +153,7 @@ export default class List extends PureComponent {
       ...this.getOrderParams()
     })
     this.setState({
-      orderList: [...this.state.orderList, ...list]
+      orderList: params.page_no > 1 ? [...this.state.orderList, ...list] : list
     })
 
     return {
