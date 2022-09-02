@@ -31,14 +31,13 @@ class OrderDetail extends Component {
       logisticsList: [],
       leftPhone: '',
       rightPhone: '',
-      loading: false,
-      username: ''
+      loading: false
     }
   }
 
   async componentDidShow() {
-    await this.getMyinfo()
     await this.getDetail(true)
+    await this.getUserinfo()
     this.calcTimer()
     await this.renderLeftContent()
     await this.renderRightContent()
@@ -48,10 +47,13 @@ class OrderDetail extends Component {
     this.getLogistics()
   }
 
-  getMyinfo = async () => {
-    const result = await api.my.getMyinfo({ is_app: 1 })
+  getUserinfo = async () => {
+    const {
+      orderInfo: { user_id }
+    } = this.state
+    const userInfo = await api.order.member({ userId: user_id })
     this.setState({
-      username: result.username
+      userInfo
     })
   }
 
@@ -108,14 +110,14 @@ class OrderDetail extends Component {
         receiver_address,
         mobile
       },
-      username
+      userInfo
     } = this.state
     let leftContent
     if (receipt_type === 'ziti') {
       leftContent = [
         {
           label: '提货人',
-          value: username
+          value: `${userInfo.username || ''}`
         },
         {
           label: '手机号',
@@ -142,11 +144,8 @@ class OrderDetail extends Component {
 
   //渲染右内容
   renderRightContent = async () => {
-    const {
-      orderInfo: { user_id }
-    } = this.state
+    const { userInfo } = this.state
     let rightContent
-    const userInfo = await api.order.member({ userId: user_id })
     rightContent = [
       {
         label: '买家信息',
