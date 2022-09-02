@@ -37,6 +37,7 @@ class OrderDetail extends Component {
   }
 
   async componentDidShow() {
+    await this.getMyinfo()
     await this.getDetail(true)
     this.calcTimer()
     await this.renderLeftContent()
@@ -45,7 +46,6 @@ class OrderDetail extends Component {
       loading: false
     })
     this.getLogistics()
-    this.getMyinfo()
   }
 
   getMyinfo = async () => {
@@ -106,9 +106,9 @@ class OrderDetail extends Component {
         receiver_city,
         receiver_district,
         receiver_address,
-        mobile,
-        username
-      }
+        mobile
+      },
+      username
     } = this.state
     let leftContent
     if (receipt_type === 'ziti') {
