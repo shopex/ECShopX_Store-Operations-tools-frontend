@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.3.0...v3.4.0) (2022-09-16)
+
+
+### Bug Fixes
+
+* env ([ae211a4](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/ae211a46561a502acc20a579c60cbd980d21e173))
+* 修改改价入口 ([56efe5b](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/56efe5b006782ade9788fa7aae162c89b87d53ee))
+
 ## [3.3.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.2.1...v3.3.0) (2022-08-31)
 
 
