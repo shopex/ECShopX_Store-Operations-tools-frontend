@@ -82,7 +82,7 @@ class PageActionButtons extends PureComponent {
   }
   //点击不同的按钮进行不同的操作
   handleFooterButtonClick = (buttonType) => {
-    const { onClick = () => {} } = this.props
+    const { orderInfo, onClick = () => {} } = this.props
     console.log('buttonType', buttonType)
     if (buttonType === 'mark') {
       this.handleClickNote()
@@ -103,7 +103,7 @@ class PageActionButtons extends PureComponent {
     } else if (buttonType === 'confirmcancel') {
       this.handleNavigationAftersalesDeal()
     }
-    onClick()
+    onClick(buttonType)
   }
 
   //跳转到售后处理页

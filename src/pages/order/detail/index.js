@@ -279,12 +279,20 @@ class OrderDetail extends Component {
     return <SpGoodPrice size={24} prefix='+' price={freight_fee} isSame />
   }
 
+  // 积分抵扣运费
+  renderPointFreightFee = () => {
+    const {
+      orderInfo: { point_freight_fee }
+    } = this.state
+    return <SpGoodPrice size={24} prefix='-' price={point_freight_fee} isSame />
+  }
+
   //渲染实价
   renderRealFee = () => {
     const {
-      tradeInfo: { totalFee }
+      orderInfo: { total_fee }
     } = this.state
-    return <SpGoodPrice size={24} price={totalFee} isSame color='red' />
+    return <SpGoodPrice size={24} price={total_fee} isSame color='red' />
   }
 
   //查看物流详情
@@ -298,6 +306,38 @@ class OrderDetail extends Component {
   //刷新
   handleRefresh = () => {
     this.getDetail()
+  }
+
+  handleClickButton = (type) => {
+    const {
+      orderInfo: { order_id }
+    } = this.state
+    if (type == 'markdown') {
+      // 临时做法：后期websocket方案优化
+      this.times = 0
+      this.timer = setInterval(async () => {
+        this.times++
+        const { orderInfo: _orderInfo, tradeInfo: _tradeInfo } = await api.order.detail({
+          orderId: order_id
+        })
+        console.log('this.state.orderInfo.total_fee:', this.state.orderInfo)
+        if (_orderInfo.total_fee != this.state.orderInfo.total_fee) {
+          this.setState({
+            orderInfo: _orderInfo,
+            tradeInfo: _tradeInfo
+          })
+          clearInterval(this.timer)
+        } else {
+          if (this.times >= 40) {
+            clearInterval(this.timer)
+          }
+        }
+      }, 3000)
+      wx.miniProgram.navigateTo({
+        url: `/subpages/dianwu/trade/change-price?trade_id=${order_id}`
+      })
+      return
+    }
   }
 
   render() {
@@ -392,6 +432,10 @@ class OrderDetail extends Component {
                 <View className='value'>{this.renderFreightFee()}</View>
               </View>
               <View className='item'>
+                <View className='field'>积分抵扣运费</View>
+                <View className='value'>{this.renderPointFreightFee()}</View>
+              </View>
+              <View className='item'>
                 <View className='field'>实收金额</View>
                 <View className='value'>{this.renderRealFee()}</View>
               </View>
@@ -428,6 +472,7 @@ class OrderDetail extends Component {
             buttons={orderInfo.app_info?.buttons}
             pageType={pageType}
             orderInfo={orderInfo}
+            onClick={this.handleClickButton.bind(this)}
           />
         </FixedAction>
       </View>

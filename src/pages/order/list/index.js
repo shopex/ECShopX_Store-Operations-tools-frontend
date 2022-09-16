@@ -127,6 +127,7 @@ export default class List extends PureComponent {
   }
 
   async componentDidShow() {
+    console.log('dianwu h5 comonentDidShow...')
     const {
       router: { params }
     } = getCurrentInstance()
@@ -152,6 +153,7 @@ export default class List extends PureComponent {
       distributor_id,
       ...this.getOrderParams()
     })
+
     this.setState({
       orderList: [...this.state.orderList, ...list]
     })
@@ -306,6 +308,7 @@ export default class List extends PureComponent {
           onScrollToLower={this.nextPage}
         >
           {orderList.map((orderItem, index) => {
+            const buttons = orderItem?.app_info?.buttons.filter((btn) => btn.type != 'markdown')
             return (
               <SpOrderItem
                 key={`${orderItem.order_id}_${index}`}
@@ -314,7 +317,7 @@ export default class List extends PureComponent {
                 onGoodItemClick={this.handleClickGoodItem}
                 renderFooter={
                   <PageActionButtons
-                    buttons={orderItem?.app_info?.buttons}
+                    buttons={buttons}
                     pageType={pageType}
                     onClick={this.handleClickActionButtons}
                     onClose={this.handleCloseActionButtons}
