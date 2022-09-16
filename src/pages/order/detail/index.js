@@ -12,7 +12,6 @@ import { View, Text } from '@tarojs/components'
 import { AtCountdown } from 'taro-ui'
 import api from '@/api'
 import './index.scss'
-import log from '../../../muiApp/utils'
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -38,6 +37,7 @@ class OrderDetail extends Component {
 
   async componentDidShow() {
     await this.getDetail(true)
+    await this.getUserinfo()
     this.calcTimer()
     await this.renderLeftContent()
     await this.renderRightContent()
@@ -45,6 +45,16 @@ class OrderDetail extends Component {
       loading: false
     })
     this.getLogistics()
+  }
+
+  getUserinfo = async () => {
+    const {
+      orderInfo: { user_id }
+    } = this.state
+    const userInfo = await api.order.member({ userId: user_id })
+    this.setState({
+      userInfo
+    })
   }
 
   getDetail = async (init) => {
@@ -99,14 +109,15 @@ class OrderDetail extends Component {
         receiver_district,
         receiver_address,
         mobile
-      }
+      },
+      userInfo
     } = this.state
     let leftContent
     if (receipt_type === 'ziti') {
       leftContent = [
         {
           label: '提货人',
-          value: receiver_name
+          value: `${userInfo.username || ''}`
         },
         {
           label: '手机号',
@@ -133,11 +144,8 @@ class OrderDetail extends Component {
 
   //渲染右内容
   renderRightContent = async () => {
-    const {
-      orderInfo: { user_id }
-    } = this.state
+    const { userInfo } = this.state
     let rightContent
-    const userInfo = await api.order.member({ userId: user_id })
     rightContent = [
       {
         label: '买家信息',
