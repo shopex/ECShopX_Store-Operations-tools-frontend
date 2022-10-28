@@ -90,8 +90,8 @@ class PageActionButtons extends PureComponent {
       this.handleClickContact()
     } else if (buttonType === 'accept') {
       this.handleConfirmGetOrder()
-    } else if (buttonType === 'cancel') {
-      this.handleClickCancel()
+      // } else if (buttonType === 'cancel') {
+      //   this.handleClickCancel()
     } else if (buttonType === 'delivery') {
       this.handleClickDelivery()
     } else if (buttonType === 'check') {
