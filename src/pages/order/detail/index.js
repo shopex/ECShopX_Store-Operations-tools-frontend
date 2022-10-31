@@ -345,6 +345,14 @@ class OrderDetail extends Component {
         url: `/subpages/dianwu/trade/change-price?trade_id=${order_id}`
       })
       return
+    } else if (type == 'cancel') {
+      wx.miniProgram.navigateTo({
+        url: `/subpages/dianwu/trade/cancel-trade?trade_id=${order_id}`
+      })
+    } else if (type == 'aftersales') {
+      wx.miniProgram.navigateTo({
+        url: `/subpages/dianwu/trade/sale-after?trade_id=${order_id}`
+      })
     }
   }
 

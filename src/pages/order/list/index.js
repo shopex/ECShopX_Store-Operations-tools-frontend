@@ -244,12 +244,16 @@ export default class List extends PureComponent {
   }
 
   //点击操作按钮
-  handleClickActionButtons = (e) => {
-    console.log('handleClickActionButtons')
-
-    this.setState({
-      buttonsActionVisible: true
-    })
+  handleClickActionButtons = ({ order_id }, type) => {
+    if (type == 'cancel') {
+      wx.miniProgram.navigateTo({
+        url: `/subpages/dianwu/trade/cancel-trade?trade_id=${order_id}`
+      })
+    } else if (type == 'aftersales') {
+      wx.miniProgram.navigateTo({
+        url: `/subpages/dianwu/trade/sale-after?trade_id=${order_id}`
+      })
+    }
   }
 
   //关闭操作弹框
@@ -319,7 +323,7 @@ export default class List extends PureComponent {
                   <PageActionButtons
                     buttons={buttons}
                     pageType={pageType}
-                    onClick={this.handleClickActionButtons}
+                    onClick={this.handleClickActionButtons.bind(this, orderItem)}
                     onClose={this.handleCloseActionButtons}
                     orderInfo={orderItem}
                     mainStatus={mainStatus}
