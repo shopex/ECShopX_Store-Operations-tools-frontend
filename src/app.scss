@@ -164,3 +164,14 @@ switch, .weui-switch {
 .weui-tabbar__item{
 
 }
+
+.taro-tabbar__container {
+  &.ipx {
+    .taro-tabbar__tabbar {
+      height: 136px;
+    }
+    .weui-tabbar {
+      height: 100%;
+    }
+  }
+}

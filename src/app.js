@@ -67,6 +67,14 @@ class App extends Component {
 
   componentDidShow(options) {
     const { company_id } = options
+    const { userAgent } = window.navigator
+    console.log('userAgent', userAgent)
+    if (userAgent.search(/iPhone X|iPhone 11|iPhone 12|iPhone 13/g) > -1) {
+      document
+        .getElementsByClassName('taro-tabbar__container')[0]
+        .setAttribute('class', 'taro-tabbar__container ipx')
+    }
+
     if (company_id && !isFromWebapp()) {
       Taro.setStorageSync('company_id', company_id)
     }
