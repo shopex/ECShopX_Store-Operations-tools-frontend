@@ -65,29 +65,37 @@ class Index extends Component {
   async componentDidShow() {
     setWeapp()
     if (isFromWebapp()) {
-      const { app_id, app_type, company_id, openid, unionid } = S.get('WEBAPP', true)
-      let data
+      const { app_id, app_type, company_id, openid, unionid, token } = S.get('WEBAPP', true)
+      // let data
 
-      if (!S.getAuthToken()) {
-        data = await api.weapp.is_bind({
-          app_id,
-          app_type,
-          company_id,
-          openid,
-          unionid
+      if (token) {
+        S.setAuthToken(token)
+        const { href } = window.location
+        qwsdk.register({
+          url: href
         })
-        // if (company_id) {
-        //   Taro.setStorageSync('company_id', company_id)
-        // }
-        if (data.token) {
-          S.setAuthToken(data.token)
-
-          const { href } = window.location
-          qwsdk.register({
-            url: href
-          })
-        }
       }
+
+      // if (!S.getAuthToken()) {
+      //   data = await api.weapp.is_bind({
+      //     app_id,
+      //     app_type,
+      //     company_id,
+      //     openid,
+      //     unionid
+      //   })
+      //   // if (company_id) {
+      //   //   Taro.setStorageSync('company_id', company_id)
+      //   // }
+      //   if (data.token) {
+      //     S.setAuthToken(data.token)
+
+      //     const { href } = window.location
+      //     qwsdk.register({
+      //       url: href
+      //     })
+      //   }
+      // }
     } else {
       const { href } = window.location
       const { company_id } = getCurrentInstance().router.params || {}
