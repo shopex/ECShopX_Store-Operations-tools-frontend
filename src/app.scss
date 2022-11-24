@@ -166,12 +166,12 @@ switch, .weui-switch {
 }
 
 .taro-tabbar__container {
-  &.ipx {
+  // &.ipx {
     .taro-tabbar__tabbar {
       height: 136px;
     }
     .weui-tabbar {
       height: 100%;
     }
-  }
+  // }
 }
