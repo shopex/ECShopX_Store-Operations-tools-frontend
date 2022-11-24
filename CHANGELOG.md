@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.6.0...v3.7.0) (2022-11-24)
+
+
+### Bug Fixes
+
+* tabbar样式 ([99438a6](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/99438a60ea382adf3c3ce3bbc9cd9899bc87c9e0))
+
 ## [3.6.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.5.0...v3.6.0) (2022-10-31)
 
 
