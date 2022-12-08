@@ -96,24 +96,23 @@ class QWSDK {
     // })
     wx.ready(function (e) {
       console.log('wx sdk ready', e)
-      console.log('wx sdk ready:wx', wx)
     })
 
     wx.error(function (res) {
       console.log('wx sdk error:', res)
-      console.log('wx sdk error:wx', wx)
     })
   }
   scanQRCode() {
     const that = this
     that.set('_isRun', true)
+    console.log('scanQRCode')
     return new Promise((resolve, reject) => {
       wx.scanQRCode({
         desc: 'scanQRCode desc',
         needResult: 1, // 默认为0，扫描结果由企业微信处理，1则直接返回扫描结果，
         scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是条形码（一维码），默认二者都有
         success: function (res) {
-          // console.log('scanQRCode:success:res', res)
+          console.log('scanQRCode:success:res', res)
           if (that._isWebView && that._isAndroid) {
           }
           if (res.errMsg == 'scanQRCode:ok') {
