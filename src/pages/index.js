@@ -10,7 +10,8 @@ import {
   navigateTo,
   cleanWeapp,
   VERSION_PLATFORM,
-  VERSION_STANDARD
+  VERSION_STANDARD,
+  isIos
 } from '@/utils'
 import { SpToast, SpModal } from '@/components'
 import { connect } from 'react-redux'
@@ -70,9 +71,10 @@ class Index extends Component {
 
       if (token) {
         S.setAuthToken(token)
-        const { href } = window.location
+        const { href, origin, search } = window.location
+        console.log(origin, search)
         qwsdk.register({
-          url: href
+          url: isIos ? `${origin}/${search}` : href
         })
       }
 

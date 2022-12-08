@@ -1,7 +1,7 @@
 import api from '@/api'
 import { reject } from 'lodash'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { isIos } from '@/utils'
+import { isIos, showToast } from '@/utils'
 
 /**
  * 安卓端兼容webView 相关文档:
@@ -100,6 +100,7 @@ class QWSDK {
 
     wx.error(function (res) {
       console.log('wx sdk error:', res)
+      showToast(res.errMsg)
     })
   }
   scanQRCode() {
