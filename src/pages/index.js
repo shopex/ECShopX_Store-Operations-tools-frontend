@@ -74,7 +74,7 @@ class Index extends Component {
         const { href, origin, search } = window.location
         console.log(origin, search)
         qwsdk.register({
-          url: isIos ? `${origin}/${search}` : href
+          url: isIos() ? `${origin}/${search}` : href
         })
       }
 

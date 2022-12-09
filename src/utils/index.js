@@ -212,10 +212,11 @@ function calcTimer(totalSec) {
 }
 
 function isIos() {
-  let u = navigator.userAgent
-  let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1
-  let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) //ios终端
-  return isiOS
+  if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    return true
+  } else {
+    return false
+  }
 }
 
 function toFixed(total, number = 2, divisor = 100) {
