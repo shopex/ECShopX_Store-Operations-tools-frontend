@@ -80,7 +80,7 @@ class App extends Component {
     }
 
     const { href, origin, search } = window.location
-    const sdkAuthUrlIos = isIos() ? `${origin}${search}` : href
+    const sdkAuthUrlIos = isIos() ? `${origin}/${search}` : href
     Taro.setStorageSync('sdk_auth_url_ios', sdkAuthUrlIos)
   }
 
