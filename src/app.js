@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { Provider } from 'react-redux'
 import { SAPP, SAPPPay, SAPPShare } from './muiApp'
 import configStore from './store'
-import { cleanWeapp, isFromWebapp } from '@/utils'
+import { cleanWeapp, isFromWebapp, isIos } from '@/utils'
 import '@/muiApp/index.scss'
 import 'default-passive-events'
 import S from '@/spx'
@@ -78,6 +78,10 @@ class App extends Component {
     if (company_id && !isFromWebapp()) {
       Taro.setStorageSync('company_id', company_id)
     }
+
+    const { href, origin, search } = window.location
+    const sdkAuthUrlIos = isIos() ? `${origin}${search}` : href
+    Taro.setStorageSync('sdk_auth_url_ios', sdkAuthUrlIos)
   }
 
   componentDidHide() {

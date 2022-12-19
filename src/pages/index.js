@@ -72,9 +72,10 @@ class Index extends Component {
       if (token) {
         S.setAuthToken(token)
         const { href, origin, search } = window.location
-        console.log(origin, search)
+        const sdkAuthUrlIos = Taro.getStorageSync('sdk_auth_url_ios')
+        console.log('sdkAuthUrlIos:', sdkAuthUrlIos)
         qwsdk.register({
-          url: isIos() ? `${origin}/${search}` : href
+          url: isIos() ? `${sdkAuthUrlIos}` : href
         })
       }
 

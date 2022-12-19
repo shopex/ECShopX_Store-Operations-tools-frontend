@@ -212,7 +212,10 @@ function calcTimer(totalSec) {
 }
 
 function isIos() {
-  if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+  if (
+    /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) &&
+    !/(wechatdevtools|webdebugger)/i.test(navigator.userAgent)
+  ) {
     return true
   } else {
     return false
