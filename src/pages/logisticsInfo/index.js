@@ -17,7 +17,8 @@ export default class Logistics extends PureComponent {
       logs: [],
       deliveryList: [],
       current: {},
-      loading: false
+      loading: false,
+      orderStatus: ''
     }
   }
   componentDidMount() {
@@ -29,7 +30,7 @@ export default class Logistics extends PureComponent {
       loading: true
     })
 
-    const { order_id } = getCurrentInstance().router.params
+    const { order_id, order_status } = getCurrentInstance().router.params
 
     const query = {
       order_id: order_id
@@ -40,7 +41,8 @@ export default class Logistics extends PureComponent {
     this.setState({
       logs,
       deliveryList,
-      loading: false
+      loading: false,
+      orderStatus: order_status
     })
   }
 
@@ -98,7 +100,7 @@ export default class Logistics extends PureComponent {
   }
 
   render() {
-    const { current, deliveryList, loading } = this.state
+    const { current, deliveryList, loading, orderStatus } = this.state
 
     return (
       <View className='page-logisticsInfo' style={getThemeStyle()}>
@@ -126,6 +128,7 @@ export default class Logistics extends PureComponent {
                 key={deliveryItem.orders_delivery_id}
                 onEditItem={this.handleEditItem}
                 deliveryInfo={deliveryItem}
+                orderStatus={orderStatus}
               ></ChangeWL>
             </View>
           )
