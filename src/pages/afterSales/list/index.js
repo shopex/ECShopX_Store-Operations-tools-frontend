@@ -120,7 +120,7 @@ export default class List extends PureComponent {
     const {
       router: { params }
     } = getCurrentInstance()
-    await this.searchFilter({ isCMD: true, isFirst: true })
+    await this.searchFilter({ isCMD: true })
   }
 
   handleTabClick = (activeIndex) => {
