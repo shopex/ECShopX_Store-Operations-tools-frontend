@@ -306,9 +306,12 @@ class OrderDetail extends Component {
   //查看物流详情
   viewDeliveryDetail = () => {
     const {
-      orderInfo: { order_id }
+      orderInfo: { order_id, order_status }
     } = this.state
-    Taro.navigateTo({ url: `/pages/logisticsInfo/index?order_id=${order_id}` })
+
+    Taro.navigateTo({
+      url: `/pages/logisticsInfo/index?order_id=${order_id}&order_status=${order_status}`
+    })
   }
 
   //刷新
