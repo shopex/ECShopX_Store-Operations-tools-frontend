@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.8.0...v3.9.0) (2023-01-05)
+
+
+### Bug Fixes
+
+* 微信JSSDK签名 ([42292f4](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/42292f4a526ab9a54d6a093bf062ac87890a7b8d))
+
 ## [3.8.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.7.0...v3.8.0) (2022-12-15)
 
 
