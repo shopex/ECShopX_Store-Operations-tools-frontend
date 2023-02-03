@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle, timestampToTime, calcTimer } from '@/utils'
 import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpRemarkItem } from '@/components'
+import S from '@/spx'
 import {
   DetailCard,
   MessageCard,
@@ -67,6 +68,9 @@ class OrderDetail extends Component {
       loading: true
     })
     const { orderInfo, tradeInfo } = await api.order.detail({ orderId: order_id })
+    if(orderInfo.invoice){
+       orderInfo.app_info?.buttons.unshift({type:'invoice',name:'开发票'})
+    }
     this.setState({
       orderInfo,
       tradeInfo
@@ -355,6 +359,10 @@ class OrderDetail extends Component {
     } else if (type == 'aftersales') {
       wx.miniProgram.navigateTo({
         url: `/subpages/dianwu/trade/sale-after?trade_id=${order_id}`
+      })
+    }else if (type == 'invoice') {
+      wx.miniProgram.navigateTo({
+        url: `/subpages/dianwu/trade/invoice?token=${S.getAuthToken()}&trade_id=${order_id}`
       })
     }
   }
