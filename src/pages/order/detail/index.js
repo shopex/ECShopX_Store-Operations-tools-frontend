@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { getThemeStyle, timestampToTime, calcTimer } from '@/utils'
 import { SpGoodItem, SpGoodPrice, SpToast, SpLoading, SpRemarkItem } from '@/components'
-import S from '@/spx'
 import {
   DetailCard,
   MessageCard,
@@ -362,7 +361,7 @@ class OrderDetail extends Component {
       })
     }else if (type == 'invoice') {
       wx.miniProgram.navigateTo({
-        url: `/subpages/dianwu/trade/invoice?token=${S.getAuthToken()}&trade_id=${order_id}`
+        url: `/subpages/dianwu/trade/invoice?trade_id=${order_id}`
       })
     }
   }
