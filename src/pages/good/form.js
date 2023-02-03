@@ -224,6 +224,7 @@ const Detail = () => {
 
   const getMainCategoryDetail = async (id) => {
     const { goods_spec } = await api.weapp.main_category_detail(id)
+    console.log('goods_spec', goods_spec)
     await setFetchData((_val) => {
       _val.goodsSpec = goods_spec
     })
@@ -531,7 +532,23 @@ const Detail = () => {
             onClick={handleClickFormItem(BRAND)}
             value={brand.label}
           />
-
+          计量单位
+          <FormItem
+            label='排序编号'
+            mode='input'
+            placeholder='请输入商品排序编号'
+            onChange={handleChangeForm(SORT)}
+            value={sort}
+          />
+          产地
+          <FormItem
+            label='赠品'
+            mode='selector'
+            placeholder='是否为赠品'
+            onClick={handleClickFormItem(ISGIFT)}
+            value={is_gift === '' ? '' : is_gift ? '是' : '否'}
+          />
+          ----
           <FormItem
             name={CATEGORY}
             label='商品分类'
@@ -541,35 +558,7 @@ const Detail = () => {
             onClick={handleClickFormItem(CATEGORY)}
             value={category.label}
           />
-          <FormItem
-            label='排序编号'
-            mode='input'
-            placeholder='请输入商品排序编号'
-            onChange={handleChangeForm(SORT)}
-            value={sort}
-          />
-          <FormItem
-            label='商品副标题'
-            mode='input'
-            placeholder='请输入商品副标题'
-            onChange={handleChangeForm(SUB_TITLE)}
-            value={brief}
-          />
-          <FormItem
-            label='赠品'
-            mode='selector'
-            placeholder='是否为赠品'
-            onClick={handleClickFormItem(ISGIFT)}
-            value={is_gift === '' ? '' : is_gift ? '是' : '否'}
-          />
-          <FormItem
-            label='商品规格'
-            mode='switch'
-            placeholder='多规格'
-            onChange={handleChangeForm(SPECS)}
-            value={openSpec}
-          />
-
+          ----
           {/* {hasGoodSpec && !id && (
             <FormItem
               label='商品规格'
@@ -580,14 +569,43 @@ const Detail = () => {
             />
           )} */}
         </View>
+        <View className='block-title'>商品参数</View>
+        <View className='top-block'>
+          <FormItem
+            label='包装'
+            required
+            mode='selector'
+            placeholder='请选择包装'
+            onClick={handleClickFormItem(TEMPLATE)}
+            value={template.label}
+          />
+          <FormItem
+            label='参数名'
+            required
+            mode='selector'
+            placeholder='请选择参数值'
+            onClick={handleClickFormItem(TEMPLATE)}
+            value={template.label}
+          />
+        </View>
 
-        <SpecItem
-          goodsSpec={goodsSpec}
-          openSpec={openSpec}
-          onChange={handleChangeForm(ITEM_SPECS)}
-          value={selectSpec}
-          id={id}
-        />
+        <View className='block-title'>商品规格</View>
+        <View className='top-block'>
+          <FormItem
+            label='商品规格'
+            mode='switch'
+            placeholder='多规格'
+            onChange={handleChangeForm(SPECS)}
+            value={openSpec}
+          />
+          <SpecItem
+            goodsSpec={goodsSpec}
+            openSpec={openSpec}
+            onChange={handleChangeForm(ITEM_SPECS)}
+            value={selectSpec}
+            id={id}
+          />
+        </View>
 
         <View className='bottom-block'>
           <FormImageItem
