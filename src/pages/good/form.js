@@ -24,7 +24,9 @@ import {
   CAT_MAP,
   BRAND_MAP,
   TEMPLATE_MAP,
-  ITEM_SPECS
+  ITEM_SPECS,
+  SORT,
+  ISGIFT
 } from './const'
 import './form.scss'
 
@@ -47,7 +49,12 @@ const initState = {
   pics: [],
   detail: [],
   custom_item_spec_desc: {},
-  id: undefined
+  id: undefined,
+  //排序编号
+  sort: '',
+  //是否是赠品
+  is_gift: '',
+  giftVisible: false
 }
 
 const initData = {
@@ -55,7 +62,11 @@ const initData = {
   categoryList: [],
   brandList: [],
   templateList: [],
-  goodsSpec: []
+  goodsSpec: [],
+  giftList: [
+    { value: true, label: '是' },
+    { value: false, label: '否' }
+  ]
 }
 
 const Detail = () => {
@@ -63,7 +74,7 @@ const Detail = () => {
 
   const [fetchData, setFetchData] = useImmer(initData)
 
-  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec } = fetchData
+  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec, giftList } = fetchData
 
   const {
     mainCategoryVisible,
@@ -80,7 +91,10 @@ const Detail = () => {
     openSpec,
     pics,
     detail,
-    id
+    id,
+    sort,
+    is_gift,
+    giftVisible
   } = state
 
   useDidShow(async () => {
@@ -110,9 +124,12 @@ const Detail = () => {
       price = 0,
       approve_status,
       store,
-      item_bn
+      item_bn,
+      sort,
+      is_gift
     } = await api.weapp.good_detail(id)
     const isMulti = nospec === false
+    console.log('item_category_info', sort, is_gift)
     await setState((_val) => {
       _val.mainCategory = {
         id: item_category_main[0]?.children?.[0]?.children?.[0].id,
@@ -121,8 +138,8 @@ const Detail = () => {
       _val.item_name = item_name
       _val.brief = brief
       _val.category = {
-        id: item_category_info[0]?.children?.[0]?.children?.[0].id,
-        label: item_category_info[0]?.children?.[0]?.children?.[0].category_name
+        id: item_category_info[0]?.children?.id,
+        label: item_category_info[0]?.children?.[0]?.category_name
       }
       _val.brand = {
         id: brand_id,
@@ -163,6 +180,8 @@ const Detail = () => {
         .replace(/<img[^>]*src=['"]([^'"]+)[^>]*>/, (...args) => `${args[1]}==`)
         .split('==')
         .filter((item) => !!item)
+      _val.sort = sort
+      _val.is_gift = is_gift
     })
   })
 
@@ -197,6 +216,7 @@ const Detail = () => {
 
   const getTemplate = async () => {
     const { list } = await api.weapp.template()
+    console.log('list', list)
     await setFetchData((_val) => {
       _val.templateList = transformData(list, TEMPLATE_MAP)
     })
@@ -245,6 +265,7 @@ const Detail = () => {
         setState((val) => {
           val.brandVisible = true
         })
+        console.log('============', brandList)
         break
       case TEMPLATE:
         if (templateList.length == 0) {
@@ -253,6 +274,12 @@ const Detail = () => {
         }
         setState((val) => {
           val.templateVisible = true
+        })
+        break
+
+      case ISGIFT:
+        setState((val) => {
+          val.giftVisible = true
         })
         break
     }
@@ -313,6 +340,17 @@ const Detail = () => {
       case ITEM_SPECS:
         setState((val) => {
           val.selectSpec = [...item]
+        })
+        break
+      case SORT:
+        setState((val) => {
+          val.sort = item
+        })
+        break
+      case ISGIFT:
+        setState((val) => {
+          val.is_gift = giftList[item].value
+          val.giftVisible = false
         })
         break
     }
@@ -478,6 +516,23 @@ const Detail = () => {
             value={brief}
           />
           <FormItem
+            label='运费模版'
+            required
+            mode='selector'
+            placeholder='请选择运费模版'
+            onClick={handleClickFormItem(TEMPLATE)}
+            value={template.label}
+          />
+          <FormItem
+            label='品牌'
+            required
+            mode='selector'
+            placeholder='请选择品牌'
+            onClick={handleClickFormItem(BRAND)}
+            value={brand.label}
+          />
+
+          <FormItem
             name={CATEGORY}
             label='商品分类'
             required
@@ -487,30 +542,43 @@ const Detail = () => {
             value={category.label}
           />
           <FormItem
-            label='商品品牌'
-            required
-            mode='selector'
-            placeholder='请选择商品品牌'
-            onClick={handleClickFormItem(BRAND)}
-            value={brand.label}
+            label='排序编号'
+            mode='input'
+            placeholder='请输入商品排序编号'
+            onChange={handleChangeForm(SORT)}
+            value={sort}
           />
           <FormItem
-            label='运费模版'
-            required
-            mode='selector'
-            placeholder='请选择运费模版'
-            onClick={handleClickFormItem(TEMPLATE)}
-            value={template.label}
+            label='商品副标题'
+            mode='input'
+            placeholder='请输入商品副标题'
+            onChange={handleChangeForm(SUB_TITLE)}
+            value={brief}
           />
-          {hasGoodSpec && !id && (
+          <FormItem
+            label='赠品'
+            mode='selector'
+            placeholder='是否为赠品'
+            onClick={handleClickFormItem(ISGIFT)}
+            value={is_gift === '' ? '' : is_gift ? '是' : '否'}
+          />
+          <FormItem
+            label='商品规格'
+            mode='switch'
+            placeholder='多规格'
+            onChange={handleChangeForm(SPECS)}
+            value={openSpec}
+          />
+
+          {/* {hasGoodSpec && !id && (
             <FormItem
               label='商品规格'
               mode='switch'
-              placeholder='开启多规格'
+              placeholder='多规格'
               onChange={handleChangeForm(SPECS)}
               value={openSpec}
             />
-          )}
+          )} */}
         </View>
 
         <SpecItem
@@ -585,6 +653,23 @@ const Detail = () => {
       />
 
       <SpPicker
+        visible={giftVisible}
+        title='选择是否为赠品'
+        columns={giftList.map((item) => item.label)}
+        onCancel={() =>
+          setState((_val) => {
+            _val.giftVisible = false
+          })
+        }
+        onClose={() =>
+          setState((_val) => {
+            _val.giftVisible = false
+          })
+        }
+        onConfirm={handleChangeForm(ISGIFT)}
+      />
+
+      <SpPicker
         visible={templateVisible}
         title='选择运费模版'
         columns={templateList.map((item) => item.label)}
@@ -600,7 +685,6 @@ const Detail = () => {
         }
         onConfirm={handleChangeForm(TEMPLATE)}
       />
-
       <SpToast />
     </View>
   )
