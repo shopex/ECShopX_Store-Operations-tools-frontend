@@ -9,6 +9,7 @@ import api from '@/api'
 import { useSelector } from 'react-redux'
 import { transformDetail } from './util'
 import { FormItem, SpecItem, FormImageItem } from './comps'
+import districts from '@/common/district.json'
 import {
   STATUS_LIST,
   REQUIRE_VALUE,
@@ -26,7 +27,9 @@ import {
   TEMPLATE_MAP,
   ITEM_SPECS,
   SORT,
-  ISGIFT
+  ISGIFT,
+  ITEMUNIT,
+  DISTRICT
 } from './const'
 import './form.scss'
 
@@ -54,7 +57,13 @@ const initState = {
   sort: '',
   //是否是赠品
   is_gift: '',
-  giftVisible: false
+  giftVisible: false,
+  //计量单位
+  item_unit: '',
+  //地区
+  districtVisible: false,
+  district: districts,
+  regions_id: ''
 }
 
 const initData = {
@@ -94,7 +103,11 @@ const Detail = () => {
     id,
     sort,
     is_gift,
-    giftVisible
+    giftVisible,
+    item_unit,
+    districtVisible,
+    district,
+    regions_id
   } = state
 
   useDidShow(async () => {
@@ -126,10 +139,12 @@ const Detail = () => {
       store,
       item_bn,
       sort,
-      is_gift
+      is_gift,
+      item_unit,
+      regions_id
     } = await api.weapp.good_detail(id)
     const isMulti = nospec === false
-    console.log('item_category_info', sort, is_gift)
+    console.log('item_category_info', sort, item_unit)
     await setState((_val) => {
       _val.mainCategory = {
         id: item_category_main[0]?.children?.[0]?.children?.[0].id,
@@ -182,6 +197,8 @@ const Detail = () => {
         .filter((item) => !!item)
       _val.sort = sort
       _val.is_gift = is_gift
+      _val.item_unit = item_unit
+      _val.regions_id = regions_id
     })
   })
 
@@ -283,11 +300,17 @@ const Detail = () => {
           val.giftVisible = true
         })
         break
+      case DISTRICT:
+        setState((val) => {
+          val.districtVisible = true
+        })
+        break
     }
   }
 
-  const handleChangeForm = (key) => (item) => {
-    console.log('===handleChangeForm==', item)
+  const handleChangeForm = (key) => (item, itemDetail) => {
+    console.log('===handleChangeForm==', item, '123', itemDetail)
+
     switch (key) {
       case MAIN_CATEGORY:
         setState((_val) => {
@@ -352,6 +375,21 @@ const Detail = () => {
         setState((val) => {
           val.is_gift = giftList[item].value
           val.giftVisible = false
+        })
+        break
+      case ITEMUNIT:
+        setState((val) => {
+          val.item_unitt = item
+        })
+        break
+      case DISTRICT:
+        const selectArrs = []
+        itemDetail.forEach((_item) => {
+          selectArrs.push(_item.id)
+        })
+        setState((val) => {
+          val.regions_id = selectArrs
+          val.districtVisible = false
         })
         break
     }
@@ -488,6 +526,27 @@ const Detail = () => {
     )
   }
 
+  const idToLabel = (dataArr, selectArr) => {
+    if (!selectArr) return ''
+    let labelArr = []
+    const _hadleData = (sourceData) => {
+      sourceData.forEach((item) => {
+        if (selectArr.includes(item.id)) {
+          labelArr.push(item.label)
+          if (item.children) {
+            _hadleData(item.children)
+          }
+        }
+      })
+    }
+    _hadleData(dataArr)
+    return labelArr.join('/')
+  }
+
+  useEffect(() => {
+    console.log(123, idToLabel(district, regions_id))
+  })
+
   return (
     <View className='page-good-detail' style={getThemeStyle()}>
       <View className='page-good-detail-scrolllist'>
@@ -532,7 +591,13 @@ const Detail = () => {
             onClick={handleClickFormItem(BRAND)}
             value={brand.label}
           />
-          计量单位
+          <FormItem
+            label='计量单位'
+            mode='input'
+            placeholder='请输入商品计量单位'
+            onChange={handleChangeForm(ITEMUNIT)}
+            value={item_unit}
+          />
           <FormItem
             label='排序编号'
             mode='input'
@@ -540,7 +605,14 @@ const Detail = () => {
             onChange={handleChangeForm(SORT)}
             value={sort}
           />
-          产地
+          <FormItem
+            name={DISTRICT}
+            label='产地'
+            mode='selector'
+            placeholder='请选择商品产地'
+            onClick={handleClickFormItem(DISTRICT)}
+            value={idToLabel(district, regions_id)}
+          />
           <FormItem
             label='赠品'
             mode='selector'
@@ -702,6 +774,18 @@ const Detail = () => {
           })
         }
         onConfirm={handleChangeForm(TEMPLATE)}
+      />
+      <SpMultilevelPicker
+        visible={districtVisible}
+        title='选择地区'
+        dataSource={district}
+        columns={templateList.map((item) => item.label)}
+        onChange={handleChangeForm(DISTRICT)}
+        onClose={() =>
+          setState((_val) => {
+            _val.districtVisible = false
+          })
+        }
       />
       <SpToast />
     </View>

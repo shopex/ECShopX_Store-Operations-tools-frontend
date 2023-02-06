@@ -19,6 +19,12 @@ export const ISGIFT = 'is_gift'
 //品牌
 export const BRAND = 'brand'
 
+//计量单位
+export const ITEMUNIT = 'item_unit'
+
+//产地
+export const DISTRICT = 'district'
+
 //运费模版
 export const TEMPLATE = 'template'
 
