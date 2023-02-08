@@ -79,18 +79,7 @@ const CommonForm = (props) => {
         value={info.store}
       />
       <FormItem
-        label='商品货号'
-        mode='input'
-        type='text'
-        placeholder='请输入商品货号'
-        onChange={handleChangeForm(ITEM_BN)}
-        value={info.item_bn}
-      />
-      重量
-      <br />
-      体积
-      <FormItem
-        label='销售价'
+        label='商品销售价'
         required
         mode='input'
         type='number'
@@ -98,11 +87,14 @@ const CommonForm = (props) => {
         onChange={handleChangeForm(SALE_PRICE)}
         value={info.price}
       />
-      成本价
-      <br />
-      市场价
-      <br />
-      条形码
+      <FormItem
+        label='商品货号'
+        mode='input'
+        type='text'
+        placeholder='请输入商品货号'
+        onChange={handleChangeForm(ITEM_BN)}
+        value={info.item_bn}
+      />
       <SpPicker
         visible={statusVisible}
         title='选择售卖状态'
@@ -195,7 +187,7 @@ const SpecItem = (props) => {
     }
   }, [openSpec, valueProp])
 
-  console.log('-=-=-=-=-====selectSpecArr==', selectSpecs, id)
+  console.log('===selectSpecArr==', selectSpecs, id)
 
   return (
     <View
@@ -216,7 +208,6 @@ const SpecItem = (props) => {
           }}
         />
       )}
-      ======
       {selectSpecs.map((specItem, specIndex) => {
         return (
           <CommonForm
@@ -228,7 +219,6 @@ const SpecItem = (props) => {
           />
         )
       })}
-      ======
       <SpSpecSelector
         title='规格值选择'
         visible={visible}
