@@ -47,7 +47,21 @@ const initState = {
   pics: [],
   detail: [],
   custom_item_spec_desc: {},
-  id: undefined
+  id: undefined,
+  //新加没修改的参数
+  item_source: '',
+  item_unit: '',
+  sort: '',
+  regions_id: null,
+  tax_rate: '',
+  is_gift: undefined,
+  pics_create_qrcode: [], //[false]
+  videos: '',
+  is_show_specimg: undefined,
+  item_params: [], //！
+  tdk_content: '',
+  spec_images: [], //看是否是多规格才有，数组接口传的时候看上面的数组怎么传每一项
+  item_id: ''
 }
 
 const initData = {
@@ -80,7 +94,20 @@ const Detail = () => {
     openSpec,
     pics,
     detail,
-    id
+    id,
+    item_source,
+    item_unit,
+    sort,
+    regions_id,
+    tax_rate,
+    is_gift,
+    pics_create_qrcode,
+    videos,
+    is_show_specimg,
+    tdk_content,
+    item_params,
+    spec_images,
+    item_id
   } = state
 
   useDidShow(async () => {
@@ -110,7 +137,21 @@ const Detail = () => {
       price = 0,
       approve_status,
       store,
-      item_bn
+      item_bn,
+      //未修改的值
+      item_source,
+      item_unit,
+      sort,
+      regions_id,
+      tax_rate,
+      is_gift,
+      pics_create_qrcode, //[false]
+      videos,
+      is_show_specimg,
+      tdk_content,
+      item_params,
+      spec_images,
+      item_id
     } = await api.weapp.good_detail(id)
     const isMulti = nospec === false
     await setState((_val) => {
@@ -121,8 +162,8 @@ const Detail = () => {
       _val.item_name = item_name
       _val.brief = brief
       _val.category = {
-        id: item_category_info[0]?.children?.[0]?.children?.[0].id,
-        label: item_category_info[0]?.children?.[0]?.children?.[0].category_name
+        id: item_category_info[0]?.children?.[0]?.id,
+        label: item_category_info[0]?.children?.[0]?.category_name
       }
       _val.brand = {
         id: brand_id,
@@ -163,6 +204,19 @@ const Detail = () => {
         .replace(/<img[^>]*src=['"]([^'"]+)[^>]*>/, (...args) => `${args[1]}==`)
         .split('==')
         .filter((item) => !!item)
+      ;(_val.item_source = item_source),
+        (_val.item_unit = item_unit),
+        (_val.sort = sort),
+        (_val.regions_id = regions_id),
+        (_val.tax_rate = tax_rate),
+        (_val.is_gift = is_gift),
+        (_val.pics_create_qrcode = pics_create_qrcode), //[false]
+        (_val.videos = videos),
+        (_val.is_show_specimg = is_show_specimg),
+        (_val.tdk_content = tdk_content),
+        (_val.item_params = item_params),
+        (_val.spec_images = spec_images),
+        (_val.item_id = item_id)
     })
   })
 
@@ -384,10 +438,9 @@ const Detail = () => {
         let data = {}
         if (id) {
           data = await api.weapp.edit_good({
-            ...(openSpec ? REQUIRE_VALUE : REQUIRE_VALUE),
+            ...(openSpec ? {} : REQUIRE_VALUE),
             id,
             distributor_id,
-            sort: 1,
             item_type: 'normal',
             special_type: 'normal',
             item_name,
@@ -408,6 +461,19 @@ const Detail = () => {
                 )
               : undefined,
             nospec: openSpec ? false : true,
+            item_source,
+            item_unit,
+            sort,
+            regions_id,
+            tax_rate,
+            is_gift,
+            pics_create_qrcode,
+            videos,
+            is_show_specimg,
+            tdk_content,
+            item_params,
+            spec_images: JSON.stringify(spec_images),
+            item_id,
             ...currentSpecs
           })
         } else {
@@ -435,6 +501,19 @@ const Detail = () => {
                 )
               : undefined,
             nospec: openSpec ? false : true,
+            item_source,
+            item_unit,
+            sort,
+            regions_id,
+            tax_rate,
+            is_gift,
+            pics_create_qrcode,
+            videos,
+            is_show_specimg,
+            tdk_content,
+            item_params,
+            spec_images: JSON.stringify(spec_images),
+            item_id,
             ...currentSpecs
           })
         }

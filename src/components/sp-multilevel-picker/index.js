@@ -68,7 +68,7 @@ const SpMultilevelPicker = (props) => {
 
   useEffect(() => {
     if (selectAreaLength === 3) {
-      onChangeProp(selectArea[2])
+      onChangeProp(selectArea[2], selectArea)
       setState((_val) => {
         _val.selectArea = []
       })
