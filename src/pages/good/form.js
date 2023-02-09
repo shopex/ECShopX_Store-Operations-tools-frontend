@@ -503,7 +503,7 @@ const Detail = () => {
             nospec: openSpec ? false : true,
             item_source,
             item_unit,
-            sort,
+            sort: 1,
             regions_id,
             tax_rate,
             is_gift,
