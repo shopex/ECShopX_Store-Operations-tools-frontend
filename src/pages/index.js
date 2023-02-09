@@ -397,22 +397,25 @@ class Index extends Component {
                   <View className='subtitle'>收银台</View>
                 </View>
               )}
-              <View
-                className='item'
-                onClick={() =>
-                  wx.miniProgram.navigateTo({
-                    url: `/subpages/dianwu/pending-checkout?token=${S.getAuthToken()}&distributor_id=${distributor_id}&from=home`
-                  })
-                }
-              >
-                <View className='img_'>
-                  <Image
-                    className='img'
-                    src={require('@/assets/imgs/icon_fetch_order.png')}
-                  ></Image>
+              {VERSION_STANDARD && (
+                <View
+                  className='item'
+                  onClick={() =>
+                    wx.miniProgram.navigateTo({
+                      url: `/subpages/dianwu/pending-checkout?token=${S.getAuthToken()}&distributor_id=${distributor_id}&from=home`
+                    })
+                  }
+                >
+                  <View className='img_'>
+                    <Image
+                      className='img'
+                      src={require('@/assets/imgs/icon_fetch_order.png')}
+                    ></Image>
+                  </View>
+                  <View className='subtitle'>取单</View>
                 </View>
-                <View className='subtitle'>取单</View>
-              </View>
+              )}
+
               <SpToast />
             </View>
           </View>
