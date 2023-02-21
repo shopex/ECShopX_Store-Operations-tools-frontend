@@ -3,18 +3,16 @@
    padding:0 32px;
 
    &.has-good-spec{
-    background-color: transparent;
+    background-color: #f3f5f6;
     padding: 0;
 
     .common-form{
-      background: #FFFFFF;
+      background: #fff;
       border-radius: 8px;
-      margin:0 16px;
+      width: 90%;
       padding:0 16px;
+      margin: 16px auto;
 
-      // &:last-child{
-        margin: 16px 0;
-      // }
     }
    }
 

@@ -6,7 +6,18 @@ import { classNames } from '@/utils'
 import { useImmer } from 'use-immer'
 import FormItem from './form-item'
 import { computeSpecs, usePrevious } from '../util'
-import { STATUS_LIST, STATUS, STORE, SALE_PRICE, ITEM_BN } from '../const'
+import {
+  STATUS_LIST,
+  STATUS,
+  STORE,
+  SALE_PRICE,
+  ITEM_BN,
+  VOLUME,
+  WEIGHT,
+  COSTPRICE,
+  MARKETPRICE,
+  BARCODE
+} from '../const'
 import './spec-item.scss'
 
 const initCommonState = {
@@ -37,6 +48,21 @@ const CommonForm = (props) => {
       case ITEM_BN:
         onChange({ item_bn: item })
         break
+      case WEIGHT:
+        onChange({ weight: item })
+        break
+      case VOLUME:
+        onChange({ volume: item })
+        break
+      case COSTPRICE:
+        onChange({ cost_price: item })
+        break
+      case MARKETPRICE:
+        onChange({ market_price: item })
+        break
+      case BARCODE:
+        onChange({ barcode: item })
+        break
     }
   }
 
@@ -49,6 +75,8 @@ const CommonForm = (props) => {
         break
     }
   }
+
+  console.log(1, info)
 
   return (
     <View className='common-form'>
@@ -79,7 +107,31 @@ const CommonForm = (props) => {
         value={info.store}
       />
       <FormItem
-        label='商品销售价'
+        label='商品货号'
+        mode='input'
+        type='text'
+        placeholder='请输入商品货号'
+        onChange={handleChangeForm(ITEM_BN)}
+        value={info.item_bn}
+      />
+      <FormItem
+        label='重量'
+        mode='input'
+        type='text'
+        placeholder='请输入商品重量'
+        onChange={handleChangeForm(WEIGHT)}
+        value={info.weight}
+      />
+      <FormItem
+        label='体积'
+        mode='input'
+        type='text'
+        placeholder='请输入商品体积'
+        onChange={handleChangeForm(VOLUME)}
+        value={info.volume}
+      />
+      <FormItem
+        label='销售价'
         required
         mode='input'
         type='number'
@@ -88,13 +140,30 @@ const CommonForm = (props) => {
         value={info.price}
       />
       <FormItem
-        label='商品货号'
+        label='成本价'
         mode='input'
         type='text'
-        placeholder='请输入商品货号'
-        onChange={handleChangeForm(ITEM_BN)}
-        value={info.item_bn}
+        placeholder='请输入商品成本价'
+        onChange={handleChangeForm(COSTPRICE)}
+        value={info.cost_price}
       />
+      <FormItem
+        label='市场价'
+        mode='input'
+        type='text'
+        placeholder='请输入商品市场价'
+        onChange={handleChangeForm(MARKETPRICE)}
+        value={info.market_price}
+      />
+      <FormItem
+        label='条形码'
+        mode='input'
+        type='text'
+        placeholder='请输入商品条形码'
+        onChange={handleChangeForm(BARCODE)}
+        value={info.barcode}
+      />
+
       <SpPicker
         visible={statusVisible}
         title='选择售卖状态'

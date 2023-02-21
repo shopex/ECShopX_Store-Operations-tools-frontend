@@ -671,8 +671,7 @@ const Detail = () => {
             onClick={handleClickFormItem(ISGIFT)}
             value={is_gift !== true || is_gift !== true ? '' : is_gift ? '是' : '否'}
           />
-
-          <FormItem
+          {/* <FormItem
             name={CATEGORY}
             label='商品分类'
             required
@@ -680,18 +679,20 @@ const Detail = () => {
             placeholder='请选择商品分类'
             onClick={handleClickFormItem(CATEGORY)}
             value={category.label}
-          />
-
-          {hasGoodSpec && !id && (
-            <FormItem
-              label='商品规格'
-              mode='switch'
-              placeholder='多规格'
-              onChange={handleChangeForm(SPECS)}
-              value={openSpec}
-            />
-          )}
+          /> */}
+          {/* 商品参数 */}
         </View>
+
+        {/* {hasGoodSpec && !id && ( */}
+        <FormItem
+          label='商品规格'
+          mode='switch'
+          placeholder='多规格'
+          className='spec-switch'
+          onChange={handleChangeForm(SPECS)}
+          value={openSpec}
+        />
+        {/* )} */}
 
         <SpecItem
           goodsSpec={goodsSpec}

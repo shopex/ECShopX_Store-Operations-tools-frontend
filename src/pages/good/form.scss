@@ -8,6 +8,12 @@ $buttonHeight:110px;
   box-sizing: border-box;
   background-color: #F5F6F7;
 
+  .spec-switch{
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 0 50px;
+  }
+
   &-scrolllist {
     // @include page-scroll(0, 0);
     box-sizing: border-box;
@@ -21,6 +27,7 @@ $buttonHeight:110px;
       background-color: white;
       border-radius: 20px;
       margin-bottom: 40px;
+
     }
   }
 
