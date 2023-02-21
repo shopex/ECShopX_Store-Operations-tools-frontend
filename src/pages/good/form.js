@@ -9,6 +9,7 @@ import api from '@/api'
 import { useSelector } from 'react-redux'
 import { transformDetail } from './util'
 import { FormItem, SpecItem, FormImageItem } from './comps'
+import district from '@/common/district.json'
 import {
   STATUS_LIST,
   REQUIRE_VALUE,
@@ -24,8 +25,13 @@ import {
   CAT_MAP,
   BRAND_MAP,
   TEMPLATE_MAP,
-  ITEM_SPECS
+  ITEM_SPECS,
+  SORT,
+  ITEMUNIT,
+  DISTRICT,
+  ISGIFT
 } from './const'
+
 import './form.scss'
 
 const initState = {
@@ -53,8 +59,10 @@ const initState = {
   item_unit: '',
   sort: '',
   regions_id: null,
+  districtVisible: false,
   tax_rate: '',
   is_gift: undefined,
+  giftVisible: false,
   pics_create_qrcode: [], //[false]
   videos: '',
   is_show_specimg: undefined,
@@ -69,7 +77,11 @@ const initData = {
   categoryList: [],
   brandList: [],
   templateList: [],
-  goodsSpec: []
+  goodsSpec: [],
+  giftList: [
+    { id: true, label: '是' },
+    { id: false, label: '否' }
+  ]
 }
 
 const Detail = () => {
@@ -77,7 +89,7 @@ const Detail = () => {
 
   const [fetchData, setFetchData] = useImmer(initData)
 
-  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec } = fetchData
+  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec, giftList } = fetchData
 
   const {
     mainCategoryVisible,
@@ -99,8 +111,10 @@ const Detail = () => {
     item_unit,
     sort,
     regions_id,
+    districtVisible,
     tax_rate,
     is_gift,
+    giftVisible,
     pics_create_qrcode,
     videos,
     is_show_specimg,
@@ -309,10 +323,21 @@ const Detail = () => {
           val.templateVisible = true
         })
         break
+
+      case DISTRICT:
+        setState((val) => {
+          val.districtVisible = true
+        })
+        break
+      case ISGIFT:
+        setState((val) => {
+          val.giftVisible = true
+        })
+        break
     }
   }
 
-  const handleChangeForm = (key) => (item) => {
+  const handleChangeForm = (key) => (item, fullItem) => {
     console.log('===handleChangeForm==', item)
     switch (key) {
       case MAIN_CATEGORY:
@@ -367,6 +392,34 @@ const Detail = () => {
       case ITEM_SPECS:
         setState((val) => {
           val.selectSpec = [...item]
+        })
+        break
+
+      case ITEMUNIT:
+        setState((val) => {
+          val.item_unit = item
+        })
+        break
+      case SORT:
+        setState((val) => {
+          val.sort = item
+        })
+        break
+      case DISTRICT:
+        let selectAreaId = []
+        fullItem.forEach((aItem) => {
+          selectAreaId.push(aItem.id)
+        })
+        setState((_val) => {
+          _val.regions_id = selectAreaId
+          _val.districtVisible = false
+        })
+        break
+      case ISGIFT:
+        console.log(1, item)
+        setState((val) => {
+          val.is_gift = giftList[item].id
+          val.giftVisible = false
         })
         break
     }
@@ -528,6 +581,23 @@ const Detail = () => {
     )
   }
 
+  const idToLabel = (dateArr, selectArr) => {
+    if (!selectArr) return ''
+    let labelArr = []
+    const _handleData = (sourceData) => {
+      sourceData.forEach((item) => {
+        if (selectArr.includes(item.id)) {
+          labelArr.push(item.label)
+          if (item.children) {
+            _handleData(item.children)
+          }
+        }
+      })
+    }
+    _handleData(dateArr)
+    return labelArr.join('/')
+  }
+
   return (
     <View className='page-good-detail' style={getThemeStyle()}>
       <View className='page-good-detail-scrolllist'>
@@ -557,6 +627,52 @@ const Detail = () => {
             value={brief}
           />
           <FormItem
+            label='运费模版'
+            required
+            mode='selector'
+            placeholder='请选择运费模版'
+            onClick={handleClickFormItem(TEMPLATE)}
+            value={template.label}
+          />
+          <FormItem
+            label='品牌'
+            required
+            mode='selector'
+            placeholder='请选择品牌'
+            onClick={handleClickFormItem(BRAND)}
+            value={brand.label}
+          />
+          <FormItem
+            label='计量单位'
+            mode='input'
+            placeholder='请输入计量单位'
+            onChange={handleChangeForm(ITEMUNIT)}
+            value={item_unit}
+          />
+          <FormItem
+            label='排序编号'
+            mode='input'
+            placeholder='请输入排序编号'
+            onChange={handleChangeForm(SORT)}
+            value={sort}
+          />
+          <FormItem
+            name={CATEGORY}
+            label='产地'
+            mode='selector'
+            placeholder='请选择商品产地'
+            onClick={handleClickFormItem(DISTRICT)}
+            value={idToLabel(district, regions_id)}
+          />
+          <FormItem
+            label='赠品'
+            mode='selector'
+            placeholder='请选择是否为赠品'
+            onClick={handleClickFormItem(ISGIFT)}
+            value={is_gift !== true || is_gift !== true ? '' : is_gift ? '是' : '否'}
+          />
+
+          <FormItem
             name={CATEGORY}
             label='商品分类'
             required
@@ -565,27 +681,12 @@ const Detail = () => {
             onClick={handleClickFormItem(CATEGORY)}
             value={category.label}
           />
-          <FormItem
-            label='商品品牌'
-            required
-            mode='selector'
-            placeholder='请选择商品品牌'
-            onClick={handleClickFormItem(BRAND)}
-            value={brand.label}
-          />
-          <FormItem
-            label='运费模版'
-            required
-            mode='selector'
-            placeholder='请选择运费模版'
-            onClick={handleClickFormItem(TEMPLATE)}
-            value={template.label}
-          />
+
           {hasGoodSpec && !id && (
             <FormItem
               label='商品规格'
               mode='switch'
-              placeholder='开启多规格'
+              placeholder='多规格'
               onChange={handleChangeForm(SPECS)}
               value={openSpec}
             />
@@ -646,6 +747,18 @@ const Detail = () => {
         }
       />
 
+      <SpMultilevelPicker
+        visible={districtVisible}
+        title='选择地区'
+        dataSource={district}
+        onChange={handleChangeForm(DISTRICT)}
+        onClose={() =>
+          setState((_val) => {
+            _val.districtVisible = false
+          })
+        }
+      />
+
       <SpPicker
         visible={brandVisible}
         title='选择品牌'
@@ -661,6 +774,23 @@ const Detail = () => {
           })
         }
         onConfirm={handleChangeForm(BRAND)}
+      />
+
+      <SpPicker
+        visible={giftVisible}
+        title='选择是否为赠品'
+        columns={giftList.map((item) => item.label)}
+        onCancel={() =>
+          setState((_val) => {
+            _val.giftVisible = false
+          })
+        }
+        onClose={() =>
+          setState((_val) => {
+            _val.giftVisible = false
+          })
+        }
+        onConfirm={handleChangeForm(ISGIFT)}
       />
 
       <SpPicker
