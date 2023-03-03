@@ -725,6 +725,7 @@ const Detail = () => {
             name={DISTRICT}
             label='产地'
             mode='selector'
+            className='district'
             placeholder='请选择商品产地'
             onClick={handleClickFormItem(DISTRICT)}
             value={idToLabel(district, regions_id)}
@@ -741,6 +742,7 @@ const Detail = () => {
             name={CATEGORY}
             label='商品分类'
             required
+            className='category'
             mode='selector'
             placeholder='请选择商品分类'
             onClick={handleClickFormItem(CATEGORY)}

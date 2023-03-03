@@ -1,11 +1,11 @@
 
 .form-item{
-    height:106px;    
+    height:106px;
     display: flex;
     align-items: center;
     padding-left:19px;
     position: relative;
- 
+
     &:after{
         display: block;
         content:'';
@@ -68,7 +68,7 @@
                     display: block;
                 }
             }
-            
+
             .iconfont{
                 font-size: 20px;
                 color:#C5CAD5;
