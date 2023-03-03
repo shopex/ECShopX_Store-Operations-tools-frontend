@@ -8,7 +8,8 @@ import { useImmer } from 'use-immer'
 import api from '@/api'
 import { useSelector } from 'react-redux'
 import { transformDetail } from './util'
-import { FormItem, SpecItem, FormImageItem } from './comps'
+import { FormItem, SpecItem, FormImageItem, ParamsItem } from './comps'
+import district from '@/common/district.json'
 import {
   STATUS_LIST,
   REQUIRE_VALUE,
@@ -24,8 +25,14 @@ import {
   CAT_MAP,
   BRAND_MAP,
   TEMPLATE_MAP,
-  ITEM_SPECS
+  ITEM_SPECS,
+  SORT,
+  ITEMUNIT,
+  DISTRICT,
+  ISGIFT,
+  PARAMS
 } from './const'
+
 import './form.scss'
 
 const initState = {
@@ -53,8 +60,10 @@ const initState = {
   item_unit: '',
   sort: '',
   regions_id: null,
+  districtVisible: false,
   tax_rate: '',
-  is_gift: undefined,
+  is_gift: '',
+  giftVisible: false,
   pics_create_qrcode: [], //[false]
   videos: '',
   is_show_specimg: undefined,
@@ -69,7 +78,12 @@ const initData = {
   categoryList: [],
   brandList: [],
   templateList: [],
-  goodsSpec: []
+  goodsSpec: [],
+  giftList: [
+    { id: true, label: '是' },
+    { id: false, label: '否' }
+  ],
+  paramsData: []
 }
 
 const Detail = () => {
@@ -77,7 +91,15 @@ const Detail = () => {
 
   const [fetchData, setFetchData] = useImmer(initData)
 
-  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec } = fetchData
+  const {
+    mainCategoryList,
+    categoryList,
+    brandList,
+    templateList,
+    goodsSpec,
+    giftList,
+    paramsData
+  } = fetchData
 
   const {
     mainCategoryVisible,
@@ -99,8 +121,10 @@ const Detail = () => {
     item_unit,
     sort,
     regions_id,
+    districtVisible,
     tax_rate,
     is_gift,
+    giftVisible,
     pics_create_qrcode,
     videos,
     is_show_specimg,
@@ -150,9 +174,12 @@ const Detail = () => {
       is_show_specimg,
       tdk_content,
       item_params,
+      item_params_list,
       spec_images,
       item_id
     } = await api.weapp.good_detail(id)
+
+    getGoodsParams(item_params_list, item_params)
     const isMulti = nospec === false
     await setState((_val) => {
       _val.mainCategory = {
@@ -257,9 +284,41 @@ const Detail = () => {
   }
 
   const getMainCategoryDetail = async (id) => {
-    const { goods_spec } = await api.weapp.main_category_detail(id)
+    const { goods_spec, goods_params } = await api.weapp.main_category_detail(id)
+
     await setFetchData((_val) => {
       _val.goodsSpec = goods_spec
+    })
+    await getGoodsParams(goods_params, [])
+  }
+
+  // 商品参数
+  const getGoodsParams = async (list, value) => {
+    const paramsDatac = []
+    list.forEach((item) => {
+      const temp = {
+        value: item.attribute_id,
+        label: item.attribute_name,
+        attribute_value_id: '',
+        attribute_value_name: '',
+        children: []
+      }
+      item.attribute_values.list.forEach(({ attribute_value_id, attribute_value }) => {
+        temp.children.push({
+          value: attribute_value_id,
+          label: attribute_value
+        })
+      })
+      const fd = value.find((sitem) => sitem.attribute_id == item.attribute_id)
+      if (fd) {
+        temp.attribute_value_id = fd.attribute_value_id
+        temp.attribute_value_name = fd.attribute_value_name
+      }
+      paramsDatac.push(temp)
+    })
+
+    await setFetchData((_val) => {
+      _val.paramsData = paramsDatac
     })
   }
 
@@ -309,16 +368,30 @@ const Detail = () => {
           val.templateVisible = true
         })
         break
+
+      case DISTRICT:
+        setState((val) => {
+          val.districtVisible = true
+        })
+        break
+      case ISGIFT:
+        setState((val) => {
+          val.giftVisible = true
+        })
+        break
     }
   }
 
-  const handleChangeForm = (key) => (item) => {
-    console.log('===handleChangeForm==', item)
+  const handleChangeForm = (key) => (item, fullItem) => {
+    console.log('===handleChangeForm==', item, fullItem)
     switch (key) {
       case MAIN_CATEGORY:
         setState((_val) => {
           _val.mainCategory = item
           _val.mainCategoryVisible = false
+        })
+        setFetchData((val) => {
+          val.paramsData = []
         })
         break
       case CATEGORY:
@@ -367,6 +440,39 @@ const Detail = () => {
       case ITEM_SPECS:
         setState((val) => {
           val.selectSpec = [...item]
+        })
+        break
+
+      case ITEMUNIT:
+        setState((val) => {
+          val.item_unit = item
+        })
+        break
+      case SORT:
+        setState((val) => {
+          val.sort = item
+        })
+        break
+      case DISTRICT:
+        let selectAreaId = []
+        fullItem.forEach((aItem) => {
+          selectAreaId.push(aItem.id)
+        })
+        setState((_val) => {
+          _val.regions_id = selectAreaId
+          _val.districtVisible = false
+        })
+        break
+      case ISGIFT:
+        let is_giftn = giftList[item].id
+        setState((val) => {
+          val.is_gift = is_giftn
+          val.giftVisible = false
+        })
+        break
+      case PARAMS:
+        setFetchData((val) => {
+          val.paramsData = [...item]
         })
         break
     }
@@ -471,7 +577,13 @@ const Detail = () => {
             videos,
             is_show_specimg,
             tdk_content,
-            item_params,
+            item_params: paramsData.map((item) => {
+              return {
+                attribute_id: item.value,
+                attribute_value_id: item.attribute_value_id,
+                attribute_value_name: item.attribute_value_name
+              }
+            }),
             spec_images: JSON.stringify(spec_images),
             item_id,
             ...currentSpecs
@@ -511,7 +623,13 @@ const Detail = () => {
             videos,
             is_show_specimg,
             tdk_content,
-            item_params,
+            item_params: paramsData.map((item) => {
+              return {
+                attribute_id: item.value,
+                attribute_value_id: item.attribute_value_id,
+                attribute_value_name: item.attribute_value_name
+              }
+            }),
             spec_images: JSON.stringify(spec_images),
             item_id,
             ...currentSpecs
@@ -526,6 +644,23 @@ const Detail = () => {
         }, 100)
       }
     )
+  }
+
+  const idToLabel = (dateArr, selectArr) => {
+    if (!selectArr) return ''
+    let labelArr = []
+    const _handleData = (sourceData) => {
+      sourceData.forEach((item) => {
+        if (selectArr.includes(item.id)) {
+          labelArr.push(item.label)
+          if (item.children) {
+            _handleData(item.children)
+          }
+        }
+      })
+    }
+    _handleData(dateArr)
+    return labelArr.join('/')
   }
 
   return (
@@ -557,23 +692,6 @@ const Detail = () => {
             value={brief}
           />
           <FormItem
-            name={CATEGORY}
-            label='商品分类'
-            required
-            mode='selector'
-            placeholder='请选择商品分类'
-            onClick={handleClickFormItem(CATEGORY)}
-            value={category.label}
-          />
-          <FormItem
-            label='商品品牌'
-            required
-            mode='selector'
-            placeholder='请选择商品品牌'
-            onClick={handleClickFormItem(BRAND)}
-            value={brand.label}
-          />
-          <FormItem
             label='运费模版'
             required
             mode='selector'
@@ -581,16 +699,72 @@ const Detail = () => {
             onClick={handleClickFormItem(TEMPLATE)}
             value={template.label}
           />
-          {hasGoodSpec && !id && (
-            <FormItem
-              label='商品规格'
-              mode='switch'
-              placeholder='开启多规格'
-              onChange={handleChangeForm(SPECS)}
-              value={openSpec}
-            />
-          )}
+          <FormItem
+            label='品牌'
+            required
+            mode='selector'
+            placeholder='请选择品牌'
+            onClick={handleClickFormItem(BRAND)}
+            value={brand.label}
+          />
+          <FormItem
+            label='计量单位'
+            mode='input'
+            placeholder='请输入计量单位'
+            onChange={handleChangeForm(ITEMUNIT)}
+            value={item_unit}
+          />
+          <FormItem
+            label='排序编号'
+            mode='input'
+            placeholder='请输入排序编号'
+            onChange={handleChangeForm(SORT)}
+            value={sort}
+          />
+          <FormItem
+            name={DISTRICT}
+            label='产地'
+            mode='selector'
+            className='district'
+            placeholder='请选择商品产地'
+            onClick={handleClickFormItem(DISTRICT)}
+            value={idToLabel(district, regions_id)}
+          />
+          <FormItem
+            name={ISGIFT}
+            label='赠品'
+            mode='selector'
+            placeholder='请选择是否为赠品'
+            onClick={handleClickFormItem(ISGIFT)}
+            value={is_gift + '' === '' ? '' : is_gift ? '是' : '否'}
+          />
+          <FormItem
+            name={CATEGORY}
+            label='商品分类'
+            required
+            className='category'
+            mode='selector'
+            placeholder='请选择商品分类'
+            onClick={handleClickFormItem(CATEGORY)}
+            value={category.label}
+          />
         </View>
+
+        {paramsData.length > 0 && (
+          <ParamsItem paramsData={paramsData} onChange={handleChangeForm(PARAMS)} />
+        )}
+
+        <View className='title'>商品规格</View>
+        {/* {hasGoodSpec && !id && ( */}
+        <FormItem
+          label='商品规格'
+          mode='switch'
+          placeholder='多规格'
+          className='spec-switch'
+          onChange={handleChangeForm(SPECS)}
+          value={openSpec}
+        />
+        {/* )} */}
 
         <SpecItem
           goodsSpec={goodsSpec}
@@ -646,6 +820,18 @@ const Detail = () => {
         }
       />
 
+      <SpMultilevelPicker
+        visible={districtVisible}
+        title='选择地区'
+        dataSource={district}
+        onChange={handleChangeForm(DISTRICT)}
+        onClose={() =>
+          setState((_val) => {
+            _val.districtVisible = false
+          })
+        }
+      />
+
       <SpPicker
         visible={brandVisible}
         title='选择品牌'
@@ -661,6 +847,23 @@ const Detail = () => {
           })
         }
         onConfirm={handleChangeForm(BRAND)}
+      />
+
+      <SpPicker
+        visible={giftVisible}
+        title='选择是否为赠品'
+        columns={giftList.map((item) => item.label)}
+        onCancel={() =>
+          setState((_val) => {
+            _val.giftVisible = false
+          })
+        }
+        onClose={() =>
+          setState((_val) => {
+            _val.giftVisible = false
+          })
+        }
+        onConfirm={handleChangeForm(ISGIFT)}
       />
 
       <SpPicker
