@@ -8,7 +8,7 @@ import { useImmer } from 'use-immer'
 import api from '@/api'
 import { useSelector } from 'react-redux'
 import { transformDetail } from './util'
-import { FormItem, SpecItem, FormImageItem } from './comps'
+import { FormItem, SpecItem, FormImageItem, ParamsItem } from './comps'
 import district from '@/common/district.json'
 import {
   STATUS_LIST,
@@ -29,7 +29,8 @@ import {
   SORT,
   ITEMUNIT,
   DISTRICT,
-  ISGIFT
+  ISGIFT,
+  PARAMS
 } from './const'
 
 import './form.scss'
@@ -61,7 +62,7 @@ const initState = {
   regions_id: null,
   districtVisible: false,
   tax_rate: '',
-  is_gift: undefined,
+  is_gift: '',
   giftVisible: false,
   pics_create_qrcode: [], //[false]
   videos: '',
@@ -81,7 +82,8 @@ const initData = {
   giftList: [
     { id: true, label: '是' },
     { id: false, label: '否' }
-  ]
+  ],
+  paramsData: []
 }
 
 const Detail = () => {
@@ -89,7 +91,15 @@ const Detail = () => {
 
   const [fetchData, setFetchData] = useImmer(initData)
 
-  const { mainCategoryList, categoryList, brandList, templateList, goodsSpec, giftList } = fetchData
+  const {
+    mainCategoryList,
+    categoryList,
+    brandList,
+    templateList,
+    goodsSpec,
+    giftList,
+    paramsData
+  } = fetchData
 
   const {
     mainCategoryVisible,
@@ -164,9 +174,12 @@ const Detail = () => {
       is_show_specimg,
       tdk_content,
       item_params,
+      item_params_list,
       spec_images,
       item_id
     } = await api.weapp.good_detail(id)
+
+    getGoodsParams(item_params_list, item_params)
     const isMulti = nospec === false
     await setState((_val) => {
       _val.mainCategory = {
@@ -271,9 +284,41 @@ const Detail = () => {
   }
 
   const getMainCategoryDetail = async (id) => {
-    const { goods_spec } = await api.weapp.main_category_detail(id)
+    const { goods_spec, goods_params } = await api.weapp.main_category_detail(id)
+
     await setFetchData((_val) => {
       _val.goodsSpec = goods_spec
+    })
+    await getGoodsParams(goods_params, [])
+  }
+
+  // 商品参数
+  const getGoodsParams = async (list, value) => {
+    const paramsDatac = []
+    list.forEach((item) => {
+      const temp = {
+        value: item.attribute_id,
+        label: item.attribute_name,
+        attribute_value_id: '',
+        attribute_value_name: '',
+        children: []
+      }
+      item.attribute_values.list.forEach(({ attribute_value_id, attribute_value }) => {
+        temp.children.push({
+          value: attribute_value_id,
+          label: attribute_value
+        })
+      })
+      const fd = value.find((sitem) => sitem.attribute_id == item.attribute_id)
+      if (fd) {
+        temp.attribute_value_id = fd.attribute_value_id
+        temp.attribute_value_name = fd.attribute_value_name
+      }
+      paramsDatac.push(temp)
+    })
+
+    await setFetchData((_val) => {
+      _val.paramsData = paramsDatac
     })
   }
 
@@ -338,12 +383,15 @@ const Detail = () => {
   }
 
   const handleChangeForm = (key) => (item, fullItem) => {
-    console.log('===handleChangeForm==', item)
+    console.log('===handleChangeForm==', item, fullItem)
     switch (key) {
       case MAIN_CATEGORY:
         setState((_val) => {
           _val.mainCategory = item
           _val.mainCategoryVisible = false
+        })
+        setFetchData((val) => {
+          val.paramsData = []
         })
         break
       case CATEGORY:
@@ -416,10 +464,15 @@ const Detail = () => {
         })
         break
       case ISGIFT:
-        console.log(1, item)
+        let is_giftn = giftList[item].id
         setState((val) => {
-          val.is_gift = giftList[item].id
+          val.is_gift = is_giftn
           val.giftVisible = false
+        })
+        break
+      case PARAMS:
+        setFetchData((val) => {
+          val.paramsData = [...item]
         })
         break
     }
@@ -524,7 +577,13 @@ const Detail = () => {
             videos,
             is_show_specimg,
             tdk_content,
-            item_params,
+            item_params: paramsData.map((item) => {
+              return {
+                attribute_id: item.value,
+                attribute_value_id: item.attribute_value_id,
+                attribute_value_name: item.attribute_value_name
+              }
+            }),
             spec_images: JSON.stringify(spec_images),
             item_id,
             ...currentSpecs
@@ -564,7 +623,13 @@ const Detail = () => {
             videos,
             is_show_specimg,
             tdk_content,
-            item_params,
+            item_params: paramsData.map((item) => {
+              return {
+                attribute_id: item.value,
+                attribute_value_id: item.attribute_value_id,
+                attribute_value_name: item.attribute_value_name
+              }
+            }),
             spec_images: JSON.stringify(spec_images),
             item_id,
             ...currentSpecs
@@ -657,7 +722,7 @@ const Detail = () => {
             value={sort}
           />
           <FormItem
-            name={CATEGORY}
+            name={DISTRICT}
             label='产地'
             mode='selector'
             placeholder='请选择商品产地'
@@ -665,13 +730,14 @@ const Detail = () => {
             value={idToLabel(district, regions_id)}
           />
           <FormItem
+            name={ISGIFT}
             label='赠品'
             mode='selector'
             placeholder='请选择是否为赠品'
             onClick={handleClickFormItem(ISGIFT)}
-            value={is_gift !== true || is_gift !== true ? '' : is_gift ? '是' : '否'}
+            value={is_gift + '' === '' ? '' : is_gift ? '是' : '否'}
           />
-          {/* <FormItem
+          <FormItem
             name={CATEGORY}
             label='商品分类'
             required
@@ -679,9 +745,12 @@ const Detail = () => {
             placeholder='请选择商品分类'
             onClick={handleClickFormItem(CATEGORY)}
             value={category.label}
-          /> */}
-          {/* 商品参数 */}
+          />
         </View>
+
+        {paramsData.length > 0 && (
+          <ParamsItem paramsData={paramsData} onChange={handleChangeForm(PARAMS)} />
+        )}
 
         {/* {hasGoodSpec && !id && ( */}
         <FormItem

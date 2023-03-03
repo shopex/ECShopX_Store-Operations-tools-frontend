@@ -31,6 +31,9 @@ export const TEMPLATE = 'template'
 //多规格
 export const SPECS = 'specs'
 
+//参数
+export const PARAMS = 'params'
+
 export const ITEM_SPECS = 'item_specs'
 
 //商品图片
