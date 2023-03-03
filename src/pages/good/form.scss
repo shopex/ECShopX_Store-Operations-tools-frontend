@@ -35,6 +35,10 @@ $buttonHeight:110px;
     // @include page-scroll(0, 0);
     box-sizing: border-box;
     padding-bottom:$buttonHeight+30px;
+    .title{
+      color: #999;
+      margin-left: 50px;
+    }
     .block-title{
       color: #c0c5d1;
       margin-left: 40px;

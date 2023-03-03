@@ -754,6 +754,7 @@ const Detail = () => {
           <ParamsItem paramsData={paramsData} onChange={handleChangeForm(PARAMS)} />
         )}
 
+        <View className='title'>商品规格</View>
         {/* {hasGoodSpec && !id && ( */}
         <FormItem
           label='商品规格'
