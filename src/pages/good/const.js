@@ -31,6 +31,9 @@ export const TEMPLATE = 'template'
 //多规格
 export const SPECS = 'specs'
 
+//参数
+export const PARAMS = 'params'
+
 export const ITEM_SPECS = 'item_specs'
 
 //商品图片
@@ -45,6 +48,21 @@ export const STATUS = 'status'
 export const STORE = 'store'
 //商品销售价
 export const SALE_PRICE = 'sale_price'
+
+//商品成本价
+export const COSTPRICE = 'cost_price'
+
+//商品市场价
+export const MARKETPRICE = 'market_price'
+
+//商品条形码
+export const BARCODE = 'barcode'
+
+//重量
+export const WEIGHT = 'weight'
+
+//体积
+export const VOLUME = 'volume'
 
 export const ITEM_BN = 'item_bn'
 

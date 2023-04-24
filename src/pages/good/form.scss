@@ -8,10 +8,37 @@ $buttonHeight:110px;
   box-sizing: border-box;
   background-color: #F5F6F7;
 
+  .district{
+    border-bottom: #E2E4EA 1px solid;
+  }
+  .category{
+    position: relative;
+    &:after{
+      display: block;
+      content:'';
+      position: absolute;
+      background-color: transparent;
+      height:1px;
+      bottom:0;
+      left:0;
+      right:0;
+  }
+  }
+
+  .spec-switch{
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 0 50px;
+  }
+
   &-scrolllist {
     // @include page-scroll(0, 0);
     box-sizing: border-box;
     padding-bottom:$buttonHeight+30px;
+    .title{
+      color: #999;
+      margin-left: 50px;
+    }
     .block-title{
       color: #c0c5d1;
       margin-left: 40px;
@@ -21,6 +48,7 @@ $buttonHeight:110px;
       background-color: white;
       border-radius: 20px;
       margin-bottom: 40px;
+
     }
   }
 
