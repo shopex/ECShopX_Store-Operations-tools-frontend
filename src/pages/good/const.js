@@ -70,7 +70,7 @@ export const SHOW_SEPC = 'show_spec'
 
 export const CAT_MAP = {
   category_name: 'label',
-  id: 'id'
+  category_id: 'id'
 }
 
 export const BRAND_MAP = {

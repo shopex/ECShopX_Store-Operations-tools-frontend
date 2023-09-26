@@ -209,6 +209,7 @@ const Detail = () => {
         ? spec_items.map((item) => ({
             ...item,
             price: item.price / 100,
+            cost_price: item.cost_price / 100,
             approve_status: {
               label: STATUS_LIST.find((_item) => _item.value === item.approve_status)?.label,
               value: item.approve_status
@@ -224,6 +225,7 @@ const Detail = () => {
               },
               store,
               price: price / 100,
+              cost_price: item.cost_price / 100,
               item_bn: item_bn
             }
           ]
