@@ -183,7 +183,7 @@ const Detail = () => {
     const isMulti = nospec === false
     await setState((_val) => {
       _val.mainCategory = {
-        id: item_category_main[0]?.children?.[0]?.children?.[0].id,
+        id: item_category_main[0]?.children?.[0]?.children?.[0].category_id,
         label: item_category_main[0]?.children?.[0]?.children?.[0].category_name
       }
       _val.item_name = item_name
@@ -489,6 +489,7 @@ const Detail = () => {
 
   const handleSubmit = async () => {
     console.log('==handleSubmit=')
+
     if (!mainCategory.id) {
       showToast('商品主类目必填')
       return
