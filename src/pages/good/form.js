@@ -189,7 +189,7 @@ const Detail = () => {
       _val.item_name = item_name
       _val.brief = brief
       _val.category = {
-        id: item_category_info[0]?.children?.[0]?.id,
+        id: item_category_info[0]?.children?.[0]?.category_id,
         label: item_category_info[0]?.children?.[0]?.category_name
       }
       _val.brand = {
