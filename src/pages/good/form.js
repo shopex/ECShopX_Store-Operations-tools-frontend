@@ -159,6 +159,7 @@ const Detail = () => {
       spec_items,
       intro,
       price = 0,
+      cost_price = 0,
       approve_status,
       store,
       item_bn,
@@ -225,7 +226,7 @@ const Detail = () => {
               },
               store,
               price: price / 100,
-              cost_price: item.cost_price / 100,
+              cost_price: cost_price / 100,
               item_bn: item_bn
             }
           ]
