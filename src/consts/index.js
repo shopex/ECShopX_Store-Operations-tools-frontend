@@ -25,7 +25,8 @@ export const ORDER_LIST_FIELDS = {
   'order_id': '订单号',
   'item_name': '商品名称',
   'mobile': '手机号码',
-  'receiver_name': '收货人姓名'
+  'receiver_name': '收货人姓名',
+  'self_delivery_staff': '配送员'
 }
 //订单筛选时间
 export const ORDER_LIST_FILTER_TIME = {

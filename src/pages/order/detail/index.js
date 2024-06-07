@@ -9,7 +9,7 @@ import {
   PageActionButtons
 } from '@/components/sp-page-components'
 import { View, Text } from '@tarojs/components'
-import { AtCountdown } from 'taro-ui'
+import { AtCountdown, AtAvatar } from 'taro-ui'
 import api from '@/api'
 import './index.scss'
 
@@ -67,8 +67,8 @@ class OrderDetail extends Component {
       loading: true
     })
     const { orderInfo, tradeInfo } = await api.order.detail({ orderId: order_id })
-    if(orderInfo.invoice){
-       orderInfo.app_info?.buttons.unshift({type:'invoice',name:'开发票'})
+    if (orderInfo.invoice) {
+      orderInfo.app_info?.buttons.unshift({ type: 'invoice', name: '开发票' })
     }
     this.setState({
       orderInfo,
@@ -359,7 +359,7 @@ class OrderDetail extends Component {
       wx.miniProgram.navigateTo({
         url: `/subpages/dianwu/trade/sale-after?trade_id=${order_id}`
       })
-    }else if (type == 'invoice') {
+    } else if (type == 'invoice') {
       wx.miniProgram.navigateTo({
         url: `/subpages/dianwu/trade/invoice?trade_id=${order_id}`
       })
@@ -488,6 +488,43 @@ class OrderDetail extends Component {
             {!!tradeInfo.transactionId && (
               <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
             )}
+          </View>
+
+          <View className='delivery-information'>
+            <View className='delivery-information-title'>配送信息</View>
+            <View className='delivery-information-details'>
+              <View>
+                <View className='delivery-information-details-item'>
+                  <View className='field'>快递公司</View>
+                  <View>商家自配送</View>
+                </View>
+                <View className='delivery-information-details-item'>
+                  <View className='field'>配送员</View>
+                  <View>李** 编号：274236473</View>
+                </View>
+                <View className='delivery-information-details-item'>
+                  <View className='field'>配送状态</View>
+                  <View>****</View>
+                </View>
+                <View className='delivery-information-details-item'>
+                  <View className='field'>配送备注</View>
+                  <View>备注信息****备注信息****备注信息</View>
+                </View>
+              </View>
+              <View className='photo'>
+                <View className='field'>照片</View>
+                <View className='photo-list'>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
 
