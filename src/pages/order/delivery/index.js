@@ -10,6 +10,7 @@ import {
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
+import { FormItem, SpecItem, FormImageItem, ParamsItem } from '../../good/comps'
 import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
 import './index.scss'
@@ -52,6 +53,23 @@ class OrderDelivery extends Component {
         deliveryError: false,
         //存储物流单号错误
         deliveryNoError: false
+      },
+      selfDeliveryStatusList: [
+        { label: '等待确认', value: 'CONFIRMING' },
+        { label: '已接单', value: 'RECEIVEORDER' },
+        { label: '已打包', value: 'PACKAGED' },
+        { label: '配送中', value: 'DELIVERING' },
+        { label: '已送达', value: 'DONE' },
+        { label: '不是自配送', value: 'NOTMERCHANT' }
+      ],
+      selfDeliveryForm: {
+        delivery_corp: { label: '商家自配送', value: 'SELF_DELIVERY' },
+        self_delivery_operator_id: { label: '', value: '' },
+        self_delivery_operator_pnum: null,
+        self_delivery_operator_num: null,
+        self_delivery_status: {},
+        delivery_remark: null,
+        delivery_pics: []
       }
     }
   }
@@ -313,6 +331,18 @@ class OrderDelivery extends Component {
     return deliveryNo
   }
 
+  handleChangeForm = (key, value) => {
+    console.log('===handleChangeForm==', key, value)
+    switch (key) {
+      case 'delivery_remark':
+        // this.setState({
+        //   ...this.selfDeliveryForm,
+        //   delivery_corp:
+        // })
+        break
+    }
+  }
+
   //点击确认发货按钮
   handleDelivery = () => {
     const { orderInfo, isWhole } = this.state
@@ -373,7 +403,8 @@ class OrderDelivery extends Component {
       deliveryNoVisible,
       loading,
       error,
-      pageType
+      pageType,
+      selfDeliveryForm
     } = this.state
 
     return loading ? (
@@ -457,6 +488,60 @@ class OrderDelivery extends Component {
             error={error.deliveryNoError}
             onClickValue={this.handleClickDeliveryNo}
           />
+        </View>
+        <View>
+          <FormItem
+            label='快递公司'
+            mode='selector'
+            placeholder='请输入快递公司'
+            onChange={this.handleChangeForm.bind(this, 'delivery_corp')}
+            value={selfDeliveryForm.delivery_corp?.label}
+          />
+          <FormItem
+            label='配送员'
+            required
+            mode='selector'
+            placeholder='请选择配送员'
+            onChange={this.handleChangeForm.bind(this, 'self_delivery_operator_id')}
+            value={selfDeliveryForm.self_delivery_operator_id?.label}
+          />
+          <FormItem
+            label='配送员手机号'
+            mode='input'
+            placeholder='请输入配送员手机号'
+            value={selfDeliveryForm.self_delivery_operator_pnum}
+          />
+          <FormItem
+            label='配送员编号'
+            mode='input'
+            placeholder='请输入配送员编号'
+            value={selfDeliveryForm.self_delivery_operator_num}
+          />
+          <FormItem
+            label='配送员状态'
+            required
+            mode='selector'
+            placeholder='请输入配送员状态'
+            onChange={this.handleChangeForm.bind(this, 'self_delivery_status')}
+            value={selfDeliveryForm.self_delivery_status?.label}
+          />
+          <FormItem
+            label='配送员备注'
+            required
+            mode='input'
+            placeholder='请输入配送员备注'
+            onChange={(value) => this.handleChangeForm.bind(this, 'self_delivery_status', value)}
+            value={selfDeliveryForm.delivery_remark}
+          />
+
+          {/* <FormImageItem
+            label='商品图片'
+            desc='(最多上传9张图片，文件格式为bmp、png、jpeg、jpg或gif，建议尺寸：500*500px，不超过2M）'
+            required
+            placeholder='请选择商品图片'
+            // onChange={handleChangeForm(PIC)}
+            value={deliveryValue?.name}
+          /> */}
         </View>
 
         <LogisticsPicker
