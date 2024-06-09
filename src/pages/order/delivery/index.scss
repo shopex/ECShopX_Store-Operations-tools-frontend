@@ -1,9 +1,9 @@
 .page-order-delivery{
-    
+
     padding-top: 24px;
     padding-bottom:220px;
     background: #F9FAFB;
-     
+
     .order-detail{
 
         box-shadow: 0px 3px 5px 0px #E2E4EA;
@@ -38,7 +38,7 @@
 
             .item{
                 padding:4px 32px;
-                display: flex; 
+                display: flex;
                 align-items: center;
                 justify-content: space-between;
 
@@ -59,7 +59,12 @@
     }
 
     .card-bottom{
-        margin-top:20px; 
+        margin-top:20px;
         box-shadow: 0px 3px 5px 0px #E2E4EA;
+    }
+
+    .self-delivery-info{
+      padding: 0 20px;
+      box-sizing: border-box;
     }
 }

@@ -9,7 +9,15 @@ import {
   LogisticsPicker
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
+import {
+  SpGoodItem,
+  SpDrawer,
+  SpGoodPrice,
+  SpFormItem,
+  SpToast,
+  SpLoading,
+  SpPicker
+} from '@/components'
 import { FormItem, SpecItem, FormImageItem, ParamsItem } from '../../good/comps'
 import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
@@ -70,7 +78,14 @@ class OrderDelivery extends Component {
         self_delivery_status: {},
         delivery_remark: null,
         delivery_pics: []
-      }
+      },
+      opreaterVis: false,
+      opreatorList: [
+        { label: '配送员1', value: '1' },
+        { label: '配送员2', value: '2' },
+        { label: '配送员3', value: '3' }
+      ],
+      deliveryStatusVis: false
     }
   }
 
@@ -331,14 +346,60 @@ class OrderDelivery extends Component {
     return deliveryNo
   }
 
+  handleFormItemClick = (key) => {
+    console.log(key)
+    switch (key) {
+      case 'self_delivery_operator_id':
+        this.setState({
+          opreaterVis: true
+        })
+        break
+      case 'self_delivery_status':
+        this.setState({
+          deliveryStatusVis: true
+        })
+    }
+  }
+
   handleChangeForm = (key, value) => {
     console.log('===handleChangeForm==', key, value)
     switch (key) {
+      case 'delivery_corp':
+        break
+
+      case 'self_delivery_operator_id':
+        this.setState({
+          opreaterVis: false,
+          selfDeliveryForm: {
+            ...this.selfDeliveryForm,
+            self_delivery_operator_id: this.state.opreatorList[value]
+          }
+        })
+        break
+      case 'self_delivery_status':
+        this.setState({
+          deliveryStatusVis: false,
+          selfDeliveryForm: {
+            ...this.selfDeliveryForm,
+            self_delivery_status: this.state.selfDeliveryStatusList[value]
+          }
+        })
+        break
       case 'delivery_remark':
-        // this.setState({
-        //   ...this.selfDeliveryForm,
-        //   delivery_corp:
-        // })
+        this.setState({
+          selfDeliveryForm: {
+            ...this.selfDeliveryForm,
+            delivery_remark: value
+          }
+        })
+        break
+      case 'delivery_pics':
+        this.setState({
+          selfDeliveryForm: {
+            ...this.selfDeliveryForm,
+            delivery_pics: value
+          }
+        })
         break
     }
   }
@@ -404,7 +465,11 @@ class OrderDelivery extends Component {
       loading,
       error,
       pageType,
-      selfDeliveryForm
+      selfDeliveryForm,
+      opreaterVis,
+      opreatorList,
+      deliveryStatusVis,
+      selfDeliveryStatusList
     } = this.state
 
     return loading ? (
@@ -489,12 +554,12 @@ class OrderDelivery extends Component {
             onClickValue={this.handleClickDeliveryNo}
           />
         </View>
-        <View>
+        <View className='self-delivery-info'>
           <FormItem
             label='快递公司'
             mode='selector'
             placeholder='请输入快递公司'
-            onChange={this.handleChangeForm.bind(this, 'delivery_corp')}
+            onChange={(value) => this.handleChangeForm('delivery_corp', value)}
             value={selfDeliveryForm.delivery_corp?.label}
           />
           <FormItem
@@ -502,7 +567,7 @@ class OrderDelivery extends Component {
             required
             mode='selector'
             placeholder='请选择配送员'
-            onChange={this.handleChangeForm.bind(this, 'self_delivery_operator_id')}
+            onClick={this.handleFormItemClick.bind(this, 'self_delivery_operator_id')}
             value={selfDeliveryForm.self_delivery_operator_id?.label}
           />
           <FormItem
@@ -522,7 +587,7 @@ class OrderDelivery extends Component {
             required
             mode='selector'
             placeholder='请输入配送员状态'
-            onChange={this.handleChangeForm.bind(this, 'self_delivery_status')}
+            onClick={this.handleFormItemClick.bind(this, 'self_delivery_status')}
             value={selfDeliveryForm.self_delivery_status?.label}
           />
           <FormItem
@@ -530,19 +595,53 @@ class OrderDelivery extends Component {
             required
             mode='input'
             placeholder='请输入配送员备注'
-            onChange={(value) => this.handleChangeForm.bind(this, 'self_delivery_status', value)}
+            onChange={(value) => this.handleChangeForm('delivery_remark', value)}
             value={selfDeliveryForm.delivery_remark}
           />
 
-          {/* <FormImageItem
+          <FormImageItem
             label='商品图片'
             desc='(最多上传9张图片，文件格式为bmp、png、jpeg、jpg或gif，建议尺寸：500*500px，不超过2M）'
             required
             placeholder='请选择商品图片'
-            // onChange={handleChangeForm(PIC)}
-            value={deliveryValue?.name}
-          /> */}
+            onChange={(value) => this.handleChangeForm('delivery_pics', value)}
+            value={selfDeliveryForm?.delivery_pics}
+          />
         </View>
+
+        <SpPicker
+          visible={opreaterVis}
+          title='选择配送员'
+          columns={opreatorList.map((item) => item.label)}
+          onCancel={() =>
+            this.setState({
+              opreaterVis: false
+            })
+          }
+          onClose={() =>
+            this.setState({
+              opreaterVis: false
+            })
+          }
+          onConfirm={(value) => this.handleChangeForm('self_delivery_operator_id', value)}
+        />
+
+        <SpPicker
+          visible={deliveryStatusVis}
+          title='选择配送状态'
+          columns={selfDeliveryStatusList.map((item) => item.label)}
+          onCancel={() =>
+            this.setState({
+              deliveryStatusVis: false
+            })
+          }
+          onClose={() =>
+            this.setState({
+              deliveryStatusVis: false
+            })
+          }
+          onConfirm={(value) => this.handleChangeForm('self_delivery_status', value)}
+        />
 
         <LogisticsPicker
           visible={deliveryVisible}
