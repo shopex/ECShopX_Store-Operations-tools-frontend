@@ -6,7 +6,8 @@ import {
   FixedAction,
   CommonButton,
   OrderRadio,
-  LogisticsPicker
+  LogisticsPicker,
+  DeliveryForm
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import {
@@ -72,6 +73,7 @@ class OrderDelivery extends Component {
       ],
       selfDeliveryForm: {
         delivery_corp: { label: '商家自配送', value: 'SELF_DELIVERY' },
+        delivery_code: '',
         self_delivery_operator_id: { label: '', value: '' },
         self_delivery_operator_pnum: null,
         self_delivery_operator_num: null,
@@ -215,41 +217,16 @@ class OrderDelivery extends Component {
       deliveryVisible: false
     })
   }
-  //点击物流
-  handleClickDelivery = () => {
-    this.setState({
-      deliveryVisible: true
-    })
-  }
-  //点击物流单号
-  handleClickDeliveryNo = () => {
-    this.setState({
-      deliveryNoVisible: true
-    })
-  }
+
   //点击获得物流公司的value和name
   handleDeliverySubmit = (current) => {
     this.handleDeliveryClose()
-
+    console.log(current)
+    const { selfDeliveryForm } = this.state
     this.setState({
-      deliveryValue: current,
-      error: {
-        ...this.state.error,
-        deliveryError: false
-      }
-    })
-  }
-
-  handleNoConfirm = (number) => {
-    if (!/^[a-zA-Z0-9]*$/.test(number)) {
-      return
-    }
-    this.handleCloseNo()
-    this.setState({
-      deliveryNo: number,
-      error: {
-        ...this.state.error,
-        deliveryNoError: false
+      selfDeliveryForm: {
+        ...selfDeliveryForm,
+        delivery_corp: { ...current, label: current.name }
       }
     })
   }
@@ -314,44 +291,19 @@ class OrderDelivery extends Component {
     }
   }
 
-  //处理快递公司相关逻辑
-  handleDeliveryCompany = () => {
-    const { error, deliveryValue } = this.state
-
-    if (!deliveryValue.name) {
-      this.setState({
-        error: {
-          ...error,
-          deliveryError: true
-        }
-      })
-      S.toast('请选择快递公司')
-    }
-    return deliveryValue.value
-  }
-
-  //处理快递单号
-  handleDeliveryNo = () => {
-    const { error, deliveryNo } = this.state
-
-    if (!deliveryNo) {
-      this.setState({
-        error: {
-          ...error,
-          deliveryNoError: true
-        }
-      })
-      S.toast('请填写物流公司单号')
-    }
-    return deliveryNo
-  }
-
-  handleFormItemClick = (key) => {
+  handleFormItemClick = async (key) => {
     console.log(key)
     switch (key) {
-      case 'self_delivery_operator_id':
+      case 'delivery_corp':
         this.setState({
-          opreaterVis: true
+          deliveryVisible: true
+        })
+        break
+      case 'self_delivery_operator_id':
+        const { list } = await api.order.getDeliveryList()
+        this.setState({
+          opreaterVis: true,
+          opreatorList: list
         })
         break
       case 'self_delivery_status':
@@ -363,15 +315,23 @@ class OrderDelivery extends Component {
 
   handleChangeForm = (key, value) => {
     console.log('===handleChangeForm==', key, value)
-    switch (key) {
-      case 'delivery_corp':
-        break
 
+    const { selfDeliveryForm } = this.state
+
+    switch (key) {
+      case 'delivery_code':
+        this.setState({
+          selfDeliveryForm: {
+            ...selfDeliveryForm,
+            delivery_code: value
+          }
+        })
+        break
       case 'self_delivery_operator_id':
         this.setState({
           opreaterVis: false,
           selfDeliveryForm: {
-            ...this.selfDeliveryForm,
+            ...selfDeliveryForm,
             self_delivery_operator_id: this.state.opreatorList[value]
           }
         })
@@ -380,7 +340,7 @@ class OrderDelivery extends Component {
         this.setState({
           deliveryStatusVis: false,
           selfDeliveryForm: {
-            ...this.selfDeliveryForm,
+            ...selfDeliveryForm,
             self_delivery_status: this.state.selfDeliveryStatusList[value]
           }
         })
@@ -388,7 +348,7 @@ class OrderDelivery extends Component {
       case 'delivery_remark':
         this.setState({
           selfDeliveryForm: {
-            ...this.selfDeliveryForm,
+            ...selfDeliveryForm,
             delivery_remark: value
           }
         })
@@ -396,7 +356,7 @@ class OrderDelivery extends Component {
       case 'delivery_pics':
         this.setState({
           selfDeliveryForm: {
-            ...this.selfDeliveryForm,
+            ...selfDeliveryForm,
             delivery_pics: value
           }
         })
@@ -410,29 +370,41 @@ class OrderDelivery extends Component {
     //处理商品相关逻辑
     const totalItems = this.handlePriceError()
 
-    if (!totalItems.length) {
-      return
+    const {
+      delivery_corp,
+      delivery_code,
+      self_delivery_operator_id,
+      self_delivery_status,
+      delivery_remark,
+      delivery_pics
+    } = this.state.selfDeliveryForm
+    let deliveryParams = {}
+
+    if (delivery_corp.value == 'SELF_DELIVERY') {
+      deliveryParams = {
+        delivery_corp: delivery_corp.value,
+        self_delivery_operator_id: self_delivery_operator_id.id,
+        self_delivery_status: self_delivery_status.value,
+        delivery_remark,
+        delivery_pics
+      }
+    } else {
+      deliveryParams = {
+        delivery_corp: delivery_corp.value,
+        delivery_code
+      }
     }
 
-    const delivery_corp = this.handleDeliveryCompany()
+    console.log(deliveryParams)
 
-    if (!delivery_corp) {
-      return
-    }
-
-    const delivery_code = this.handleDeliveryNo()
-
-    if (!delivery_code) {
-      return
-    }
+    return
 
     requestCallback(
       async () => {
         const data = await api.order.delivery({
           order_id: orderInfo.order_id,
           delivery_type: isWhole ? 'batch' : 'sep',
-          delivery_corp,
-          delivery_code,
+          ...deliveryParams,
           sepInfo: JSON.stringify(totalItems),
           type: 'new'
         })
@@ -471,6 +443,8 @@ class OrderDelivery extends Component {
       deliveryStatusVis,
       selfDeliveryStatusList
     } = this.state
+
+    console.log(666, this.state.selfDeliveryForm)
 
     return loading ? (
       <SpLoading>正在加载...</SpLoading>
@@ -537,82 +511,82 @@ class OrderDelivery extends Component {
           onCancel={this.handleClose}
           type='number'
         />
-
-        <View className='card-bottom'>
-          <SpFormItem
-            label='快递公司'
-            placeholder='请选择快递公司'
-            value={deliveryValue?.name}
-            error={error.deliveryError}
-            onClickValue={this.handleClickDelivery}
-          />
-          <SpFormItem
-            label='物流单号'
-            placeholder='请填写物流公司单号'
-            value={deliveryNo}
-            error={error.deliveryNoError}
-            onClickValue={this.handleClickDeliveryNo}
-          />
-        </View>
         <View className='self-delivery-info'>
           <FormItem
             label='快递公司'
             mode='selector'
+            required
             placeholder='请输入快递公司'
-            onChange={(value) => this.handleChangeForm('delivery_corp', value)}
-            value={selfDeliveryForm.delivery_corp?.label}
+            onClick={this.handleFormItemClick.bind(this, 'delivery_corp')}
+            value={selfDeliveryForm?.delivery_corp?.label}
           />
-          <FormItem
-            label='配送员'
-            required
-            mode='selector'
-            placeholder='请选择配送员'
-            onClick={this.handleFormItemClick.bind(this, 'self_delivery_operator_id')}
-            value={selfDeliveryForm.self_delivery_operator_id?.label}
-          />
-          <FormItem
-            label='配送员手机号'
-            mode='input'
-            placeholder='请输入配送员手机号'
-            value={selfDeliveryForm.self_delivery_operator_pnum}
-          />
-          <FormItem
-            label='配送员编号'
-            mode='input'
-            placeholder='请输入配送员编号'
-            value={selfDeliveryForm.self_delivery_operator_num}
-          />
-          <FormItem
-            label='配送员状态'
-            required
-            mode='selector'
-            placeholder='请输入配送员状态'
-            onClick={this.handleFormItemClick.bind(this, 'self_delivery_status')}
-            value={selfDeliveryForm.self_delivery_status?.label}
-          />
-          <FormItem
-            label='配送员备注'
-            required
-            mode='input'
-            placeholder='请输入配送员备注'
-            onChange={(value) => this.handleChangeForm('delivery_remark', value)}
-            value={selfDeliveryForm.delivery_remark}
-          />
+          {selfDeliveryForm?.delivery_corp?.value != 'SELF_DELIVERY' && (
+            <FormItem
+              label='物流单号'
+              mode='input'
+              required
+              placeholder='请输入物流单号'
+              onChange={(value) => this.handleChangeForm('delivery_code', value)}
+              value={selfDeliveryForm.delivery_code}
+            />
+          )}
 
-          <FormImageItem
-            label='商品图片'
-            desc='(最多上传9张图片，文件格式为bmp、png、jpeg、jpg或gif，建议尺寸：500*500px，不超过2M）'
-            required
-            placeholder='请选择商品图片'
-            onChange={(value) => this.handleChangeForm('delivery_pics', value)}
-            value={selfDeliveryForm?.delivery_pics}
-          />
+          {selfDeliveryForm?.delivery_corp?.value == 'SELF_DELIVERY' && (
+            <>
+              <FormItem
+                label='配送员'
+                required
+                mode='selector'
+                placeholder='请选择配送员'
+                onClick={this.handleFormItemClick.bind(this, 'self_delivery_operator_id')}
+                value={selfDeliveryForm.self_delivery_operator_id?.username}
+              />
+              <FormItem
+                label='配送编号'
+                mode='input'
+                editable={false}
+                placeholder=''
+                value={selfDeliveryForm.self_delivery_operator_id?.staff_no}
+              />
+              <FormItem
+                label='配送员手机号'
+                mode='input'
+                editable={false}
+                placeholder=''
+                value={selfDeliveryForm.self_delivery_operator_id?.mobile}
+              />
+              <FormItem
+                label='配送状态'
+                required
+                mode='selector'
+                placeholder='请输入配送员状态'
+                onClick={this.handleFormItemClick.bind(this, 'self_delivery_status')}
+                value={selfDeliveryForm.self_delivery_status?.label}
+              />
+              <FormItem
+                label='配送备注'
+                mode='input'
+                placeholder='请输入配送员备注'
+                onChange={(value) => this.handleChangeForm('delivery_remark', value)}
+                value={selfDeliveryForm.delivery_remark}
+              />
+              <FormImageItem
+                label='照片上传'
+                desc='(最多上传9张图片，文件格式为bmp、png、jpeg、jpg或gif，建议尺寸：500*500px，不超过2M）'
+                placeholder='请选择商品图片'
+                onChange={(value) => this.handleChangeForm('delivery_pics', value)}
+                value={selfDeliveryForm?.delivery_pics}
+              />
+            </>
+          )}
         </View>
+
+        {/* <DeliveryForm selfDeliveryForm={selfDeliveryForm} /> */}
 
         <SpPicker
           visible={opreaterVis}
           title='选择配送员'
-          columns={opreatorList.map((item) => item.label)}
+          columns={opreatorList.map((item) => item.username)}
           onCancel={() =>
             this.setState({
               opreaterVis: false

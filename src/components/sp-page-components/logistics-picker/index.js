@@ -12,8 +12,11 @@ export default class LogisticsPicker extends PureComponent {
 
   componentDidMount() {
     api.logistics.getCourierCompanyList().then((res) => {
+      let _list = res.list
+      _list.unshift({ value: 'SELF_DELIVERY', name: '商家自配送' })
+
       this.setState({
-        list: res.list
+        list: _list
       })
     })
   }
@@ -36,7 +39,7 @@ export default class LogisticsPicker extends PureComponent {
         onCancel={onClose}
         onClose={onClose}
         onConfirm={this.handlePickerConfirm}
-        startIndex={3}
+        startIndex={0}
       />
     )
   }

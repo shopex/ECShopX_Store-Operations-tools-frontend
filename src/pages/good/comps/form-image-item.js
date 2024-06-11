@@ -66,12 +66,12 @@ const FormImageItem = (props) => {
   }
 
   useEffect(() => {
-    if (valueProp.length > 0 && value.length === 0) {
+    if (valueProp?.length > 0 && value?.length === 0) {
       setState((_val) => {
         _val.value = [...valueProp]
       })
     }
-  }, [valueProp, value])
+  }, [valueProp])
 
   return (
     <View className={classNames('form-image-item', className)}>
@@ -79,6 +79,7 @@ const FormImageItem = (props) => {
       <View className='form-image-item-label'>{label}</View>
       <View className='form-image-item-desc'>{desc}</View>
       <View className='form-image-item-main' onClick={onClick}>
+        {console.log(123, value)}
         {value.map((val, index) => (
           <View className='uploader'>
             <Image src={val} className='uploader-image' />

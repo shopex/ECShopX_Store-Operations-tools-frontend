@@ -15,6 +15,7 @@ export const ZITI_ORDER_LIST_STATUS = {
   'all': '全部',
   'cancel': '已取消',
   'notpay': '待支付',
+  'RECEIVEORDER': '已分配',
   'ziti': '待自提',
   'notship': '待发货',
   'finish': '已完成'

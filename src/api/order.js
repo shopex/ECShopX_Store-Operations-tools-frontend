@@ -63,3 +63,15 @@ export function getcancelinfo(params) {
 export function confirmcancel(params) {
   return req.post(`/order/${params.order_id}/confirmcancel`, params)
 }
+
+// 配送员列表
+export function getDeliveryList() {
+  return req.get(
+    `/account/management?pageSize=10&page=1&finderId=100&operator_type=self_delivery_staff`
+  )
+}
+
+//确认配送员
+export function confirmDelivery(params) {
+  return req.post(`/order/deliverystaff/confirm`, params)
+}
