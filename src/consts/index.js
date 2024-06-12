@@ -98,4 +98,23 @@ export const ORDER_DETAIL_ICON = {
   'cancel': 'icon-quxiaodingdan-01'
 }
 
+export const SELFDELIVERYSTATUSLIST = [
+  // { label: '等待确认', value: 'CONFIRMING' },
+  // { label: '已接单', value: 'RECEIVEORDER' },
+  // { label: '已打包', value: 'PACKAGED' },
+  { label: '配送中', value: 'DELIVERING' }
+  // { label: '已送达', value: 'DONE' },
+  // { label: '不是自配送', value: 'NOTMERCHANT' }
+]
+
+export const UPDATESELFDELIVERYSTATUSLIST = [
+  // { label: '等待确认', value: 'CONFIRMING' },
+  // { label: '已接单', value: 'RECEIVEORDER' },
+  // { label: '已打包', value: 'PACKAGED' },
+  // { label: '配送中', value: 'DELIVERING' },
+  { label: '已送达', value: 'DONE' },
+  { label: '已取消', value: 'CONFIRMING' } //先改成等待确认状态
+  // { label: '不是自配送', value: 'NOTMERCHANT' }
+]
+
 export { afterSales, good }

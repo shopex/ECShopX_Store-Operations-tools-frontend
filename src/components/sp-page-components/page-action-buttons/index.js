@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { CommonButton } from '@/components/sp-page-components'
+import { CommonButton, UpdateDeliveryStatus } from '@/components/sp-page-components'
 import { SpRemarkDrawer, SpPicker } from '@/components'
 import { classNames, requestCallback } from '@/utils'
 import CancelAction from './CancelAction'
@@ -32,7 +32,8 @@ class PageActionButtons extends PureComponent {
         { label: '配送员1', value: '1' },
         { label: '配送员2', value: '2' },
         { label: '配送员3', value: '3' }
-      ]
+      ],
+      deliveryVis: false
     }
   }
 
@@ -113,8 +114,16 @@ class PageActionButtons extends PureComponent {
       this.handleNavigationAftersalesDeal()
     } else if (buttonType === 'confirmdeliverystaff') {
       this.handleConfirmdeliverystaff()
+    } else if (buttonType === 'updatedelivery') {
+      this.handleUpdatedelivery()
     }
     onClick(buttonType)
+  }
+
+  handleUpdatedelivery = () => {
+    this.setState({
+      deliveryVis: true
+    })
   }
 
   //跳转到售后处理页
@@ -268,17 +277,17 @@ class PageActionButtons extends PureComponent {
     requestCallback(
       async () => {
         const res = await api.order.confirmDelivery({
-          self_delivery_operator_id: this.state.deliveryerList[value].id,
+          self_delivery_operator_id: this.state.deliveryerList[value].operator_id,
           order_id: this.props.orderInfo.order_id
         })
-        return data
+        return res
       },
       '分配配送员成功',
       () => {
         this.setState({
           deliveryerVis: false
         })
-        onRefresh?.()
+        this.props.onRefresh?.()
       }
     )
   }
@@ -300,7 +309,9 @@ class PageActionButtons extends PureComponent {
       actionType,
       noteVisible,
       deliveryerVis,
-      deliveryerList
+      deliveryerList,
+      deliveryVis,
+      selfDeliveryForm
     } = this.state
 
     return (
@@ -354,6 +365,20 @@ class PageActionButtons extends PureComponent {
             })
           }
           onConfirm={(value) => this.handleDeliveryerConfirm(value)}
+        />
+
+        {/* 更新物流信息 */}
+        <UpdateDeliveryStatus
+          deliveryVis={deliveryVis}
+          orderInfo={orderInfo}
+          onClose={(isSubmit) => {
+            if (isSubmit) {
+              onRefresh?.()
+            }
+            this.setState({
+              deliveryVis: false
+            })
+          }}
         />
       </View>
     )

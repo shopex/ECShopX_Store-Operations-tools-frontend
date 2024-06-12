@@ -6,6 +6,7 @@ import api from '@/api'
 import { classNames } from '@/utils'
 import { SpPicker } from '@/components'
 import { FormItem, FormImageItem } from '../../../pages/good/comps'
+import { SELFDELIVERYSTATUSLIST, UPDATESELFDELIVERYSTATUSLIST } from '@/consts'
 import { LogisticsPicker } from '@/components/sp-page-components'
 import './index.scss'
 
@@ -14,14 +15,7 @@ const initState = {
   opreaterVis: false,
   opreatorList: [],
   deliveryStatusVis: false,
-  selfDeliveryStatusList: [
-    { label: '等待确认', value: 'CONFIRMING' },
-    { label: '已接单', value: 'RECEIVEORDER' },
-    { label: '已打包', value: 'PACKAGED' },
-    { label: '配送中', value: 'DELIVERING' },
-    { label: '已送达', value: 'DONE' },
-    { label: '不是自配送', value: 'NOTMERCHANT' }
-  ]
+  selfDeliveryStatusList: SELFDELIVERYSTATUSLIST
 }
 function DeliveryForm(props, ref) {
   const [state, setState] = useImmer(initState)
@@ -29,20 +23,26 @@ function DeliveryForm(props, ref) {
   const { deliveryVisible, opreaterVis, opreatorList, deliveryStatusVis, selfDeliveryStatusList } =
     state
 
-  const { selfDeliveryForm = {}, onChangeForm = () => {} } = props
+  const { isUpdateDelivery = false, selfDeliveryForm = {}, onChangeForm = () => {} } = props
 
-  // useEffect(() => {
-  //   console.log('----', info)
-  // }, [])
+  useEffect(() => {
+    setState((v) => {
+      v.selfDeliveryStatusList = isUpdateDelivery
+        ? UPDATESELFDELIVERYSTATUSLIST
+        : SELFDELIVERYSTATUSLIST
+    })
+  }, [isUpdateDelivery])
 
   const handleFormItemClick = async (key) => {
     switch (key) {
       case 'delivery_corp':
+        if (isUpdateDelivery) return
         setState((v) => {
           v.deliveryVisible = true
         })
         break
       case 'self_delivery_operator_id':
+        if (isUpdateDelivery) return
         const { list } = await api.order.getDeliveryList()
         setState((v) => {
           v.opreaterVis = true
@@ -94,6 +94,15 @@ function DeliveryForm(props, ref) {
         onClick={() => handleFormItemClick('delivery_corp')}
         value={selfDeliveryForm?.delivery_corp?.label}
       />
+      {isUpdateDelivery && (
+        <FormItem
+          label='发货单号'
+          mode='input'
+          required
+          editable={false}
+          value={selfDeliveryForm.orders_delivery_id}
+        />
+      )}
       {selfDeliveryForm?.delivery_corp?.value != 'SELF_DELIVERY' && (
         <FormItem
           label='物流单号'
@@ -115,13 +124,15 @@ function DeliveryForm(props, ref) {
             onClick={() => handleFormItemClick('self_delivery_operator_id')}
             value={selfDeliveryForm.self_delivery_operator_id?.username}
           />
-          <FormItem
-            label='配送编号'
-            mode='input'
-            editable={false}
-            placeholder=''
-            value={selfDeliveryForm.self_delivery_operator_id?.staff_no}
-          />
+          {!isUpdateDelivery && (
+            <FormItem
+              label='配送员编号'
+              mode='input'
+              editable={false}
+              placeholder=''
+              value={selfDeliveryForm.self_delivery_operator_id?.staff_no}
+            />
+          )}
           <FormItem
             label='配送员手机号'
             mode='input'
@@ -133,7 +144,7 @@ function DeliveryForm(props, ref) {
             label='配送状态'
             required
             mode='selector'
-            placeholder='请输入配送员状态'
+            placeholder='请选择配送员状态'
             onClick={() => handleFormItemClick('self_delivery_status')}
             value={selfDeliveryForm.self_delivery_status?.label}
           />
