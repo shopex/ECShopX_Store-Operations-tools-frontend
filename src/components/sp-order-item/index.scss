@@ -38,7 +38,7 @@
         line-height: 24px;
         color: #858B9C;
       }
-      
+
     }
   }
 
@@ -66,10 +66,10 @@
       color: #111A34;
       font-size: 22px;
       display: flex;
-      align-items: center; 
+      align-items: center;
 
       &-title{
-        white-space: nowrap;  
+        white-space: nowrap;
       }
     }
   }
@@ -107,8 +107,8 @@
       &:nth-child(1) {
         &:not(&.extraColor){
             color: var(--color-primary);
-            border-color: var(--color-primary); 
-        } 
+            border-color: var(--color-primary);
+        }
       }
     }
 

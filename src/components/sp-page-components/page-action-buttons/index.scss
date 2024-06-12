@@ -3,9 +3,10 @@
   display: flex;
   justify-content: flex-end;
 
+
   .common-button {
     display: inline-flex;
-    margin-left: 20px;
+    margin-left: 15px;
     white-space: nowrap;
     align-items: center;
   }
@@ -25,7 +26,7 @@
         }
 
         .taro-textarea {
-          resize: none; 
+          resize: none;
           font-size: $textarea-font-size;
         }
 
@@ -51,7 +52,7 @@
         &.confirmContent {
           height: 205px;
 
-          
+
         }
 
         &.verification {
@@ -117,7 +118,7 @@
           padding-top: 60px;
           display: flex;
           flex-direction: column;
-          align-items: center; 
+          align-items: center;
 
           .item1 {
             font-size: 40px;
@@ -285,5 +286,5 @@
       }
     }
   }
- 
+
 }

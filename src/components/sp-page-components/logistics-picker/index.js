@@ -13,7 +13,10 @@ export default class LogisticsPicker extends PureComponent {
   componentDidMount() {
     api.logistics.getCourierCompanyList().then((res) => {
       let _list = res.list
-      _list.unshift({ value: 'SELF_DELIVERY', name: '商家自配送' })
+
+      if (this.props.receipt_type == 'merchant') {
+        _list.unshift({ value: 'SELF_DELIVERY', name: '商家自配送' })
+      }
 
       this.setState({
         list: _list

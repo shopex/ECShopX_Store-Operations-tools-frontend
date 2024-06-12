@@ -13,18 +13,17 @@ const initState = {
     delivery_corp: { label: '商家自配送', value: 'SELF_DELIVERY' },
     delivery_code: '',
     self_delivery_operator_id: { label: '', value: '' },
-    self_delivery_operator_pnum: null,
-    self_delivery_operator_num: null,
     self_delivery_status: {},
     delivery_remark: null,
     delivery_pics: []
   },
-  btnLoading: false
+  btnLoading: false,
+  isCancleDelivery: false
 }
 function UpdateDeliveryStatus(props, ref) {
   const [state, setState] = useImmer(initState)
 
-  const { selfDeliveryForm, btnLoading } = state
+  const { selfDeliveryForm, btnLoading, isCancleDelivery } = state
 
   const { deliveryVis, orderInfo = {}, onClose = () => {} } = props
 
@@ -38,7 +37,9 @@ function UpdateDeliveryStatus(props, ref) {
         self_delivery_operator_name,
         self_delivery_operator_mobile,
         delivery_code,
-        orders_delivery_id
+        orders_delivery_id,
+        order_status,
+        self_delivery_status
       } = orderInfo
       // debugger
       setState((v) => {
@@ -53,6 +54,8 @@ function UpdateDeliveryStatus(props, ref) {
           delivery_code,
           orders_delivery_id
         }
+        v.isCancleDelivery =
+          order_status == 'WAIT_BUYER_CONFIRM' && self_delivery_status == 'CONFIRMING'
       })
     }
   }, [orderInfo])
@@ -84,7 +87,10 @@ function UpdateDeliveryStatus(props, ref) {
     if (delivery_corp.value == 'SELF_DELIVERY') {
       data = {
         delivery_corp: delivery_corp.value,
-        self_delivery_operator_id: self_delivery_operator_id.self_delivery_operator_id,
+
+        self_delivery_operator_id: isCancleDelivery
+          ? self_delivery_operator_id.operator_id
+          : self_delivery_operator_id.self_delivery_operator_id,
         self_delivery_status: self_delivery_status.value,
         delivery_remark,
         delivery_code,
@@ -113,6 +119,7 @@ function UpdateDeliveryStatus(props, ref) {
       }
     }
     console.log(orders_delivery_id, data)
+
     if (btnLoading) return
     requestCallback(
       async () => {
@@ -142,6 +149,7 @@ function UpdateDeliveryStatus(props, ref) {
       <AtFloatLayout isOpened={deliveryVis} onClose={onClose}>
         <DeliveryForm
           isUpdateDelivery
+          isCancleDelivery={isCancleDelivery}
           selfDeliveryForm={selfDeliveryForm}
           onChangeForm={handleChangeDeliveryForm}
         />

@@ -62,12 +62,11 @@ class OrderDelivery extends Component {
         delivery_corp: { label: '商家自配送', value: 'SELF_DELIVERY' },
         delivery_code: '',
         self_delivery_operator_id: { label: '', value: '' },
-        self_delivery_operator_pnum: null,
-        self_delivery_operator_num: null,
         self_delivery_status: {},
         delivery_remark: null,
         delivery_pics: []
-      }
+      },
+      receipt_type: ''
     }
   }
 
@@ -94,7 +93,15 @@ class OrderDelivery extends Component {
     await this.renderLeftContent()
     await this.renderRightContent()
     this.setState({
-      loading: false
+      loading: false,
+      selfDeliveryForm: {
+        ...this.state.selfDeliveryForm,
+        delivery_corp:
+          orderInfo.receipt_type == 'merchant'
+            ? { label: '商家自配送', value: 'SELF_DELIVERY' }
+            : {}
+      },
+      receipt_type: orderInfo.receipt_type
     })
   }
 
@@ -369,7 +376,8 @@ class OrderDelivery extends Component {
       loading,
       error,
       pageType,
-      selfDeliveryForm
+      selfDeliveryForm,
+      receipt_type
     } = this.state
 
     return loading ? (
@@ -439,6 +447,7 @@ class OrderDelivery extends Component {
         />
 
         <DeliveryForm
+          receipt_type={receipt_type}
           selfDeliveryForm={selfDeliveryForm}
           onChangeForm={this.handleChangeDeliveryForm}
         />

@@ -23,15 +23,22 @@ function DeliveryForm(props, ref) {
   const { deliveryVisible, opreaterVis, opreatorList, deliveryStatusVis, selfDeliveryStatusList } =
     state
 
-  const { isUpdateDelivery = false, selfDeliveryForm = {}, onChangeForm = () => {} } = props
+  const {
+    isUpdateDelivery = false,
+    isCancleDelivery,
+    receipt_type,
+    selfDeliveryForm = {},
+    onChangeForm = () => {}
+  } = props
 
   useEffect(() => {
     setState((v) => {
-      v.selfDeliveryStatusList = isUpdateDelivery
-        ? UPDATESELFDELIVERYSTATUSLIST
-        : SELFDELIVERYSTATUSLIST
+      v.selfDeliveryStatusList =
+        isUpdateDelivery && !isCancleDelivery
+          ? UPDATESELFDELIVERYSTATUSLIST
+          : SELFDELIVERYSTATUSLIST
     })
-  }, [isUpdateDelivery])
+  }, [isUpdateDelivery, isCancleDelivery])
 
   const handleFormItemClick = async (key) => {
     switch (key) {
@@ -42,7 +49,7 @@ function DeliveryForm(props, ref) {
         })
         break
       case 'self_delivery_operator_id':
-        if (isUpdateDelivery) return
+        if (isUpdateDelivery && !isCancleDelivery) return
         const { list } = await api.order.getDeliveryList()
         setState((v) => {
           v.opreaterVis = true
@@ -200,6 +207,7 @@ function DeliveryForm(props, ref) {
       />
 
       <LogisticsPicker
+        receipt_type={receipt_type}
         visible={deliveryVisible}
         onClose={() =>
           setState((v) => {
