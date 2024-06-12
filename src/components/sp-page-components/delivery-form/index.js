@@ -4,40 +4,84 @@ import { useImmer } from 'use-immer'
 import { View, Text } from '@tarojs/components'
 import api from '@/api'
 import { classNames } from '@/utils'
+import { SpPicker } from '@/components'
+import { FormItem, FormImageItem } from '../../../pages/good/comps'
+import { LogisticsPicker } from '@/components/sp-page-components'
 import './index.scss'
 
-const initState = {}
+const initState = {
+  deliveryStatusVis: false,
+  opreaterVis: false,
+  opreatorList: [],
+  deliveryStatusVis: false,
+  selfDeliveryStatusList: [
+    { label: '等待确认', value: 'CONFIRMING' },
+    { label: '已接单', value: 'RECEIVEORDER' },
+    { label: '已打包', value: 'PACKAGED' },
+    { label: '配送中', value: 'DELIVERING' },
+    { label: '已送达', value: 'DONE' },
+    { label: '不是自配送', value: 'NOTMERCHANT' }
+  ]
+}
 function DeliveryForm(props, ref) {
   const [state, setState] = useImmer(initState)
 
-  const {} = state
+  const { deliveryVisible, opreaterVis, opreatorList, deliveryStatusVis, selfDeliveryStatusList } =
+    state
 
-  const { selfDeliveryForm } = props
+  const { selfDeliveryForm = {}, onChangeForm = () => {} } = props
 
-  useEffect(() => {
-    console.log('----', info)
-  }, [])
+  // useEffect(() => {
+  //   console.log('----', info)
+  // }, [])
 
   const handleFormItemClick = async (key) => {
-    console.log(key)
     switch (key) {
       case 'delivery_corp':
-        this.setState({
-          deliveryVisible: true
+        setState((v) => {
+          v.deliveryVisible = true
         })
         break
       case 'self_delivery_operator_id':
         const { list } = await api.order.getDeliveryList()
-        this.setState({
-          opreaterVis: true,
-          opreatorList: list
+        setState((v) => {
+          v.opreaterVis = true
+          v.opreatorList = list
         })
         break
       case 'self_delivery_status':
-        this.setState({
-          deliveryStatusVis: true
+        setState((v) => {
+          v.deliveryStatusVis = true
         })
     }
+  }
+
+  const handleChangeForm = (key, value) => {
+    console.log(key, value)
+    let _value = value
+    let activeDialogVis = null
+    switch (key) {
+      case 'self_delivery_operator_id':
+        _value = opreatorList[value]
+        activeDialogVis = 'opreaterVis'
+        break
+      case 'self_delivery_status':
+        _value = selfDeliveryStatusList[value]
+        activeDialogVis = 'deliveryStatusVis'
+    }
+
+    setState((v) => {
+      v[activeDialogVis] = false
+    })
+
+    onChangeForm && onChangeForm(key, _value)
+  }
+
+  const handleDeliverySubmit = (current) => {
+    setState((v) => {
+      v.deliveryVisible = false
+    })
+    handleChangeForm('delivery_corp', { ...current, label: current.name })
   }
 
   return (
@@ -47,7 +91,7 @@ function DeliveryForm(props, ref) {
         mode='selector'
         required
         placeholder='请输入快递公司'
-        onClick={handleFormItemClick('delivery_corp')}
+        onClick={() => handleFormItemClick('delivery_corp')}
         value={selfDeliveryForm?.delivery_corp?.label}
       />
       {selfDeliveryForm?.delivery_corp?.value != 'SELF_DELIVERY' && (
@@ -56,7 +100,7 @@ function DeliveryForm(props, ref) {
           mode='input'
           required
           placeholder='请输入物流单号'
-          onChange={(value) => this.handleChangeForm('delivery_code', value)}
+          onChange={(value) => handleChangeForm('delivery_code', value)}
           value={selfDeliveryForm.delivery_code}
         />
       )}
@@ -68,7 +112,7 @@ function DeliveryForm(props, ref) {
             required
             mode='selector'
             placeholder='请选择配送员'
-            onClick={handleFormItemClick('self_delivery_operator_id')}
+            onClick={() => handleFormItemClick('self_delivery_operator_id')}
             value={selfDeliveryForm.self_delivery_operator_id?.username}
           />
           <FormItem
@@ -90,25 +134,69 @@ function DeliveryForm(props, ref) {
             required
             mode='selector'
             placeholder='请输入配送员状态'
-            onClick={handleFormItemClick('self_delivery_status')}
+            onClick={() => handleFormItemClick('self_delivery_status')}
             value={selfDeliveryForm.self_delivery_status?.label}
           />
           <FormItem
             label='配送备注'
             mode='input'
             placeholder='请输入配送员备注'
-            onChange={(value) => this.handleChangeForm('delivery_remark', value)}
+            onChange={(value) => handleChangeForm('delivery_remark', value)}
             value={selfDeliveryForm.delivery_remark}
           />
           <FormImageItem
             label='照片上传'
             desc='(最多上传9张图片，文件格式为bmp、png、jpeg、jpg或gif，建议尺寸：500*500px，不超过2M）'
             placeholder='请选择商品图片'
-            onChange={(value) => this.handleChangeForm('delivery_pics', value)}
+            onChange={(value) => handleChangeForm('delivery_pics', value)}
             value={selfDeliveryForm?.delivery_pics}
           />
         </>
       )}
+
+      <SpPicker
+        visible={opreaterVis}
+        title='选择配送员'
+        columns={opreatorList.map((item) => item.username)}
+        onCancel={() =>
+          setState((v) => {
+            v.opreaterVis = false
+          })
+        }
+        onClose={() =>
+          setState((v) => {
+            v.opreaterVis = false
+          })
+        }
+        onConfirm={(value) => handleChangeForm('self_delivery_operator_id', value)}
+      />
+
+      <SpPicker
+        visible={deliveryStatusVis}
+        title='选择配送状态'
+        columns={selfDeliveryStatusList.map((item) => item.label)}
+        onCancel={() =>
+          setState((v) => {
+            v.deliveryStatusVis = false
+          })
+        }
+        onClose={() =>
+          setState((v) => {
+            v.deliveryStatusVis = false
+          })
+        }
+        onConfirm={(value) => handleChangeForm('self_delivery_status', value)}
+      />
+
+      <LogisticsPicker
+        visible={deliveryVisible}
+        onClose={() =>
+          setState((v) => {
+            v.deliveryVisible = false
+          })
+        }
+        onConfirm={handleDeliverySubmit}
+      />
     </View>
   )
 }
