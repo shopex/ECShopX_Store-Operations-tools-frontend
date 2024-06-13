@@ -17,6 +17,16 @@
     .order-header {
       position: relative;
 
+      .merchant-tag{
+        padding: 0 2px;
+        box-sizing: border-box;
+        color: var(--color-primary);
+        border: solid 1px var(--color-primary);
+        font-size: 20px;
+        border-radius: 5px;
+        margin: 0 6px 5px 0;
+      }
+
       .order-no {
         display: flex;
         align-items: center;
@@ -112,6 +122,14 @@
       }
     }
 
+  }
+
+  .delivery{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 400;
+      color: #858B9C;
+      font-size: 24px;
   }
 
 }

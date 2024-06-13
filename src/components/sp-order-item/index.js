@@ -96,6 +96,24 @@ export default class SpOrderItem extends PureComponent {
     return returnNode
   }
 
+  renderDeliveryerInfo = () => {
+    const { info: orderInfo, pageType = 'orderList' } = this.props
+
+    if (
+      orderInfo.self_delivery_operator_id == '0' ||
+      !orderInfo.self_delivery_operator_id ||
+      pageType === 'afterSalesList'
+    )
+      return null
+
+    return (
+      <View className='delivery'>
+        <View className='delivery-name'>配送员：{orderInfo.self_delivery_operator_name}</View>
+        <View className='delivery-fee'>配送费：{orderInfo.self_delivery_fee}元</View>
+      </View>
+    )
+  }
+
   renderListFooter = () => {
     const { renderFooter, pageType = 'orderList' } = this.props
 
@@ -139,6 +157,8 @@ export default class SpOrderItem extends PureComponent {
         </View>
 
         {this.renderListExtra()}
+
+        {this.renderDeliveryerInfo()}
 
         {this.renderListFooter()}
       </View>

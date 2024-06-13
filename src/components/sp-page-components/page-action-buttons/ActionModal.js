@@ -179,6 +179,13 @@ export default class ActionModal extends PureComponent {
           </View>
         </View>
       )
+    } else if (type === 'canceldeliverystaff') {
+      childrenNode = (
+        <View className='confirmContent'>
+          <View className='item item1'>取消配送</View>
+          <View className='item item2'>取消配送后需重新分配配送员</View>
+        </View>
+      )
     }
 
     return (
@@ -222,6 +229,23 @@ export default class ActionModal extends PureComponent {
         orderInfo.aftersales_bn || maxOrderInfo.aftersales_bn
       }`
     })
+  }
+
+  //取消配送
+  handleCancleDeliveryStaff = () => {
+    const { orderInfo, onRefresh } = this.props
+    console.log(orderInfo)
+    requestCallback(
+      async () => {
+        const data = await api.order.canceldeliverystaff({ order_id: orderInfo.order_id })
+        return data
+      },
+      '成功取消配送',
+      () => {
+        this.handleClose()
+        onRefresh?.()
+      }
+    )
   }
 
   handleGoodDelete = () => {
@@ -337,6 +361,17 @@ export default class ActionModal extends PureComponent {
       )
     } else if (type === 'verification') {
       childrenNode = null
+    } else if (type === 'canceldeliverystaff') {
+      childrenNode = (
+        <View className='actionContent'>
+          <View className='item confirmitem1' onClick={this.handleClose}>
+            取消
+          </View>
+          <View className='item confirmitem2' onClick={this.handleCancleDeliveryStaff}>
+            确认
+          </View>
+        </View>
+      )
     }
 
     return childrenNode && <View className='action'>{childrenNode}</View>

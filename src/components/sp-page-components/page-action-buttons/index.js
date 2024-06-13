@@ -116,8 +116,17 @@ class PageActionButtons extends PureComponent {
       this.handleConfirmdeliverystaff()
     } else if (buttonType === 'updatedelivery') {
       this.handleUpdatedelivery()
+    } else if (buttonType === 'canceldeliverystaff') {
+      this.handleCanceldeliverystaff()
     }
     onClick(buttonType)
+  }
+
+  handleCanceldeliverystaff = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'canceldeliverystaff'
+    })
   }
 
   handleUpdatedelivery = () => {

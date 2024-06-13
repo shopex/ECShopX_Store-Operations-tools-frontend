@@ -224,6 +224,14 @@ class OrderDetail extends Component {
         return '自提订单'
       }
       return '自提信息'
+    } else if (receipt_type == 'merchant') {
+      if (desc) {
+        return '商家自配送'
+      }
+      if (title) {
+        return '商家自配'
+      }
+      return '商家自配送'
     } else {
       if (desc) {
         return '普通快递'

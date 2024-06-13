@@ -75,3 +75,8 @@ export function getDeliveryList() {
 export function confirmDelivery(params) {
   return req.post(`/order/deliverystaff/confirm`, params)
 }
+
+//取消配送
+export function canceldeliverystaff(params) {
+  return req.post(`/order/cancel/deliverystaff `, params)
+}
