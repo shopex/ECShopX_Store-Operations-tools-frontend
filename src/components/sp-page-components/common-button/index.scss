@@ -1,8 +1,10 @@
 .sp-page-common-button{
     box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.14);
     border-radius: 40px;
+    box-sizing: border-box;
     @include flexbox();
     flex: 1;
+
 
     &.plain{
         background-color: transparent;
@@ -40,6 +42,7 @@
     &.size-small{
         font-size: 28px;
         font-weight: 400;
-        padding:0 28px;
+        padding:5px 28px;
+        box-sizing: border-box;
     }
 }

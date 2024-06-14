@@ -1,4 +1,4 @@
-import { View, Picker } from '@tarojs/components'
+import { View, Picker, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import { classNames } from '@/utils'
@@ -21,16 +21,16 @@ class CommonButton extends PureComponent {
     } = this.props
 
     return (
-      <View
-        className={classNames('sp-page-common-button', className, {
-          [`type-${type}`]: type,
-          [`size-${size}`]: size,
-          [`plain`]: plain
-        })}
-        style={{ height: Taro.pxTransform(height) }}
-        onClick={onClick}
-      >
-        {text}
+      <View style={{ height: Taro.pxTransform(height) }} onClick={onClick}>
+        <Text
+          className={classNames('sp-page-common-button', className, {
+            [`type-${type}`]: type,
+            [`size-${size}`]: size,
+            [`plain`]: plain
+          })}
+        >
+          {text}
+        </Text>
       </View>
     )
   }

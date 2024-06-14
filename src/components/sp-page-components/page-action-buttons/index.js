@@ -84,7 +84,7 @@ class PageActionButtons extends PureComponent {
           text={buttonName}
           onClick={this.handleFooterButtonClick.bind(this, buttonType)}
           size='small'
-          height={this.buttonHeight()}
+          // height={this.buttonHeight()}
           type={this.buttonType(buttonName, index)}
         />
       )
@@ -118,8 +118,17 @@ class PageActionButtons extends PureComponent {
       this.handleUpdatedelivery()
     } else if (buttonType === 'canceldeliverystaff') {
       this.handleCanceldeliverystaff()
+    } else if (buttonType === 'confirmpackag') {
+      this.handleConfirmpackag()
     }
     onClick(buttonType)
+  }
+
+  handleConfirmpackag = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'confirmpackag'
+    })
   }
 
   handleCanceldeliverystaff = () => {

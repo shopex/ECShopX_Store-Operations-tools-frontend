@@ -66,7 +66,8 @@ class OrderDelivery extends Component {
         delivery_remark: null,
         delivery_pics: []
       },
-      receipt_type: ''
+      receipt_type: '',
+      operatorList: []
     }
   }
 
@@ -92,6 +93,9 @@ class OrderDelivery extends Component {
     })
     await this.renderLeftContent()
     await this.renderRightContent()
+    await this.getDeliveryList()
+
+    console.log(666, this.state.operatorList)
 
     this.setState({
       loading: false,
@@ -101,14 +105,19 @@ class OrderDelivery extends Component {
           orderInfo.receipt_type == 'merchant'
             ? { label: '商家自配送', value: 'SELF_DELIVERY' }
             : {},
-        self_delivery_operator_id: {
-          operator_id: orderInfo?.self_delivery_operator_id,
-          username: orderInfo?.self_delivery_operator_name,
-          mobile: orderInfo?.self_delivery_operator_mobile,
-          staff_no: orderInfo?.staff_no
-        }
+        self_delivery_operator_id:
+          this.state.operatorList.find(
+            (item) => item.operator_id == orderInfo?.self_delivery_operator_id
+          ) || {}
       },
       receipt_type: orderInfo.receipt_type
+    })
+  }
+
+  getDeliveryList = async () => {
+    const { list } = await api.order.getDeliveryList()
+    this.setState({
+      operatorList: list
     })
   }
 

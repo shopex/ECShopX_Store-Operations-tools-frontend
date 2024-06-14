@@ -80,3 +80,8 @@ export function confirmDelivery(params) {
 export function canceldeliverystaff(params) {
   return req.post(`/order/cancel/deliverystaff `, params)
 }
+
+//确认打包
+export function confirmpackag(params) {
+  return req.post(`/order/deliverypackag/confirm `, params)
+}

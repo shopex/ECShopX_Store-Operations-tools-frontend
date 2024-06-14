@@ -186,6 +186,12 @@ export default class ActionModal extends PureComponent {
           <View className='item item2'>取消配送后需重新分配配送员</View>
         </View>
       )
+    } else if (type === 'confirmpackag') {
+      childrenNode = (
+        <View className='confirmContent'>
+          <View className='item item1'>确认打包</View>
+        </View>
+      )
     }
 
     return (
@@ -241,6 +247,23 @@ export default class ActionModal extends PureComponent {
         return data
       },
       '成功取消配送',
+      () => {
+        this.handleClose()
+        onRefresh?.()
+      }
+    )
+  }
+
+  //已打包
+  handleConfirmpackag = () => {
+    const { orderInfo, onRefresh } = this.props
+    console.log(orderInfo)
+    requestCallback(
+      async () => {
+        const data = await api.order.confirmpackag({ order_id: orderInfo.order_id })
+        return data
+      },
+      '打包成功',
       () => {
         this.handleClose()
         onRefresh?.()
@@ -369,6 +392,17 @@ export default class ActionModal extends PureComponent {
           </View>
           <View className='item confirmitem2' onClick={this.handleCancleDeliveryStaff}>
             确认
+          </View>
+        </View>
+      )
+    } else if (type === 'confirmpackag') {
+      childrenNode = (
+        <View className='actionContent'>
+          <View className='item confirmitem1' onClick={this.handleClose}>
+            取消
+          </View>
+          <View className='item confirmitem2' onClick={this.handleConfirmpackag}>
+            确认打包
           </View>
         </View>
       )
