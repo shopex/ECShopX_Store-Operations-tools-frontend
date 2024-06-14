@@ -10,6 +10,7 @@ import {
 } from '@/components/sp-page-components'
 import { View, Text } from '@tarojs/components'
 import { AtCountdown, AtAvatar } from 'taro-ui'
+import { ALLSELFDELIVERYSTATUSLIST } from '@/consts'
 import api from '@/api'
 import './index.scss'
 
@@ -374,6 +375,10 @@ class OrderDetail extends Component {
     }
   }
 
+  getSelfDeliveryStatus = (value) => {
+    return ALLSELFDELIVERYSTATUSLIST.find((item) => item.value == value)?.label ?? '-'
+  }
+
   render() {
     const {
       orderInfo,
@@ -498,42 +503,27 @@ class OrderDetail extends Component {
             )}
           </View>
 
-          <View className='delivery-information'>
-            <View className='delivery-information-title'>配送信息</View>
-            <View className='delivery-information-details'>
-              <View>
-                <View className='delivery-information-details-item'>
-                  <View className='field'>快递公司</View>
-                  <View>商家自配送</View>
-                </View>
-                <View className='delivery-information-details-item'>
-                  <View className='field'>配送员</View>
-                  <View>李** 编号：274236473</View>
-                </View>
-                <View className='delivery-information-details-item'>
-                  <View className='field'>配送状态</View>
-                  <View>****</View>
-                </View>
-                <View className='delivery-information-details-item'>
-                  <View className='field'>配送备注</View>
-                  <View>备注信息****备注信息****备注信息</View>
-                </View>
-              </View>
-              <View className='photo'>
-                <View className='field'>照片</View>
-                <View className='photo-list'>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
-                  <AtAvatar image='https://img1.baidu.com/it/u=2258757342,2341804200&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1715360400&t=421d8ac59ff211a5d39baa353d2a2546'></AtAvatar>
+          {orderInfo?.receipt_type == 'merchant' && (
+            <View className='delivery-information'>
+              <View className='delivery-information-title'>配送信息</View>
+              <View className='delivery-information-details'>
+                <View>
+                  <View className='delivery-information-details-item'>
+                    <View className='field'>快递公司</View>
+                    <View>{orderInfo?.delivery_corp_name}</View>
+                  </View>
+                  <View className='delivery-information-details-item'>
+                    <View className='field'>配送员</View>
+                    <View>{`${orderInfo?.self_delivery_operator_name} 编号：${orderInfo?.self_delivery_operator_mobile}`}</View>
+                  </View>
+                  <View className='delivery-information-details-item'>
+                    <View className='field'>配送状态</View>
+                    <View>{this.getSelfDeliveryStatus(orderInfo?.self_delivery_status)}</View>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
+          )}
         </View>
 
         <SpToast />

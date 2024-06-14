@@ -41,4 +41,13 @@
       padding: 0;
   }
   }
+  .time-line-box{
+    padding: 6px 40px;
+    box-sizing: border-box;
+    margin-top: 50px;
+
+  }
+  .time-line-item:last-child{
+    border: none !important;
+  }
 }

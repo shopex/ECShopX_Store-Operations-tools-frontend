@@ -24,8 +24,8 @@ function DeliveryForm(props, ref) {
     state
 
   const {
-    isUpdateDelivery = false,
-    isCancleDelivery,
+    isUpdateDelivery = false, //更新发货
+    isCancleDelivery, //取消配送
     receipt_type,
     selfDeliveryForm = {},
     onChangeForm = () => {}

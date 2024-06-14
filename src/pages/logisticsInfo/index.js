@@ -3,7 +3,7 @@ import { View } from '@tarojs/components'
 import { getCurrentInstance } from '@tarojs/taro'
 import api from '@/api'
 import { SpLoading, SpLogisticsDrawer, SpToast } from '@/components'
-import { LogisticsPicker } from '@/components/sp-page-components'
+import { LogisticsPicker, TimeLineItem } from '@/components/sp-page-components'
 import ChangeWL from './comps/changeWL'
 import { timestampToTime, getThemeStyle } from '@/utils'
 import './index.scss'
@@ -49,8 +49,13 @@ export default class Logistics extends PureComponent {
   formatLogs(logs) {
     let arr = []
     logs.map((item) => {
-      return arr.push({ title: timestampToTime(item.time) + ' ' + item.msg })
+      return arr.push({
+        title: timestampToTime(item.time) + ' ' + item.msg,
+        delivery_remark: item.delivery_remark,
+        pics: item.pics
+      })
     })
+    console.log(arr.reverse())
     return arr.reverse()
   }
 
@@ -135,8 +140,15 @@ export default class Logistics extends PureComponent {
         })}
 
         {/* 页面时间线 */}
-        <View className='timeline'>
+        {/* <View className='timeline'>
           {this.state.logs && <AtTimeline items={this.formatLogs(this.state.logs)}></AtTimeline>}
+        </View> */}
+
+        <View className='time-line-box'>
+          {this.state.logs &&
+            this.formatLogs(this.state.logs).map((item, idx) => (
+              <TimeLineItem key={idx} item={item}></TimeLineItem>
+            ))}
         </View>
 
         <SpToast />

@@ -92,6 +92,7 @@ class OrderDelivery extends Component {
     })
     await this.renderLeftContent()
     await this.renderRightContent()
+
     this.setState({
       loading: false,
       selfDeliveryForm: {
@@ -99,7 +100,13 @@ class OrderDelivery extends Component {
         delivery_corp:
           orderInfo.receipt_type == 'merchant'
             ? { label: '商家自配送', value: 'SELF_DELIVERY' }
-            : {}
+            : {},
+        self_delivery_operator_id: {
+          operator_id: orderInfo?.self_delivery_operator_id,
+          username: orderInfo?.self_delivery_operator_name,
+          mobile: orderInfo?.self_delivery_operator_mobile,
+          staff_no: orderInfo?.staff_no
+        }
       },
       receipt_type: orderInfo.receipt_type
     })
@@ -397,7 +404,11 @@ class OrderDelivery extends Component {
           <View className='order-detail-title'>
             <View className='text'>发货方式</View>
             <View className='status'>
-              <OrderRadio onChange={this.radioChange} active={isWhole ? 0 : 1} />
+              <OrderRadio
+                onChange={this.radioChange}
+                active={isWhole ? 0 : 1}
+                isShowRight={receipt_type != 'merchant'}
+              />
             </View>
           </View>
 

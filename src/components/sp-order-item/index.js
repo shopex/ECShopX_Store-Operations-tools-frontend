@@ -109,7 +109,7 @@ export default class SpOrderItem extends PureComponent {
     return (
       <View className='delivery'>
         <View className='delivery-name'>配送员：{orderInfo.self_delivery_operator_name}</View>
-        <View className='delivery-fee'>配送费：{orderInfo.self_delivery_fee}元</View>
+        <View className='delivery-fee'>配送费：{orderInfo.self_delivery_fee / 100}元</View>
       </View>
     )
   }

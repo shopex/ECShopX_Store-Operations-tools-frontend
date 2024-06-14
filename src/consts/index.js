@@ -117,4 +117,13 @@ export const UPDATESELFDELIVERYSTATUSLIST = [
   // { label: '不是自配送', value: 'NOTMERCHANT' }
 ]
 
+export const ALLSELFDELIVERYSTATUSLIST = [
+  { label: '等待确认', value: 'CONFIRMING' },
+  { label: '已接单', value: 'RECEIVEORDER' },
+  { label: '已打包', value: 'PACKAGED' },
+  { label: '配送中', value: 'DELIVERING' },
+  { label: '已送达', value: 'DONE' },
+  { label: '不是自配送', value: 'NOTMERCHANT' }
+]
+
 export { afterSales, good }

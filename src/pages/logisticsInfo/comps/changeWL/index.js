@@ -40,14 +40,14 @@ export default class ChangeWL extends PureComponent {
 
   render() {
     const { showEdit } = this.state
-    const { deliveryInfo, orderStatus } = this.props
+    const { deliveryInfo, orderStatus, isEdit } = this.props
     return (
       <>
         {deliveryInfo && (
           <View className='cpn-spChangeWL'>
             <View className='bar'>
               <View className='title'>物流公司</View>
-              {orderStatus !== 'DONE' && (
+              {deliveryInfo?.delivery_corp != 'SELF_DELIVERY' && orderStatus !== 'DONE' && (
                 <View className='content'>
                   {showEdit ? (
                     <Text className='iconfont icon-queren update' onClick={this.handleSave}>
