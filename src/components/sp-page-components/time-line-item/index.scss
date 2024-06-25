@@ -3,6 +3,7 @@
   display: flex;
   border-left: #c5cad5 solid 1px;
   position: relative;
+  box-sizing: border-box;
 
     .left-dot{
       position: absolute;
@@ -20,12 +21,16 @@
     padding: 0 50px;
     box-sizing: border-box;
     padding-bottom: 60px;
+    width: 100%;
     &-title{
       margin-top: -15px;
       margin-bottom: 16px;
     }
     &-remark{
       margin: 16px 0;
+      overflow: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
 
     &-pic{
