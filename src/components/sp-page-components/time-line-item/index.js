@@ -27,11 +27,10 @@ function TimeLineItem(props) {
         )}
         {item.pics.length > 0 && (
           <View>
-            {' '}
             照片上传：
             <View className='content-pic'>
               {item.pics.map((item, idx) => (
-                <Image src={item} className='content-pic-item'></Image>
+                <Image src={item} className='content-pic-item' key={idx}></Image>
               ))}
             </View>
           </View>
