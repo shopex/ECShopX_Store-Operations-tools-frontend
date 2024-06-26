@@ -16,6 +16,13 @@ function TimeLineItem(props) {
 
   const { item, children } = props
 
+  const handlePreviewPics = (idx) => {
+    Taro.previewImage({
+      urls: item.pics,
+      current: item.pics[idx]
+    })
+  }
+
   console.log(props)
   return (
     <View className='time-line-item'>
@@ -30,7 +37,12 @@ function TimeLineItem(props) {
             照片上传：
             <View className='content-pic'>
               {item.pics.map((item, idx) => (
-                <Image src={item} className='content-pic-item' key={idx}></Image>
+                <Image
+                  src={item}
+                  className='content-pic-item'
+                  key={idx}
+                  onClick={() => handlePreviewPics(idx)}
+                ></Image>
               ))}
             </View>
           </View>
