@@ -72,6 +72,7 @@ export function getDeliveryList(params) {
     finderId: 100,
     operator_type: 'self_delivery_staff',
     is_disable: 0,
+    staff_type: 'distributor',
     ...params
   })
 }
