@@ -65,10 +65,15 @@ export function confirmcancel(params) {
 }
 
 // 配送员列表
-export function getDeliveryList() {
-  return req.get(
-    `/account/management?pageSize=10&page=1&finderId=100&operator_type=self_delivery_staff`
-  )
+export function getDeliveryList(params) {
+  return req.get(`/account/management`, {
+    pageSize: 999,
+    page: 1,
+    finderId: 100,
+    operator_type: 'self_delivery_staff',
+    is_disable: 0,
+    ...params
+  })
 }
 
 //确认配送员
