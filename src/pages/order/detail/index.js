@@ -514,7 +514,11 @@ class OrderDetail extends Component {
                   </View>
                   <View className='delivery-information-details-item'>
                     <View className='field'>配送员</View>
-                    <View>{`${orderInfo?.self_delivery_operator_name} 编号：${orderInfo?.self_delivery_operator_mobile}`}</View>
+                    <View>
+                      {orderInfo?.self_delivery_operator_name
+                        ? `${orderInfo?.self_delivery_operator_name} ：${orderInfo?.self_delivery_operator_mobile}`
+                        : '-'}
+                    </View>
                   </View>
                   <View className='delivery-information-details-item'>
                     <View className='field'>配送状态</View>
