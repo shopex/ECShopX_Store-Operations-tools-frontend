@@ -6,10 +6,20 @@ import {
   FixedAction,
   CommonButton,
   OrderRadio,
-  LogisticsPicker
+  LogisticsPicker,
+  DeliveryForm
 } from '@/components/sp-page-components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { SpGoodItem, SpDrawer, SpGoodPrice, SpFormItem, SpToast, SpLoading } from '@/components'
+import {
+  SpGoodItem,
+  SpDrawer,
+  SpGoodPrice,
+  SpFormItem,
+  SpToast,
+  SpLoading,
+  SpPicker
+} from '@/components'
+import { FormItem, SpecItem, FormImageItem, ParamsItem } from '../../good/comps'
 import { getThemeStyle, requestCallback } from '@/utils'
 import api from '@/api'
 import './index.scss'
@@ -39,11 +49,6 @@ class OrderDelivery extends Component {
       inputNumberVisible: false,
       //当前输入的input
       currentInputIndex: 0,
-      deliveryVisible: false,
-      deliveryValue: {},
-      deliveryNo: '',
-      //输入单号
-      deliveryNoVisible: false,
       loading: false,
       error: {
         //存储错误商品id
@@ -52,7 +57,17 @@ class OrderDelivery extends Component {
         deliveryError: false,
         //存储物流单号错误
         deliveryNoError: false
-      }
+      },
+      selfDeliveryForm: {
+        delivery_corp: { label: '商家自配送', value: 'SELF_DELIVERY' },
+        delivery_code: '',
+        self_delivery_operator_id: { label: '', value: '' },
+        self_delivery_status: {},
+        delivery_remark: null,
+        delivery_pics: []
+      },
+      receipt_type: '',
+      operatorList: []
     }
   }
 
@@ -78,8 +93,31 @@ class OrderDelivery extends Component {
     })
     await this.renderLeftContent()
     await this.renderRightContent()
+    await this.getDeliveryList()
+
+    console.log(666, this.state.operatorList)
+
     this.setState({
-      loading: false
+      loading: false,
+      selfDeliveryForm: {
+        ...this.state.selfDeliveryForm,
+        delivery_corp:
+          orderInfo.receipt_type == 'merchant'
+            ? { label: '商家自配送', value: 'SELF_DELIVERY' }
+            : {},
+        self_delivery_operator_id:
+          this.state.operatorList.find(
+            (item) => item.operator_id == orderInfo?.self_delivery_operator_id
+          ) || {}
+      },
+      receipt_type: orderInfo.receipt_type
+    })
+  }
+
+  getDeliveryList = async () => {
+    const { list } = await api.order.getDeliveryList()
+    this.setState({
+      operatorList: list
     })
   }
 
@@ -170,57 +208,6 @@ class OrderDelivery extends Component {
     })
   }
 
-  handleCloseNo = () => {
-    this.setState({
-      deliveryNoVisible: false
-    })
-  }
-
-  //关闭物流弹窗
-  handleDeliveryClose = () => {
-    this.setState({
-      deliveryVisible: false
-    })
-  }
-  //点击物流
-  handleClickDelivery = () => {
-    this.setState({
-      deliveryVisible: true
-    })
-  }
-  //点击物流单号
-  handleClickDeliveryNo = () => {
-    this.setState({
-      deliveryNoVisible: true
-    })
-  }
-  //点击获得物流公司的value和name
-  handleDeliverySubmit = (current) => {
-    this.handleDeliveryClose()
-
-    this.setState({
-      deliveryValue: current,
-      error: {
-        ...this.state.error,
-        deliveryError: false
-      }
-    })
-  }
-
-  handleNoConfirm = (number) => {
-    if (!/^[a-zA-Z0-9]*$/.test(number)) {
-      return
-    }
-    this.handleCloseNo()
-    this.setState({
-      deliveryNo: number,
-      error: {
-        ...this.state.error,
-        deliveryNoError: false
-      }
-    })
-  }
-
   //处理数量相关逻辑
   handlePriceError = () => {
     const { isWhole, goodPrice, goodItems, error } = this.state
@@ -276,41 +263,86 @@ class OrderDelivery extends Component {
         }
         return total
       }, [])
-
       return hasPriceGoods
     }
   }
 
-  //处理快递公司相关逻辑
-  handleDeliveryCompany = () => {
-    const { error, deliveryValue } = this.state
+  handleChangeDeliveryForm = (key, value) => {
+    console.log('handleChangeDeliveryForm', key, value)
 
-    if (!deliveryValue.name) {
-      this.setState({
-        error: {
-          ...error,
-          deliveryError: true
-        }
-      })
-      S.toast('请选择快递公司')
-    }
-    return deliveryValue.value
+    this.setState({
+      selfDeliveryForm: {
+        ...this.state.selfDeliveryForm,
+        [key]: value
+      }
+    })
   }
 
-  //处理快递单号
-  handleDeliveryNo = () => {
-    const { error, deliveryNo } = this.state
+  handleDeliveryParams = () => {
+    const {
+      delivery_corp,
+      delivery_code,
+      self_delivery_operator_id,
+      self_delivery_status,
+      delivery_remark,
+      delivery_pics
+    } = this.state.selfDeliveryForm
+    let deliveryParams = {}
 
-    if (!deliveryNo) {
-      this.setState({
-        error: {
-          ...error,
-          deliveryNoError: true
-        }
-      })
-      S.toast('请填写物流公司单号')
+    if (delivery_corp.value == 'SELF_DELIVERY') {
+      deliveryParams = {
+        delivery_corp: delivery_corp.value,
+        self_delivery_operator_id: self_delivery_operator_id.operator_id,
+        self_delivery_status: self_delivery_status.value,
+        delivery_remark,
+        delivery_pics
+      }
+    } else {
+      deliveryParams = {
+        delivery_corp: delivery_corp.value,
+        delivery_code
+      }
     }
-    return deliveryNo
+
+    if (delivery_corp.value == 'SELF_DELIVERY') {
+      if (!deliveryParams.delivery_corp) {
+        Taro.showToast({
+          icon: 'none',
+          title: '请选择快递公司！'
+        })
+        return
+      }
+      if (!deliveryParams.self_delivery_operator_id) {
+        Taro.showToast({
+          icon: 'none',
+          title: '请选择配送员！'
+        })
+        return
+      }
+      if (!deliveryParams.self_delivery_status) {
+        Taro.showToast({
+          icon: 'none',
+          title: '请选择配送状态！'
+        })
+        return
+      }
+    } else {
+      if (!deliveryParams.delivery_corp) {
+        Taro.showToast({
+          icon: 'none',
+          title: '请选择快递公司！'
+        })
+        return
+      }
+      if (!deliveryParams.delivery_code) {
+        Taro.showToast({
+          icon: 'none',
+          title: '请填写物流单号！'
+        })
+        return
+      }
+    }
+    return deliveryParams
   }
 
   //点击确认发货按钮
@@ -319,29 +351,19 @@ class OrderDelivery extends Component {
     //处理商品相关逻辑
     const totalItems = this.handlePriceError()
 
-    if (!totalItems.length) {
-      return
-    }
+    const deliveryParams = this.handleDeliveryParams()
+    if (!deliveryParams) return
 
-    const delivery_corp = this.handleDeliveryCompany()
+    console.log(deliveryParams, orderInfo)
 
-    if (!delivery_corp) {
-      return
-    }
-
-    const delivery_code = this.handleDeliveryNo()
-
-    if (!delivery_code) {
-      return
-    }
+    // return
 
     requestCallback(
       async () => {
         const data = await api.order.delivery({
           order_id: orderInfo.order_id,
           delivery_type: isWhole ? 'batch' : 'sep',
-          delivery_corp,
-          delivery_code,
+          ...deliveryParams,
           sepInfo: JSON.stringify(totalItems),
           type: 'new'
         })
@@ -367,13 +389,11 @@ class OrderDelivery extends Component {
       isWhole,
       goodPrice,
       inputNumberVisible,
-      deliveryVisible,
-      deliveryValue,
-      deliveryNo,
-      deliveryNoVisible,
       loading,
       error,
-      pageType
+      pageType,
+      selfDeliveryForm,
+      receipt_type
     } = this.state
 
     return loading ? (
@@ -393,7 +413,11 @@ class OrderDelivery extends Component {
           <View className='order-detail-title'>
             <View className='text'>发货方式</View>
             <View className='status'>
-              <OrderRadio onChange={this.radioChange} active={isWhole ? 0 : 1} />
+              <OrderRadio
+                onChange={this.radioChange}
+                active={isWhole ? 0 : 1}
+                isShowRight={receipt_type != 'merchant'}
+              />
             </View>
           </View>
 
@@ -442,45 +466,11 @@ class OrderDelivery extends Component {
           type='number'
         />
 
-        <View className='card-bottom'>
-          <SpFormItem
-            label='快递公司'
-            placeholder='请选择快递公司'
-            value={deliveryValue?.name}
-            error={error.deliveryError}
-            onClickValue={this.handleClickDelivery}
-          />
-          <SpFormItem
-            label='物流单号'
-            placeholder='请填写物流公司单号'
-            value={deliveryNo}
-            error={error.deliveryNoError}
-            onClickValue={this.handleClickDeliveryNo}
-          />
-        </View>
-
-        <LogisticsPicker
-          visible={deliveryVisible}
-          onClose={this.handleDeliveryClose}
-          onConfirm={this.handleDeliverySubmit}
+        <DeliveryForm
+          receipt_type={receipt_type}
+          selfDeliveryForm={selfDeliveryForm}
+          onChangeForm={this.handleChangeDeliveryForm}
         />
-
-        <SpDrawer
-          title='物流单号'
-          placeholder='请填写有效的物流单号'
-          visible={deliveryNoVisible}
-          onConfirm={this.handleNoConfirm}
-          onClose={this.handleCloseNo}
-          onCancel={this.handleCloseNo}
-        />
-
-        {/* <SpAutoFocusDrawer
-          title='物流单号'
-          visible={deliveryNoVisible}
-          onClose={this.handleCloseNo}
-          onCancel={this.handleCloseNo}
-          onConfirm={this.handleNoConfirm}
-        /> */}
 
         <SpToast />
 

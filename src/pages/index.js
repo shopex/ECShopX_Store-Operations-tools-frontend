@@ -386,6 +386,25 @@ class Index extends Component {
                 <View
                   className='item'
                   onClick={() => {
+                    debugger
+                    wx.miniProgram.navigateTo({
+                      url: `/subpages/dianwu/delivery-personnel?token=${S.getAuthToken()}&distributor_id=${distributor_id}&name=${name}`
+                    })
+                  }}
+                >
+                  <View className='img_'>
+                    <Image
+                      className='img'
+                      src={require('@/assets/imgs/icon_goods_search.png')}
+                    ></Image>
+                  </View>
+                  <View className='subtitle'>配送管理</View>
+                </View>
+              )}
+              {VERSION_STANDARD && (
+                <View
+                  className='item'
+                  onClick={() => {
                     wx.miniProgram.navigateTo({
                       url: `/subpages/dianwu/cashier?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
                     })

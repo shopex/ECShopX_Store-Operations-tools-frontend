@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { CommonButton } from '@/components/sp-page-components'
-import { SpRemarkDrawer } from '@/components'
-import { classNames } from '@/utils'
+import { CommonButton, UpdateDeliveryStatus } from '@/components/sp-page-components'
+import { SpRemarkDrawer, SpPicker } from '@/components'
+import { classNames, requestCallback } from '@/utils'
 import CancelAction from './CancelAction'
 import ActionModal from './ActionModal'
 import qs from 'qs'
+import api from '@/api'
 import './index.scss'
 
 //一个和业务相关联的page-button组件
@@ -23,7 +24,16 @@ class PageActionButtons extends PureComponent {
       //操作类型
       actionType: '',
       //备注visible
-      noteVisible: false
+      noteVisible: false,
+      //分配配送员弹框
+      deliveryerVis: false,
+      //配送员列表
+      deliveryerList: [
+        { label: '配送员1', value: '1' },
+        { label: '配送员2', value: '2' },
+        { label: '配送员3', value: '3' }
+      ],
+      deliveryVis: false
     }
   }
 
@@ -74,7 +84,7 @@ class PageActionButtons extends PureComponent {
           text={buttonName}
           onClick={this.handleFooterButtonClick.bind(this, buttonType)}
           size='small'
-          height={this.buttonHeight()}
+          // height={this.buttonHeight()}
           type={this.buttonType(buttonName, index)}
         />
       )
@@ -102,8 +112,36 @@ class PageActionButtons extends PureComponent {
       this.handleConfirm()
     } else if (buttonType === 'confirmcancel') {
       this.handleNavigationAftersalesDeal()
+    } else if (buttonType === 'confirmdeliverystaff') {
+      this.handleConfirmdeliverystaff()
+    } else if (buttonType === 'updatedelivery') {
+      this.handleUpdatedelivery()
+    } else if (buttonType === 'canceldeliverystaff') {
+      this.handleCanceldeliverystaff()
+    } else if (buttonType === 'confirmpackag') {
+      this.handleConfirmpackag()
     }
     onClick(buttonType)
+  }
+
+  handleConfirmpackag = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'confirmpackag'
+    })
+  }
+
+  handleCanceldeliverystaff = () => {
+    this.setState({
+      actionVisible: true,
+      actionType: 'canceldeliverystaff'
+    })
+  }
+
+  handleUpdatedelivery = () => {
+    this.setState({
+      deliveryVis: true
+    })
   }
 
   //跳转到售后处理页
@@ -123,6 +161,15 @@ class PageActionButtons extends PureComponent {
       url: `/pages/afterSales/deal?aftersalesNo=${
         orderInfo.aftersales_bn || maxOrderInfo.aftersales_bn
       }`
+    })
+  }
+
+  handleConfirmdeliverystaff = async () => {
+    const { list } = await api.order.getDeliveryList()
+    console.log(6, list)
+    this.setState({
+      deliveryerVis: true,
+      deliveryerList: list
     })
   }
 
@@ -242,6 +289,27 @@ class PageActionButtons extends PureComponent {
     onClose()
   }
 
+  //分配配送员
+  handleDeliveryerConfirm = async (value) => {
+    console.log(value, this.state.deliveryerList[value].id, this.props.orderInfo.order_id)
+    requestCallback(
+      async () => {
+        const res = await api.order.confirmDelivery({
+          self_delivery_operator_id: this.state.deliveryerList[value].operator_id,
+          order_id: this.props.orderInfo.order_id
+        })
+        return res
+      },
+      '分配配送员成功',
+      () => {
+        this.setState({
+          deliveryerVis: false
+        })
+        this.props.onRefresh?.()
+      }
+    )
+  }
+
   render() {
     const {
       className,
@@ -252,8 +320,17 @@ class PageActionButtons extends PureComponent {
       pageType,
       afterSalesInfo
     } = this.props
-    const { cancelVisible, cancelReasonVisible, actionVisible, actionType, noteVisible } =
-      this.state
+    const {
+      cancelVisible,
+      cancelReasonVisible,
+      actionVisible,
+      actionType,
+      noteVisible,
+      deliveryerVis,
+      deliveryerList,
+      deliveryVis,
+      selfDeliveryForm
+    } = this.state
 
     return (
       <View className={classNames('sp-page-action-buttons', className)}>
@@ -288,6 +365,38 @@ class PageActionButtons extends PureComponent {
           orderInfo={orderInfo}
           afterSalesInfo={afterSalesInfo}
           onClose={this.handleNoteClose}
+        />
+
+        {/* 分配配送员 */}
+        <SpPicker
+          visible={deliveryerVis}
+          title='选择配送员'
+          columns={deliveryerList.map((item) => item.username)}
+          onCancel={() =>
+            this.setState({
+              deliveryerVis: false
+            })
+          }
+          onClose={() =>
+            this.setState({
+              deliveryerVis: false
+            })
+          }
+          onConfirm={(value) => this.handleDeliveryerConfirm(value)}
+        />
+
+        {/* 更新物流信息 */}
+        <UpdateDeliveryStatus
+          deliveryVis={deliveryVis}
+          orderInfo={orderInfo}
+          onClose={(isSubmit) => {
+            if (isSubmit) {
+              onRefresh?.()
+            }
+            this.setState({
+              deliveryVis: false
+            })
+          }}
         />
       </View>
     )

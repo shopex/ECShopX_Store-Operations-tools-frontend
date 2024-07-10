@@ -15,6 +15,7 @@ export const ZITI_ORDER_LIST_STATUS = {
   'all': '全部',
   'cancel': '已取消',
   'notpay': '待支付',
+  'RECEIVEORDER': '已分配',
   'ziti': '待自提',
   'notship': '待发货',
   'finish': '已完成'
@@ -25,7 +26,8 @@ export const ORDER_LIST_FIELDS = {
   'order_id': '订单号',
   'item_name': '商品名称',
   'mobile': '手机号码',
-  'receiver_name': '收货人姓名'
+  'receiver_name': '收货人姓名',
+  'self_delivery_staff': '配送员'
 }
 //订单筛选时间
 export const ORDER_LIST_FILTER_TIME = {
@@ -95,5 +97,33 @@ export const ORDER_DETAIL_ICON = {
   'not_pay': 'icon-daifukuan-01',
   'cancel': 'icon-quxiaodingdan-01'
 }
+
+export const SELFDELIVERYSTATUSLIST = [
+  // { label: '等待确认', value: 'CONFIRMING' },
+  // { label: '已接单', value: 'RECEIVEORDER' },
+  // { label: '已打包', value: 'PACKAGED' },
+  { label: '配送中', value: 'DELIVERING' }
+  // { label: '已送达', value: 'DONE' },
+  // { label: '不是自配送', value: 'NOTMERCHANT' }
+]
+
+export const UPDATESELFDELIVERYSTATUSLIST = [
+  // { label: '等待确认', value: 'CONFIRMING' },
+  // { label: '已接单', value: 'RECEIVEORDER' },
+  // { label: '已打包', value: 'PACKAGED' },
+  // { label: '配送中', value: 'DELIVERING' },
+  { label: '已送达', value: 'DONE' },
+  { label: '已取消', value: 'CONFIRMING' } //先改成等待确认状态
+  // { label: '不是自配送', value: 'NOTMERCHANT' }
+]
+
+export const ALLSELFDELIVERYSTATUSLIST = [
+  { label: '等待确认', value: 'CONFIRMING' },
+  { label: '已接单', value: 'RECEIVEORDER' },
+  { label: '已打包', value: 'PACKAGED' },
+  { label: '配送中', value: 'DELIVERING' },
+  { label: '已送达', value: 'DONE' },
+  { label: '不是自配送', value: 'NOTMERCHANT' }
+]
 
 export { afterSales, good }

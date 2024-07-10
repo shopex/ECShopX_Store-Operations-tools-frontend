@@ -19,10 +19,12 @@ $filterHeight:100px;
     padding-top:20px;
     background-color: #fff;
   }
- 
+
 
   &-orderList {
-    @include page-scroll($searchInputHeight+$tabbarHeight+$filterHeight+20, 0);
+    // @include page-scroll($searchInputHeight+$tabbarHeight+$filterHeight+20, 0);
+    overflow: auto;
+    height: calc(100vh - 310px);
     z-index:100;
 
     &.show-buttonsaction{

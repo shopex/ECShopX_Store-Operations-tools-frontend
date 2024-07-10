@@ -9,7 +9,8 @@ import {
   PageActionButtons
 } from '@/components/sp-page-components'
 import { View, Text } from '@tarojs/components'
-import { AtCountdown } from 'taro-ui'
+import { AtCountdown, AtAvatar } from 'taro-ui'
+import { ALLSELFDELIVERYSTATUSLIST } from '@/consts'
 import api from '@/api'
 import './index.scss'
 
@@ -67,8 +68,8 @@ class OrderDetail extends Component {
       loading: true
     })
     const { orderInfo, tradeInfo } = await api.order.detail({ orderId: order_id })
-    if(orderInfo.invoice){
-       orderInfo.app_info?.buttons.unshift({type:'invoice',name:'开发票'})
+    if (orderInfo.invoice) {
+      orderInfo.app_info?.buttons.unshift({ type: 'invoice', name: '开发票' })
     }
     this.setState({
       orderInfo,
@@ -224,6 +225,14 @@ class OrderDetail extends Component {
         return '自提订单'
       }
       return '自提信息'
+    } else if (receipt_type == 'merchant') {
+      if (desc) {
+        return '商家自配送'
+      }
+      if (title) {
+        return '商家自配'
+      }
+      return '商家自配送'
     } else {
       if (desc) {
         return '普通快递'
@@ -359,11 +368,15 @@ class OrderDetail extends Component {
       wx.miniProgram.navigateTo({
         url: `/subpages/dianwu/trade/sale-after?trade_id=${order_id}`
       })
-    }else if (type == 'invoice') {
+    } else if (type == 'invoice') {
       wx.miniProgram.navigateTo({
         url: `/subpages/dianwu/trade/invoice?trade_id=${order_id}`
       })
     }
+  }
+
+  getSelfDeliveryStatus = (value) => {
+    return ALLSELFDELIVERYSTATUSLIST.find((item) => item.value == value)?.label ?? '-'
   }
 
   render() {
@@ -489,6 +502,32 @@ class OrderDetail extends Component {
               <View className='item'>交易流水号：{tradeInfo.transactionId}</View>
             )}
           </View>
+
+          {orderInfo?.receipt_type == 'merchant' && (
+            <View className='delivery-information'>
+              <View className='delivery-information-title'>配送信息</View>
+              <View className='delivery-information-details'>
+                <View>
+                  <View className='delivery-information-details-item'>
+                    <View className='field'>快递公司</View>
+                    <View>{orderInfo?.delivery_corp_name}</View>
+                  </View>
+                  <View className='delivery-information-details-item'>
+                    <View className='field'>配送员</View>
+                    <View>
+                      {orderInfo?.self_delivery_operator_name
+                        ? `${orderInfo?.self_delivery_operator_name} ：${orderInfo?.self_delivery_operator_mobile}`
+                        : '-'}
+                    </View>
+                  </View>
+                  <View className='delivery-information-details-item'>
+                    <View className='field'>配送状态</View>
+                    <View>{this.getSelfDeliveryStatus(orderInfo?.self_delivery_status)}</View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          )}
         </View>
 
         <SpToast />

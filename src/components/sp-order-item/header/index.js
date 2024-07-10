@@ -11,6 +11,7 @@ export default class No extends PureComponent {
 
   renderNo = () => {
     const { info, pageType } = this.props
+    console.log(666, info)
     if (pageType === 'orderList') {
       return info.order_id
     } else if (pageType === 'afterSalesList') {
@@ -45,10 +46,27 @@ export default class No extends PureComponent {
     }
   }
 
+  renderTag = () => {
+    const { info, pageType } = this.props
+    if (pageType === 'orderList') {
+      if (info.receipt_type == 'merchant') {
+        return <View className='merchant-tag'>商家自配送</View>
+      }
+      return null
+    } else if (pageType === 'afterSalesList') {
+      if (info?.app_info?.order_info?.receipt_type == 'merchant') {
+        return <View className='merchant-tag'>商家自配送</View>
+      }
+      return null
+    }
+  }
+
   render() {
+    const { info } = this.props
     return (
       <View className='order-header'>
         <View className='order-no'>
+          {this.renderTag()}
           <Text className='no'>{this.renderNo()}</Text>
           <Text className='copy' onClick={this.handleCopy}>
             复制

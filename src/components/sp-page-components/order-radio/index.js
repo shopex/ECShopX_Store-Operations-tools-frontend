@@ -38,7 +38,7 @@ class OrderRadio extends PureComponent {
   }
 
   render() {
-    const { leftTitle = '整单', rightTitle = '部分' } = this.props
+    const { leftTitle = '整单', rightTitle = '部分', isShowRight = true } = this.props
 
     const { active } = this.state
 
@@ -52,14 +52,16 @@ class OrderRadio extends PureComponent {
         >
           {leftTitle}
         </View>
-        <View
-          className={classNames('item', 'rightTitle', {
-            ['active']: active === 1
-          })}
-          onClick={this.handleClick(1)}
-        >
-          {rightTitle}
-        </View>
+        {isShowRight && (
+          <View
+            className={classNames('item', 'rightTitle', {
+              ['active']: active === 1
+            })}
+            onClick={this.handleClick(1)}
+          >
+            {rightTitle}
+          </View>
+        )}
       </View>
     )
   }
