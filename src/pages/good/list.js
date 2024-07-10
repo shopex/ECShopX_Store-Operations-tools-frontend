@@ -135,7 +135,7 @@ const List = () => {
 
   const handleAction = async (info, { type, label }) => {
     if (type === 'edit') {
-      navigateToGoodForm(info.goods_id)
+      navigateToGoodForm(info.item_id)
     } else if (type === 'onsale' || type === 'instock') {
       await api.weapp.update_status({
         status: type,

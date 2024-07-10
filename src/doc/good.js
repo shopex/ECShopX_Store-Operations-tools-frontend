@@ -6,5 +6,6 @@ export const GOOD_LIST = {
   price: 'price',
   approve_status: 'approve_status',
   goods_id: 'goods_id',
+  item_id: 'item_id',
   audit_status: 'audit_status'
 }

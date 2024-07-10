@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.14.0...v3.15.0) (2024-07-08)
+
+
+### Bug Fixes
+
+* 依赖版本问题 ([2dece7f](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/2dece7f8a9f93740106f9aebd3166488ee17742d))
+
+## [3.14.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.13.4...v3.14.0) (2024-03-11)
+
+### [3.13.4](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.13.3...v3.13.4) (2023-10-27)
+
+
+### Bug Fixes
+
+* 商品编辑用item_id ([acdb808](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/acdb80841ae5a90045161b3c0f97c572dd64815f))
+
+### [3.13.3](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.13.2...v3.13.3) (2023-09-27)
+
+### [3.13.1](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.13.0...v3.13.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* 修复编辑商品 ([01bf880](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/01bf8800a5eb5173f73e0ea4ab0f1821c6ba5469))
+
+## [3.13.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.12.0...v3.13.0) (2023-06-01)
+
+## [3.12.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.11.1...v3.12.0) (2023-05-18)
+
+## [3.11.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.10.0...v3.11.0) (2023-04-24)
+
+## [3.10.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.9.0...v3.10.0) (2023-02-09)
+
+
+### Features
+
+* 开发票跳转 ([da59cd2](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/da59cd265579ceb29139dce82b93319d6becdf68))
+* 开发票跳转参数 ([6e491f7](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/6e491f71a1fa3fee781c9bfb8343cda7d1160e2e))
+
 ## [3.9.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.8.0...v3.9.0) (2023-01-05)
 
 

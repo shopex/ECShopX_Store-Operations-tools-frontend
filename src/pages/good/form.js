@@ -159,6 +159,7 @@ const Detail = () => {
       spec_items,
       intro,
       price = 0,
+      cost_price = 0,
       approve_status,
       store,
       item_bn,
@@ -183,13 +184,13 @@ const Detail = () => {
     const isMulti = nospec === false
     await setState((_val) => {
       _val.mainCategory = {
-        id: item_category_main[0]?.children?.[0]?.children?.[0].id,
+        id: item_category_main[0]?.children?.[0]?.children?.[0].category_id,
         label: item_category_main[0]?.children?.[0]?.children?.[0].category_name
       }
       _val.item_name = item_name
       _val.brief = brief
       _val.category = {
-        id: item_category_info[0]?.children?.[0]?.id,
+        id: item_category_info[0]?.children?.[0]?.category_id,
         label: item_category_info[0]?.children?.[0]?.category_name
       }
       _val.brand = {
@@ -209,6 +210,7 @@ const Detail = () => {
         ? spec_items.map((item) => ({
             ...item,
             price: item.price / 100,
+            cost_price: item.cost_price / 100,
             approve_status: {
               label: STATUS_LIST.find((_item) => _item.value === item.approve_status)?.label,
               value: item.approve_status
@@ -224,6 +226,7 @@ const Detail = () => {
               },
               store,
               price: price / 100,
+              cost_price: cost_price / 100,
               item_bn: item_bn
             }
           ]
@@ -489,6 +492,7 @@ const Detail = () => {
 
   const handleSubmit = async () => {
     console.log('==handleSubmit=')
+
     if (!mainCategory.id) {
       showToast('商品主类目必填')
       return

@@ -41,7 +41,8 @@ export default class PlanSelection extends PureComponent {
     })
     let data = {
       is_app: 1,
-      is_all: true
+      is_all: true,
+      is_valid: true
     }
     console.log('===', S.getAuthToken())
     const result = await api.planSelection.getShopList(data)
