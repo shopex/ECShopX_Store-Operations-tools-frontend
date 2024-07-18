@@ -73,6 +73,7 @@ class API {
     this.setOptions(options)
     this.isRefreshingToken = false
     this.requestQueue = new RequestQueue()
+    this.applet = options
   }
 
   setOptions(opts) {
@@ -111,7 +112,11 @@ class API {
   }
 
   getReqUrl(url) {
-    return /^http/.test(url) ? url : `${this.baseURL}${url.replace(/^\//, '')}`
+    if (this.applet?.isWeapp) {
+      return /^http/.test(url) ? url : `${this.applet.baseURL}${url.replace(/^\//, '')}`
+    } else {
+      return /^http/.test(url) ? url : `${this.baseURL}${url.replace(/^\//, '')}`
+    }
   }
 
   handleLogout() {
