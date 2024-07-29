@@ -421,7 +421,7 @@ class Index extends Component {
                   <View className='subtitle'>配送管理</View>
                 </View>
               )}
-              {VERSION_STANDARD && (
+              {VERSION_STANDARD && is_salesman && (
                 <View
                   className='item'
                   onClick={() => {
@@ -432,7 +432,6 @@ class Index extends Component {
                   }}
                 >
                   <View className='img_'>
-                    {console.log(is_salesman, 'is_salesman')}
                     <Image
                       className='img'
                       src={require('@/assets/imgs/icon_goods_search.png')}
