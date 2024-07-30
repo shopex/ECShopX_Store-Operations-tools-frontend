@@ -413,10 +413,7 @@ class Index extends Component {
                   }}
                 >
                   <View className='img_'>
-                    <Image
-                      className='img'
-                      src={require('@/assets/imgs/icon_goods_search.png')}
-                    ></Image>
+                    <Image className='img' src={require('@/assets/imgs/delivery.png')}></Image>
                   </View>
                   <View className='subtitle'>配送管理</View>
                 </View>
@@ -432,10 +429,7 @@ class Index extends Component {
                   }}
                 >
                   <View className='img_'>
-                    <Image
-                      className='img'
-                      src={require('@/assets/imgs/icon_goods_search.png')}
-                    ></Image>
+                    <Image className='img' src={require('@/assets/imgs/salesman.png')}></Image>
                   </View>
                   <View className='subtitle'>业务员管理</View>
                 </View>
