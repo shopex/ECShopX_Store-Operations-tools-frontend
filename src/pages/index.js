@@ -50,7 +50,8 @@ class Index extends Component {
         status: '',
         shopList: [],
         order_info: {}
-      }
+      },
+      is_salesman: false
     }
   }
 
@@ -110,6 +111,24 @@ class Index extends Component {
     }
 
     this.getConfig()
+    this.salesman()
+  }
+
+  async salesman() {
+    let { distributor_id } = this.props.planSelection
+
+    if (distributor_id != null) {
+      const result = await api.salesman.storemanagerinfo({
+        distributor_id,
+        page: 1,
+        page_size: 1000
+      })
+      this.setState({
+        is_salesman: result?.manage_status == 1 ? true : false
+      })
+    } else {
+      Taro.redirectTo({ url: `/pages/planSelection/index` })
+    }
   }
 
   async getConfig() {
@@ -233,7 +252,8 @@ class Index extends Component {
   }
 
   render() {
-    const { moneyShow, realTimeData, loading, apis, is_center, currentModal } = this.state
+    const { moneyShow, realTimeData, loading, apis, is_center, currentModal, is_salesman } =
+      this.state
 
     const { name, logo, distributor_id } = this.props.planSelection
     return (
@@ -393,12 +413,25 @@ class Index extends Component {
                   }}
                 >
                   <View className='img_'>
-                    <Image
-                      className='img'
-                      src={require('@/assets/imgs/icon_goods_search.png')}
-                    ></Image>
+                    <Image className='img' src={require('@/assets/imgs/delivery.png')}></Image>
                   </View>
                   <View className='subtitle'>配送管理</View>
+                </View>
+              )}
+              {VERSION_STANDARD && is_salesman && (
+                <View
+                  className='item'
+                  onClick={() => {
+                    debugger
+                    wx.miniProgram.navigateTo({
+                      url: `/subpages/dianwu/salesman-personnel?token=${S.getAuthToken()}&distributor_id=${distributor_id}&name=${name}`
+                    })
+                  }}
+                >
+                  <View className='img_'>
+                    <Image className='img' src={require('@/assets/imgs/salesman.png')}></Image>
+                  </View>
+                  <View className='subtitle'>业务员管理</View>
                 </View>
               )}
               {VERSION_STANDARD && (
