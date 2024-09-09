@@ -406,38 +406,6 @@ class Index extends Component {
                 <View
                   className='item'
                   onClick={() => {
-                    debugger
-                    wx.miniProgram.navigateTo({
-                      url: `/subpages/dianwu/delivery-personnel?token=${S.getAuthToken()}&distributor_id=${distributor_id}&name=${name}`
-                    })
-                  }}
-                >
-                  <View className='img_'>
-                    <Image className='img' src={require('@/assets/imgs/delivery.png')}></Image>
-                  </View>
-                  <View className='subtitle'>配送管理</View>
-                </View>
-              )}
-              {VERSION_STANDARD && is_salesman && (
-                <View
-                  className='item'
-                  onClick={() => {
-                    debugger
-                    wx.miniProgram.navigateTo({
-                      url: `/subpages/dianwu/salesman-personnel?token=${S.getAuthToken()}&distributor_id=${distributor_id}&name=${name}`
-                    })
-                  }}
-                >
-                  <View className='img_'>
-                    <Image className='img' src={require('@/assets/imgs/salesman.png')}></Image>
-                  </View>
-                  <View className='subtitle'>业务员管理</View>
-                </View>
-              )}
-              {VERSION_STANDARD && (
-                <View
-                  className='item'
-                  onClick={() => {
                     wx.miniProgram.navigateTo({
                       url: `/subpages/dianwu/cashier?token=${S.getAuthToken()}&distributor_id=${distributor_id}`
                     })
@@ -465,6 +433,38 @@ class Index extends Component {
                     ></Image>
                   </View>
                   <View className='subtitle'>取单</View>
+                </View>
+              )}
+              {VERSION_STANDARD && (
+                <View
+                  className='item'
+                  onClick={() => {
+                    debugger
+                    wx.miniProgram.navigateTo({
+                      url: `/subpages/dianwu/delivery-personnel?token=${S.getAuthToken()}&distributor_id=${distributor_id}&name=${name}`
+                    })
+                  }}
+                >
+                  <View className='img_'>
+                    <Image className='img' src={require('@/assets/imgs/delivery.png')}></Image>
+                  </View>
+                  <View className='subtitle'>配送管理</View>
+                </View>
+              )}
+              {VERSION_STANDARD && is_salesman && (
+                <View
+                  className='item'
+                  onClick={() => {
+                    debugger
+                    wx.miniProgram.navigateTo({
+                      url: `/subpages/dianwu/salesman-personnel?token=${S.getAuthToken()}&distributor_id=${distributor_id}&name=${name}`
+                    })
+                  }}
+                >
+                  <View className='img_'>
+                    <Image className='img' src={require('@/assets/imgs/salesman.png')}></Image>
+                  </View>
+                  <View className='subtitle'>业务员管理</View>
                 </View>
               )}
 
