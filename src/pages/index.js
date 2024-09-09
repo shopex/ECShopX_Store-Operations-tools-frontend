@@ -111,7 +111,7 @@ class Index extends Component {
     }
 
     this.getConfig()
-    // this.salesman()
+    this.salesman()
   }
 
   async salesman() {
