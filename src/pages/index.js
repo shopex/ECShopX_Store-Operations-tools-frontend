@@ -341,7 +341,8 @@ class Index extends Component {
           <View className='func-list'>
             <View className='title'>常用功能</View>
             <View className='list'>
-              {apis.items == 1 && VERSION_PLATFORM && (
+              {/* {apis.items == 1 && VERSION_PLATFORM && ( */}
+              {apis.items == 1 && VERSION_STANDARD && (
                 <View className='item' onClick={() => navigateTo('/pages/good/list')}>
                   <View>
                     <Image className='img' src={require('@/assets/imgs/index/good.png')}></Image>
