@@ -385,7 +385,7 @@ class Index extends Component {
                   <View className='subtitle'>自提订单</View>
                 </View>
               )}
-              {VERSION_STANDARD && (
+              {/* {VERSION_STANDARD && (
                 <View
                   className='item'
                   onClick={() => {
@@ -402,7 +402,7 @@ class Index extends Component {
                   </View>
                   <View className='subtitle'>商品查询</View>
                 </View>
-              )}
+              )} */}
               {VERSION_STANDARD && (
                 <View
                   className='item'
@@ -418,7 +418,7 @@ class Index extends Component {
                   <View className='subtitle'>收银台</View>
                 </View>
               )}
-              {VERSION_STANDARD && (
+              {/* {VERSION_STANDARD && (
                 <View
                   className='item'
                   onClick={() =>
@@ -435,7 +435,7 @@ class Index extends Component {
                   </View>
                   <View className='subtitle'>取单</View>
                 </View>
-              )}
+              )} */}
               {VERSION_STANDARD && (
                 <View
                   className='item'
