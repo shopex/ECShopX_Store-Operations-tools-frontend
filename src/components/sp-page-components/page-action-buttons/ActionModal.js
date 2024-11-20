@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import React, { PureComponent } from 'react'
 import { Text, View, Input } from '@tarojs/components'
-import { classNames, requestCallback, qwsdk } from '@/utils'
+import { classNames, requestCallback, qwsdk, isIos } from '@/utils'
 import { AtModal, AtInput } from 'taro-ui'
 import api from '@/api'
 import './index.scss'
@@ -21,8 +21,9 @@ export default class ActionModal extends PureComponent {
 
     if (type === 'verification') {
       console.log('componentDidUpdate', type)
+      const sdkAuthUrlIos = Taro.getStorageSync('sdk_auth_url_ios')
       qwsdk.register({
-        url: href
+        url: isIos() ? `${sdkAuthUrlIos}` : href
       })
     }
     if (prevProps.visible !== this.props.visible && this.props.visible && type === 'verification') {
