@@ -374,7 +374,7 @@ class Index extends Component {
                       src={require('@/assets/imgs/index/shaoyishao.png')}
                     ></Image>
                   </View>
-                  <View className='subtitle'>扫码核销</View>
+                  <View className='subtitle'>自提核销</View>
                 </View>
               )}
               {apis.order_ziti == 1 && (
@@ -468,6 +468,22 @@ class Index extends Component {
                   <View className='subtitle'>业务员管理</View>
                 </View>
               )}
+              <View
+                className='item'
+                onClick={async () => {
+                  wx.miniProgram.navigateTo({
+                    url: `/subpages/dianwu/activity-code?token=${S.getAuthToken()}`
+                  })
+                }}
+              >
+                <View className='img_'>
+                  <Image
+                    className='img'
+                    src={require('@/assets/imgs/index/shaoyishao.png')}
+                  ></Image>
+                </View>
+                <View className='subtitle'>报名核销</View>
+              </View>
 
               <SpToast />
             </View>
