@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Image } from '@tarojs/components'
+import { View, Image, Text } from '@tarojs/components'
 import { SpTab, SpGoodPrice } from '@/components'
 import { SelectInput, Tabbar, PageActionButtons } from '@/components/sp-page-components'
 import { getThemeStyle } from '@/utils'
@@ -12,7 +12,7 @@ const pic =
 const Item = (props) => {
   const {
     children,
-    info: { pic, name, no, price, store }
+    info: { pic, name, no, price, store, isMedicine, isPrescription }
   } = props
 
   return (
@@ -22,7 +22,12 @@ const Item = (props) => {
           <Image className='img' src={pic} />
         </View>
         <View className='comp-item-good-center'>
-          <View className='good-name'>{name}</View>
+          <View className='good-name'>
+            {isMedicine == 1 && isPrescription == 1 && (
+              <Text className='prescription-drug'>处方药</Text>
+            )}
+            {name}
+          </View>
           <View className='good-no'>货号：{no}</View>
         </View>
         <View className='comp-item-good-right'>
