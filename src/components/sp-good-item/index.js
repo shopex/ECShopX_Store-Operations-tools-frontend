@@ -124,7 +124,10 @@ class SpGoodItem extends PureComponent {
           <Image className='img' src={this.renderPic()} />
         </View>
         <View className='sp-good-item-content'>
-          <View className='sp-good-item-content_name'>{goodInfo.item_name}</View>
+          <View className='sp-good-item-content_name'>
+            {goodInfo.is_prescription == 1 && <Text className='prescription-drug'>处方药</Text>}
+            {goodInfo.item_name}
+          </View>
           <View className='sp-good-item-content_spec'>{this.renderSpec()}</View>
           <View className='sp-good-item-content_number'>货号：{goodInfo.item_bn}</View>
         </View>

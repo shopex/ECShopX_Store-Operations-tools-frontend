@@ -91,3 +91,8 @@ export function canceldeliverystaff(params) {
 export function confirmpackag(params) {
   return req.post(`/order/deliverypackag/confirm `, params)
 }
+
+// 支付
+export function orderPayment(params) {
+  return req.post('/order/payment', params)
+}
