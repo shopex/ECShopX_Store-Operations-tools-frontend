@@ -685,7 +685,7 @@ class OrderDetail extends Component {
             </View>
             <View className='payment' onClick={this.handleClickCash.bind()}>
               <View className='payments'>
-                <Text className='iconfont icon-money1'></Text>
+                <Text className='iconfont icon-money'></Text>
                 <Text>现金收款</Text>
               </View>
               <View className='iconfont icon-arrowRight'></View>
