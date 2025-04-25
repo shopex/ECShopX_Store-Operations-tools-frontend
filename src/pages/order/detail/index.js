@@ -675,7 +675,7 @@ class OrderDetail extends Component {
         >
           <AtModalHeader>应收款</AtModalHeader>
           <AtModalContent>
-            <View className='total-mount'>¥3434</View>
+            <View className='total-mount'>¥{orderInfo.total_fee / 100}</View>
             <View className='payment' onClick={this.handleClickScanCode.bind()}>
               <View className='payments'>
                 <Text className='iconfont icon-saoma'></Text>
