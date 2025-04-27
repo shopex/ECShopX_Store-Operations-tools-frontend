@@ -604,7 +604,7 @@ class OrderDetail extends Component {
           </View>
 
           {/* {orderInfo?.prescription_status > 0 && !supplement && ( */}
-          {(orderInfo?.diagnosis_data?.location_url || orderInfo?.diagnosis_data?.doctor_name) && (
+          {/* {(orderInfo?.diagnosis_data?.location_url || orderInfo?.diagnosis_data?.doctor_name) && (
             <View className='delivery-information'>
               <View className='delivery-information-title'>处方信息</View>
               <View className='delivery-information-details'>
@@ -635,7 +635,7 @@ class OrderDetail extends Component {
                 </View>
               </View>
             </View>
-          )}
+          )} */}
 
           {orderInfo?.receipt_type == 'merchant' && (
             <View className='delivery-information'>
