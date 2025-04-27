@@ -167,4 +167,80 @@ $padding-bottom: 150px;
   .dada_cancel_desc {
     display: flex;
   }
+
+  .information {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    .title {
+      font-size: 24px;
+      &-num {
+        margin-right: 8px;
+        background-color: var(--color-primary);
+        padding: 0 12px;
+        border-radius: 50%;
+        color: #fff;
+      }
+      &-text {
+        font-size: 26px;
+        color: #000;
+      }
+    }
+    .titled {
+      font-size: 26px;
+      color: #999;
+      .title-text{
+        color: #000;
+      }
+      &-num {
+        margin-right: 8px;
+        background-color: #999;
+        padding: 0 12px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 24px;
+      }
+    }
+  }
+  .collection-modal {
+    .total-mount {
+      text-align: center;
+      margin: 30px 0;
+      color: #222; 
+      font-size: 48px;
+    }
+    .payment{
+      padding: 30px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #222;
+      font-size: 28px;
+      .payments{
+        display: flex;
+        align-items: center;
+      }
+    }
+    .iconfont {
+      margin-right: 20px;
+    }
+    .icon-saoma {
+      color: #333;
+      font-size: 36px;
+      margin-top: 6px;
+    }
+    .icon-money {
+      color: #ffc90d;
+      font-size: 40px;
+    }
+    .icon-arrowRight{
+      color: rgba(170, 170, 170, 0.8);
+      font-size: 36px;
+      margin-right: 0;
+    }
+  }
 }

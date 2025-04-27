@@ -9,7 +9,7 @@ import {
   PageActionButtons
 } from '@/components/sp-page-components'
 import { View, Text } from '@tarojs/components'
-import { AtCountdown, AtAvatar } from 'taro-ui'
+import { AtCountdown, AtModal, AtModalHeader, AtModalContent } from 'taro-ui'
 import { ALLSELFDELIVERYSTATUSLIST } from '@/consts'
 import api from '@/api'
 import './index.scss'
@@ -32,7 +32,10 @@ class OrderDetail extends Component {
       logisticsList: [],
       leftPhone: '',
       rightPhone: '',
-      loading: false
+      loading: false,
+      squareRoot: false, //待开方
+      supplement: false, //待补充
+      isOpened: false //支付弹窗
     }
   }
 
@@ -71,9 +74,18 @@ class OrderDetail extends Component {
     if (orderInfo.invoice) {
       orderInfo.app_info?.buttons.unshift({ type: 'invoice', name: '开发票' })
     }
+
     this.setState({
       orderInfo,
-      tradeInfo
+      tradeInfo,
+      squareRoot:
+        orderInfo.order_status == 'NOTPAY' &&
+        orderInfo.prescription_status == 1 &&
+        Array.isArray(orderInfo?.diagnosis_data),
+      supplement:
+        orderInfo.order_status == 'NOTPAY' &&
+        orderInfo.prescription_status == 1 &&
+        orderInfo?.diagnosis_data?.id
     })
     if (!init) {
       this.setState({
@@ -372,7 +384,59 @@ class OrderDetail extends Component {
       wx.miniProgram.navigateTo({
         url: `/subpages/dianwu/trade/invoice?trade_id=${order_id}`
       })
+    } else if (type == 'payment') {
+      this.setState({
+        isOpened: true
+      })
     }
+  }
+
+  //微信/支付宝收款
+  handleClickScanCode = async () => {
+    console.log('kkkllllhhhh')
+    //h5调取不了摄像头，直接跳转到小程序，小程序实现此功能
+    const { orderInfo } = this.state
+    wx.miniProgram.redirectTo({
+      url: `/subpages/dianwu/payment?order_id=${orderInfo.order_id}`
+    })
+    // const {orderInfo} = this.state
+    // const { errMsg, result } = await Taro.scanCode()
+    // if (errMsg == 'scanCode:ok') {
+    //   console.log(`handleClickScanCode:`, result)
+    //   const { trade_info } = await api.order.orderPayment({
+    //     order_id:orderInfo.order_id,
+    //     auth_code: result
+    //   })
+    //   // dispatch(selectMember(null))
+    //   // onEventCreateOrder()
+    //   wx.miniProgram.redirectTo({
+    //     url: `/subpages/dianwu/collection-result?order_id=${orderInfo.order_id}&trade_id=${trade_info.trade_id}`
+    //   })
+    // } else {
+    //   // showToast(errMsg)
+    // }
+  }
+
+  //现金收款
+  handleClickCash = async () => {
+    const { orderInfo } = this.state
+    const res = await Taro.showModal({
+      title: '现金收款确认提示',
+      content: '请确认是否已收到商品款?',
+      showCancel: true,
+      cancel: '取消',
+      cancelText: '未收到',
+      confirmText: '确认收到'
+    })
+    if (!res.confirm) return
+    const order_id = orderInfo.order_id
+    await api.order.orderPayment({
+      order_id,
+      pay_type: 'pos'
+    })
+    wx.miniProgram.redirectTo({
+      url: `/subpages/dianwu/collection-result?order_id=${order_id}&pay_type=pos`
+    })
   }
 
   getSelfDeliveryStatus = (value) => {
@@ -389,7 +453,10 @@ class OrderDetail extends Component {
       leftPhone,
       rightPhone,
       logisticsList,
-      loading
+      loading,
+      squareRoot,
+      supplement,
+      isOpened
     } = this.state
 
     let terminal_info = orderInfo?.app_info?.terminal_info
@@ -415,6 +482,39 @@ class OrderDetail extends Component {
               <Text>查看详情</Text>
             </View>
           </View>
+
+          {orderInfo?.prescription_status > 0 && (
+            <View className='information'>
+              <View className='title'>
+                <Text className='title-num'>1</Text>
+                <Text className='title-text'>填写信息</Text>
+              </View>
+              <View className='titled'>-----</View>
+              <View className='titled'>
+                <Text
+                  className={
+                    squareRoot || orderInfo.prescription_status == 2 ? 'title-num' : 'titled-num'
+                  }
+                >
+                  2
+                </Text>
+                <Text
+                  className={squareRoot || orderInfo.prescription_status == 2 ? 'title-text' : ''}
+                >
+                  医生开方
+                </Text>
+              </View>
+              <View className='titled'>-----</View>
+              <View className='titled'>
+                <Text className={orderInfo.prescription_status == 2 ? 'title-num' : 'titled-num'}>
+                  3
+                </Text>
+                <Text className={orderInfo.prescription_status == 2 ? 'title-text' : ''}>
+                  支付订单
+                </Text>
+              </View>
+            </View>
+          )}
 
           <MessageCard
             className='message-card'
@@ -503,6 +603,40 @@ class OrderDetail extends Component {
             )}
           </View>
 
+          {/* {orderInfo?.prescription_status > 0 && !supplement && ( */}
+          {/* {(orderInfo?.diagnosis_data?.location_url || orderInfo?.diagnosis_data?.doctor_name) && (
+            <View className='delivery-information'>
+              <View className='delivery-information-title'>处方信息</View>
+              <View className='delivery-information-details'>
+                <View>
+                  {orderInfo?.diagnosis_data?.doctor_name && (
+                    <View className='delivery-information-details-item'>
+                      <View className='field'>开方医生</View>
+                      <View>{orderInfo?.diagnosis_data?.doctor_name}</View>
+                    </View>
+                  )}
+                  {orderInfo?.diagnosis_data?.location_url && (
+                    <View className='delivery-information-details-item'>
+                      <View className='field'>开方记录</View>
+                      <View
+                        onClick={() => {
+                          const webviewSrc = encodeURIComponent(
+                            orderInfo?.diagnosis_data?.location_url
+                          )
+                          wx.miniProgram.redirectTo({
+                            url: `/pages/webview?url=${webviewSrc}`
+                          })
+                        }}
+                      >
+                        查看 {'>'}
+                      </View>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </View>
+          )} */}
+
           {orderInfo?.receipt_type == 'merchant' && (
             <View className='delivery-information'>
               <View className='delivery-information-title'>配送信息</View>
@@ -529,6 +663,36 @@ class OrderDetail extends Component {
             </View>
           )}
         </View>
+
+        {/* 支付弹框 */}
+        <AtModal
+          className='collection-modal'
+          isOpened={isOpened}
+          onClose={() => {
+            this.setState({
+              isOpened: false
+            })
+          }}
+        >
+          <AtModalHeader>应收款</AtModalHeader>
+          <AtModalContent>
+            <View className='total-mount'>¥{orderInfo.total_fee / 100}</View>
+            <View className='payment' onClick={this.handleClickScanCode.bind()}>
+              <View className='payments'>
+                <Text className='iconfont icon-saoma'></Text>
+                <Text>微信/支付宝收款</Text>
+              </View>
+              <View className='iconfont icon-arrowRight'></View>
+            </View>
+            <View className='payment' onClick={this.handleClickCash.bind()}>
+              <View className='payments'>
+                <Text className='iconfont icon-money'></Text>
+                <Text>现金收款</Text>
+              </View>
+              <View className='iconfont icon-arrowRight'></View>
+            </View>
+          </AtModalContent>
+        </AtModal>
 
         <SpToast />
 

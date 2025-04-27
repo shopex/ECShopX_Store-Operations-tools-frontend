@@ -33,7 +33,6 @@
                 line-height:1.2;
                 text-shadow: 0px 2px 4px #E2E4EA;
                 @include multi-ellipsis(2);
-             
             }
             .good-no{
                 color: #858B9C;
@@ -53,9 +52,9 @@
             justify-content: flex-start;
             align-items: flex-end;
 
-            .sale_price{ 
-               
-                display: inline-flex; 
+            .sale_price{
+
+                display: inline-flex;
 
                 &_label{
                     font-size: 22px;
@@ -64,7 +63,7 @@
                 }
 
                 &_number{
-                    color:var(--color-primary); 
+                    color:var(--color-primary);
                     position: relative;
                     top:0px;
                     font-size: 22px!important;
@@ -76,7 +75,7 @@
                 display: flex;
                 align-items: center;
                 margin-top: 4px;
-                
+
                 &_label{
                     font-size: 24px;
                     font-weight: 400;
@@ -100,5 +99,14 @@
         margin-top:24px;
         display: flex;
         justify-content: flex-end;
+    }
+    .prescription-drug{
+      font-size: 24px;
+      color: var(--color-primary);
+      padding: 0 4px;
+      border-radius: 4px;
+      border: 1px solid var(--color-primary);
+      line-height: 34px;
+      margin-right: 8px;
     }
 }

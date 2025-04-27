@@ -253,6 +253,8 @@ export default class List extends PureComponent {
       wx.miniProgram.navigateTo({
         url: `/subpages/dianwu/trade/sale-after?trade_id=${order_id}`
       })
+    } else if (type == 'payment') {
+      this.handleClickGoodItem({ order_id })
     }
   }
 

@@ -7,5 +7,7 @@ export const GOOD_LIST = {
   approve_status: 'approve_status',
   goods_id: 'goods_id',
   item_id: 'item_id',
-  audit_status: 'audit_status'
+  audit_status: 'audit_status',
+  isMedicine: 'is_medicine',
+  isPrescription: 'is_prescription'
 }
