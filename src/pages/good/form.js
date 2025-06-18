@@ -3,7 +3,7 @@ import Taro, { useDidShow, getCurrentInstance } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { SpMultilevelPicker, SpPicker, SpToast } from '@/components'
 import { CommonButton } from '@/components/sp-page-components'
-import { getThemeStyle, transformData, showToast, requestCallback } from '@/utils'
+import { getThemeStyle, transformData, showToast, requestCallback, classNames } from '@/utils'
 import { useImmer } from 'use-immer'
 import api from '@/api'
 import { useSelector } from 'react-redux'
@@ -668,7 +668,10 @@ const Detail = () => {
   }
 
   return (
-    <View className='page-good-detail' style={getThemeStyle()}>
+    <View
+      className={classNames('page-good-detail', { 'page-good-detail-lock': brandVisible })}
+      style={getThemeStyle()}
+    >
       <View className='page-good-detail-scrolllist'>
         <View className='top-block'>
           <FormItem
