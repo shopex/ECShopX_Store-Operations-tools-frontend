@@ -67,19 +67,17 @@ class Index extends Component {
   async componentDidShow() {
     setWeapp()
     if (isFromWebapp()) {
-      const { app_id, app_type, company_id, openid, unionid, token } = S.get('WEBAPP', true)
-      // let data
-
-      if (token) {
-        S.setAuthToken(token)
-        const { href, origin, search } = window.location
-        const sdkAuthUrlIos = Taro.getStorageSync('sdk_auth_url_ios')
-        console.log('sdkAuthUrlIos:', sdkAuthUrlIos)
-        qwsdk.register({
-          url: isIos() ? `${sdkAuthUrlIos}` : href
-        })
-      }
-
+      // const { app_id, app_type, company_id, openid, unionid, token } = S.get('WEBAPP', true)
+      // // let data
+      // if (token) {
+      //   S.setAuthToken(token)
+      //   const { href, origin, search } = window.location
+      //   const sdkAuthUrlIos = Taro.getStorageSync('sdk_auth_url_ios')
+      //   console.log('sdkAuthUrlIos:', sdkAuthUrlIos)
+      //   qwsdk.register({
+      //     url: isIos() ? `${sdkAuthUrlIos}` : href
+      //   })
+      // }
       // if (!S.getAuthToken()) {
       //   data = await api.weapp.is_bind({
       //     app_id,
@@ -93,7 +91,6 @@ class Index extends Component {
       //   // }
       //   if (data.token) {
       //     S.setAuthToken(data.token)
-
       //     const { href } = window.location
       //     qwsdk.register({
       //       url: href
