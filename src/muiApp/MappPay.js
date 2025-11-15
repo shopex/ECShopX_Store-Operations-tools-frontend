@@ -1,4 +1,22 @@
-import log, { showToast } from "./utils"
+// +----------------------------------------------------------------------
+// | ECShopX open source E-commerce
+// | ECShopX 开源商城系统
+// +----------------------------------------------------------------------
+// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
+// +----------------------------------------------------------------------
+// | Corporate Website:  https://www.shopex.cn
+// +----------------------------------------------------------------------
+// | Licensed under the Apache License, Version 2.0
+// | http://www.apache.org/licenses/LICENSE-2.0
+// +----------------------------------------------------------------------
+// | The removal of shopeX copyright information without authorization is prohibited.
+// | 未经授权不可去除shopeX商派相关版权
+// +----------------------------------------------------------------------
+// | Author: shopeX Team <mkt@shopex.cn>
+// | Contact: 400-821-3106
+// +----------------------------------------------------------------------
+
+import log, { showToast } from './utils'
 
 class MAPPPay {
   constructor() {
@@ -17,18 +35,18 @@ class MAPPPay {
       plus.payment.getChannels(
         (channels) => {
           var result = []
-          log.info("getPayList: " + JSON.stringify(channels))
+          log.info('getPayList: ' + JSON.stringify(channels))
           channels.forEach((item) => {
             this.pays[item.id] = item
             result.push({
               id: item.id,
-              name: item.description,
+              name: item.description
             })
           })
           resolve(result)
         },
         (e) => {
-          showToast("获取支付通道失败：" + e.message)
+          showToast('获取支付通道失败：' + e.message)
           reject(e)
         }
       )
@@ -39,24 +57,20 @@ class MAPPPay {
    * 支付
    */
   payment(params) {
-    const payid = params.id || ""
+    const payid = params.id || ''
     const order = params.order_params || {}
 
     const channel = this.pays[payid]
-    log.info("payment: " + JSON.stringify(params))
+    log.info('payment: ' + JSON.stringify(params))
     return new Promise(function (resolve, reject) {
       if (!channel.serviceReady) {
         let txt = null
         switch (payid) {
-          case "alipay":
-            txt =
-              "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？"
+          case 'alipay':
+            txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？'
             break
           default:
-            txt =
-              "系统未安装“" +
-              channel.description +
-              "”服务，无法完成支付，是否立即安装？"
+            txt = '系统未安装“' + channel.description + '”服务，无法完成支付，是否立即安装？'
             break
         }
         plus.nativeUI.confirm(
@@ -79,9 +93,9 @@ class MAPPPay {
           },
           (e) => {
             // 排除用户中途取消
-            if (e.message.indexOf("User canceled") > -1 || e.message.indexOf( "62001" ) > -1) {
+            if (e.message.indexOf('User canceled') > -1 || e.message.indexOf('62001') > -1) {
             } else {
-              showToast("支付失败：" + e.message)
+              showToast('支付失败：' + e.message)
             }
             reject(e)
           }

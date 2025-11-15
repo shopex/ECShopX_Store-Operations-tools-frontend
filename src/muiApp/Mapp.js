@@ -1,46 +1,64 @@
-import log, { showToast } from "./utils";
+// +----------------------------------------------------------------------
+// | ECShopX open source E-commerce
+// | ECShopX 开源商城系统
+// +----------------------------------------------------------------------
+// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
+// +----------------------------------------------------------------------
+// | Corporate Website:  https://www.shopex.cn
+// +----------------------------------------------------------------------
+// | Licensed under the Apache License, Version 2.0
+// | http://www.apache.org/licenses/LICENSE-2.0
+// +----------------------------------------------------------------------
+// | The removal of shopeX copyright information without authorization is prohibited.
+// | 未经授权不可去除shopeX商派相关版权
+// +----------------------------------------------------------------------
+// | Author: shopeX Team <mkt@shopex.cn>
+// | Contact: 400-821-3106
+// +----------------------------------------------------------------------
+
+import log, { showToast } from './utils'
 
 class MAPP {
   constructor() {
     if (!MAPP.instance) {
-      this.token = localStorage.getItem("auth_token");
-      this._back_first = null;
-      this._events = {};
+      this.token = localStorage.getItem('auth_token')
+      this._back_first = null
+      this._events = {}
       this._onReady = Function
-      MAPP.instance = this;
+      MAPP.instance = this
     }
-    return MAPP.instance;
+    return MAPP.instance
   }
 
-  onReady( fn ) {
+  onReady(fn) {
     this._onReady = fn
   }
 
   init(taro, store) {
     if (taro) {
-      this.Taro = taro;
-      this.Store = store;
+      this.Taro = taro
+      this.Store = store
     } else {
-      log.error("Taro is undefined, app run fail");
+      log.error('Taro is undefined, app run fail')
     }
 
-    if (typeof plus != "undefined") {
-      this._initPlus();
+    if (typeof plus != 'undefined') {
+      this._initPlus()
     } else {
-      document.addEventListener("plusready", () => {
-        this._initPlus();
-      });
+      document.addEventListener('plusready', () => {
+        this._initPlus()
+      })
     }
   }
 
   _initPlus() {
     this.Plus = plus
-    const __SAPP_CONFIG = plus.storage.getItem( "SAPP_CONFIG" );
+    const __SAPP_CONFIG = plus.storage.getItem('SAPP_CONFIG')
     try {
-      this.SAPP_CONFIG = JSON.parse(__SAPP_CONFIG);
+      this.SAPP_CONFIG = JSON.parse(__SAPP_CONFIG)
     } catch (e) {
-      log.error("sapp config json parse error");
-      return;
+      log.error('sapp config json parse error')
+      return
     }
 
     // const currentWebview = plus.webview.currentWebview();
@@ -58,12 +76,12 @@ class MAPP {
     //   false
     // );
 
-    const { singleWebview } = this.SAPP_CONFIG;
+    const { singleWebview } = this.SAPP_CONFIG
     if (!singleWebview) {
-      this.Taro.navigateTo = this._navigateTo.bind(this, false);
-      this.Taro.redirectTo = this._navigateTo.bind(this, true);
-      this.Taro.navigateBack = this._navigateBack.bind(this);
-      console.log(this.Store);
+      this.Taro.navigateTo = this._navigateTo.bind(this, false)
+      this.Taro.redirectTo = this._navigateTo.bind(this, true)
+      this.Taro.navigateBack = this._navigateBack.bind(this)
+      console.log(this.Store)
       // 预加载底部tabbar页面
       // this._preLoadPage();
     }
@@ -73,16 +91,12 @@ class MAPP {
     // this.Taro.getEnv = this._getEnv.bind(this)
     log.info(
       `sp-mui-app script load success, current webview is ${
-        singleWebview ? "single" : "multiple"
+        singleWebview ? 'single' : 'multiple'
       } modes`
-    );
+    )
 
     // 按键返回监听
-    plus.key.addEventListener(
-      "backbutton",
-      this._navigateBack.bind(this),
-      false
-    );
+    plus.key.addEventListener('backbutton', this._navigateBack.bind(this), false)
 
     this._onReady()
 
@@ -110,56 +124,58 @@ class MAPP {
   _mergeJSON(minor, main) {
     for (var key in minor) {
       if (main[key] === undefined) {
-        main[key] = minor[key];
-        continue;
+        main[key] = minor[key]
+        continue
       }
-      for ( var n in minor[key] ) {
+      for (var n in minor[key]) {
         if (!main[key][n]) {
           main[key][n] = {}
-        } 
+        }
         Object.assign(main[key][n], minor[key][n])
       }
     }
-    return main;
+    return main
   }
 
   _navigateTo(redirect, data) {
-    const url = data.url;
-    const params = Object.assign({}, data.params);
-    let animate = "slide-in-right" || params.animate;
+    const url = data.url
+    const params = Object.assign({}, data.params)
+    let animate = 'slide-in-right' || params.animate
     // if (this._pathIsTabbar(url)) {
     //   animate = "none";
     // }
 
-    let view = this._getPageURL(url);
-    log.info("webView: " + view);
+    let view = this._getPageURL(url)
+    log.info('webView: ' + view)
 
     // 页面隐藏事件
     // this.Taro.getCurrentPages()[0].onHide()
-    const pageid = url.split("?")[0]
-    const findResult = this._findWebViewById( pageid );
+    const pageid = url.split('?')[0]
+    const findResult = this._findWebViewById(pageid)
     if (findResult) {
-      log.info("navigateTo: " + findResult.id);
+      log.info('navigateTo: ' + findResult.id)
       if (findResult.id == this.SAPP_CONFIG.homePage) {
-        plus.webview.getLaunchWebview().show();
+        plus.webview.getLaunchWebview().show()
         plus.webview.getWebviewById(this.SAPP_CONFIG.homePage).show()
       } else {
-        findResult.show(animate);
+        findResult.show(animate)
       }
     } else {
-      Object.assign(params, { prevPageId: plus.webview.currentWebview()[redirect ? 'prevPageId' : 'id'] })
+      Object.assign(params, {
+        prevPageId: plus.webview.currentWebview()[redirect ? 'prevPageId' : 'id']
+      })
       var _openw = plus.webview.create(
         view,
         // 页面id不带参数
         pageid,
         {
-          scrollIndicator: "none",
+          scrollIndicator: 'none',
           scalable: false,
-          popGesture: "none"
+          popGesture: 'none'
         },
         params
-      );
-      _openw.show(animate);
+      )
+      _openw.show(animate)
     }
 
     // webview 垃圾回收
@@ -184,71 +200,67 @@ class MAPP {
   }
 
   _navigateBack() {
-    const curWebView = plus.webview.currentWebview();
-    curWebView.canBack(e => {
+    const curWebView = plus.webview.currentWebview()
+    curWebView.canBack((e) => {
       if (e.canBack) {
-        window.history.back();
+        window.history.back()
       } else {
-        log.info("current webview id: " + curWebView.id);
+        log.info('current webview id: ' + curWebView.id)
         if (curWebView.id === this.SAPP_CONFIG.homePage) {
           // 首页，首次按键，提示‘再按一次退出应用’
           if (!this._back_first) {
-            this._back_first = new Date().getTime();
-            showToast("再按一次退出应用");
+            this._back_first = new Date().getTime()
+            showToast('再按一次退出应用')
             setTimeout(() => {
-              this._back_first = null;
-            }, 2000);
+              this._back_first = null
+            }, 2000)
           } else {
             if (new Date().getTime() - this._back_first < 2000) {
-              plus.runtime.quit();
+              plus.runtime.quit()
             }
           }
         } else {
           //webview close or hide
-          const { prevPageId } = plus.webview.currentWebview();
-          prevPageId && plus.webview.getWebviewById(prevPageId).show();
-          curWebView.close();
+          const { prevPageId } = plus.webview.currentWebview()
+          prevPageId && plus.webview.getWebviewById(prevPageId).show()
+          curWebView.close()
         }
       }
-    });
+    })
   }
 
   // 加载底部tabbar关联页面
   _preLoadPage() {
     if (this.SAPP_CONFIG.tabbar.length > 0) {
-      this.SAPP_CONFIG.tabbar.forEach(item => {
+      this.SAPP_CONFIG.tabbar.forEach((item) => {
         if (!this._findWebViewById(item)) {
-          console.log("proloadpage: ", item, this._getPageURL(item))
-          const tabView = plus.webview.create(
-            this._getPageURL(item),
-            item,
-            null
-          );
-          tabView.hide();
+          console.log('proloadpage: ', item, this._getPageURL(item))
+          const tabView = plus.webview.create(this._getPageURL(item), item, null)
+          tabView.hide()
         }
-      });
+      })
     } else {
-      const { tabBar } = this.Store.getState();
-      const { data } = tabBar.current;
-      data.forEach(item => {
-        if ( !this._findWebViewById( item.pagePath.split( "?" )[0] ) ) {
-          console.log("proloadpage: ", item.pagePath, this._getPageURL(item))
+      const { tabBar } = this.Store.getState()
+      const { data } = tabBar.current
+      data.forEach((item) => {
+        if (!this._findWebViewById(item.pagePath.split('?')[0])) {
+          console.log('proloadpage: ', item.pagePath, this._getPageURL(item))
           const tabView = plus.webview.create(
             this._getPageURL(item.pagePath),
-            item.pagePath.split("?")[0],
+            item.pagePath.split('?')[0],
             null
-          );
-          tabView.hide();
+          )
+          tabView.hide()
         }
-      });
+      })
     }
   }
 
   // 获取APP页面路径
-  _getPageURL( url ) {
-    const { launch_path } = this.SAPP_CONFIG;
+  _getPageURL(url) {
+    const { launch_path } = this.SAPP_CONFIG
     if (!/^http|https/.test(launch_path)) {
-      return `_www/${launch_path}l#${url}`;
+      return `_www/${launch_path}l#${url}`
     } else {
       return `${launch_path}#${url}`
     }
@@ -256,123 +268,116 @@ class MAPP {
 
   // 是否是底部tabbar页面
   _pathIsTabbar(url) {
-    let result = null;
+    let result = null
     if (this.SAPP_CONFIG.tabbar.length > 0) {
-      result = this.SAPP_CONFIG.tabbar.find(function(item) {
-        return item == url;
-      });
+      result = this.SAPP_CONFIG.tabbar.find(function (item) {
+        return item == url
+      })
     } else {
-      const tabBar = this.Store.getState().tabBar;
-      const tabList = tabBar.current.data;
+      const tabBar = this.Store.getState().tabBar
+      const tabList = tabBar.current.data
       if (tabList) {
-        result = tabList.find(function(item) {
-          return item.pagePath == url.split("?")[0];
-        });
+        result = tabList.find(function (item) {
+          return item.pagePath == url.split('?')[0]
+        })
       }
     }
-    return result;
+    return result
   }
 
   // 根据ID查找webview
   _findWebViewById(id) {
-    const allWb = plus.webview.all();
-    return allWb.find((item) => item.id == id);
+    const allWb = plus.webview.all()
+    return allWb.find((item) => item.id == id)
   }
 
   // 复制到剪贴板
   copyToClip(content) {
     switch (plus.os.name) {
-      case "iOS":
-        var UIPasteboard = plus.ios.importClass("UIPasteboard");
-        var generalPasteboard = UIPasteboard.generalPasteboard();
+      case 'iOS':
+        var UIPasteboard = plus.ios.importClass('UIPasteboard')
+        var generalPasteboard = UIPasteboard.generalPasteboard()
         // 设置文本内容
-        generalPasteboard.setValueforPasteboardType(
-          content,
-          "public.utf8-plain-text"
-        );
-        break;
-      case "Android":
-        var context = plus.android.importClass("android.content.Context");
-        var main = plus.android.runtimeMainActivity();
-        var clip = main.getSystemService(context.CLIPBOARD_SERVICE);
-        plus.android.invoke(clip, "setText", content);
-        break;
+        generalPasteboard.setValueforPasteboardType(content, 'public.utf8-plain-text')
+        break
+      case 'Android':
+        var context = plus.android.importClass('android.content.Context')
+        var main = plus.android.runtimeMainActivity()
+        var clip = main.getSystemService(context.CLIPBOARD_SERVICE)
+        plus.android.invoke(clip, 'setText', content)
+        break
     }
-    showToast("复制成功");
+    showToast('复制成功')
   }
 
   showToast() {
-    return showToast;
+    return showToast
   }
 
   // 获取剪贴板
   getClip() {
-    var content;
+    var content
     switch (plus.os.name) {
-      case "iOS":
-        var UIPasteboard = plus.ios.importClass("UIPasteboard");
-        var generalPasteboard = UIPasteboard.generalPasteboard();
-        content = generalPasteboard.valueForPasteboardType(
-          "public.utf8-plain-text"
-        );
-        break;
-      case "Android":
-        var context = plus.android.importClass("android.content.Context");
-        var main = plus.android.runtimeMainActivity();
-        var clip = main.getSystemService(context.CLIPBOARD_SERVICE);
-        content = plus.android.invoke(clip, "getText");
-        break;
+      case 'iOS':
+        var UIPasteboard = plus.ios.importClass('UIPasteboard')
+        var generalPasteboard = UIPasteboard.generalPasteboard()
+        content = generalPasteboard.valueForPasteboardType('public.utf8-plain-text')
+        break
+      case 'Android':
+        var context = plus.android.importClass('android.content.Context')
+        var main = plus.android.runtimeMainActivity()
+        var clip = main.getSystemService(context.CLIPBOARD_SERVICE)
+        content = plus.android.invoke(clip, 'getText')
+        break
     }
-    return content;
+    return content
   }
 
   // 事件
   event(eventName, data) {
-    const views = plus.webview.all();
-    views.forEach(item => {
-      item.evalJS(
-        `typeof SAPP != 'undefined' && SAPP.receive('${eventName}', ${data})`
-      );
-    });
+    const views = plus.webview.all()
+    views.forEach((item) => {
+      item.evalJS(`typeof SAPP != 'undefined' && SAPP.receive('${eventName}', ${data})`)
+    })
   }
 
   on(eventName, callback) {
-    console.log(`${eventName} bind success`);
+    console.log(`${eventName} bind success`)
     try {
-      this._events[eventName] = callback;
-      console.log(this._events[eventName]);
+      this._events[eventName] = callback
+      console.log(this._events[eventName])
     } catch (e) {
-      log.error("sapp on error");
+      log.error('sapp on error')
     }
   }
 
   receive(eventName, data) {
     try {
-      this._events[eventName](data);
-      log.info(`sapp event: ${eventName} receive success`);
+      this._events[eventName](data)
+      log.info(`sapp event: ${eventName} receive success`)
     } catch (e) {
-      log.error("sapp receive error");
+      log.error('sapp receive error')
     }
   }
 
-  // 
-  call(eventName, data ) {
+  //
+  call(eventName, data) {
     const launchWebview = plus.webview.getLaunchWebview()
     launchWebview.evalJS(`plus.call('${eventName}', ${data})`)
   }
 
   reload() {
-    plus.webview.currentWebview().reload();
+    plus.webview.currentWebview().reload()
   }
 
   // 获取定位信息
   getGeoLocation() {
-    return new Promise( ( reslove, reject ) => {
+    return new Promise((reslove, reject) => {
       plus.geolocation.getCurrentPosition(
         (e) => {
           const param = {
             latitude: e.coords.latitude,
-            longitude: e.coords.longitude,
+            longitude: e.coords.longitude
           }
           reslove(param)
         },
@@ -392,4 +397,4 @@ class MAPP {
   }
 }
 
-export default new MAPP();
+export default new MAPP()

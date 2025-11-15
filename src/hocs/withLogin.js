@@ -1,3 +1,21 @@
+// +----------------------------------------------------------------------
+// | ECShopX open source E-commerce
+// | ECShopX 开源商城系统
+// +----------------------------------------------------------------------
+// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
+// +----------------------------------------------------------------------
+// | Corporate Website:  https://www.shopex.cn
+// +----------------------------------------------------------------------
+// | Licensed under the Apache License, Version 2.0
+// | http://www.apache.org/licenses/LICENSE-2.0
+// +----------------------------------------------------------------------
+// | The removal of shopeX copyright information without authorization is prohibited.
+// | 未经授权不可去除shopeX商派相关版权
+// +----------------------------------------------------------------------
+// | Author: shopeX Team <mkt@shopex.cn>
+// | Contact: 400-821-3106
+// +----------------------------------------------------------------------
+
 import React, { Component } from 'react'
 import S from '@/spx'
 
@@ -7,19 +25,19 @@ const LIFE_CYCLE_TYPES = {
   DID_SHOW: 2
 }
 
-export default function withLogin (nextFn, lifeCycle = LIFE_CYCLE_TYPES.WILL_MOUNT) {
+export default function withLogin(nextFn, lifeCycle = LIFE_CYCLE_TYPES.WILL_MOUNT) {
   if (LIFE_CYCLE_TYPES[lifeCycle] !== undefined) {
     console.warn(`lifeCycle is not in defined types: ${lifeCycle}`)
-    return Component => Component
+    return (Component) => Component
   }
 
-  return function withLoginComponent (Component) {
+  return function withLoginComponent(Component) {
     return class WithLogin extends Component {
-      constructor (props) {
+      constructor(props) {
         super(props)
       }
 
-      async componentWillMount () {
+      async componentWillMount() {
         if (lifeCycle === LIFE_CYCLE_TYPES.WILL_MOUNT) {
           const res = await this.$__autoLogin()
           if (!res) return
@@ -35,7 +53,7 @@ export default function withLogin (nextFn, lifeCycle = LIFE_CYCLE_TYPES.WILL_MOU
         }
       }
 
-      async componentDidMount () {
+      async componentDidMount() {
         if (lifeCycle === LIFE_CYCLE_TYPES.DID_MOUNT) {
           const res = await this.$__autoLogin()
           if (!res) return
@@ -51,7 +69,7 @@ export default function withLogin (nextFn, lifeCycle = LIFE_CYCLE_TYPES.WILL_MOU
         }
       }
 
-      async componentDidShow () {
+      async componentDidShow() {
         if (lifeCycle === LIFE_CYCLE_TYPES.DID_SHOW) {
           const res = await this.$__autoLogin()
           if (!res) return
@@ -67,7 +85,7 @@ export default function withLogin (nextFn, lifeCycle = LIFE_CYCLE_TYPES.WILL_MOU
         }
       }
 
-      async $__autoLogin () {
+      async $__autoLogin() {
         this.$__autoLogin_state = 'pending'
         let res
         try {
@@ -80,7 +98,7 @@ export default function withLogin (nextFn, lifeCycle = LIFE_CYCLE_TYPES.WILL_MOU
         return res
       }
 
-      $__autoLoginDone () {
+      $__autoLoginDone() {
         // if (this.$__autoLogin_state === 'success') return Promise.resolve(true)
         // if (this.$__autoLogin_state === 'fail') return Promise.resolve(false)
         let timer
