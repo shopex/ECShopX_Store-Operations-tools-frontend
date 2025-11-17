@@ -1,25 +1,12 @@
-// +----------------------------------------------------------------------
-// | ECShopX open source E-commerce
-// | ECShopX 开源商城系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-// +----------------------------------------------------------------------
-// | Corporate Website:  https://www.shopex.cn
-// +----------------------------------------------------------------------
-// | Licensed under the Apache License, Version 2.0
-// | http://www.apache.org/licenses/LICENSE-2.0
-// +----------------------------------------------------------------------
-// | The removal of shopeX copyright information without authorization is prohibited.
-// | 未经授权不可去除shopeX商派相关版权
-// +----------------------------------------------------------------------
-// | Author: shopeX Team <mkt@shopex.cn>
-// | Contact: 400-821-3106
-// +----------------------------------------------------------------------
+/**
+ * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+ * See LICENSE file for license details.
+ */
 
-.sp-component-autofocus-drawer { 
-   
-    
-  
+.sp-component-autofocus-drawer {
+
+
+
     .at-float-layout__container {
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
@@ -41,28 +28,28 @@
                     align-items: center;
                     justify-content: space-between;
                     padding: 0 40px;
-                
+
                     .left,
                     .right {
                       font-size: 36px;
-                      font-weight: 500; 
+                      font-weight: 500;
                     }
-                
+
                     .left {
                       color: #666F83;
                     }
-                
+
                     .right {
                       color: #4980FF;
                     }
-                
+
                     .center {
                       font-size: 40px;
                       font-weight: 400;
                       color: #111A34;
                     }
                 }
-    
+
                 .content{
                   flex:1;
                   padding: 20px 40px;
@@ -76,22 +63,21 @@
                     font-size: $textarea-font-size;
                     width:100%;
                     height: 100%;
-                    
+
                     &::-webkit-input-placeholder{
                       font-size: $textarea-placeholder-font-size;
                       color: #C5CAD5;
                     }
                   }
                 }
-                
+
             }
 
-            
+
         }
-        
+
     }
 
-    
-    
+
+
   }
-  

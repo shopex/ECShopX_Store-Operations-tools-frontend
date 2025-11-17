@@ -13,15 +13,19 @@ dotenvFlow.config({
 })
 
 const APP_ENVS = getEnvs()
-const CONSTS = {
+const CONST_ENVS = {
   APP_NAME: pkg.app_name,
   APP_VERSION: pkg.version,
   APP_AUTH_PAGE: '/pages/auth/login',
   ...APP_ENVS
 }
-console.log(chalk.green(`mode: ${BUILD_ENV} `, `TARO_ENV: ${getDefineConstants(CONSTS)}`))
+
+Object.keys(CONST_ENVS).forEach((key) => {
+  console.log(chalk.green(`${key}=${CONST_ENVS[key]}`))
+})
+
 const config = {
-  projectName: CONSTS.APP_NAME,
+  projectName: CONST_ENVS.APP_NAME,
   date: '2021-5-24',
   designWidth: 750,
   deviceRatio: {
@@ -32,7 +36,7 @@ const config = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: [],
-  defineConstants: getDefineConstants(CONSTS),
+  defineConstants: getDefineConstants(CONST_ENVS),
   alias: {
     '@': path.join(__dirname, '../src')
   },

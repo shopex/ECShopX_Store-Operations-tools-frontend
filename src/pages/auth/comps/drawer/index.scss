@@ -1,20 +1,7 @@
-// +----------------------------------------------------------------------
-// | ECShopX open source E-commerce
-// | ECShopX 开源商城系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-// +----------------------------------------------------------------------
-// | Corporate Website:  https://www.shopex.cn
-// +----------------------------------------------------------------------
-// | Licensed under the Apache License, Version 2.0
-// | http://www.apache.org/licenses/LICENSE-2.0
-// +----------------------------------------------------------------------
-// | The removal of shopeX copyright information without authorization is prohibited.
-// | 未经授权不可去除shopeX商派相关版权
-// +----------------------------------------------------------------------
-// | Author: shopeX Team <mkt@shopex.cn>
-// | Contact: 400-821-3106
-// +----------------------------------------------------------------------
+/**
+ * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+ * See LICENSE file for license details.
+ */
 
 $title-color:#111A34;
 
@@ -23,24 +10,24 @@ $title-color:#111A34;
     .main{
 
         position:relative;
-        height:100%; 
+        height:100%;
 
         .body{
-            height:calc( 100% - 160px ); 
+            height:calc( 100% - 160px );
             box-sizing: border-box;
             padding-top: 60px;
 
-            &-title{  
+            &-title{
 
                 text-align: center;
-                
+
                 .text{
                     font-size: 36px;
                     font-family: PingFangSC-Medium, PingFang SC;
                     font-weight: 500;
-                    color: $title-color; 
-                 
-                } 
+                    color: $title-color;
+
+                }
 
             }
 
@@ -48,7 +35,7 @@ $title-color:#111A34;
 
                 padding:0 32px;
                 box-sizing: border-box;
-                height:calc( 100% - 60px - 30px); 
+                height:calc( 100% - 60px - 30px);
                 overflow: auto;
 
                 &-title{

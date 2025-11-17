@@ -22,7 +22,6 @@ module.exports = {
   getDefineConstants(consts) {
     consts = Object.keys(consts).reduce((val, k) => {
       val[`process.env.${k}`] = process.env.TARO_ENV == 'h5' ? `'${consts[k]}'` : consts[k]
-      console.log(chalk.green(`process.env.${k}=${consts[k]}`))
       return val
     }, {})
     return consts
