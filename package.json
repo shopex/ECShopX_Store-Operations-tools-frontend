@@ -47,6 +47,9 @@
     "ios >= 8"
   ],
   "author": "",
+  "engines": {
+    "node": "12.20.1"
+  },
   "dependencies": {
     "aws-sdk": "^2.936.0",
     "axios": "^0.21.1",
