@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.21.0...v4.0.0) (2025-11-19)
+
+
+### Bug Fixes
+
+* **scope:** update package ([434f186](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/434f18609dfd9f2941a274ff61523fdcf96deeb2))
+* **scope:** update readme ([cf620cf](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/cf620cfc8dffb233d9f77f4e0c1e2be6e957f37b))
+* 更新版权信息 ([63ad805](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/63ad805c7fb50103554a39ab41f3a960c51c305d))
+* 移除jssdk ([48fdca1](https://git.ishopex.cn/onex/ecshopx-dianwu/commit/48fdca11ea944b9d33ec512ce58d512f25a92fc4))
+
 ## [3.21.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.20.0...v3.21.0) (2025-05-29)
 
 ## [3.20.0](https://git.ishopex.cn/onex/ecshopx-dianwu/compare/v3.19.3...v3.20.0) (2025-04-27)
