@@ -12,7 +12,7 @@ Node v12.20.1
 
 ### Installation
 ```
-cd ecshopx-dianwu
+cd ECShopX_Store-Operations-tools-frontend
 npm i
 ```
 
